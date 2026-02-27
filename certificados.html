@@ -111,6 +111,10 @@
       border: 1px solid #bcc; border-radius: 4px;
       background: white; font-family: Cambria, Georgia, serif;
     }
+    .field input.autofilled {
+      border-color: #2e86c1;
+      background: #eef4fb;
+    }
     .list-field { display: flex; flex-direction: column; gap: 0.3rem; }
     .list-field label { font-size: 0.72rem; font-family: sans-serif; color: #445; }
     .list-items { display: flex; flex-direction: column; gap: 0.25rem; }
@@ -137,6 +141,75 @@
       border: 1px solid #bcc; border-radius: 4px;
       background: white; font-family: Cambria, Georgia, serif;
       width: 100%; height: 80px; resize: none; line-height: 1.5;
+    }
+
+    /* ── CARGA RAYEN ── */
+    .rayen-box {
+      background: #eaf2fb;
+      border: 1px solid #a8cde8;
+      border-radius: 6px;
+      padding: 0.65rem 0.75rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.45rem;
+      margin-bottom: 0.2rem;
+    }
+    .rayen-box-title {
+      font-size: 0.68rem; font-family: sans-serif; font-weight: bold;
+      color: #1a3a5c; text-transform: uppercase; letter-spacing: 0.06em;
+      display: flex; align-items: center; gap: 0.4rem;
+    }
+    .rayen-box-title span { color: #2e86c1; }
+    .btn-rayen-clip {
+      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
+      padding: 0.38em 0.8em; font-size: 0.82rem; font-family: sans-serif;
+      font-weight: bold; cursor: pointer;
+      border: none; border-radius: 5px;
+      background: linear-gradient(135deg, #1a4fff, #0b2db0);
+      color: white; width: 100%;
+      box-shadow: 0 2px 8px rgba(26,79,255,.25);
+      transition: filter .15s, transform .1s;
+    }
+    .btn-rayen-clip:hover { filter: brightness(1.1); transform: translateY(-1px); }
+    .btn-rayen-clip:active { transform: translateY(0); }
+    .btn-rayen-clip:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+    .rayen-status {
+      font-size: 0.72rem; font-family: sans-serif;
+      padding: 0.3em 0.55em; border-radius: 4px;
+      display: none; line-height: 1.4;
+    }
+    .rayen-status.ok   { background: #e0f4ea; color: #1a5c30; display: block; }
+    .rayen-status.err  { background: #fde8e8; color: #8a0010; display: block; }
+    .rayen-status.warn { background: #fff3e0; color: #7a4000; display: block; }
+    .rayen-fallback-toggle {
+      font-size: 0.7rem; font-family: sans-serif; color: #4a7fa8;
+      cursor: pointer; text-decoration: underline; text-decoration-style: dotted;
+      align-self: flex-start; background: none; border: none; padding: 0;
+    }
+    .rayen-fallback { display: none; flex-direction: column; gap: 0.3rem; }
+    .rayen-fallback.open { display: flex; }
+    .rayen-paste {
+      width: 100%; height: 56px; font-size: 0.75rem;
+      font-family: "Courier New", monospace;
+      border: 1px solid #a8cde8; border-radius: 4px;
+      padding: 0.35rem 0.5rem; background: white; resize: none;
+      color: #334;
+    }
+    .rayen-paste::placeholder { color: #aab; }
+    .btn-rayen-parse {
+      align-self: flex-end; font-size: 0.72rem; padding: 0.22em 0.7em;
+      border: 1px solid #4a7fa8; border-radius: 4px;
+      background: #e8f0f8; color: #1a3a5c; cursor: pointer; font-family: sans-serif;
+    }
+    .btn-rayen-parse:hover { background: #d0e4f4; }
+
+    /* Spinner inline */
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .spin {
+      display: inline-block; width: 11px; height: 11px;
+      border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
+      border-radius: 50%; animation: spin .65s linear infinite;
+      vertical-align: middle;
     }
 
     /* ── PANEL DERECHO ── */
@@ -201,6 +274,21 @@
 
     <!-- Tab: Formulario -->
     <div class="tab-panel active" id="tab-form">
+
+      <!-- ── CARGA DESDE RAYEN ── -->
+      <div class="rayen-box">
+        <div class="rayen-box-title">📡 <span>Rayen</span> — cargar paciente</div>
+        <button class="btn-rayen-clip" id="btnClip">
+          <span id="clipIcon">📋</span>
+          <span id="clipTxt">Leer desde portapapeles</span>
+        </button>
+        <div class="rayen-status" id="rayenStatus"></div>
+        <button class="rayen-fallback-toggle" id="fallbackToggle" onclick="toggleFallback()">▸ pegar JSON manualmente</button>
+        <div class="rayen-fallback" id="fallbackArea">
+          <textarea class="rayen-paste" id="pasteArea" placeholder="Pegar JSON de usuarioAps aquí..."></textarea>
+          <button class="btn-rayen-parse" onclick="parsePaste()">Parsear</button>
+        </div>
+      </div>
 
       <div class="section-title">Paciente</div>
       <div class="field">
@@ -286,8 +374,115 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <script>
-  // ── Estado de tab activo ──
-  let activeTab = 'form'; // 'form' | 'md'
+  /* ── Utilidades Rayen ─────────────────────────────────────────── */
+  function formatRut(r) {
+    if (!r) return '';
+    const s = (r + '').replace(/[^0-9kK]/g, '');
+    if (s.length < 2) return s;
+    // Insertar puntos cada 3 dígitos + guión antes del dígito verificador
+    const dv  = s.slice(-1);
+    const num = s.slice(0, -1);
+    const numFmt = num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    return numFmt + '-' + dv;
+  }
+
+  function formatNombre(d) {
+    if (!d) return '';
+    return [d.Nombres, d.ApellidoPaterno, d.ApellidoMaterno].filter(Boolean).join(' ');
+  }
+
+  function setStatus(msg, tipo) {
+    const el = document.getElementById('rayenStatus');
+    el.textContent = msg;
+    el.className = 'rayen-status ' + tipo;
+  }
+
+  function poblarDesdeRayen(json) {
+    const d = Array.isArray(json) ? json[0] : json;
+    if (!d) throw new Error('JSON vacío o estructura inesperada');
+
+    const nombre = d.NombreFormateado || formatNombre(d);
+    const rut    = formatRut(d.Rut || d.NumeroDeFicha || '');
+
+    const fNombre = document.getElementById('fNombre');
+    const fRut    = document.getElementById('fRut');
+
+    fNombre.value = nombre;
+    fRut.value    = rut;
+
+    // Marcar campos autocompletados
+    [fNombre, fRut].forEach(el => {
+      el.classList.add('autofilled');
+      el.addEventListener('input', () => el.classList.remove('autofilled'), { once: true });
+    });
+
+    onFormChange();
+    return nombre;
+  }
+
+  /* ── Leer portapapeles ────────────────────────────────────────── */
+  document.getElementById('btnClip').addEventListener('click', async () => {
+    const btn  = document.getElementById('btnClip');
+    const icon = document.getElementById('clipIcon');
+    const txt  = document.getElementById('clipTxt');
+
+    icon.outerHTML; // noop
+    btn.disabled = true;
+    document.getElementById('clipIcon').className = 'spin';
+    document.getElementById('clipIcon').textContent = '';
+    txt.textContent = 'Leyendo...';
+
+    try {
+      const raw = await navigator.clipboard.readText();
+      if (!raw || !raw.trim()) throw new Error('Portapapeles vacío');
+      const json = JSON.parse(raw.trim());
+      const nombre = poblarDesdeRayen(json);
+      setStatus('✅ ' + nombre, 'ok');
+      document.getElementById('clipIcon').className = '';
+      document.getElementById('clipIcon').textContent = '✅';
+      txt.textContent = 'Datos cargados';
+      setTimeout(() => {
+        document.getElementById('clipIcon').textContent = '📋';
+        txt.textContent = 'Leer desde portapapeles';
+        btn.disabled = false;
+      }, 2500);
+    } catch (e) {
+      const msg = e.name === 'NotAllowedError'
+        ? 'Permiso denegado — usa el fallback manual'
+        : e.message;
+      setStatus('⚠️ ' + msg, 'warn');
+      document.getElementById('clipIcon').className = '';
+      document.getElementById('clipIcon').textContent = '📋';
+      txt.textContent = 'Leer desde portapapeles';
+      btn.disabled = false;
+      // Abrir fallback automáticamente si hay error de permisos
+      if (e.name === 'NotAllowedError') toggleFallback(true);
+    }
+  });
+
+  /* ── Fallback manual ──────────────────────────────────────────── */
+  function toggleFallback(forceOpen) {
+    const area = document.getElementById('fallbackArea');
+    const toggle = document.getElementById('fallbackToggle');
+    const open = forceOpen !== undefined ? forceOpen : !area.classList.contains('open');
+    area.classList.toggle('open', open);
+    toggle.textContent = open ? '▾ pegar JSON manualmente' : '▸ pegar JSON manualmente';
+  }
+
+  function parsePaste() {
+    const t = document.getElementById('pasteArea').value.trim();
+    if (!t) { setStatus('⚠️ No hay contenido.', 'warn'); return; }
+    try {
+      const json = JSON.parse(t);
+      const nombre = poblarDesdeRayen(json);
+      setStatus('✅ ' + nombre, 'ok');
+    } catch (e) {
+      setStatus('❌ ' + e.message, 'err');
+    }
+  }
+
+  /* ── Estado de tab activo ─────────────────────────────────────── */
+  let activeTab = 'form';
 
   function switchTab(tab) {
     activeTab = tab;
@@ -297,17 +492,16 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     document.getElementById('tab-form').style.display = tab === 'form' ? 'flex' : 'none';
     document.getElementById('tab-md').style.display   = tab === 'md'   ? 'flex' : 'none';
     if (tab === 'md') {
-      // Al entrar al tab MD: volcar estado actual del formulario si el textarea está vacío o igual a última sincronización
       const md = document.getElementById('markdownInput');
       if (!md.dataset.userEdited) syncFormToMd();
     }
     render();
   }
 
-  // ── Listas dinámicas ──
+  /* ── Listas dinámicas ─────────────────────────────────────────── */
   function addItem(listId, placeholder) {
     const list = document.getElementById(listId);
-    const div = document.createElement('div');
+    const div  = document.createElement('div');
     div.className = 'list-item';
     div.innerHTML = `<input type="text" placeholder="${placeholder}"><button class="btn-rm" title="Eliminar">✕</button>`;
     div.querySelector('.btn-rm').onclick = () => { div.remove(); onFormChange(); };
@@ -326,7 +520,7 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     return s.replace(/\b\w/g, c => c.toUpperCase());
   }
 
-  // ── Construir markdown desde formulario ──
+  /* ── Construir markdown desde formulario ──────────────────────── */
   function buildMarkdown() {
     const nombre     = document.getElementById('fNombre').value.trim();
     const rut        = document.getElementById('fRut').value.trim();
@@ -350,7 +544,6 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     return md;
   }
 
-  // ── Volcar formulario al textarea MD ──
   function syncFormToMd() {
     const md = document.getElementById('markdownInput');
     md.value = buildMarkdown();
@@ -364,25 +557,21 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     render();
   }
 
-  // ── Render ──
+  /* ── Render ───────────────────────────────────────────────────── */
   let debounce;
   function render() {
     clearTimeout(debounce);
     debounce = setTimeout(() => {
-      let src;
-      if (activeTab === 'form') {
-        src = buildMarkdown();
-      } else {
-        src = document.getElementById('markdownInput').value;
-      }
+      const src = activeTab === 'form'
+        ? buildMarkdown()
+        : document.getElementById('markdownInput').value;
       document.getElementById('preview').innerHTML = marked.parse(src);
-      document.getElementById('firmaTextoPreview').textContent = document.getElementById('firmaTextoInput').value;
+      document.getElementById('firmaTextoPreview').textContent =
+        document.getElementById('firmaTextoInput').value;
     }, 150);
   }
 
-  // ── Cambios en formulario ──
   function onFormChange() {
-    // Resetear flag de edición manual en MD para que la próxima entrada al tab re-sincronice
     document.getElementById('markdownInput').dataset.userEdited = '';
     render();
   }
@@ -392,14 +581,12 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
   ['fCentro','fAdherencia'].forEach(id =>
     document.getElementById(id).addEventListener('change', onFormChange));
   document.getElementById('firmaTextoInput').addEventListener('input', render);
-
-  // Marcar edición manual en markdown
   document.getElementById('markdownInput').addEventListener('input', function() {
     this.dataset.userEdited = '1';
     render();
   });
 
-  // ── Upload logo ──
+  /* ── Upload logo ──────────────────────────────────────────────── */
   document.getElementById('logoInput').addEventListener('change', function() {
     const file = this.files[0]; if (!file) return;
     const r = new FileReader();
@@ -415,7 +602,7 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     r.readAsDataURL(file);
   });
 
-  // ── Upload firma ──
+  /* ── Upload firma ─────────────────────────────────────────────── */
   document.getElementById('firmaInput').addEventListener('change', function() {
     const file = this.files[0]; if (!file) return;
     const r = new FileReader();
@@ -431,7 +618,7 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     r.readAsDataURL(file);
   });
 
-  // ── Descargar HTML ──
+  /* ── Descargar HTML ───────────────────────────────────────────── */
   function downloadHTML() {
     const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
     const a = document.createElement('a');
@@ -441,7 +628,7 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     URL.revokeObjectURL(a.href);
   }
 
-  // ── Init ──
+  /* ── Init ─────────────────────────────────────────────────────── */
   addItem('diagList', '');
   document.querySelector('#diagList input').value = 'Trastorno afectivo bipolar';
   addItem('txList', '');
