@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Visor Clínico PRAIS · Rayen</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans:wght@300;400;600;700&display=swap" rel="stylesheet">
+<!-- LZString para compresión -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+<style>
+:root {
+  --ink: #0f1117;
+  --ink2: #3a3f4d;
+  --ink3: #6b7280;
+  --paper: #f5f4f0;
+  --card: #ffffff;
+  --accent: #1a4fff;
+  --accent-soft: #e8eeff;
+  --green: #006b3c;
+  --green-soft: #e6f4ed;
+  --red: #a8000d;
+  --red-soft: #ffeef0;
+  --amber: #7a4500;
+  --amber-soft: #fff3e0;
+  --border: #e2e0db;
+  --border2: #d0cec8;
+  --mono: 'IBM Plex Mono', monospace;
+  --sans: 'IBM Plex Sans', sans-serif;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--sans);
+  background: var(--paper);
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+/* ─── HEADER ─────────────────────────────────────────── */
+.site-header {
+  background: var(--ink);
+  color: #fff;
+  padding: 16px 32px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border-bottom: 3px solid var(--accent);
+}
+.site-header .logo {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: #fff;
+  line-height: 1.3;
+}
+.site-header .logo span {
+  display: block;
+  color: #8899cc;
+  font-weight: 400;
+  font-size: 11px;
+}
+.site-header .badge {
+  margin-left: auto;
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 3px;
+  letter-spacing: 0.1em;
+}
+
+/* ─── LAYOUT ─────────────────────────────────────────── */
+.layout {
+  display: grid;
+  grid-template-columns: 300px 1fr;
+  min-height: calc(100vh - 56px);
+}
+
+/* ─── SIDEBAR ────────────────────────────────────────── */
+.sidebar {
+  background: var(--ink);
+  padding: 24px 20px;
+  border-right: 1px solid #1e2230;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.sidebar-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  color: #5a6480;
+  text-transform: uppercase;
+  padding-bottom: 6px;
+  border-bottom: 1px solid #1e2230;
+}
+
+/* Bookmarklet box */
+.bookmarklet-wrap {
+  background: #141720;
+  border: 1px solid #252a3a;
+  border-radius: var(--radius);
+  padding: 14px;
+}
+.bookmarklet-link {
+  display: block;
+  background: var(--accent);
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 10px 14px;
+  border-radius: 4px;
+  text-align: center;
+  margin-bottom: 10px;
+  cursor: grab;
+  transition: background .15s;
+  word-break: break-all;
+  line-height: 1.4;
+}
+.bookmarklet-link:hover { background: #0f35cc; }
+.bookmarklet-desc {
+  color: #5a6480;
+  font-size: 11px;
+  line-height: 1.5;
+}
+.bookmarklet-step {
+  color: #8899cc;
+  font-size: 11px;
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+  margin-top: 6px;
+}
+.bookmarklet-step b {
+  color: var(--accent);
+  font-family: var(--mono);
+  flex-shrink: 0;
+}
+
+/* Filtros */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.filter-group label {
+  color: #8899cc;
+  font-size: 11px;
+  font-weight: 600;
+  font-family: var(--mono);
+}
+select.dark {
+  background: #141720;
+  border: 1px solid #252a3a;
+  color: #c8d0e8;
+  border-radius: 4px;
+  padding: 6px 8px;
+  font-size: 12px;
+  font-family: var(--sans);
+  width: 100%;
+  outline: none;
+}
+select.dark[multiple] { height: 100px; }
+select.dark:focus { border-color: var(--accent); }
+select.dark option { background: #141720; }
+
+.check-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+}
+.check-row input[type="checkbox"] { accent-color: var(--accent); }
+.check-row label { color: #8899cc; font-size: 12px; cursor: pointer; }
+
+.fields-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3px 8px;
+}
+.fields-grid .check-row label { font-size: 11px; }
+
+/* Buttons sidebar */
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  padding: 9px 16px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  width: 100%;
+  transition: background .15s;
+  letter-spacing: 0.04em;
+}
+.btn-primary:hover { background: #0f35cc; }
+.btn-primary:disabled { opacity: .4; cursor: not-allowed; }
+
+.btn-sec {
+  background: #1e2230;
+  color: #8899cc;
+  border: 1px solid #252a3a;
+  border-radius: 4px;
+  padding: 7px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  cursor: pointer;
+  width: 100%;
+  transition: .15s;
+}
+.btn-sec:hover { background: #252a3a; color: #c8d0e8; }
+
+/* status */
+.status-bar {
+  font-family: var(--mono);
+  font-size: 11px;
+  padding: 6px 10px;
+  border-radius: 4px;
+  display: none;
+}
+.status-bar.ok { background: #0a2a1a; color: #4caf88; display: block; }
+.status-bar.err { background: #2a0a0e; color: #f77; display: block; }
+.status-bar.warn { background: #2a1e0a; color: #ffa733; display: block; }
+
+.counter {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #5a6480;
+  text-align: center;
+  padding: 4px 0;
+}
+.counter b { color: #8899cc; }
+
+/* paste area */
+.paste-area {
+  background: #141720;
+  border: 1px solid #252a3a;
+  border-radius: 4px;
+  padding: 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  color: #8899cc;
+  resize: vertical;
+  height: 80px;
+  width: 100%;
+  outline: none;
+}
+.paste-area:focus { border-color: var(--accent); }
+
+/* ─── MAIN ───────────────────────────────────────────── */
+.main-area {
+  display: flex;
+  flex-direction: column;
+  background: var(--paper);
+}
+
+.main-toolbar {
+  background: var(--card);
+  border-bottom: 1px solid var(--border);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--paper);
+  border-radius: 5px;
+  padding: 3px;
+}
+.tab-btn {
+  background: none;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 14px;
+  font-family: var(--mono);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ink3);
+  cursor: pointer;
+  transition: .15s;
+  letter-spacing: 0.03em;
+}
+.tab-btn.active {
+  background: var(--card);
+  color: var(--accent);
+  box-shadow: 0 1px 3px rgba(0,0,0,.08);
+}
+.copy-btn {
+  margin-left: auto;
+  background: var(--paper);
+  border: 1px solid var(--border2);
+  border-radius: 4px;
+  padding: 6px 12px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ink2);
+  cursor: pointer;
+  transition: .15s;
+}
+.copy-btn:hover { background: var(--accent-soft); color: var(--accent); border-color: var(--accent); }
+
+.output-wrap {
+  flex: 1;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+}
+.tab-content { display: none; flex: 1; flex-direction: column; }
+.tab-content.active { display: flex; }
+
+textarea.output {
+  flex: 1;
+  font-family: var(--mono);
+  font-size: 12px;
+  line-height: 1.7;
+  background: var(--card);
+  border: none;
+  outline: none;
+  padding: 24px;
+  resize: none;
+  color: var(--ink);
+  min-height: calc(100vh - 130px);
+}
+
+/* ─── WELCOME ────────────────────────────────────────── */
+.welcome {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 40px;
+  text-align: center;
+  gap: 16px;
+  color: var(--ink3);
+}
+.welcome-icon {
+  font-size: 48px;
+  opacity: .3;
+  line-height: 1;
+}
+.welcome h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--ink2);
+}
+.welcome p {
+  max-width: 380px;
+  font-size: 13px;
+  line-height: 1.7;
+}
+.welcome code {
+  font-family: var(--mono);
+  background: var(--paper);
+  border: 1px solid var(--border);
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 11px;
+}
+
+/* ─── ADD FIELD ──────────────────────────────────────── */
+.add-field-row {
+  display: flex;
+  gap: 5px;
+  margin-top: 4px;
+}
+.add-field-row input {
+  flex: 1;
+  background: #141720;
+  border: 1px solid #252a3a;
+  color: #c8d0e8;
+  border-radius: 4px;
+  padding: 5px 8px;
+  font-family: var(--mono);
+  font-size: 11px;
+  outline: none;
+}
+.add-field-row input:focus { border-color: var(--accent); }
+.add-field-row button {
+  background: #1e2230;
+  border: 1px solid #252a3a;
+  color: #8899cc;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 11px;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.add-field-row button:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.tag-list { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: #1e2230;
+  color: #8899cc;
+  border-radius: 999px;
+  padding: 2px 8px;
+  font-family: var(--mono);
+  font-size: 10px;
+}
+.tag button {
+  background: none;
+  border: none;
+  color: #5a6480;
+  cursor: pointer;
+  font-size: 11px;
+  padding: 0 1px;
+  line-height: 1;
+}
+.tag button:hover { color: #f77; }
+
+/* ─── RESPONSIVE ─────────────────────────────────────── */
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .sidebar { border-right: none; border-bottom: 1px solid #1e2230; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    VISOR CLÍNICO
+    <span>PRAIS · Sistema Rayen → LLM</span>
+  </div>
+  <div class="badge">SSO · COSAM</div>
+</header>
+
+<div class="layout">
+
+  <!-- ═══ SIDEBAR ═══════════════════════════════════════ -->
+  <aside class="sidebar">
+
+    <!-- Bookmarklet -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">01 · Instalar interceptor</div>
+      <div class="bookmarklet-wrap">
+        <a class="bookmarklet-link" id="bookmarkletLink" href="#" title="Arrastrar a la barra de favoritos">
+          📡 Rayen Capturar
+        </a>
+        <div class="bookmarklet-step"><b>①</b> Arrastra el botón azul a tu barra de favoritos.</div>
+        <div class="bookmarklet-step"><b>②</b> Abre Rayen y navega al historial de un paciente.</div>
+        <div class="bookmarklet-step"><b>③</b> Haz clic en el favorito. Verás un indicador flotante.</div>
+        <div class="bookmarklet-step"><b>④</b> Abre la ficha. El interceptor capturará el JSON.</div>
+        <div class="bookmarklet-step"><b>⑤</b> Presiona "Enviar al Visor" en el indicador flotante.</div>
+      </div>
+    </div>
+
+    <!-- Entrada manual -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">02 · Entrada manual (fallback)</div>
+      <textarea class="paste-area" id="pasteArea" placeholder="Pegar JSON aquí si el bookmarklet falla..."></textarea>
+      <button class="btn-sec" id="parsePaste">Parsear texto pegado</button>
+    </div>
+
+    <!-- Status -->
+    <div id="statusBar" class="status-bar"></div>
+    <div id="counter" class="counter" style="display:none"></div>
+
+    <!-- Filtros -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">03 · Filtros</div>
+      <div class="filter-group">
+        <label>Instrumento</label>
+        <select class="dark" id="instrumentos" multiple></select>
+      </div>
+      <div class="filter-group">
+        <label>Profesional</label>
+        <select class="dark" id="profesionales" multiple></select>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="excluirAbreviada">
+        <label for="excluirAbreviada">Excluir consultas abreviadas</label>
+      </div>
+      <div class="check-row">
+        <input type="checkbox" id="excluirVacios" checked>
+        <label for="excluirVacios">Excluir registros sin anamnesis</label>
+      </div>
+    </div>
+
+    <!-- Campos -->
+    <div class="sidebar-section">
+      <div class="sidebar-label">04 · Campos a incluir</div>
+      <div class="fields-grid">
+        <div class="check-row"><input type="checkbox" name="campo" value="Fecha" checked><label>Fecha</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="NombreCompleto" checked><label>Paciente</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="RutPaciente" checked><label>RUT</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="FechaNacimiento" checked><label>Nacimiento</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="Profesional" checked><label>Profesional</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="Diagnosticos" checked><label>Diagnósticos</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="Actividades" checked><label>Actividades</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="Prescripciones" checked><label>Prescripciones</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="MotivoConsulta" checked><label>Motivo</label></div>
+        <div class="check-row"><input type="checkbox" name="campo" value="Historia" checked><label>Historia</label></div>
+      </div>
+      <div style="margin-top:8px">
+        <div style="color:#5a6480;font-size:11px;font-family:var(--mono);margin-bottom:4px">Campo extra (ruta JSON)</div>
+        <div class="add-field-row">
+          <input type="text" id="campoDinamico" placeholder="ej: Indicaciones[].Texto">
+          <button id="agregarCampo">+ Add</button>
+        </div>
+        <div class="tag-list" id="camposExtra"></div>
+      </div>
+    </div>
+
+    <!-- Generar -->
+    <div class="sidebar-section">
+      <button class="btn-primary" id="generar" disabled>⚙ Generar salida</button>
+    </div>
+
+  </aside>
+
+  <!-- ═══ MAIN ═══════════════════════════════════════════ -->
+  <main class="main-area">
+    <div class="main-toolbar">
+      <div class="tabs">
+        <button class="tab-btn active" data-tab="md">Markdown</button>
+        <button class="tab-btn" data-tab="json">JSON</button>
+      </div>
+      <button class="copy-btn" id="copyBtn">📋 Copiar</button>
+    </div>
+
+    <div class="output-wrap">
+      <div id="welcome" class="welcome">
+        <div class="welcome-icon">⚕</div>
+        <h2>Sin datos cargados</h2>
+        <p>Instala el bookmarklet, abre una ficha en Rayen y haz clic en <code>Enviar al Visor</code>. O pega el JSON directamente en el panel izquierdo.</p>
+      </div>
+
+      <div id="tab-md" class="tab-content active" style="display:none">
+        <textarea class="output" id="outputMD" readonly placeholder="Markdown aparecerá aquí..."></textarea>
+      </div>
+
+      <div id="tab-json" class="tab-content" style="display:none">
+        <textarea class="output" id="outputJSON" readonly placeholder="JSON estructurado aparecerá aquí..."></textarea>
+      </div>
+    </div>
+  </main>
+
+</div>
+
+<script>
+// ─── Utilidades ──────────────────────────────────────────────────────────────
+const $ = id => document.getElementById(id);
+
+function formatFecha(v) {
+  if (!v) return "";
+  const s = (v + "").replace(/\s.*/, "");
+  if (/^\d{8}$/.test(s)) return `${s.slice(6,8)}-${s.slice(4,6)}-${s.slice(0,4)}`;
+  return v;
+}
+
+function formatHora(v) {
+  if (!v) return "";
+  const m = (v + "").match(/\d{8}\s(\d{2})(\d{2})/);
+  if (m) return `${m[1]}:${m[2]}`;
+  return "";
+}
+
+function getPath(obj, ruta) {
+  const partes = ruta.split('.');
+  let res = [obj];
+  for (const p of partes) {
+    const isArr = p.endsWith('[]');
+    const key = isArr ? p.slice(0, -2) : p;
+    res = res.flatMap(e => {
+      if (!e || !(key in e)) return [];
+      const val = e[key];
+      if (isArr && Array.isArray(val)) return val;
+      if (!isArr) return [val];
+      return [];
+    });
+  }
+  return res.filter(v => v !== undefined && v !== null && v !== "");
+}
+
+function uniq(a) { return [...new Set(a)]; }
+function instrDeReg(r) { return uniq(getPath(r,"Actividades[].Instrumento").concat(getPath(r,"FuncionariosPrestadores[].NombreInstrumento"))); }
+function profsDeReg(r) { return uniq(getPath(r,"FuncionariosPrestadores[].NombreCompleto")); }
+
+function setStatus(msg, tipo) {
+  const el = $('statusBar');
+  el.textContent = msg;
+  el.className = 'status-bar ' + tipo;
+}
+
+function updateCounter(total, filtrado) {
+  const el = $('counter');
+  el.innerHTML = `cargados <b>${total}</b> · filtrados <b>${filtrado}</b>`;
+  el.style.display = 'block';
+}
+
+// ─── Estado global ───────────────────────────────────────────────────────────
+let datos = [];
+let camposExtraList = [];
+
+// ─── Construir bookmarklet dinámicamente ─────────────────────────────────────
+function buildBookmarklet() {
+  const visorUrl = window.location.href.split('?')[0];
+  const code = `(function(){
+  if(window.__rayenActive){window.__rayenUI&&window.__rayenUI.style&&(window.__rayenUI.style.display='flex');return;}
+  window.__rayenActive=true;
+  window.__rayenData=[];
+  const _fetch=window.fetch;
+  window.fetch=function(){
+    return _fetch.apply(this,arguments).then(function(r){
+      const url=(arguments[0]&&arguments[0].url)||arguments[0]||'';
+      if((url+'').includes('HistorialAtencion')){
+        const clone=r.clone();
+        clone.json().then(function(d){
+          const arr=Array.isArray(d)?d:[d];
+          window.__rayenData=window.__rayenData.concat(arr);
+          if(window.__rayenBadge) window.__rayenBadge.textContent=window.__rayenData.length+' reg';
+        }).catch(function(){});
+      }
+      return r;
+    });
+  };
+  const ui=document.createElement('div');
+  window.__rayenUI=ui;
+  ui.style.cssText='position:fixed;bottom:20px;right:20px;z-index:999999;background:#0f1117;border:2px solid #1a4fff;border-radius:8px;padding:10px 14px;font-family:monospace;font-size:12px;color:#fff;display:flex;align-items:center;gap:10px;box-shadow:0 4px 20px rgba(0,0,0,.4)';
+  const badge=document.createElement('span');
+  badge.style.cssText='background:#1a4fff;padding:2px 8px;border-radius:999px;font-size:11px;font-weight:700';
+  badge.textContent='0 reg';
+  window.__rayenBadge=badge;
+  const label=document.createElement('span');
+  label.style.color='#8899cc';
+  label.textContent='📡 Rayen Interceptor';
+  const btn=document.createElement('button');
+  btn.textContent='Enviar al Visor →';
+  btn.style.cssText='background:#1a4fff;border:none;color:#fff;padding:6px 12px;border-radius:4px;cursor:pointer;font-family:monospace;font-size:12px;font-weight:700';
+  btn.onclick=function(){
+    if(!window.__rayenData.length){alert('Sin datos aún. Abre la ficha de un paciente primero.');return;}
+    const compressed=LZString.compressToEncodedURIComponent(JSON.stringify(window.__rayenData));
+    window.open('${visorUrl}?data='+compressed,'_blank');
+  };
+  const close=document.createElement('button');
+  close.textContent='✕';
+  close.style.cssText='background:none;border:none;color:#5a6480;cursor:pointer;font-size:14px;padding:0 2px';
+  close.onclick=function(){ui.style.display='none';};
+  ui.appendChild(label);
+  ui.appendChild(badge);
+  ui.appendChild(btn);
+  ui.appendChild(close);
+  document.body.appendChild(ui);
+})();`;
+
+  // Necesitamos LZString también en Rayen - lo injectamos desde CDN
+  const withLZ = `(function(){
+  if(!window.LZString){
+    var s=document.createElement('script');
+    s.src='https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js';
+    s.onload=function(){${code}};
+    document.head.appendChild(s);
+  } else { ${code} }
+})();`;
+
+  $('bookmarkletLink').href = 'javascript:' + encodeURIComponent(withLZ);
+}
+
+// ─── Leer datos desde URL (?data=...) ────────────────────────────────────────
+function leerDesdeURL() {
+  const params = new URLSearchParams(window.location.search);
+  const data = params.get('data');
+  if (!data) return;
+  try {
+    const json = LZString.decompressFromEncodedURIComponent(data);
+    if (!json) throw new Error("Descompresión fallida");
+    parsear(json, true);
+    // Limpiar URL sin recargar
+    history.replaceState(null, '', window.location.pathname);
+  } catch(e) {
+    setStatus('❌ Error al leer datos de URL: ' + e.message, 'err');
+  }
+}
+
+// ─── Parse ───────────────────────────────────────────────────────────────────
+function parsear(txt, autoGenerar) {
+  try {
+    const d = JSON.parse(txt);
+    datos = Array.isArray(d) ? d : [d];
+    poblarFiltros(datos);
+    setStatus(`✅ ${datos.length} registros cargados`, 'ok');
+    $('counter').style.display = 'none';
+    $('generar').disabled = false;
+    if (autoGenerar) generar();
+  } catch(e) {
+    setStatus('❌ ' + e.message, 'err');
+  }
+}
+
+function poblarFiltros(json) {
+  const ins = new Set(), pros = new Set();
+  json.forEach(r => {
+    instrDeReg(r).forEach(i => ins.add(i));
+    profsDeReg(r).forEach(p => pros.add(p));
+  });
+  const build = (sel, set) => {
+    sel.innerHTML = '';
+    [...set].sort().forEach(v => {
+      const o = document.createElement('option');
+      o.value = o.textContent = v;
+      sel.appendChild(o);
+    });
+  };
+  build($('instrumentos'), ins);
+  build($('profesionales'), pros);
+}
+
+// ─── Campos extra ────────────────────────────────────────────────────────────
+function renderTags() {
+  const ct = $('camposExtra');
+  ct.innerHTML = '';
+  camposExtraList.forEach((c, i) => {
+    const div = document.createElement('div');
+    div.className = 'tag';
+    div.innerHTML = `${c} <button onclick="quitarCampo(${i})">✕</button>`;
+    ct.appendChild(div);
+  });
+}
+window.quitarCampo = i => { camposExtraList.splice(i, 1); renderTags(); };
+
+$('agregarCampo').addEventListener('click', () => {
+  const v = $('campoDinamico').value.trim();
+  if (v && !camposExtraList.includes(v)) {
+    camposExtraList.push(v);
+    renderTags();
+    $('campoDinamico').value = '';
+  }
+});
+
+// ─── Generar ─────────────────────────────────────────────────────────────────
+const ESTADO_DX = { 0: "Ninguno", 1: "Sospecha", 2: "Confirmada", 3: "Descartada" };
+
+function generar() {
+  const sel = new Set([...document.querySelectorAll('input[name="campo"]:checked')].map(c => c.value));
+  const filtInstr = [...$('instrumentos').selectedOptions].map(o => o.value);
+  const filtProfs = [...$('profesionales').selectedOptions].map(o => o.value);
+  const excluirAbr = $('excluirAbreviada').checked;
+  const excluirVacios = $('excluirVacios').checked;
+
+  const filtrados = datos.filter(r => {
+    if (filtInstr.length && !instrDeReg(r).some(i => filtInstr.includes(i))) return false;
+    if (filtProfs.length && !profsDeReg(r).some(p => filtProfs.includes(p))) return false;
+    if (excluirAbr) {
+      const descs = getPath(r, "Actividades[].Descripcion").map(d => (d + "").toLowerCase());
+      if (descs.some(d => d.includes("consulta abreviada"))) return false;
+    }
+    if (excluirVacios) {
+      const anamnesis = getPath(r, "Anamnesis[].HistoriaEnfermedadActual").filter(x => x && x.trim());
+      const motivo = getPath(r, "Anamnesis[].MotivoConsulta").filter(x => x && x.trim());
+      if (!anamnesis.length && !motivo.length) return false;
+    }
+    return true;
+  });
+
+  updateCounter(datos.length, filtrados.length);
+
+  // Agrupar por paciente
+  const porPaciente = new Map();
+  filtrados.forEach(r => {
+    const k = (r.RutPaciente || r.NombreCompleto || "(sin paciente)");
+    if (!porPaciente.has(k)) porPaciente.set(k, []);
+    porPaciente.get(k).push(r);
+  });
+
+  let md = "";
+  const jsonOut = [];
+
+  for (const [, regs] of porPaciente) {
+    regs.sort((a, b) => (a.Fecha || "").localeCompare(b.Fecha || ""));
+
+    const nombre = regs[0].NombreCompleto || "(sin nombre)";
+    const rut = regs[0].RutPaciente || "";
+    const fnac = formatFecha(regs[0].FechaNacimiento || "");
+
+    if (sel.has("NombreCompleto") || sel.has("RutPaciente") || sel.has("FechaNacimiento")) {
+      md += `## ${nombre}`;
+      if (sel.has("RutPaciente") && rut) md += ` · RUT ${rut}`;
+      if (sel.has("FechaNacimiento") && fnac) md += ` · Nac. ${fnac}`;
+      md += "\n\n";
+    }
+
+    const atenciones = [];
+    regs.forEach(reg => {
+      const fecha = formatFecha(reg.Fecha || "");
+      const hora = formatHora(reg.Fecha || "");
+      const profNombre = getPath(reg, "FuncionariosPrestadores[].NombreCompleto")[0] || "";
+      const profProf = getPath(reg, "FuncionariosPrestadores[].NombreInstrumento")[0] || "";
+      const actDescs = getPath(reg, "Actividades[].Descripcion");
+
+      // Diagnósticos con estado
+      const dxObjs = (reg.Diagnosticos || []).filter(d => d.DescripcionClasificacion && d.DescripcionClasificacion !== "No Informado");
+      const diagnosticos = dxObjs.map(d => {
+        const estado = ESTADO_DX[d.Estado] || "";
+        return estado && estado !== "Ninguno" ? `${d.DescripcionClasificacion} (${estado})` : d.DescripcionClasificacion;
+      }).join(", ");
+
+      const prescripciones = (reg.Prescripciones || []).map(p => p.Descripcion).filter(Boolean).join(" | ");
+      const motivo = getPath(reg, "Anamnesis[].MotivoConsulta").join(" ");
+      const hda = getPath(reg, "Anamnesis[].HistoriaEnfermedadActual").join("\n");
+
+      // Header de atención
+      if (sel.has("Fecha")) {
+        md += `### ${fecha || "(sin fecha)"}`;
+        if (hora) md += ` ${hora}`;
+      }
+      if (sel.has("Profesional") && profNombre) {
+        md += ` — ${profNombre}`;
+        if (profProf) md += ` (${profProf})`;
+      }
+      md += "\n";
+
+      if (sel.has("Diagnosticos") && diagnosticos) md += `- **Dx:** ${diagnosticos}\n`;
+      if (sel.has("Actividades") && actDescs.length) md += `- **Actividades:** ${actDescs.join(", ")}\n`;
+      if (sel.has("Prescripciones") && prescripciones) md += `- **Prescripciones:** ${prescripciones}\n`;
+      if (sel.has("MotivoConsulta") && motivo) md += `- **Motivo:** ${motivo}\n`;
+      if (sel.has("Historia") && hda) md += `- **Historia:** ${hda}\n`;
+
+      camposExtraList.forEach(ruta => {
+        const vals = getPath(reg, ruta);
+        if (vals.length) md += `- **${ruta}:** ${vals.join(" | ")}\n`;
+      });
+
+      md += "\n";
+
+      // JSON
+      const at = {};
+      if (sel.has("Fecha")) { at.Fecha = fecha; if (hora) at.Hora = hora; }
+      if (sel.has("Profesional")) { at.Profesional = profNombre || null; at.Profesion = profProf || null; }
+      if (sel.has("Diagnosticos")) at.Diagnosticos = dxObjs.map(d => ({ descripcion: d.DescripcionClasificacion, estado: ESTADO_DX[d.Estado] || "" }));
+      if (sel.has("Actividades")) at.Actividades = actDescs;
+      if (sel.has("Prescripciones")) at.Prescripciones = prescripciones ? prescripciones.split(" | ") : [];
+      if (sel.has("MotivoConsulta")) at.MotivoConsulta = motivo || null;
+      if (sel.has("Historia")) at.Historia = hda || null;
+      camposExtraList.forEach(r => { at[r] = getPath(reg, r); });
+      atenciones.push(at);
+    });
+
+    jsonOut.push({
+      NombreCompleto: nombre,
+      RutPaciente: rut || null,
+      FechaNacimiento: fnac || null,
+      Atenciones: atenciones
+    });
+
+    md += "---\n\n";
+  }
+
+  $('outputMD').value = md.trim();
+  $('outputJSON').value = JSON.stringify(jsonOut, null, 2);
+
+  // Mostrar output, ocultar welcome
+  $('welcome').style.display = 'none';
+  // Activar tab activo
+  const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+  document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+  $('tab-' + activeTab).style.display = 'flex';
+}
+
+// ─── Copiar ───────────────────────────────────────────────────────────────────
+async function copiar(texto, btn) {
+  try {
+    await navigator.clipboard.writeText(texto);
+    const orig = btn.textContent;
+    btn.textContent = '✅ Copiado';
+    setTimeout(() => btn.textContent = orig, 2000);
+  } catch { btn.textContent = '⚠️ Error'; }
+}
+
+// ─── Eventos ─────────────────────────────────────────────────────────────────
+$('parsePaste').addEventListener('click', () => {
+  const t = $('pasteArea').value.trim();
+  if (!t) { setStatus('⚠️ No hay contenido.', 'warn'); return; }
+  parsear(t, false);
+});
+
+$('generar').addEventListener('click', generar);
+
+$('copyBtn').addEventListener('click', () => {
+  const activeTab = document.querySelector('.tab-btn.active').dataset.tab;
+  const txt = activeTab === 'md' ? $('outputMD').value : $('outputJSON').value;
+  copiar(txt, $('copyBtn'));
+});
+
+document.querySelectorAll('.tab-btn').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // Solo mostrar si ya hay output
+  if ($('welcome').style.display === 'none') {
+    document.querySelectorAll('.tab-content').forEach(c => c.style.display = 'none');
+    $('tab-' + btn.dataset.tab).style.display = 'flex';
+  }
+}));
+
+// ─── Init ─────────────────────────────────────────────────────────────────────
+buildBookmarklet();
+leerDesdeURL();
+</script>
+</body>
+</html>
