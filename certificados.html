@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Generador de Certificados COSAM</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body {
+      font-family: Cambria, Georgia, "Times New Roman", serif;
+      margin: 0; padding: 0;
+      background: #e8ecf0;
+      display: flex; flex-direction: column; height: 100vh;
+    }
+
+    /* ── BARRA SUPERIOR ── */
+    #topbar {
+      background: #1a3a5c;
+      padding: 0.45rem 1rem;
+      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      flex-shrink: 0;
+    }
+    #topbar h1 {
+      color: #cde; font-size: 0.88rem; margin: 0; margin-right: auto;
+      font-weight: normal; letter-spacing: 0.04em;
+    }
+    .upload-btn {
+      display: inline-flex; align-items: center; gap: 0.3em;
+      padding: 0.28em 0.7em; font-size: 0.78rem; cursor: pointer;
+      border: 1px solid #4a7fa8; border-radius: 4px;
+      background: #234f72; color: #cde; user-select: none;
+    }
+    .upload-btn:hover { background: #2e6494; }
+    .upload-btn input[type="file"] { display: none; }
+    .tb-label { color: #9bc; font-size: 0.72rem; }
+    .thumb { height: 28px; border-radius: 3px; border: 1px solid #4a7fa8; background: white; object-fit: contain; }
+    .thumb-ph {
+      height: 28px; width: 40px; border-radius: 3px;
+      border: 1px dashed #4a7fa8; background: #0d2035;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.58rem; color: #567; text-align: center; line-height: 1.1;
+    }
+    #printBtn {
+      padding: 0.32em 1em; font-size: 0.82rem;
+      border: none; border-radius: 4px;
+      background: #2e86c1; color: white; cursor: pointer;
+    }
+    #printBtn:hover { background: #1a6fa0; }
+
+    /* ── LAYOUT ── */
+    main { display: flex; flex-grow: 1; overflow: hidden; }
+
+    /* ── PANEL IZQUIERDO ── */
+    #leftPane {
+      width: 42%; height: 100%;
+      background: #f4f6f8; border-right: 2px solid #c8d0da;
+      display: flex; flex-direction: column;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex; flex-shrink: 0;
+      border-bottom: 2px solid #c8d0da;
+      background: #e4e8ed;
+    }
+    .tab-btn {
+      flex: 1; padding: 0.5rem 0.5rem 0.4rem;
+      font-size: 0.78rem; font-family: sans-serif;
+      border: none; background: transparent; cursor: pointer;
+      color: #667; border-bottom: 2px solid transparent;
+      margin-bottom: -2px; transition: background 0.15s;
+    }
+    .tab-btn:hover { background: #d8dde3; }
+    .tab-btn.active {
+      color: #1a3a5c; font-weight: bold;
+      border-bottom: 2px solid #2e86c1;
+      background: #f4f6f8;
+    }
+
+    /* Tab content */
+    .tab-panel { display: none; flex: 1; overflow-y: auto; padding: 1rem 1rem 2rem; flex-direction: column; gap: 0.6rem; }
+    .tab-panel.active { display: flex; }
+
+    /* Markdown tab */
+    #tab-md { padding: 0.6rem; gap: 0.4rem; }
+    #tab-md label { font-size: 0.7rem; font-family: sans-serif; color: #445; }
+    #markdownInput {
+      flex: 1; width: 100%; min-height: 0;
+      font-size: 0.84rem; font-family: "Courier New", monospace;
+      border: 1px solid #bcc; border-radius: 4px;
+      padding: 0.6rem; background: white; resize: none; line-height: 1.6;
+    }
+    .md-actions { display: flex; gap: 0.4rem; flex-shrink: 0; }
+    .btn-secondary {
+      font-size: 0.75rem; padding: 0.25em 0.7em;
+      border: 1px solid #4a7fa8; border-radius: 4px;
+      background: #e8f0f8; color: #1a3a5c; cursor: pointer;
+    }
+    .btn-secondary:hover { background: #d0e4f4; }
+
+    /* Form tab */
+    .section-title {
+      font-size: 0.68rem; font-family: sans-serif; font-weight: bold;
+      color: #1a3a5c; text-transform: uppercase; letter-spacing: 0.06em;
+      margin-top: 0.4rem; margin-bottom: 0.1rem;
+      border-bottom: 1px solid #c8d0da; padding-bottom: 0.2rem;
+    }
+    .field { display: flex; flex-direction: column; gap: 0.15rem; }
+    .field label { font-size: 0.72rem; font-family: sans-serif; color: #445; }
+    .field input, .field select, .field textarea {
+      font-size: 0.84rem; padding: 0.3em 0.5em;
+      border: 1px solid #bcc; border-radius: 4px;
+      background: white; font-family: Cambria, Georgia, serif;
+    }
+    .list-field { display: flex; flex-direction: column; gap: 0.3rem; }
+    .list-field label { font-size: 0.72rem; font-family: sans-serif; color: #445; }
+    .list-items { display: flex; flex-direction: column; gap: 0.25rem; }
+    .list-item { display: flex; gap: 0.3rem; align-items: center; }
+    .list-item input {
+      flex: 1; font-size: 0.82rem; padding: 0.28em 0.45em;
+      border: 1px solid #bcc; border-radius: 4px;
+      font-family: Cambria, Georgia, serif;
+    }
+    .btn-rm {
+      background: #c0392b; color: white; border: none;
+      border-radius: 3px; width: 20px; height: 20px;
+      font-size: 0.75rem; cursor: pointer; flex-shrink: 0;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .btn-add {
+      align-self: flex-start; font-size: 0.75rem; padding: 0.2em 0.6em;
+      border: 1px solid #4a7fa8; border-radius: 4px;
+      background: #e8f0f8; color: #1a3a5c; cursor: pointer;
+    }
+    .btn-add:hover { background: #d0e4f4; }
+    .firma-edit-area {
+      font-size: 0.8rem; padding: 0.35em 0.5em;
+      border: 1px solid #bcc; border-radius: 4px;
+      background: white; font-family: Cambria, Georgia, serif;
+      width: 100%; height: 80px; resize: none; line-height: 1.5;
+    }
+
+    /* ── PANEL DERECHO ── */
+    #previewPane {
+      width: 58%; height: 100%; overflow-y: auto;
+      background: #d0d4d8; padding: 1.5rem;
+    }
+    #sheet {
+      max-width: 720px; margin: 0 auto;
+      background: white; padding: 2rem 2.5rem 3rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.15);
+    }
+    #logoArea { min-height: 50px; margin-bottom: 1.2rem; display: flex; align-items: center; }
+    #logoArea img { max-height: 64px; max-width: 260px; object-fit: contain; }
+    #logoPlaceholder { font-size: 0.72rem; color: #ccc; font-family: sans-serif; border: 1px dashed #ddd; padding: 0.3rem 0.7rem; border-radius: 4px; }
+
+    #preview { line-height: 1.9; font-size: 0.97rem; }
+    #preview p { margin: 0.5em 0; text-align: justify; }
+    #preview ul { margin: 0.3em 0 0.3em 1.5em; padding: 0; }
+    #preview li { margin-bottom: 0.15em; }
+
+    .firma-container {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-top: 3rem; border-top: 1px solid #bbb; padding-top: 1rem; gap: 1rem;
+    }
+    .firma-texto { white-space: pre-wrap; font-size: 0.88rem; line-height: 1.65; }
+    .firma-img-area img { max-height: 80px; max-width: 180px; object-fit: contain; }
+    .firma-img-ph { width: 140px; height: 56px; border: 1px dashed #ddd; border-radius: 3px; display: flex; align-items: center; justify-content: center; font-size: 0.68rem; color: #ccc; font-family: sans-serif; }
+
+    /* ── PRINT ── */
+    @media print {
+      body { background: white; }
+      #topbar, #leftPane { display: none; }
+      #previewPane { width: 100%; height: auto; background: white; padding: 0; overflow: visible; }
+      #sheet { box-shadow: none; padding: 0; max-width: 100%; }
+      .firma-img-ph { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="topbar">
+  <h1>📄 Certificados Psiquiátricos — COSAM Rahue</h1>
+  <span class="tb-label">Logo:</span>
+  <div id="logoThumbWrap"><div class="thumb-ph">sin logo</div></div>
+  <label class="upload-btn">📁 <input type="file" id="logoInput" accept="image/*"> Adjuntar</label>
+  <span class="tb-label">Firma:</span>
+  <div id="firmaThumbWrap"><div class="thumb-ph">sin firma</div></div>
+  <label class="upload-btn">✍️ <input type="file" id="firmaInput" accept="image/*"> Adjuntar</label>
+  <button id="printBtn" onclick="window.print()">🖨️ Imprimir</button>
+  <button id="downloadBtn" onclick="downloadHTML()">💾 Descargar HTML</button>
+</div>
+
+<main>
+  <section id="leftPane">
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('form')">🗂 Formulario</button>
+      <button class="tab-btn" onclick="switchTab('md')">✏️ Markdown</button>
+    </div>
+
+    <!-- Tab: Formulario -->
+    <div class="tab-panel active" id="tab-form">
+
+      <div class="section-title">Paciente</div>
+      <div class="field">
+        <label>Nombre completo</label>
+        <input type="text" id="fNombre" placeholder="Nombre Apellido Apellido">
+      </div>
+      <div class="field">
+        <label>RUT</label>
+        <input type="text" id="fRut" placeholder="11.111.111-1">
+      </div>
+
+      <div class="section-title">Centro de salud</div>
+      <div class="field">
+        <select id="fCentro">
+          <option value="COSAM Rahue">COSAM Rahue</option>
+          <option value="PRAIS Osorno">PRAIS Osorno</option>
+        </select>
+      </div>
+
+      <div class="section-title">Diagnósticos</div>
+      <div class="list-field">
+        <div class="list-items" id="diagList"></div>
+        <button class="btn-add" onclick="addItem('diagList','Ej: Trastorno afectivo bipolar')">+ Agregar diagnóstico</button>
+      </div>
+
+      <div class="section-title">Tratamiento actual</div>
+      <div class="list-field">
+        <div class="list-items" id="txList"></div>
+        <button class="btn-add" onclick="addItem('txList','Ej: Lamotrigina 100 mg: 2-0-0')">+ Agregar fármaco</button>
+      </div>
+
+      <div class="section-title">Adherencia</div>
+      <div class="field">
+        <select id="fAdherencia">
+          <option value="regular">Regular</option>
+          <option value="irregular">Irregular</option>
+          <option value="no se presenta">No se presenta a controles</option>
+        </select>
+      </div>
+
+      <div class="section-title">Finalidad del certificado</div>
+      <div class="field">
+        <input type="text" id="fFinalidad" placeholder="Ej: presentar en empleador / fines generales">
+      </div>
+
+      <div class="section-title">Profesional firmante</div>
+      <div class="field">
+        <textarea class="firma-edit-area" id="firmaTextoInput">Dr. Camilo Martínez Rodríguez
+Médico Psiquiatra Adultos
+Subdirector Clínico Comunitario – COSAM Rahue
+RUT: 15.843.686-8 | RCM: 30085-3 | SIS: 349381</textarea>
+      </div>
+
+    </div>
+
+    <!-- Tab: Markdown -->
+    <div class="tab-panel" id="tab-md" style="display:none;">
+      <div class="md-actions">
+        <button class="btn-secondary" onclick="syncFormToMd()">↓ Volcar formulario aquí</button>
+        <button class="btn-secondary" onclick="resetMd()">↺ Restaurar plantilla</button>
+      </div>
+      <label>Editor Markdown — edición libre:</label>
+      <textarea id="markdownInput" spellcheck="false"></textarea>
+    </div>
+
+  </section>
+
+  <!-- Preview -->
+  <section id="previewPane">
+    <div id="sheet">
+      <div id="logoArea">
+        <span id="logoPlaceholder">[ Logo COSAM — adjunte imagen ]</span>
+      </div>
+      <div id="preview"></div>
+      <div class="firma-container">
+        <div class="firma-texto" id="firmaTextoPreview"></div>
+        <div class="firma-img-area" id="firmaImgArea">
+          <div class="firma-img-ph" id="firmaImgPh">[ firma manuscrita ]</div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+<script>
+  // ── Estado de tab activo ──
+  let activeTab = 'form'; // 'form' | 'md'
+
+  function switchTab(tab) {
+    activeTab = tab;
+    document.querySelectorAll('.tab-btn').forEach((b, i) => {
+      b.classList.toggle('active', (i === 0 && tab === 'form') || (i === 1 && tab === 'md'));
+    });
+    document.getElementById('tab-form').style.display = tab === 'form' ? 'flex' : 'none';
+    document.getElementById('tab-md').style.display   = tab === 'md'   ? 'flex' : 'none';
+    if (tab === 'md') {
+      // Al entrar al tab MD: volcar estado actual del formulario si el textarea está vacío o igual a última sincronización
+      const md = document.getElementById('markdownInput');
+      if (!md.dataset.userEdited) syncFormToMd();
+    }
+    render();
+  }
+
+  // ── Listas dinámicas ──
+  function addItem(listId, placeholder) {
+    const list = document.getElementById(listId);
+    const div = document.createElement('div');
+    div.className = 'list-item';
+    div.innerHTML = `<input type="text" placeholder="${placeholder}"><button class="btn-rm" title="Eliminar">✕</button>`;
+    div.querySelector('.btn-rm').onclick = () => { div.remove(); onFormChange(); };
+    div.querySelector('input').addEventListener('input', onFormChange);
+    list.appendChild(div);
+    div.querySelector('input').focus();
+    onFormChange();
+  }
+
+  function getItems(listId) {
+    return [...document.querySelectorAll(`#${listId} input`)]
+      .map(i => i.value.trim()).filter(Boolean);
+  }
+
+  function cap(s) {
+    return s.replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  // ── Construir markdown desde formulario ──
+  function buildMarkdown() {
+    const nombre     = document.getElementById('fNombre').value.trim();
+    const rut        = document.getElementById('fRut').value.trim();
+    const centro     = document.getElementById('fCentro').value;
+    const adherencia = document.getElementById('fAdherencia').value;
+    const finalidad  = document.getElementById('fFinalidad').value.trim();
+    const diags      = getItems('diagList');
+    const txs        = getItems('txList');
+
+    const nombreFmt = nombre ? cap(nombre) : '___________________';
+    const rutFmt    = rut    ? rut         : '___________';
+
+    let md = `A quien corresponda:\n\n`;
+    md += `Certifico que **${nombreFmt}**, RUT: **${rutFmt}**, mantiene controles por especialidad en ${centro} `;
+    md += `por los siguientes diagnósticos:\n\n`;
+    (diags.length ? diags : ['___________________']).forEach(d => { md += `- ${d}\n`; });
+    md += `\n**Tratamiento actual:**\n\n`;
+    (txs.length ? txs : ['___________________']).forEach(t => { md += `- ${t}\n`; });
+    md += `\nCon adherencia **${adherencia}** a controles actuales en dispositivo.\n\n`;
+    md += `Se extiende este certificado para ${finalidad || '___________________'}.\n`;
+    return md;
+  }
+
+  // ── Volcar formulario al textarea MD ──
+  function syncFormToMd() {
+    const md = document.getElementById('markdownInput');
+    md.value = buildMarkdown();
+    md.dataset.userEdited = '';
+  }
+
+  function resetMd() {
+    const md = document.getElementById('markdownInput');
+    md.value = buildMarkdown();
+    md.dataset.userEdited = '';
+    render();
+  }
+
+  // ── Render ──
+  let debounce;
+  function render() {
+    clearTimeout(debounce);
+    debounce = setTimeout(() => {
+      let src;
+      if (activeTab === 'form') {
+        src = buildMarkdown();
+      } else {
+        src = document.getElementById('markdownInput').value;
+      }
+      document.getElementById('preview').innerHTML = marked.parse(src);
+      document.getElementById('firmaTextoPreview').textContent = document.getElementById('firmaTextoInput').value;
+    }, 150);
+  }
+
+  // ── Cambios en formulario ──
+  function onFormChange() {
+    // Resetear flag de edición manual en MD para que la próxima entrada al tab re-sincronice
+    document.getElementById('markdownInput').dataset.userEdited = '';
+    render();
+  }
+
+  ['fNombre','fRut','fFinalidad'].forEach(id =>
+    document.getElementById(id).addEventListener('input', onFormChange));
+  ['fCentro','fAdherencia'].forEach(id =>
+    document.getElementById(id).addEventListener('change', onFormChange));
+  document.getElementById('firmaTextoInput').addEventListener('input', render);
+
+  // Marcar edición manual en markdown
+  document.getElementById('markdownInput').addEventListener('input', function() {
+    this.dataset.userEdited = '1';
+    render();
+  });
+
+  // ── Upload logo ──
+  document.getElementById('logoInput').addEventListener('change', function() {
+    const file = this.files[0]; if (!file) return;
+    const r = new FileReader();
+    r.onload = e => {
+      const src = e.target.result;
+      document.getElementById('logoThumbWrap').innerHTML = `<img class="thumb" src="${src}">`;
+      const area = document.getElementById('logoArea');
+      document.getElementById('logoPlaceholder').style.display = 'none';
+      area.querySelectorAll('img').forEach(i => i.remove());
+      const img = document.createElement('img'); img.src = src; img.alt = 'Logo';
+      area.appendChild(img);
+    };
+    r.readAsDataURL(file);
+  });
+
+  // ── Upload firma ──
+  document.getElementById('firmaInput').addEventListener('change', function() {
+    const file = this.files[0]; if (!file) return;
+    const r = new FileReader();
+    r.onload = e => {
+      const src = e.target.result;
+      document.getElementById('firmaThumbWrap').innerHTML = `<img class="thumb" src="${src}">`;
+      const area = document.getElementById('firmaImgArea');
+      document.getElementById('firmaImgPh').style.display = 'none';
+      area.querySelectorAll('img').forEach(i => i.remove());
+      const img = document.createElement('img'); img.src = src; img.alt = 'Firma';
+      area.appendChild(img);
+    };
+    r.readAsDataURL(file);
+  });
+
+  // ── Descargar HTML ──
+  function downloadHTML() {
+    const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'certificado_cosam.html';
+    a.click();
+    URL.revokeObjectURL(a.href);
+  }
+
+  // ── Init ──
+  addItem('diagList', '');
+  document.querySelector('#diagList input').value = 'Trastorno afectivo bipolar';
+  addItem('txList', '');
+  document.querySelector('#txList input').value = 'Lamotrigina 100 mg: 2-0-0';
+  render();
+</script>
+</body>
+</html>
