@@ -1,0 +1,1050 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Diagnóstico Rayen – Red MINSAL</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0c10;
+      --bg2: #0f1318;
+      --bg3: #151920;
+      --border: #1e2530;
+      --border2: #252d3a;
+      --text: #c8d6e8;
+      --text2: #6b7d93;
+      --text3: #3d4f63;
+      --mono: 'JetBrains Mono', monospace;
+      --sans: 'DM Sans', sans-serif;
+      --ok: #2dd4a0;
+      --ok-bg: #0d2e24;
+      --warn: #f59e0b;
+      --warn-bg: #2a1f0a;
+      --err: #f26d6d;
+      --err-bg: #2a0f0f;
+      --blue: #4a9eff;
+      --blue-bg: #0a1a2e;
+      --purple: #a78bfa;
+    }
+
+    :root.light {
+      --bg: #f4f6f9;
+      --bg2: #ffffff;
+      --bg3: #edf0f4;
+      --border: #d1d9e6;
+      --border2: #bcc7d8;
+      --text: #1e2a3a;
+      --text2: #4a5e78;
+      --text3: #8a9db8;
+      --ok-bg: #d4f5eb;
+      --warn-bg: #fef3cd;
+      --err-bg: #fde8e8;
+      --blue-bg: #ddeeff;
+    }
+
+    /* THEME TOGGLE */
+    .theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      user-select: none;
+    }
+    .theme-toggle span {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .toggle-track {
+      width: 36px;
+      height: 20px;
+      border-radius: 10px;
+      background: var(--border2);
+      position: relative;
+      transition: background 0.2s;
+    }
+    .toggle-track.on { background: var(--blue); }
+    .toggle-thumb {
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #fff;
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      transition: left 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+    .toggle-track.on .toggle-thumb { left: 19px; }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 14px;
+      min-height: 100vh;
+      padding: 24px;
+    }
+
+    /* HEADER */
+    .header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      margin-bottom: 28px;
+      padding-bottom: 20px;
+      border-bottom: 1px solid var(--border);
+    }
+    .header-left h1 {
+      font-family: var(--mono);
+      font-size: 18px;
+      font-weight: 700;
+      color: #e8f0fa;
+      letter-spacing: -0.5px;
+    }
+    .header-left .subtitle {
+      font-size: 12px;
+      color: var(--text2);
+      margin-top: 4px;
+      font-family: var(--mono);
+    }
+    .timestamp {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text3);
+      text-align: right;
+    }
+
+    /* GRID LAYOUT */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 900px) {
+      .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    }
+
+    /* CARDS */
+    .card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 16px;
+    }
+    .card-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 600;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+
+    /* TARGET BLOCKS */
+    .target-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 700px) { .target-grid { grid-template-columns: 1fr; } }
+
+    .target-card {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s;
+    }
+    .target-card.state-ok    { border-color: var(--ok); }
+    .target-card.state-err   { border-color: var(--err); }
+    .target-card.state-warn  { border-color: var(--warn); }
+    .target-card.state-idle  { border-color: var(--border2); }
+    .target-card.state-testing { border-color: var(--blue); }
+
+    .target-label {
+      font-family: var(--mono);
+      font-size: 9px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text3);
+      margin-bottom: 6px;
+    }
+    .target-name {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+      margin-bottom: 2px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .target-ip {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text2);
+      margin-bottom: 10px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .status-badge.ok   { background: var(--ok-bg);   color: var(--ok); }
+    .status-badge.err  { background: var(--err-bg);  color: var(--err); }
+    .status-badge.warn { background: var(--warn-bg); color: var(--warn); }
+    .status-badge.idle { background: var(--bg);      color: var(--text3); border: 1px solid var(--border2); }
+    .status-badge.testing { background: var(--blue-bg); color: var(--blue); }
+
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      display: inline-block;
+    }
+    .dot.ok     { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
+    .dot.err    { background: var(--err); box-shadow: 0 0 6px var(--err); }
+    .dot.warn   { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
+    .dot.idle   { background: var(--text3); }
+    .dot.pulse  { animation: pulse 1s infinite; }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .target-metrics {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4px;
+      margin-top: 8px;
+    }
+    .metric-mini {
+      background: var(--bg);
+      border-radius: 4px;
+      padding: 5px 7px;
+    }
+    .metric-mini .mlabel {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text3);
+      text-transform: uppercase;
+    }
+    .metric-mini .mval {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--text);
+    }
+    .metric-mini .mval.ok   { color: var(--ok); }
+    .metric-mini .mval.warn { color: var(--warn); }
+    .metric-mini .mval.err  { color: var(--err); }
+
+    /* DECISION BOX */
+    .decision-box {
+      border-radius: 10px;
+      padding: 16px 20px;
+      margin-bottom: 16px;
+      border: 1px solid;
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+    }
+    .decision-box.ok   { background: var(--ok-bg);   border-color: var(--ok); }
+    .decision-box.err  { background: var(--err-bg);  border-color: var(--err); }
+    .decision-box.warn { background: var(--warn-bg); border-color: var(--warn); }
+    .decision-box.idle { background: var(--bg2);     border-color: var(--border2); }
+    .decision-box.blue { background: var(--blue-bg); border-color: var(--blue); }
+
+    .decision-icon { font-size: 24px; line-height: 1; margin-top: 2px; }
+    .decision-title {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+    .decision-body {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .decision-action {
+      margin-top: 8px;
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 6px 10px;
+      border-radius: 5px;
+      display: inline-block;
+    }
+    .decision-box.ok   .decision-action { background: rgba(45,212,160,0.15); color: var(--ok); }
+    .decision-box.err  .decision-action { background: rgba(242,109,109,0.15); color: var(--err); }
+    .decision-box.warn .decision-action { background: rgba(245,158,11,0.15);  color: var(--warn); }
+    .decision-box.blue .decision-action { background: rgba(74,158,255,0.15);  color: var(--blue); }
+
+    /* JITTER SECTION */
+    .jitter-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+    @media (max-width: 700px) { .jitter-row { grid-template-columns: 1fr; } }
+
+    .jitter-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .jitter-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-bottom: 12px;
+    }
+    .jitter-chart {
+      height: 60px;
+      display: flex;
+      align-items: flex-end;
+      gap: 2px;
+      margin-bottom: 10px;
+      padding: 0 2px;
+    }
+    .jitter-bar {
+      flex: 1;
+      border-radius: 2px 2px 0 0;
+      min-height: 2px;
+      transition: height 0.2s;
+    }
+    .jitter-stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .jstat {
+      background: var(--bg3);
+      border-radius: 5px;
+      padding: 6px 8px;
+      text-align: center;
+    }
+    .jstat .jlabel {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text3);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 2px;
+    }
+    .jstat .jval {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 700;
+      color: var(--text);
+    }
+    .jitter-classification {
+      margin-top: 10px;
+      font-family: var(--mono);
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+
+    /* LOG */
+    .log-wrap {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 12px;
+      max-height: 220px;
+      overflow-y: auto;
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.7;
+      color: var(--text2);
+    }
+    .log-wrap .lok  { color: var(--ok); }
+    .log-wrap .lerr { color: var(--err); }
+    .log-wrap .lwarn{ color: var(--warn); }
+    .log-wrap .lhd  { color: var(--blue); font-weight: 700; }
+    .log-wrap .ldim { color: var(--text3); }
+
+    /* CONTROLS */
+    .controls {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 14px 16px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .control-group label {
+      font-family: var(--mono);
+      font-size: 10px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .control-group input {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 5px;
+      color: var(--text);
+      font-family: var(--mono);
+      font-size: 12px;
+      padding: 6px 10px;
+      width: 80px;
+      outline: none;
+    }
+    .control-group input:focus { border-color: var(--blue); }
+
+    .btn {
+      padding: 9px 20px;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      font-family: var(--mono);
+      font-size: 12px;
+      font-weight: 600;
+      transition: all 0.15s;
+      letter-spacing: 0.5px;
+    }
+    .btn-primary {
+      background: var(--blue);
+      color: #fff;
+    }
+    .btn-primary:hover { filter: brightness(1.15); }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; filter: none; }
+    .btn-secondary {
+      background: var(--bg3);
+      color: var(--text2);
+      border: 1px solid var(--border2);
+    }
+    .btn-secondary:hover { border-color: var(--text2); color: var(--text); }
+
+    /* PROGRESS */
+    .progress-bar-wrap {
+      height: 3px;
+      background: var(--border);
+      border-radius: 2px;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+    .progress-bar {
+      height: 100%;
+      background: var(--blue);
+      border-radius: 2px;
+      transition: width 0.3s;
+      width: 0%;
+    }
+
+    /* SECTION TITLES */
+    .section-title {
+      font-family: var(--mono);
+      font-size: 10px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text3);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* TECH DETAIL */
+    .tech-detail {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .tech-item {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+    }
+    .tech-item .tkey {
+      font-family: var(--mono);
+      font-size: 9px;
+      color: var(--text3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 2px;
+    }
+    .tech-item .tval {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--text);
+    }
+
+    scrollbar-width: thin;
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>DIAGNÓSTICO RAYEN // RED MINSAL</h1>
+    <div class="subtitle">disponibilidad HTTP · jitter · decisión de failover</div>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:flex-end; gap:10px;">
+    <div class="timestamp" id="ts">—</div>
+    <div class="theme-toggle" onclick="toggleTheme()">
+      <span id="themeLabel">Oscuro</span>
+      <div class="toggle-track" id="toggleTrack">
+        <div class="toggle-thumb"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls">
+  <div class="control-group">
+    <label>Iteraciones jitter</label>
+    <input id="runs" type="number" min="10" max="100" value="20" />
+  </div>
+  <div class="control-group">
+    <label>Timeout (ms)</label>
+    <input id="timeout" type="number" min="2000" max="15000" value="6000" />
+  </div>
+  <div style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;">
+    <button class="btn btn-primary" id="btnRun" onclick="runAll()">▶ Iniciar diagnóstico</button>
+    <button class="btn btn-secondary" onclick="downloadJSON()">↓ Exportar JSON</button>
+  </div>
+</div>
+
+<!-- PROGRESS -->
+<div class="progress-bar-wrap">
+  <div class="progress-bar" id="progress"></div>
+</div>
+
+<!-- SECTION: DISPONIBILIDAD -->
+<div class="section-title">01 · Disponibilidad HTTP</div>
+
+<div class="target-grid" id="targetGrid">
+  <!-- Generado por JS -->
+</div>
+
+<!-- DECISION BOX -->
+<div class="decision-box idle" id="decisionBox">
+  <div class="decision-icon">◈</div>
+  <div>
+    <div class="decision-title" id="decisionTitle">Esperando diagnóstico...</div>
+    <div class="decision-body" id="decisionBody">Ejecuta el diagnóstico para obtener la evaluación de red.</div>
+  </div>
+</div>
+
+<!-- SECTION: JITTER -->
+<div class="section-title">02 · Jitter / Estabilidad de latencia</div>
+
+<div class="jitter-row" id="jitterRow">
+  <!-- Generado por JS -->
+</div>
+
+<!-- SECTION: LOG TÉCNICO -->
+<div class="section-title">03 · Log técnico</div>
+<div class="log-wrap" id="logWrap">
+  <span class="ldim">// Listo. Presiona "Iniciar diagnóstico".</span>
+</div>
+
+<!-- SECTION: DETALLES TÉCNICOS -->
+<div class="section-title" style="margin-top:16px;">04 · Detalles técnicos</div>
+<div class="tech-detail" id="techDetail">
+  <div class="tech-item"><div class="tkey">Método</div><div class="tval">GET no-cors + HEAD cors</div></div>
+  <div class="tech-item"><div class="tkey">Cache-busting</div><div class="tval">_t + Math.random()</div></div>
+  <div class="tech-item"><div class="tkey">DNS activo</div><div class="tval" id="tdDns">—</div></div>
+  <div class="tech-item"><div class="tkey">User-Agent</div><div class="tval" id="tdUA">—</div></div>
+  <div class="tech-item"><div class="tkey">Protocolo</div><div class="tval">HTTP(S) – no ICMP</div></div>
+  <div class="tech-item"><div class="tkey">Host header</div><div class="tval">Bloqueado por spec WHATWG</div></div>
+  <div class="tech-item"><div class="tkey">Limitación 190.x</div><div class="tval">Sin Host header → puede no mostrar Rayen</div></div>
+  <div class="tech-item"><div class="tkey">Interpretación 190.x</div><div class="tval">Respuesta = servidor activo (aunque muestre IIS)</div></div>
+</div>
+
+<script>
+// ─── THEME ────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const isLight = document.documentElement.classList.toggle("light");
+  const track = document.getElementById("toggleTrack");
+  const label = document.getElementById("themeLabel");
+  track.classList.toggle("on", isLight);
+  label.textContent = isLight ? "Claro" : "Oscuro";
+}
+
+// ─── CONFIG ───────────────────────────────────────────────────────────────────
+const TARGETS_AVAIL = [
+  {
+    id: "rayen_minsal",
+    label: "RAYEN · RedMINSAL",
+    name: "clinico.sub.rayenaps.cl",
+    url: "http://clinico.sub.rayenaps.cl",
+    ip: "10.8.169.116",
+    color: "var(--blue)",
+    note: "Ruta interna MINSAL"
+  },
+  {
+    id: "rayen_ext",
+    label: "RAYEN · Externo",
+    name: "clinico.rayenaps.cl",
+    url: "https://190.215.46.65",
+    ip: "190.215.46.65",
+    color: "var(--purple)",
+    note: "IP pública (sin Host header)"
+  },
+  {
+    id: "control",
+    label: "CONTROL · Cloudflare",
+    name: "1.1.1.1",
+    url: "https://1.1.1.1",
+    ip: "1.1.1.1",
+    color: "var(--ok)",
+    note: "Referencia estabilidad externa"
+  }
+];
+
+const TARGETS_JITTER = [
+  {
+    id: "j_minsal",
+    label: "Jitter · RedMINSAL",
+    url: "http://clinico.sub.rayenaps.cl",
+    color: "var(--blue)"
+  },
+  {
+    id: "j_control",
+    label: "Jitter · Control (Cloudflare)",
+    url: "https://1.1.1.1",
+    color: "var(--ok)"
+  }
+];
+
+let lastReport = null;
+let totalSteps = 0;
+let doneSteps = 0;
+
+// ─── INIT ─────────────────────────────────────────────────────────────────────
+window.onload = () => {
+  document.getElementById("ts").textContent = new Date().toLocaleString("es-CL");
+  document.getElementById("tdUA").textContent = navigator.userAgent.split(" ").slice(-1)[0];
+  document.getElementById("tdDns").textContent = "Resolviendo...";
+  buildTargetCards();
+  buildJitterCards();
+  probeDNS();
+};
+
+function probeDNS() {
+  // Heurística: si podemos alcanzar 10.x probablemente usamos DNS RedMINSAL
+  timedFetch("http://clinico.sub.rayenaps.cl", 3000).then(r => {
+    document.getElementById("tdDns").textContent = r.ok ? "RedMINSAL (10.x resuelve)" : "Posiblemente público";
+  });
+}
+
+// ─── BUILD CARDS ──────────────────────────────────────────────────────────────
+function buildTargetCards() {
+  const grid = document.getElementById("targetGrid");
+  grid.innerHTML = TARGETS_AVAIL.map(t => `
+    <div class="target-card state-idle" id="tc_${t.id}">
+      <div class="target-label">${t.label}</div>
+      <div class="target-name">${t.name}</div>
+      <div class="target-ip">${t.ip} · ${t.note}</div>
+      <div class="status-badge idle" id="badge_${t.id}">
+        <span class="dot idle" id="dot_${t.id}"></span>
+        <span id="badgetxt_${t.id}">IDLE</span>
+      </div>
+      <div class="target-metrics">
+        <div class="metric-mini">
+          <div class="mlabel">Latencia avg</div>
+          <div class="mval" id="mavg_${t.id}">—</div>
+        </div>
+        <div class="metric-mini">
+          <div class="mlabel">Timeouts</div>
+          <div class="mval" id="mto_${t.id}">—</div>
+        </div>
+      </div>
+    </div>
+  `).join("");
+}
+
+function buildJitterCards() {
+  const row = document.getElementById("jitterRow");
+  row.innerHTML = TARGETS_JITTER.map(t => `
+    <div class="jitter-card" id="jc_${t.id}">
+      <div class="jitter-title">${t.label}</div>
+      <div class="jitter-chart" id="jchart_${t.id}">
+        ${Array(20).fill('<div class="jitter-bar" style="background:var(--border2);height:4px;"></div>').join("")}
+      </div>
+      <div class="jitter-stats">
+        <div class="jstat"><span class="jlabel">Min</span><span class="jval" id="jmin_${t.id}">—</span></div>
+        <div class="jstat"><span class="jlabel">Avg</span><span class="jval" id="javg_${t.id}">—</span></div>
+        <div class="jstat"><span class="jlabel">Max</span><span class="jval" id="jmax_${t.id}">—</span></div>
+        <div class="jstat"><span class="jlabel">StdDev</span><span class="jval" id="jstd_${t.id}">—</span></div>
+      </div>
+      <div class="jitter-classification idle" id="jclass_${t.id}" style="margin-top:10px; font-family:var(--mono); font-size:11px; padding:5px 10px; border-radius:4px; display:inline-block; background:var(--bg); color:var(--text3);">
+        Sin datos
+      </div>
+    </div>
+  `).join("");
+}
+
+// ─── UTILS ────────────────────────────────────────────────────────────────────
+function sleep(ms) { return new Promise(r => setTimeout(r, ms)); }
+function fmt(x) { return (x === null || !Number.isFinite(x)) ? "—" : x.toFixed(1); }
+
+async function timedFetch(url, timeoutMs) {
+  const controller = new AbortController();
+  const t = setTimeout(() => controller.abort(), timeoutMs);
+  const sep = url.includes("?") ? "&" : "?";
+  const bust = `${url}${sep}_t=${Date.now()}_${Math.random().toString(16).slice(2)}`;
+  const start = performance.now();
+  try {
+    await fetch(bust, { method: "GET", mode: "no-cors", cache: "no-store", signal: controller.signal });
+    const ms = performance.now() - start;
+    clearTimeout(t);
+    return { ok: true, ms };
+  } catch(e) {
+    clearTimeout(t);
+    return { ok: false, ms: null, err: String(e?.name ?? e) };
+  }
+}
+
+function stats(latencies, total) {
+  const good = latencies.filter(x => Number.isFinite(x));
+  const fails = total - good.length;
+  if (!good.length) return { samples:0, fails, min:null, max:null, avg:null, std:null, lossPct:100 };
+  const min = Math.min(...good), max = Math.max(...good);
+  const avg = good.reduce((a,b)=>a+b,0)/good.length;
+  const std = Math.sqrt(good.reduce((a,b)=>a+(b-avg)**2,0)/good.length);
+  return { samples:good.length, fails, min, max, avg, std, lossPct:(fails/total)*100 };
+}
+
+function classifyJitter(std, lossPct) {
+  if (lossPct >= 5)        return { label:"CRÍTICO – pérdida alta", cls:"err" };
+  if (std === null)        return { label:"CRÍTICO – sin muestras", cls:"err" };
+  if (std > 80)            return { label:"CRÍTICO – jitter muy alto", cls:"err" };
+  if (std > 30)            return { label:"ALTO – jitter alto", cls:"warn" };
+  if (std > 15)            return { label:"MODERADO", cls:"warn" };
+  return { label:"ESTABLE", cls:"ok" };
+}
+
+// ─── SET CARD STATE ───────────────────────────────────────────────────────────
+function setCardState(id, state, avgMs, timeouts, total) {
+  const card = document.getElementById(`tc_${id}`);
+  const badge = document.getElementById(`badge_${id}`);
+  const dot = document.getElementById(`dot_${id}`);
+  const btxt = document.getElementById(`badgetxt_${id}`);
+  const mavg = document.getElementById(`mavg_${id}`);
+  const mto  = document.getElementById(`mto_${id}`);
+
+  card.className = `target-card state-${state}`;
+  badge.className = `status-badge ${state === "testing" ? "testing" : state === "ok" ? "ok" : state === "err" ? "err" : "warn"}`;
+  dot.className = `dot ${state === "testing" ? "idle pulse" : state}`;
+
+  const labels = { ok:"RESPONDE", err:"NO RESPONDE", warn:"INESTABLE", testing:"TESTEANDO…", idle:"IDLE" };
+  btxt.textContent = labels[state] || state.toUpperCase();
+
+  if (avgMs !== undefined) {
+    mavg.textContent = fmt(avgMs) + " ms";
+    mavg.className = `mval ${avgMs > 300 ? "warn" : "ok"}`;
+  }
+  if (timeouts !== undefined && total !== undefined) {
+    const pct = ((timeouts/total)*100).toFixed(0);
+    mto.textContent = `${timeouts}/${total} (${pct}%)`;
+    mto.className = `mval ${timeouts > 0 ? "err" : "ok"}`;
+  }
+}
+
+// ─── LOG ──────────────────────────────────────────────────────────────────────
+function log(html) {
+  const w = document.getElementById("logWrap");
+  w.innerHTML += html + "\n";
+  w.scrollTop = w.scrollHeight;
+}
+function logHd(txt) { log(`<span class="lhd">${txt}</span>`); }
+function logOk(txt) { log(`<span class="lok">  ✓ ${txt}</span>`); }
+function logErr(txt){ log(`<span class="lerr">  ✗ ${txt}</span>`); }
+function logDim(txt){ log(`<span class="ldim">  · ${txt}</span>`); }
+function logWarn(txt){ log(`<span class="lwarn">  ⚠ ${txt}</span>`); }
+
+// ─── PROGRESS ─────────────────────────────────────────────────────────────────
+function setProgress(done, total) {
+  document.getElementById("progress").style.width = `${(done/total)*100}%`;
+}
+
+// ─── AVAILABILITY TEST ────────────────────────────────────────────────────────
+async function testAvailability(target, timeoutMs) {
+  setCardState(target.id, "testing");
+  logHd(`\n── ${target.label} ──`);
+  logDim(`URL: ${target.url}`);
+
+  const PROBES = 5;
+  const lat = [];
+  for (let i = 1; i <= PROBES; i++) {
+    const r = await timedFetch(target.url, timeoutMs);
+    if (r.ok) {
+      logOk(`probe ${i}: ${r.ms.toFixed(1)} ms`);
+      lat.push(r.ms);
+    } else {
+      logErr(`probe ${i}: TIMEOUT/ERROR (${r.err})`);
+      lat.push(NaN);
+    }
+    doneSteps++;
+    setProgress(doneSteps, totalSteps);
+    await sleep(300);
+  }
+
+  const s = stats(lat, PROBES);
+  const state = s.lossPct >= 60 ? "err" : s.lossPct >= 20 ? "warn" : "ok";
+  setCardState(target.id, state, s.avg, s.fails, PROBES);
+
+  const stateLabel = state === "ok" ? "RESPONDE" : state === "warn" ? "INESTABLE" : "NO RESPONDE";
+  logDim(`→ ${stateLabel} | avg ${fmt(s.avg)}ms | timeouts ${s.fails}/${PROBES}`);
+
+  return { ...target, ...s, state };
+}
+
+// ─── JITTER TEST ──────────────────────────────────────────────────────────────
+async function testJitter(target, runs, timeoutMs) {
+  logHd(`\n── Jitter: ${target.label} ──`);
+  const lat = [];
+  const chartEl = document.getElementById(`jchart_${target.id}`);
+  const bars = chartEl.querySelectorAll(".jitter-bar");
+
+  for (let i = 0; i < runs; i++) {
+    const r = await timedFetch(target.url, timeoutMs);
+    if (r.ok) {
+      lat.push(r.ms);
+      logDim(`${i+1}/${runs}: ${r.ms.toFixed(1)} ms`);
+    } else {
+      lat.push(NaN);
+      logErr(`${i+1}/${runs}: TIMEOUT`);
+    }
+
+    // Update chart
+    const validSoFar = lat.filter(x => Number.isFinite(x));
+    if (validSoFar.length > 0) {
+      const maxVal = Math.max(...validSoFar);
+      const slice = lat.slice(-bars.length);
+      slice.forEach((v, idx) => {
+        const bar = bars[idx];
+        if (!bar) return;
+        if (!Number.isFinite(v)) {
+          bar.style.height = "4px";
+          bar.style.background = "var(--err)";
+        } else {
+          const h = Math.max(4, (v / maxVal) * 56);
+          bar.style.height = h + "px";
+          bar.style.background = target.color;
+          bar.style.opacity = "0.8";
+        }
+      });
+    }
+
+    doneSteps++;
+    setProgress(doneSteps, totalSteps);
+    await sleep(350);
+  }
+
+  const s = stats(lat, runs);
+  const jc = classifyJitter(s.std, s.lossPct);
+
+  document.getElementById(`jmin_${target.id}`).textContent = fmt(s.min);
+  document.getElementById(`javg_${target.id}`).textContent = fmt(s.avg);
+  document.getElementById(`jmax_${target.id}`).textContent = fmt(s.max);
+  document.getElementById(`jstd_${target.id}`).textContent = fmt(s.std);
+
+  const clsEl = document.getElementById(`jclass_${target.id}`);
+  const clsStyles = {
+    ok:   "background:var(--ok-bg);   color:var(--ok);",
+    warn: "background:var(--warn-bg); color:var(--warn);",
+    err:  "background:var(--err-bg);  color:var(--err);"
+  };
+  clsEl.style.cssText = (clsStyles[jc.cls] || "") + "margin-top:10px; font-family:var(--mono); font-size:11px; padding:5px 10px; border-radius:4px; display:inline-block;";
+  clsEl.textContent = jc.label;
+
+  logDim(`→ min ${fmt(s.min)} avg ${fmt(s.avg)} max ${fmt(s.max)} std ${fmt(s.std)} ms | ${jc.label}`);
+
+  return { ...target, ...s, jitter_classification: jc.label };
+}
+
+// ─── DECISION ─────────────────────────────────────────────────────────────────
+function makeDecision(results) {
+  const minsal = results.find(r => r.id === "rayen_minsal");
+  const ext    = results.find(r => r.id === "rayen_ext");
+  const ctrl   = results.find(r => r.id === "control");
+
+  const mOk = minsal.state === "ok";
+  const eOk = ext.state === "ok";
+  const cOk = ctrl.state !== "err";
+
+  let type, icon, title, body, action;
+
+  if (mOk && eOk) {
+    type="ok"; icon="✓"; title="Ambas rutas responden";
+    body="RedMINSAL y servidor externo activos. Si Rayen falla, el problema es de aplicación (sesión, base de datos) o del equipo local (navegador, extensiones, DNS).";
+    action="→ Acción: flushdns + reiniciar navegador. Escalar a Rayen APS si persiste.";
+  } else if (!mOk && eOk && cOk) {
+    type="warn"; icon="⚡"; title="RedMINSAL caído · Servidor Rayen activo";
+    body="El servidor Rayen responde por ruta externa. El problema está en la infraestructura RedMINSAL (proxy 10.8.169.116 o enrutamiento MINSAL), no en Rayen APS.";
+    action="→ Acción: cambiar DNS a 8.8.8.8 / 1.1.1.1 + flushdns. Rayen externo disponible.";
+  } else if (!mOk && !eOk && cOk) {
+    type="err"; icon="✗"; title="Servidor Rayen no responde (ambas rutas)";
+    body="Control externo (Cloudflare) responde: tu red funciona. El problema está en los servidores de Rayen APS, no en tu infraestructura.";
+    action="→ Acción: escalar a Rayen APS. Usar WiFi celular no resolverá el problema.";
+  } else if (!mOk && !eOk && !cOk) {
+    type="err"; icon="✗"; title="Fallo de conectividad general";
+    body="Ni RedMINSAL ni internet responden. Problema de uplink institucional o corte general de red.";
+    action="→ Acción: cambiar a WiFi celular. Verificar equipo de red local.";
+  } else if (mOk && !eOk) {
+    type="ok"; icon="◈"; title="RedMINSAL responde · Externo inaccesible";
+    body="Ruta normal (RedMINSAL) operativa. El 190.215.46.65 no responde desde esta red (puede ser bloqueo por firewall MINSAL hacia IP externa). No hay acción requerida.";
+    action="→ Acción: ninguna. Rayen disponible por ruta normal.";
+  } else {
+    type="warn"; icon="?"; title="Estado mixto – verificar manualmente";
+    body="Resultado ambiguo. Revisar log técnico para detalle por probe.";
+    action="→ Acción: repetir diagnóstico o revisar log.";
+  }
+
+  const box = document.getElementById("decisionBox");
+  box.className = `decision-box ${type}`;
+  box.innerHTML = `
+    <div class="decision-icon">${icon}</div>
+    <div>
+      <div class="decision-title" style="color:${type==="ok"?"var(--ok)":type==="err"?"var(--err)":"var(--warn)"}">${title}</div>
+      <div class="decision-body">${body}</div>
+      <div class="decision-action">${action}</div>
+    </div>
+  `;
+
+  return { type, title, body, action };
+}
+
+// ─── MAIN ─────────────────────────────────────────────────────────────────────
+async function runAll() {
+  const btn = document.getElementById("btnRun");
+  btn.disabled = true;
+  document.getElementById("logWrap").innerHTML = "";
+  document.getElementById("ts").textContent = new Date().toLocaleString("es-CL");
+
+  const runs = Math.max(10, Math.min(100, parseInt(document.getElementById("runs").value)||20));
+  const timeoutMs = Math.max(2000, Math.min(15000, parseInt(document.getElementById("timeout").value)||6000));
+
+  // Total steps: 5 probes x 3 targets + runs x 2 jitter targets
+  totalSteps = (5 * 3) + (runs * 2);
+  doneSteps = 0;
+  setProgress(0, totalSteps);
+
+  buildTargetCards();
+  buildJitterCards();
+
+  logHd(`DIAGNÓSTICO RAYEN · ${new Date().toISOString()}`);
+  logDim(`iteraciones jitter: ${runs} | timeout: ${timeoutMs}ms`);
+
+  // 1. Disponibilidad
+  logHd(`\n═══ BLOQUE 1: DISPONIBILIDAD ═══`);
+  const availResults = [];
+  for (const t of TARGETS_AVAIL) {
+    const r = await testAvailability(t, timeoutMs);
+    availResults.push(r);
+  }
+
+  // Decision
+  const decision = makeDecision(availResults);
+
+  // 2. Jitter
+  logHd(`\n═══ BLOQUE 2: JITTER ═══`);
+  const jitterResults = [];
+  for (const t of TARGETS_JITTER) {
+    const r = await testJitter(t, runs, timeoutMs);
+    jitterResults.push(r);
+  }
+
+  // Jitter interpretation
+  const jMinsal = jitterResults.find(r => r.id === "j_minsal");
+  const jCtrl   = jitterResults.find(r => r.id === "j_control");
+  logHd(`\n── Interpretación jitter ──`);
+  if (jMinsal && jCtrl) {
+    const mBad = jMinsal.std > 30 || jMinsal.lossPct >= 5;
+    const cBad = jCtrl.std > 30   || jCtrl.lossPct >= 5;
+    if (!mBad && !cBad)       logOk("Jitter estable en ambos. Problema no es variabilidad de red.");
+    else if (mBad && !cBad)   logWarn("Jitter alto en RedMINSAL, control estable → inestabilidad específica ruta MINSAL.");
+    else if (mBad && cBad)    logErr("Jitter alto en ambos → inestabilidad de uplink general o carga de equipo.");
+    else                       logWarn("Control inestable, RedMINSAL estable → resultado atípico, repetir.");
+  }
+
+  setProgress(totalSteps, totalSteps);
+
+  // Report
+  lastReport = {
+    meta: { ts: new Date().toISOString(), runs, timeoutMs },
+    availability: availResults.map(r => ({
+      id: r.id, label: r.label, url: r.url, ip: r.ip,
+      state: r.state, avg_ms: r.avg, loss_pct: r.lossPct, fails: r.fails, samples: r.samples
+    })),
+    jitter: jitterResults.map(r => ({
+      id: r.id, label: r.label,
+      min: r.min, avg: r.avg, max: r.max, std: r.std,
+      loss_pct: r.lossPct, classification: r.jitter_classification
+    })),
+    decision
+  };
+
+  logHd(`\n═══ FIN ═══`);
+  btn.disabled = false;
+}
+
+// ─── EXPORT ───────────────────────────────────────────────────────────────────
+function downloadJSON() {
+  if (!lastReport) { alert("Ejecuta el diagnóstico primero."); return; }
+  const blob = new Blob([JSON.stringify(lastReport, null, 2)], { type: "application/json" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = `rayen_diag_${new Date().toISOString().replace(/[:.]/g,"-")}.json`;
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+</script>
+</body>
+</html>
