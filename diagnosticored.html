@@ -621,7 +621,7 @@ const TARGETS_AVAIL = [
     id: "rayen_minsal",
     label: "RAYEN · RedMINSAL",
     name: "clinico.sub.rayenaps.cl",
-    url: "http://clinico.sub.rayenaps.cl",
+    url: "https://clinico.sub.rayenaps.cl",
     ip: "10.8.169.116",
     color: "var(--blue)",
     note: "Ruta interna MINSAL"
@@ -650,7 +650,7 @@ const TARGETS_JITTER = [
   {
     id: "j_minsal",
     label: "Jitter · RedMINSAL",
-    url: "http://clinico.sub.rayenaps.cl",
+    url: "https://clinico.sub.rayenaps.cl",
     color: "var(--blue)"
   },
   {
@@ -677,7 +677,7 @@ window.onload = () => {
 
 function probeDNS() {
   // Heurística: si podemos alcanzar 10.x probablemente usamos DNS RedMINSAL
-  timedFetch("http://clinico.sub.rayenaps.cl", 3000).then(r => {
+  timedFetch("https://clinico.sub.rayenaps.cl", 3000).then(r => {
     document.getElementById("tdDns").textContent = r.ok ? "RedMINSAL (10.x resuelve)" : "Posiblemente público";
   });
 }
