@@ -518,7 +518,34 @@
       color: var(--text);
     }
 
-    scrollbar-width: thin;
+    .btn-local {
+      background: var(--bg3);
+      color: var(--purple);
+      border: 1px solid var(--purple);
+      opacity: 0.85;
+    }
+    .btn-local:hover { opacity: 1; }
+
+    .banner-modo {
+      border-radius: 8px;
+      padding: 10px 16px;
+      margin-bottom: 16px;
+      font-family: var(--mono);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .banner-modo.https {
+      background: var(--warn-bg);
+      border: 1px solid var(--warn);
+      color: var(--warn);
+    }
+    .banner-modo.local {
+      background: var(--ok-bg);
+      border: 1px solid var(--ok);
+      color: var(--ok);
+    }
     ::-webkit-scrollbar { width: 4px; height: 4px; }
     ::-webkit-scrollbar-track { background: var(--bg); }
     ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 4px; }
@@ -555,8 +582,12 @@
   <div style="margin-left:auto; display:flex; gap:8px; flex-wrap:wrap;">
     <button class="btn btn-primary" id="btnRun" onclick="runAll()">▶ Iniciar diagnóstico</button>
     <button class="btn btn-secondary" onclick="downloadJSON()">↓ Exportar JSON</button>
+    <button class="btn btn-local" onclick="descargarLocal()" title="Descarga el HTML para abrirlo local y testear RedMINSAL">⬇ Modo local</button>
   </div>
 </div>
+
+<!-- BANNER MODO -->
+<div id="bannerModo" style="display:none;"></div>
 
 <!-- PROGRESS -->
 <div class="progress-bar-wrap">
@@ -606,6 +637,42 @@
 </div>
 
 <script>
+// ─── MODO DETECCIÓN ───────────────────────────────────────────────────────────
+function detectModo() {
+  const isLocal = location.protocol === 'file:' || location.hostname === 'localhost';
+  const banner = document.getElementById('bannerModo');
+  banner.style.display = 'flex';
+  if (isLocal) {
+    banner.className = 'banner-modo local';
+    banner.innerHTML = '✓ &nbsp;Modo local — RedMINSAL y red externa disponibles para diagnóstico completo.';
+    // Ocultar botón modo local — ya estás local
+    document.querySelector('.btn-local').style.display = 'none';
+  } else {
+    banner.className = 'banner-modo https';
+    banner.innerHTML = '⚠ &nbsp;Modo web (GitHub Pages) — RedMINSAL no testenable desde browser. Usa <strong style="margin:0 4px">⬇ Modo local</strong> para diagnóstico completo.';
+  }
+}
+
+// ─── DESCARGAR LOCAL ──────────────────────────────────────────────────────────
+function descargarLocal() {
+  fetch(location.href)
+    .then(r => r.text())
+    .then(html => {
+      const blob = new Blob([html], { type: 'text/html' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'diagnostico_rayen_local.html';
+      a.click();
+      URL.revokeObjectURL(a.href);
+
+      // Mostrar instrucción post-descarga
+      const banner = document.getElementById('bannerModo');
+      banner.className = 'banner-modo local';
+      banner.innerHTML = '✓ &nbsp;Descargado. Abre <strong style="margin:0 4px">diagnostico_rayen_local.html</strong> desde tu carpeta Descargas — funciona completo incluyendo RedMINSAL.';
+    })
+    .catch(e => alert('Error descargando: ' + e));
+}
+
 // ─── THEME ────────────────────────────────────────────────────────────────────
 function toggleTheme() {
   const isLight = document.documentElement.classList.toggle("light");
@@ -621,7 +688,7 @@ const TARGETS_AVAIL = [
     id: "rayen_minsal",
     label: "RAYEN · RedMINSAL",
     name: "clinico.sub.rayenaps.cl",
-    url: "https://clinico.sub.rayenaps.cl",
+    url: "http://clinico.sub.rayenaps.cl",
     ip: "10.8.169.116",
     color: "var(--blue)",
     note: "Ruta interna MINSAL"
@@ -630,7 +697,7 @@ const TARGETS_AVAIL = [
     id: "rayen_ext",
     label: "RAYEN · Externo",
     name: "clinico.rayenaps.cl",
-    url: "https://clinico.rayenaps.cl",
+    url: "https://190.215.46.65",
     ip: "190.215.46.65",
     color: "var(--purple)",
     note: "IP pública (sin Host header)"
@@ -650,7 +717,7 @@ const TARGETS_JITTER = [
   {
     id: "j_minsal",
     label: "Jitter · RedMINSAL",
-    url: "https://clinico.sub.rayenaps.cl",
+    url: "http://clinico.sub.rayenaps.cl",
     color: "var(--blue)"
   },
   {
@@ -667,6 +734,7 @@ let doneSteps = 0;
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 window.onload = () => {
+  detectModo();
   document.getElementById("ts").textContent = new Date().toLocaleString("es-CL");
   document.getElementById("tdUA").textContent = navigator.userAgent.split(" ").slice(-1)[0];
   document.getElementById("tdDns").textContent = "Resolviendo...";
@@ -677,7 +745,7 @@ window.onload = () => {
 
 function probeDNS() {
   // Heurística: si podemos alcanzar 10.x probablemente usamos DNS RedMINSAL
-  timedFetch("https://clinico.sub.rayenaps.cl", 3000).then(r => {
+  timedFetch("http://clinico.sub.rayenaps.cl", 3000).then(r => {
     document.getElementById("tdDns").textContent = r.ok ? "RedMINSAL (10.x resuelve)" : "Posiblemente público";
   });
 }
