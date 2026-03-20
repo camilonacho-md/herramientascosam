@@ -349,6 +349,8 @@ main {
 
 mark.hl { background: var(--amber-bg); color: var(--amber); border-radius: 2px; padding: 0 1px; }
 
+.sr-hide { display: none !important; }
+
 .loading { padding: 3rem; text-align: center; color: var(--text3); font-family: var(--mono); font-size: 12px; }
 .err {
   padding: 1rem 1.25rem;
@@ -440,22 +442,36 @@ async function init() {
     const m = DATA._meta;
     document.getElementById('meta-fecha').textContent = 'extracción ' + (m.fecha_extraccion || '—');
     document.getElementById('meta-fuente').textContent = m.fuente?.split('—')[0].trim() || '';
-    build('');
+    build();
   } catch(e) {
     document.getElementById('org').innerHTML =
       `<div class="err">error: ${e.message}\n\nen local: servir con python3 -m http.server 8080\nen producción: subir ambos archivos a GitHub Pages</div>`;
   }
 }
 
-let uid = 0;
 const mk = (t, c) => { const e = document.createElement(t); if(c) e.className = c; return e; };
 
-function hl(s, q) {
-  if (!q || !s) return s || '';
-  return String(s).replace(
-    new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'),
+// ── SEARCH ENGINE ────────────────────────────────────────────
+// DOM is built once. Search operates on existing nodes via
+// data-search attribute + CSS visibility. No rebuild on keypress.
+
+function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+// Apply highlight marks to a single text node's parent element.
+// Stores original text in data-orig so we can restore it cleanly.
+function applyHl(el, q) {
+  if (!el) return;
+  if (!el.dataset.orig) el.dataset.orig = el.textContent;
+  const orig = el.dataset.orig;
+  if (!q) { el.innerHTML = orig; return; }
+  el.innerHTML = orig.replace(
+    new RegExp('(' + escRe(q) + ')', 'gi'),
     '<mark class="hl">$1</mark>'
   );
+}
+
+function clearHl(el) {
+  if (el && el.dataset.orig) { el.innerHTML = el.dataset.orig; }
 }
 
 function chvIcon() {
@@ -464,23 +480,25 @@ function chvIcon() {
   return s;
 }
 
-function node(lvl, title, sub, cnt, res, fn) {
+function node(lvl, titleText, subText, cntText, resText, fn) {
   const d = mk('div', 'nd ' + lvl);
   const h = mk('div', 'nh');
   const chv = chvIcon();
   const lbl = mk('div', 'lbl');
-  const t = mk('div', 't'); t.innerHTML = title;
+  const t = mk('div', 't'); t.textContent = titleText || '';
   lbl.appendChild(t);
-  if (sub) { const s = mk('div','s'); s.innerHTML = sub; lbl.appendChild(s); }
+  if (subText) { const s = mk('div','s'); s.textContent = subText; lbl.appendChild(s); }
   h.appendChild(chv);
   h.appendChild(lbl);
-  if (res) { const rb = mk('span','res-tag'); rb.textContent = res; h.appendChild(rb); }
-  if (cnt != null) { const c = mk('span','cnt'); c.textContent = cnt; h.appendChild(c); }
+  if (resText) { const rb = mk('span','res-tag'); rb.textContent = resText; h.appendChild(rb); }
+  if (cntText != null) { const c = mk('span','cnt'); c.textContent = cntText; h.appendChild(c); }
   d.appendChild(h);
   const ch = mk('div', 'ch hid');
   fn(ch);
   d.appendChild(ch);
   h.onclick = () => { ch.classList.toggle('hid'); chv.classList.toggle('o'); };
+  // Store searchable text on the node itself (all descendant text will be scanned separately)
+  d.dataset.nodeText = (titleText + ' ' + (subText||'')).toLowerCase();
   return d;
 }
 
@@ -488,116 +506,94 @@ function sectionLabel(text) {
   const l = mk('div','section-label'); l.textContent = text; return l;
 }
 
-function persona(p, q) {
+function persona(p) {
   const r = mk('div','pr');
-  const n = mk('span','pn'); n.innerHTML = hl(p.nombre||'—', q);
-  const c = mk('span','pc'); c.innerHTML = hl(p.cargo||'', q);
-  const t = mk('span','pt'); t.textContent = p.telefono || '';
+  // store raw values for search
+  r.dataset.search = [p.nombre, p.cargo, p.telefono, p.email].join(' ').toLowerCase();
+  const n = mk('span','pn'); n.textContent = p.nombre||'—';
+  const c = mk('span','pc'); c.textContent = p.cargo||'';
+  const t = mk('span','pt'); t.textContent = p.telefono||'';
   const e = mk('span','pe');
   if (p.email) { const a = mk('a'); a.href='mailto:'+p.email; a.textContent = p.email; e.appendChild(a); }
   r.appendChild(n); r.appendChild(c); r.appendChild(t); r.appendChild(e);
   return r;
 }
 
-function unidadNode(u, q) {
-  const px = (u.personas || []).filter(p => p.nombre);
+function unidadNode(u) {
+  const px = (u.personas||[]).filter(p => p.nombre);
   const label = u.unidad && u.unidad !== '(sin unidad)' ? u.unidad : '';
   if (!label && !px.length) return null;
-  return node('l-u', hl(label, q) || '<em>—</em>', null,
-    px.length ? px.length + 'p' : null, null, ch => {
-    px.forEach(p => ch.appendChild(persona(p, q)));
+  return node('l-u', label || '—', null, px.length ? px.length+'p' : null, null, ch => {
+    px.forEach(p => ch.appendChild(persona(p)));
   });
 }
 
-function deptoNode(dep, q) {
+function deptoNode(dep) {
   const total = (dep.unidades||[]).reduce((a,u) => a + (u.personas||[]).filter(p=>p.nombre).length, 0);
   const jefe = (dep.unidades||[]).flatMap(u=>u.personas||[])
     .find(p => /jef|direct|subdirect/i.test(p.cargo||''));
-  return node('l-d', hl(dep.nombre, q),
-    jefe ? hl(jefe.nombre, q) : null,
-    total + 'p', null, ch => {
-    (dep.unidades||[]).forEach(u => {
-      const n = unidadNode(u, q);
-      if (n) ch.appendChild(n);
-    });
+  return node('l-d', dep.nombre, jefe?.nombre||null, total+'p', null, ch => {
+    (dep.unidades||[]).forEach(u => { const n = unidadNode(u); if(n) ch.appendChild(n); });
   });
 }
 
-function sdNode(sd, q) {
+function sdNode(sd) {
   const jefe = (sd.personas||[]).find(p => /subdirector/i.test(p.cargo||''));
-  return node('l-sd', hl(sd.nombre, q),
-    jefe ? hl(jefe.nombre, q) : null,
-    (sd.departamentos||[]).length + ' depts',
-    sd.resolucion, ch => {
+  return node('l-sd', sd.nombre, jefe?.nombre||null,
+    (sd.departamentos||[]).length + ' depts', sd.resolucion, ch => {
     if ((sd.personas||[]).length) {
       ch.appendChild(sectionLabel('subdirección'));
-      sd.personas.forEach(p => ch.appendChild(persona(p, q)));
+      sd.personas.forEach(p => ch.appendChild(persona(p)));
     }
-    (sd.unidades_propias||[]).forEach(u => ch.appendChild(deptoNode(u, q)));
+    (sd.unidades_propias||[]).forEach(u => ch.appendChild(deptoNode(u)));
     if ((sd.departamentos||[]).length) {
       ch.appendChild(sectionLabel('departamentos'));
-      sd.departamentos.forEach(dep => ch.appendChild(deptoNode(dep, q)));
+      sd.departamentos.forEach(dep => ch.appendChild(deptoNode(dep)));
     }
   });
 }
 
-function build(q) {
-  uid = 0;
+// ── BUILD (called once) ───────────────────────────────────────
+function build() {
   const org = document.getElementById('org');
   org.innerHTML = '';
 
   const dir = DATA.direccion;
   const dirJefe = (dir.personas||[]).find(p => p.cargo?.toLowerCase() === 'director');
 
-  const root = node('l-dir',
-    'Servicio de Salud Osorno',
-    dirJefe ? dirJefe.nombre : '',
-    null, null, ch => {
-
+  const root = node('l-dir', 'Servicio de Salud Osorno', dirJefe?.nombre||null, null, null, ch => {
     if ((dir.personas||[]).length) {
       ch.appendChild(sectionLabel('dirección'));
-      dir.personas.forEach(p => ch.appendChild(persona(p, q)));
+      dir.personas.forEach(p => ch.appendChild(persona(p)));
     }
-
     const dd = DATA.dependencias_directas_direccion || [];
     if (dd.length) {
       ch.appendChild(sectionLabel('dependencias directas'));
-      dd.forEach(d => ch.appendChild(deptoNode(d, q)));
+      dd.forEach(d => ch.appendChild(deptoNode(d)));
     }
-
     const gab = DATA.gabinete;
     if (gab) {
-      const gabNode = node('l-gab', hl(gab.nombre||'Gabinete', q), null,
-        (gab.subdepartamentos||[]).length + ' subdeptos',
-        gab.resolucion, ch2 => {
+      const gabNode = node('l-gab', gab.nombre||'Gabinete', null,
+        (gab.subdepartamentos||[]).length + ' subdeptos', gab.resolucion, ch2 => {
         (gab.subdepartamentos||[]).forEach(s => {
-          const total = (s.unidades||[]).reduce((a,u) => a + (u.personas||[]).filter(p=>p.nombre).length, 0);
-          const sj = (s.unidades||[]).flatMap(u=>u.personas||[])
-            .find(p => /jef|encarg/i.test(p.cargo||''));
-          ch2.appendChild(node('l-d', hl(s.nombre, q),
-            sj ? hl(sj.nombre, q) : null,
-            total + 'p', null, ch3 => {
-            (s.unidades||[]).forEach(u => {
-              const n = unidadNode(u, q);
-              if (n) ch3.appendChild(n);
-            });
+          const total = (s.unidades||[]).reduce((a,u) => a+(u.personas||[]).filter(p=>p.nombre).length, 0);
+          const sj = (s.unidades||[]).flatMap(u=>u.personas||[]).find(p => /jef|encarg/i.test(p.cargo||''));
+          ch2.appendChild(node('l-d', s.nombre, sj?.nombre||null, total+'p', null, ch3 => {
+            (s.unidades||[]).forEach(u => { const n = unidadNode(u); if(n) ch3.appendChild(n); });
           }));
         });
       });
       ch.appendChild(gabNode);
     }
-
     ch.appendChild(sectionLabel('subdirecciones'));
-    (DATA.subdirecciones||[]).forEach(sd => ch.appendChild(sdNode(sd, q)));
-
+    (DATA.subdirecciones||[]).forEach(sd => ch.appendChild(sdNode(sd)));
     const otros = DATA.otros || [];
     if (otros.length) {
       ch.appendChild(sectionLabel('otros organismos'));
-      otros.forEach(o => ch.appendChild(deptoNode(o, q)));
+      otros.forEach(o => ch.appendChild(deptoNode(o)));
     }
   });
 
-  // open root by default
   root.querySelector('.ch').classList.remove('hid');
   root.querySelector('.chv').classList.add('o');
   org.appendChild(root);
@@ -615,7 +611,7 @@ function build(q) {
   (DATA.dependencias_directas_direccion||[]).forEach(countNode);
   (DATA.gabinete?.subdepartamentos||[]).forEach(countNode);
   (DATA.subdirecciones||[]).forEach(sd => {
-    if(sd.personas) total += sd.personas.filter(p=>p.nombre).length;
+    if (sd.personas) total += sd.personas.filter(p=>p.nombre).length;
     countNode(sd);
   });
   (DATA.otros||[]).forEach(countNode);
@@ -625,10 +621,98 @@ function build(q) {
     ((DATA.subdirecciones||[]).reduce((a,s) => a + (s.departamentos||[]).length, 0)) + ' departamentos';
 }
 
+// ── SEARCH (operates on existing DOM) ────────────────────────
+let lastQ = '';
+
 function flt() {
   const q = document.getElementById('q').value.trim().toLowerCase();
-  build(q);
-  if (q) setAll(true);
+  if (q === lastQ) return;
+  lastQ = q;
+
+  if (!q) {
+    // restore: remove all search-state classes, clear highlights
+    document.querySelectorAll('.pr').forEach(r => {
+      r.classList.remove('sr-hide');
+      clearHl(r.querySelector('.pn'));
+      clearHl(r.querySelector('.pc'));
+    });
+    document.querySelectorAll('.nd').forEach(nd => {
+      nd.classList.remove('sr-hide','sr-dim');
+    });
+    document.getElementById('meta-count').style.color = '';
+    return;
+  }
+
+  // Step 1: mark each persona row as match or hide
+  let matchCount = 0;
+  document.querySelectorAll('.pr').forEach(r => {
+    const hit = r.dataset.search && r.dataset.search.includes(q);
+    r.classList.toggle('sr-hide', !hit);
+    if (hit) {
+      matchCount++;
+      applyHl(r.querySelector('.pn'), q);
+      applyHl(r.querySelector('.pc'), q);
+    } else {
+      clearHl(r.querySelector('.pn'));
+      clearHl(r.querySelector('.pc'));
+    }
+  });
+
+  // Step 2: walk .nd nodes bottom-up
+  // A node is visible if:
+  //   a) its own nodeText matches, OR
+  //   b) any descendant .pr is visible, OR
+  //   c) any descendant .nd is visible
+  // Use querySelectorAll which returns in document order (top-down),
+  // so we reverse for bottom-up propagation.
+  const allNd = Array.from(document.querySelectorAll('.nd'));
+
+  // Reset all nodes
+  allNd.forEach(nd => nd.classList.remove('sr-hide','sr-dim'));
+
+  // Bottom-up: hide nodes with no visible content
+  for (let i = allNd.length - 1; i >= 0; i--) {
+    const nd = allNd[i];
+    const nodeMatch = nd.dataset.nodeText && nd.dataset.nodeText.includes(q);
+    const hasVisiblePr = Array.from(nd.querySelectorAll(':scope > .ch .pr'))
+      .some(r => !r.classList.contains('sr-hide'));
+    const hasVisibleChild = Array.from(nd.querySelectorAll(':scope > .ch > .nd'))
+      .some(c => !c.classList.contains('sr-hide'));
+
+    if (!nodeMatch && !hasVisiblePr && !hasVisibleChild) {
+      nd.classList.add('sr-hide');
+    }
+  }
+
+  // Step 3: highlight node labels that match directly
+  allNd.forEach(nd => {
+    if (nd.classList.contains('sr-hide')) return;
+    const tEl = nd.querySelector(':scope > .nh .t');
+    const sEl = nd.querySelector(':scope > .nh .s');
+    if (nd.dataset.nodeText && nd.dataset.nodeText.includes(q)) {
+      applyHl(tEl, q);
+      applyHl(sEl, q);
+    } else {
+      clearHl(tEl);
+      clearHl(sEl);
+    }
+  });
+
+  // Step 4: expand ancestors of visible nodes, collapse empty ones
+  allNd.forEach(nd => {
+    const ch = nd.querySelector(':scope > .ch');
+    const chv = nd.querySelector(':scope > .nh > .chv');
+    if (!ch) return;
+    if (!nd.classList.contains('sr-hide')) {
+      ch.classList.remove('hid');
+      chv && chv.classList.add('o');
+    }
+  });
+
+  // Update count
+  const countEl = document.getElementById('meta-count');
+  countEl.textContent = matchCount + ' resultados';
+  countEl.style.color = matchCount > 0 ? 'var(--accent2)' : 'var(--red)';
 }
 
 function setAll(open) {
