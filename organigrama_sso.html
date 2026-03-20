@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organigrama SSO</title>
+<style>
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --surface2: #f1f0eb;
+    --border: rgba(0,0,0,0.10);
+    --border2: rgba(0,0,0,0.18);
+    --text: #1a1a18;
+    --text2: #5f5e5a;
+    --text3: #888780;
+    --blue: #0c447c;
+    --blue-bg: #e6f1fb;
+    --blue-mid: #378add;
+    --teal-bg: #e1f5ee;
+    --teal: #0f6e56;
+    --gray-bg: #f1f0eb;
+    --amber-bg: #faeeda;
+    --amber: #633806;
+    --radius: 8px;
+    --radius-lg: 12px;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #1a1a18;
+      --surface: #242422;
+      --surface2: #2c2c2a;
+      --border: rgba(255,255,255,0.10);
+      --border2: rgba(255,255,255,0.18);
+      --text: #e8e6de;
+      --text2: #b4b2a9;
+      --text3: #888780;
+      --blue: #85b7eb;
+      --blue-bg: #042c53;
+      --blue-mid: #378add;
+      --teal-bg: #04342c;
+      --teal: #5dcaa5;
+      --gray-bg: #2c2c2a;
+      --amber-bg: #412402;
+      --amber: #fac775;
+    }
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, -apple-system, sans-serif; background: var(--bg); color: var(--text); font-size: 14px; line-height: 1.5; }
+
+  header { background: var(--blue); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+  header h1 { color: #e6f1fb; font-size: 16px; font-weight: 500; }
+  header span { color: #85b7eb; font-size: 12px; }
+
+  .toolbar { padding: 0.75rem 1.5rem; background: var(--surface); border-bottom: 0.5px solid var(--border); display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .toolbar input { flex: 1; min-width: 200px; padding: 6px 10px; border: 0.5px solid var(--border2); border-radius: var(--radius); font-size: 13px; background: var(--surface); color: var(--text); outline: none; }
+  .toolbar input:focus { border-color: var(--blue-mid); }
+  .toolbar button { padding: 5px 12px; border: 0.5px solid var(--border2); border-radius: var(--radius); background: var(--surface2); color: var(--text2); font-size: 12px; cursor: pointer; white-space: nowrap; }
+  .toolbar button:hover { color: var(--text); }
+  .meta { font-size: 11px; color: var(--text3); margin-left: auto; }
+
+  main { padding: 1rem 1.5rem; max-width: 900px; }
+
+  .node { border-radius: var(--radius); margin-bottom: 3px; }
+  .nh { display: flex; align-items: center; gap: 7px; padding: 7px 10px; border-radius: var(--radius); cursor: pointer; user-select: none; }
+  .nh:hover { background: var(--surface2); }
+  .chv { font-size: 10px; color: var(--text3); width: 12px; flex-shrink: 0; transition: transform 0.15s; }
+  .chv.o { transform: rotate(90deg); }
+  .lbl { flex: 1; min-width: 0; }
+  .lbl .t { font-weight: 500; }
+  .lbl .s { font-size: 11px; color: var(--text3); margin-top: 1px; }
+  .cnt { font-size: 11px; padding: 1px 8px; border-radius: 20px; white-space: nowrap; flex-shrink: 0; background: var(--surface2); color: var(--text3); }
+  .ch { padding-left: 16px; border-left: 1px solid var(--border); margin-left: 10px; margin-top: 2px; margin-bottom: 2px; }
+  .hid { display: none; }
+
+  .l-dir > .nh { background: var(--blue); }
+  .l-dir > .nh .t { color: #e6f1fb; font-size: 15px; }
+  .l-dir > .nh .s { color: #85b7eb; }
+  .l-dir > .nh .chv { color: #85b7eb; }
+  .l-dir > .nh .cnt { background: rgba(255,255,255,0.15); color: #b5d4f4; }
+
+  .l-gab > .nh { background: var(--blue-bg); border: 0.5px solid rgba(55,138,221,0.3); }
+  .l-gab > .nh .t { color: var(--blue); font-size: 13px; }
+  .l-gab > .nh .s { color: var(--blue-mid); }
+
+  .l-sd > .nh { background: var(--surface); border: 0.5px solid var(--border2); }
+  .l-sd > .nh .t { color: var(--text); font-size: 13px; }
+
+  .l-d > .nh { background: var(--surface); border: 0.5px solid var(--border); }
+  .l-d > .nh .t { color: var(--text); font-size: 12px; font-weight: 400; }
+
+  .l-u > .nh { background: var(--surface2); border: none; }
+  .l-u > .nh .t { color: var(--text2); font-size: 12px; font-weight: 400; }
+
+  .pr { display: flex; align-items: baseline; gap: 8px; padding: 3px 10px 3px 24px; border-radius: 6px; font-size: 12px; }
+  .pr:hover { background: var(--surface2); }
+  .pn { color: var(--text); flex: 1; min-width: 0; }
+  .pc { color: var(--text2); font-size: 11px; flex: 2; min-width: 0; }
+  .pt { color: var(--blue-mid); font-size: 11px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+  .pe { color: var(--text3); font-size: 11px; white-space: nowrap; }
+  .pe a { color: inherit; text-decoration: none; }
+  .pe a:hover { text-decoration: underline; color: var(--blue-mid); }
+
+  .hl { background: var(--amber-bg); border-radius: 2px; padding: 0 2px; color: var(--amber); }
+
+  .loading { padding: 3rem; text-align: center; color: var(--text3); }
+  .err { padding: 1rem; background: #fcebeb; color: #a32d2d; border-radius: var(--radius); font-size: 13px; }
+
+  .badge-res { font-size: 10px; color: var(--text3); background: var(--surface2); padding: 1px 6px; border-radius: 20px; border: 0.5px solid var(--border); margin-left: 4px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>Organigrama — Servicio de Salud Osorno</h1>
+    <span id="meta-fecha"></span>
+  </div>
+  <span id="meta-res" style="font-size:11px; color:#85b7eb;"></span>
+</header>
+
+<div class="toolbar">
+  <input type="text" id="q" placeholder="Buscar nombre, cargo, departamento..." oninput="flt()">
+  <button onclick="setAll(true)">Expandir todo</button>
+  <button onclick="setAll(false)">Colapsar todo</button>
+  <span class="meta" id="meta-count"></span>
+</div>
+
+<main id="org"><div class="loading">Cargando datos...</div></main>
+
+<script>
+const JSON_URL = 'sso_organigrama.json';
+let DATA = null;
+
+async function init() {
+  try {
+    const r = await fetch(JSON_URL);
+    if (!r.ok) throw new Error('HTTP ' + r.status);
+    DATA = await r.json();
+    const m = DATA._meta;
+    document.getElementById('meta-fecha').textContent = 'Extracción: ' + (m.fecha_extraccion || '—');
+    document.getElementById('meta-res').textContent = m.resoluciones?.organigrama_general || '';
+    build('');
+  } catch(e) {
+    document.getElementById('org').innerHTML = `<div class="err">
+      No se pudo cargar <b>${JSON_URL}</b>.<br>
+      Asegúrate de que el archivo está en el mismo directorio que este HTML.<br>
+      Error: ${e.message}
+    </div>`;
+  }
+}
+
+let uid = 0;
+function mk(tag, cls) { const e = document.createElement(tag); if(cls) e.className = cls; return e; }
+function hl(s, q) {
+  if (!q || !s) return s || '';
+  return s.replace(new RegExp('(' + q.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi'), '<mark class="hl">$1</mark>');
+}
+
+function node(lvl, title, sub, cnt, res, fn) {
+  const id = 'n' + (++uid);
+  const d = mk('div', 'node ' + lvl);
+  const h = mk('div', 'nh');
+  const chv = mk('span', 'chv o'); chv.textContent = '▸';
+  const lbl = mk('div', 'lbl');
+  const t = mk('div', 't'); t.innerHTML = title;
+  lbl.appendChild(t);
+  if (sub) { const s = mk('div','s'); s.innerHTML = sub; lbl.appendChild(s); }
+  if (res) { const rb = mk('span','badge-res'); rb.textContent = res; h.appendChild(rb); }
+  if (cnt != null) { const c = mk('span','cnt'); c.textContent = cnt; h.appendChild(c); }
+  h.insertBefore(chv, h.firstChild);
+  h.insertBefore(lbl, h.children[1]);
+  d.appendChild(h);
+  const ch = mk('div', 'ch hid');
+  fn(ch);
+  d.appendChild(ch);
+  h.onclick = () => { ch.classList.toggle('hid'); chv.classList.toggle('o'); };
+  return d;
+}
+
+function persona(p, q) {
+  const r = mk('div','pr');
+  const n = mk('span','pn'); n.innerHTML = hl(p.nombre||'—', q);
+  const c = mk('span','pc'); c.innerHTML = hl(p.cargo||'', q);
+  const t = mk('span','pt'); t.textContent = p.telefono || '';
+  const e = mk('span','pe');
+  if (p.email) { const a = mk('a'); a.href='mailto:'+p.email; a.textContent = p.email; e.appendChild(a); }
+  r.appendChild(n); r.appendChild(c); r.appendChild(t); r.appendChild(e);
+  return r;
+}
+
+function unidadNode(u, q) {
+  const px = u.personas || [];
+  return node('l-u', hl(u.unidad && u.unidad !== '(sin unidad)' ? u.unidad : '', q) || '<em style="opacity:.5">sin unidad</em>',
+    null, px.length ? px.length+'p' : null, null, ch => {
+    px.forEach(p => ch.appendChild(persona(p, q)));
+  });
+}
+
+function deptoNode(d, q) {
+  const total = (d.unidades||[]).reduce((a,u) => a + (u.personas||[]).length, 0);
+  return node('l-d', hl(d.nombre, q), null, total+'p', null, ch => {
+    (d.unidades||[]).forEach(u => ch.appendChild(unidadNode(u, q)));
+  });
+}
+
+function sdNode(sd, q) {
+  const nd = (sd.departamentos||[]).length;
+  return node('l-sd', hl(sd.nombre, q),
+    (sd.personas||[]).find(p => p.cargo?.toLowerCase().includes('subdirector'))?.nombre || '',
+    nd + ' deptos', sd.resolucion, ch => {
+    (sd.personas||[]).forEach(p => ch.appendChild(persona(p, q)));
+    (sd.unidades_propias||[]).forEach(u => ch.appendChild(deptoNode(u, q)));
+    (sd.departamentos||[]).forEach(d => ch.appendChild(deptoNode(d, q)));
+  });
+}
+
+function build(q) {
+  uid = 0;
+  const org = document.getElementById('org');
+  org.innerHTML = '';
+
+  const dir = DATA.direccion;
+  const root = node('l-dir',
+    'Servicio de Salud Osorno',
+    (dir.personas||[]).find(p => p.cargo?.toLowerCase() === 'director')?.nombre || '',
+    null, null, ch => {
+    (dir.personas||[]).forEach(p => ch.appendChild(persona(p, q)));
+
+    // Dependencias directas
+    const dd = DATA.dependencias_directas_direccion || [];
+    if (dd.length) {
+      const grp = mk('div','node');
+      const gh = mk('div','nh'); gh.style.cursor='default';
+      const gl = mk('div','lbl'); gl.innerHTML = '<div class="t" style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em">Dependencias directas</div>';
+      gh.appendChild(gl); grp.appendChild(gh);
+      dd.forEach(d => grp.appendChild(deptoNode(d, q)));
+      ch.appendChild(grp);
+    }
+
+    // Gabinete
+    const gab = DATA.gabinete;
+    if (gab) {
+      const gabNode = node('l-gab', hl(gab.nombre, q), null,
+        (gab.subdepartamentos||[]).length + ' subdeptos', gab.resolucion, ch2 => {
+        (gab.subdepartamentos||[]).forEach(s => {
+          const total = (s.unidades||[]).reduce((a,u) => a + (u.personas||[]).length, 0);
+          ch2.appendChild(node('l-d', hl(s.nombre, q), null, total+'p', null, ch3 => {
+            (s.unidades||[]).forEach(u => ch3.appendChild(unidadNode(u, q)));
+          }));
+        });
+      });
+      ch.appendChild(gabNode);
+    }
+
+    // Subdirecciones
+    (DATA.subdirecciones||[]).forEach(sd => ch.appendChild(sdNode(sd, q)));
+
+    // Otros
+    const otros = DATA.otros || [];
+    if (otros.length) {
+      const og = mk('div','node');
+      const ogh = mk('div','nh'); ogh.style.cursor='default';
+      const ogl = mk('div','lbl'); ogl.innerHTML = '<div class="t" style="font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.06em">Otros organismos</div>';
+      ogh.appendChild(ogl); og.appendChild(ogh);
+      otros.forEach(d => og.appendChild(deptoNode(d, q)));
+      ch.appendChild(og);
+    }
+  });
+
+  // Abrir raíz por defecto
+  const rootCh = root.querySelector('.ch');
+  const rootChv = root.querySelector('.chv');
+  rootCh.classList.remove('hid');
+  rootChv.classList.add('o');
+
+  org.appendChild(root);
+
+  // Count personas
+  const total = (DATA.direccion?.personas||[]).length +
+    (DATA.dependencias_directas_direccion||[]).reduce((a,d) => a + (d.unidades||[]).reduce((b,u) => b+(u.personas||[]).length,0),0) +
+    (DATA.gabinete?.subdepartamentos||[]).reduce((a,s) => a+(s.unidades||[]).reduce((b,u) => b+(u.personas||[]).length,0),0) +
+    (DATA.subdirecciones||[]).reduce((a,sd) => a +
+      (sd.personas||[]).length +
+      (sd.unidades_propias||[]).reduce((b,u) => b+(u.unidades||[]).reduce((c,uu) => c+(uu.personas||[]).length,0),0) +
+      (sd.departamentos||[]).reduce((b,d) => b+(d.unidades||[]).reduce((c,u) => c+(u.personas||[]).length,0),0)
+    ,0);
+  document.getElementById('meta-count').textContent = total + ' personas · ' +
+    (DATA.subdirecciones?.length||0) + ' subdirecciones';
+}
+
+function flt() {
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  build(q);
+  if (q) setAll(true);
+}
+
+function setAll(open) {
+  document.querySelectorAll('.ch').forEach(c => open ? c.classList.remove('hid') : c.classList.add('hid'));
+  document.querySelectorAll('.chv').forEach(c => open ? c.classList.add('o') : c.classList.remove('o'));
+}
+
+init();
+</script>
+</body>
+</html>

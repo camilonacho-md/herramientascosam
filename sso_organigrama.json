@@ -1,0 +1,2474 @@
+{
+  "_meta": {
+    "fuente": "Directorio Telefónico SSO — dirtel.ssosorno.cl",
+    "establecimiento": "Servicio de Salud Osorno",
+    "fecha_extraccion": "2026-03-20",
+    "nota": "Editar este archivo para actualizar jefaturas o contactos. La sección _jerarquia define la estructura orgánica. Las personas vienen del directorio telefónico.",
+    "resoluciones": {
+      "organigrama_general": "Res. Ex. N°2657/10.03.2022",
+      "subdirección_gestión_asistencial": "Res. Ex. N°2000/22.02.2022",
+      "subdirección_administrativa": "Res. Ex. N°6449/15.06.2020",
+      "subdirección_gestión_personas": "Res. Ex. N°8904/30.08.2021"
+    }
+  },
+  "direccion": {
+    "nombre": "Dirección",
+    "personas": [
+      {
+        "nombre": "Claudia Vera Aros",
+        "cargo": "Secretaria Dirección",
+        "telefono": "645750",
+        "email": "claudia.veraa@redsalud.gob.cl"
+      },
+      {
+        "nombre": "Rodrigo Alarcón Quesem",
+        "cargo": "Director",
+        "telefono": "645751",
+        "email": "rodrigo.alarcon@redsalud.gob.cl"
+      }
+    ]
+  },
+  "dependencias_directas_direccion": [
+    {
+      "id": "auditoria",
+      "nombre": "Departamento de Auditoría",
+      "unidades": [
+        {
+          "unidad": "(sin unidad)",
+          "personas": [
+            {
+              "nombre": "Elizabeth Bórquez Pacheco",
+              "cargo": "Secretaria",
+              "telefono": "645769",
+              "email": "elizabeth.borquez@redsalud.gov.cl"
+            },
+            {
+              "nombre": "German Bielefeldt Van Oosterwijk",
+              "cargo": "Auditor Interno",
+              "telefono": "645831",
+              "email": "german.bielefeldtv@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Karen Landeros Gallardo",
+              "cargo": "",
+              "telefono": "645719",
+              "email": "karen.landeros@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Marcelo Oyarzun Silva",
+              "cargo": "Auditor Interno",
+              "telefono": "645769",
+              "email": "marcelo.oyarzuns@redsalud.gov.cl"
+            },
+            {
+              "nombre": "Víctor Jara Levican",
+              "cargo": "Jefe Depto. Auditoria",
+              "telefono": "645757",
+              "email": "victor.jaral@redsalud.gov.cl"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "asesoria_juridica",
+      "nombre": "Departamento de Asesoría Jurídica",
+      "unidades": [
+        {
+          "unidad": "(sin unidad)",
+          "personas": [
+            {
+              "nombre": "Anneloren Santamaria Ruiz",
+              "cargo": "Administrativo",
+              "telefono": "645771",
+              "email": "anneloren.santamaria@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Francisco Baeza Soto",
+              "cargo": "Abogado",
+              "telefono": "645772",
+              "email": "francisco.baeza.s@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Gonzalo Arroyo Curutchet",
+              "cargo": "Jefe Depto. Asesoría Jurídica",
+              "telefono": "645758",
+              "email": "gonzalo.arroyo@redsalud.gov.cl"
+            },
+            {
+              "nombre": "Grimanesa Garcia Prieto",
+              "cargo": "Abogada",
+              "telefono": "645761",
+              "email": "grimanesa.garcia@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Marcia Martinez Guerrero",
+              "cargo": "Abogada",
+              "telefono": "647358",
+              "email": "marcia.martinez@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Mauricio Alvarado Burgos",
+              "cargo": "Administrativo",
+              "telefono": "647432",
+              "email": "mauricioa.alvarado@redsalud.gov.cl"
+            },
+            {
+              "nombre": "Vanessa Cardenas Vidal",
+              "cargo": "Administrativo",
+              "telefono": "645771",
+              "email": "vanesa.cardenas@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Verónica Vásquez Soto",
+              "cargo": "Secretaria",
+              "telefono": "645772",
+              "email": "veronicaa.vasquez@redsalud.gov.cl"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "control_gestion",
+      "nombre": "Departamento Control de Gestión",
+      "unidades": [
+        {
+          "unidad": "(sin unidad)",
+          "personas": [
+            {
+              "nombre": "Carola Oyarzun Aguilar",
+              "cargo": "Jefe Depto. Control de Gestión",
+              "telefono": "645822",
+              "email": "carola.oyarzun@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Katherine Urra Cornejo",
+              "cargo": "Analista Clínico",
+              "telefono": "645710",
+              "email": "katherine.urrac@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Victor Andrade Alvarado",
+              "cargo": "Ingeniero de Procesos",
+              "telefono": "645770",
+              "email": "victor.andrade@redsalud.gob.cl"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "gabinete": {
+    "nombre": "Gabinete",
+    "resolucion": "Res. Ex. N°2551/09.03.2022",
+    "subdepartamentos": [
+      {
+        "id": "rrpp",
+        "nombre": "Subdepto. de Relaciones Públicas y Comunicaciones",
+        "unidades": [
+          {
+            "unidad": "(sin unidad)",
+            "personas": [
+              {
+                "nombre": "Carlos López Monje",
+                "cargo": "Jefe Subdpto. Relaciones Públicas y Comunicac",
+                "telefono": "645828",
+                "email": "carlos.lopezm@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Felipe Guerrero",
+                "cargo": "Periodista",
+                "telefono": "647388",
+                "email": "felipe.guerreros@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Felipe Guerrero Soto",
+                "cargo": "Periodista",
+                "telefono": "645759",
+                "email": "felipe.guerreros@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Luis Navarro Diaz",
+                "cargo": "Diseñador Gráfico",
+                "telefono": "645759",
+                "email": "luis.navarro@redsalud.gov.cl"
+              },
+              {
+                "nombre": "Macarena Martinez Wulf",
+                "cargo": "Diseñadora Gráfica",
+                "telefono": "645825",
+                "email": "macarena.martinezw@redsalud.gob.cl"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "emergencias",
+        "nombre": "Subdepto. Gestión del Riesgo en Emergencias, Desastres y Telecomunicaciones Críticas",
+        "unidades": [
+          {
+            "unidad": "(sin unidad)",
+            "personas": [
+              {
+                "nombre": "Diego Flores Flores",
+                "cargo": "Profesional",
+                "telefono": "645835",
+                "email": "diego.flores.f@redsalud.gob.cl"
+              }
+            ]
+          },
+          {
+            "unidad": "Emergencias y Desastres",
+            "personas": [
+              {
+                "nombre": "Catalina Vera Castro",
+                "cargo": "Coordinadora Emergencias",
+                "telefono": "647728",
+                "email": "catalina.verac@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Esteban Alarcon Bohle",
+                "cargo": "Técnico Radiocomunicaciones",
+                "telefono": "645606",
+                "email": "esteban.alarconb@redsalud.gob.cl"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "transparencia",
+        "nombre": "Subdepto. de Transparencia, Gestión Documental y Lobby",
+        "unidades": [
+          {
+            "unidad": "(sin unidad)",
+            "personas": [
+              {
+                "nombre": "Cristina Collinao Illanes",
+                "cargo": "Jefa Sub. Departamento Transparencia, Ge",
+                "telefono": "645752",
+                "email": "cristina.collinao@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Rocio Cañoles Garces",
+                "cargo": "Referente Oficios, Lobby/Trans. Pasiva",
+                "telefono": "645820",
+                "email": "rocio.canoles@redsalud.gob.cl"
+              }
+            ]
+          },
+          {
+            "unidad": "Oficina de Partes",
+            "personas": [
+              {
+                "nombre": "Karen Camila Lloncon Parra",
+                "cargo": "Resoluciones y Transparencia Activa",
+                "telefono": "645820",
+                "email": "karen.lloncon@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Karin Águila Macaya",
+                "cargo": "Referente Adm - Factura y Dirección",
+                "telefono": "645778",
+                "email": "karin.aguila@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Olga Martínez Carmona",
+                "cargo": "Referente Adm. Ingreso y Egreso de Documentos",
+                "telefono": "645776",
+                "email": "olga.martinezc@redsalud.gov.cl"
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "participacion",
+        "nombre": "Subdepto. Participación Ciudadana, Trato al Usuario y PESPI",
+        "unidades": [
+          {
+            "unidad": "(sin unidad)",
+            "personas": [
+              {
+                "nombre": "Daniela Barria Angulo",
+                "cargo": "Jefa Departamento",
+                "telefono": "645775",
+                "email": "daniela.barriaa@redsalud.gov.cl"
+              },
+              {
+                "nombre": "Isabel Lopez Vasquez",
+                "cargo": "Apoyo Administrativo",
+                "telefono": "647438",
+                "email": "isabel.lopezv@redsalud.gob.cl"
+              }
+            ]
+          },
+          {
+            "unidad": "OIRS",
+            "personas": [
+              {
+                "nombre": "Pilar Romero Paillamanque",
+                "cargo": "Operadora OIRS",
+                "telefono": "645787",
+                "email": "oirs.ssosorno@redsalud.gob.cl"
+              }
+            ]
+          },
+          {
+            "unidad": "Unidad de Participación Ciudadana",
+            "personas": [
+              {
+                "nombre": "Daniel Pereira Venegas",
+                "cargo": "Profesional de Apoyo",
+                "telefono": "645836",
+                "email": "daniel.pereira.v@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Violeta Velásquez Hernández",
+                "cargo": "Encargada(s) Participación Ciudadana",
+                "telefono": "645798",
+                "email": "violeta.velasquez@redsalud.gob.cl"
+              }
+            ]
+          },
+          {
+            "unidad": "Unidad de Satisfacción Usuaria",
+            "personas": [
+              {
+                "nombre": "Soraya Medina Villarroel",
+                "cargo": "Encargada(s) Unidad de Satisfacción / OIRS",
+                "telefono": "645798",
+                "email": "soraya.medina.v@redsalud.gob.cl"
+              }
+            ]
+          },
+          {
+            "unidad": "Unidad Salud Pueblos Originarios",
+            "personas": [
+              {
+                "nombre": "Kassandra Fernández Rodríguez",
+                "cargo": "Jefa Unidad Salud Pueblos Originarios",
+                "telefono": "645814",
+                "email": "kassandra.fernandez@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Maria Paz Parra Calisto",
+                "cargo": "Profesional de Apoyo",
+                "telefono": "645814",
+                "email": "mariapaz.parrac@redsalud.gob.cl"
+              },
+              {
+                "nombre": "Pedro Huito Yáñez",
+                "cargo": "Administrativo Unidad Salud Pueblos Originar",
+                "telefono": "645814",
+                "email": "pedro.huito@redsalud.gov.cl"
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "subdirecciones": [
+    {
+      "id": "gestion_asistencial",
+      "nombre": "Subdirección de Gestión Asistencial",
+      "resolucion": "Res. Ex. N°2000/22.02.2022",
+      "personas": [
+        {
+          "nombre": "Dra. Sandra Jiménez Vargas",
+          "cargo": "Subirectora de Gestión Asistencial",
+          "telefono": "645753",
+          "email": "s.jimenez@redsalud.gob.cl"
+        },
+        {
+          "nombre": "Laura Valderas Garcés",
+          "cargo": "Secretaria",
+          "telefono": "645754",
+          "email": "laura.valderas@redsalud.gov.cl"
+        }
+      ],
+      "unidades_propias": [],
+      "departamentos": [
+        {
+          "id": "articulacion_red",
+          "nombre": "Dpto. Articulación de la Red Asistencial",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Alejandra Proboste Henríquez",
+                  "cargo": "Enc. Gestión de Procesos Clínicos Atención C",
+                  "telefono": "645570",
+                  "email": "alejandra.proboste@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Ana Sepúlveda Pereira",
+                  "cargo": "Enc. Gestión Ref. – Contrareferncia y Telemed",
+                  "telefono": "645802",
+                  "email": "ana.sepulvedap@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Carolina Obando Puñoñanco",
+                  "cargo": "Enc. Coordinación Sociosanitaria",
+                  "telefono": "645844",
+                  "email": "carolina.obando@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Denisse Villalobos Castillo",
+                  "cargo": "Jefa Departamento Articulación de la Red",
+                  "telefono": "645763",
+                  "email": "denisse.villalobos@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Elizabeth López Palma",
+                  "cargo": "Secretaria Dpto. Articulación De La Red",
+                  "telefono": "645794",
+                  "email": "mariael.lopez@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Francisco Muñoz Martínez",
+                  "cargo": "Profesional. Prog. Salud Mental",
+                  "telefono": "645813",
+                  "email": "francisco.munozm@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "LILIAN ROJAS MANCILLA",
+                  "cargo": "SECRETARIA DEPTO, ART. DE LA RED Y A. PRIMARI",
+                  "telefono": "645817",
+                  "email": "lilianm.rojas@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Lorena Molina Jorquera",
+                  "cargo": "Encargada IAAS y Cáncer",
+                  "telefono": "645904",
+                  "email": "lorena.molinaj@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Mario Aburto Foitzich",
+                  "cargo": "Enc. Gestión Salud Respiratoria y Procesos Cl",
+                  "telefono": "645809",
+                  "email": "mario.aburto@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "MAURICIO MARTINEZ",
+                  "cargo": "APOYO SALUD MENTAL",
+                  "telefono": "645813",
+                  "email": "mauricio.martinezk@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Omar Contreras Uribe",
+                  "cargo": "Enc. Programa Resolutividad e Imágenes Diagno",
+                  "telefono": "645805",
+                  "email": "omar.contreras@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "PABLO ARAVENA",
+                  "cargo": "APOYO SALUD MENTAL",
+                  "telefono": "645813",
+                  "email": "pablo.aravenac@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Verónica Cortez Solís",
+                  "cargo": "Secretaria Depto. Art. De La Red",
+                  "telefono": "645796",
+                  "email": "veronica.cortez@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Víctor Parada Silva",
+                  "cargo": "ENC. EPIDEMIOLOGIA",
+                  "telefono": "645442",
+                  "email": "victor.parada@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Marco González Faine",
+                  "cargo": "Enc. Gestión Odontológica en Red",
+                  "telefono": "645687",
+                  "email": "marco.gonzalezf@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "FARMACIA",
+              "personas": [
+                {
+                  "nombre": "Chessarina Tuchie Fischer",
+                  "cargo": "Encargado FOFAR",
+                  "telefono": "645833",
+                  "email": "chessarina.tuchief@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Fernando Román Lazarovich",
+                  "cargo": "Enc. Unidad Gestión Farmacia (Recp. Decomiso)",
+                  "telefono": "645811",
+                  "email": "eleuterio.roman@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sub Departamento de Apoyo Diagnostico y Terapéutico",
+              "personas": [
+                {
+                  "nombre": "Bárbara Méndez Pariz",
+                  "cargo": "Encargada Apoyo Diagnóstico en Imagenologia y",
+                  "telefono": "645827",
+                  "email": "barbara.mendez@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Atención Sanitaria",
+              "personas": [
+                {
+                  "nombre": "Daniela Soto Almonacid",
+                  "cargo": "Enc. Gestión Procesos Clínicos Ambulatorios",
+                  "telefono": "645804",
+                  "email": "daniela.soto@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Gestión Clínica de la Oferta y Demanda",
+              "personas": [
+                {
+                  "nombre": "Sandra Jiménez Vargas",
+                  "cargo": "",
+                  "telefono": "645873",
+                  "email": "sandra.jimenez@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "atencion_primaria",
+          "nombre": "Dpto. Atención Primaria de Salud",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Andrea Lloncón Parra",
+                  "cargo": "Secretaria",
+                  "telefono": "645795",
+                  "email": "andrea.lloncon@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Mónica Barria Gallardo",
+                  "cargo": "Secretaria",
+                  "telefono": "645797",
+                  "email": "monicaa.barria@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Víctor Seguel Hintz",
+                  "cargo": "Jefe Dpto. Atención Primaria",
+                  "telefono": "645803",
+                  "email": "victor.seguelh@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sub Dpto. Calidad y Control de Gestión en APS",
+              "personas": [
+                {
+                  "nombre": "Cintia Báez Castro",
+                  "cargo": "Referente Leyes / Asignaciones APS",
+                  "telefono": "647769",
+                  "email": "cintia.baezc@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Daisy Sepúlveda Sánchez",
+                  "cargo": "Referente Salud Mental Funcionarios APS",
+                  "telefono": "645672",
+                  "email": "daisy.sepulvedas@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jessica Ojeda Uribe",
+                  "cargo": "Jefa Sub Dpto. / Referente Calidad APS",
+                  "telefono": "645443",
+                  "email": "jessica.ojedau@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Katherine Oyarzún Martínez",
+                  "cargo": "Referente Indicadores Sanitarios APS",
+                  "telefono": "645711",
+                  "email": "katherine.oyarzun@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Rodrigo Hernández Thimeos",
+                  "cargo": "Referente Financiero APS",
+                  "telefono": "645832",
+                  "email": "rodrigo.hernandezt@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sub Dpto. Gestión de Programas en el curso de vida",
+              "personas": [
+                {
+                  "nombre": "Alex Paredes Sanhueza",
+                  "cargo": "Referente Programas Odontológicos",
+                  "telefono": "645810",
+                  "email": "alexi.paredes@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Anita Vásquez Chuecas",
+                  "cargo": "Referente Nutrición y Promoción en APS / Prog",
+                  "telefono": "645808",
+                  "email": "anita.vasquez@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Carolina Lagos Calderón",
+                  "cargo": "Referente Programa Nacional de Inmunizaciones",
+                  "telefono": "645829",
+                  "email": "carolina.lagos@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Claudia Aguilef Gatica",
+                  "cargo": "Referente Curaciones Avanzadas y Procedimient",
+                  "telefono": "645818",
+                  "email": "claudia.aguilef@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Consuelo Córdova Lopez",
+                  "cargo": "Jefa Sub Depto. / Referente Programa Salud Ca",
+                  "telefono": "645810",
+                  "email": "consuelo.cordova@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Katherine Caballero Vargas",
+                  "cargo": "Referente Gestión de la demanda en APS",
+                  "telefono": "645810",
+                  "email": "katherine.caballerov@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Piero Palavecinos Avendaño",
+                  "cargo": "Referente Rehabilitación Integral en APS y Pe",
+                  "telefono": "647355",
+                  "email": "piero.palavecinos@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Sara Villalobos Muñoz",
+                  "cargo": "Referente Salud Sexual y Reproductiva / Salud",
+                  "telefono": "645806",
+                  "email": "sarad.villalobos@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Viviana Martínez Torres",
+                  "cargo": "Referente Salud Integral del adolescente y At",
+                  "telefono": "647591",
+                  "email": "viviana.martinezt@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sub Dpto. Modelo de Salud Familiar y Comunitario",
+              "personas": [
+                {
+                  "nombre": "Estrella Azocar Vidal",
+                  "cargo": "Referente Chile Crece Contigo - CHCC",
+                  "telefono": "645829",
+                  "email": "estrella.azocarv@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Iris González Cano",
+                  "cargo": "Jefa Sub Dpto. / Referente MAIS / Salud Rural",
+                  "telefono": "645808",
+                  "email": "irisl.gonzalez@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Karin Ávila Gibbs",
+                  "cargo": "Referente Rehabilitación Hospitales / Ayudas",
+                  "telefono": "645807",
+                  "email": "karin.avila@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Pamela Reyes Castro",
+                  "cargo": "Referente Migrantes / Género / Coordinación I",
+                  "telefono": "645800",
+                  "email": "pamela.reyesc@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "estadisticas",
+          "nombre": "Dpto. Estadísticas e Información de Salud",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Cecilia Barria Ojeda",
+                  "cargo": "Jefa Subdepto Producción Estadística",
+                  "telefono": "645674",
+                  "email": "cecilia.barria@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Constanza Garcia Ramirez",
+                  "cargo": "Enc. Egresos Hospitalario y Estadísticas Vita",
+                  "telefono": "645676",
+                  "email": "constanza.garciar@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Irma Jofre Camino",
+                  "cargo": "Jefa Depto. Estadística e Información de Salu",
+                  "telefono": "645679",
+                  "email": "irma.jofre@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Joselyn Carreño Jaramillo",
+                  "cargo": "Secretaria",
+                  "telefono": "645658",
+                  "email": "yoselyn.carreno@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Juan Pablo Mancilla Torres",
+                  "cargo": "Jefe Subdepto. Información de Salud",
+                  "telefono": "645686",
+                  "email": "juanpablo.mancilla@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Marcelo Horstmeier Caniulef",
+                  "cargo": "Estadísticas REM y Enc. RNI",
+                  "telefono": "645677",
+                  "email": "marcelo.horstmeier@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Mauricio Flores Astudillo",
+                  "cargo": "Informático. Enc. Metas",
+                  "telefono": "645681",
+                  "email": "mauricio.flores@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Rodrigo Garcés Guerrero",
+                  "cargo": "Informático. Enc. Atenciones Urgencia",
+                  "telefono": "645686",
+                  "email": "rodrigo.garces@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Roxana Mancilla Ojeda",
+                  "cargo": "Estadísticas REM",
+                  "telefono": "645643",
+                  "email": "roxana.mancilla@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Victoria Martinez Castro",
+                  "cargo": "Estadísticas REM",
+                  "telefono": "645675",
+                  "email": "victoria.martinez@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "planificacion_analisis",
+          "nombre": "Dpto. Planificación y Análisis",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "María Antonieta Rodríguez Bettancourt",
+                  "cargo": "Profesional",
+                  "telefono": "645642",
+                  "email": "mariaantonieta.rodriguez@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Munirih Soto Oyarzo",
+                  "cargo": "Jefa Depto. Planificación y Analisis",
+                  "telefono": "645661",
+                  "email": "munirih.soto@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Sebastián Diaz Pasten",
+                  "cargo": "Estrategia Nacional De Salud (ENS)",
+                  "telefono": "645678",
+                  "email": "sebastian.diaz@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Epidemiología",
+              "personas": [
+                {
+                  "nombre": "Natalia Mora Figueroa",
+                  "cargo": "Profesional",
+                  "telefono": "645642",
+                  "email": "natalia.moraf@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "NATALIA VALENZUELA CASTILLO",
+                  "cargo": "Jefa Subdepto. Epidemiología",
+                  "telefono": "645642",
+                  "email": "natalia.valenzuela@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "gestion_produccion",
+          "nombre": "Dpto. Gestión de Producción",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Consuelo Fuentes Achurra",
+                  "cargo": "Supervisora GES",
+                  "telefono": "647372",
+                  "email": "consuelo.fuentes@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Cristian Zumelzu Martínez",
+                  "cargo": "Encargado PPV",
+                  "telefono": "647370",
+                  "email": "cristian.zumelzu@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Daniel Obando Cardenas",
+                  "cargo": "",
+                  "telefono": "647370",
+                  "email": "daniel.obandoc@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Fernando Gómez Bahamonde",
+                  "cargo": "Estadístico",
+                  "telefono": "645717",
+                  "email": "fernando.gomezb@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Jaime Hurtado Benavente",
+                  "cargo": "Jefe Depto. Gestión de Producción",
+                  "telefono": "647373",
+                  "email": "jaime.hurtado@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Marcela Robles Santibáñez",
+                  "cargo": "Secretaria",
+                  "telefono": "647375",
+                  "email": "marcelav.robles@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Marcelo Ríos Palma",
+                  "cargo": "Monitoreo GES - SIGGES",
+                  "telefono": "647371",
+                  "email": "marcelo.rios@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Maria Francisca Diaz Alvarez",
+                  "cargo": "Digitadora SIGGES GES",
+                  "telefono": "647372",
+                  "email": "mariafrancisca.diaza@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "calidad_seguridad",
+          "nombre": "Dpto. Calidad y Seguridad del Paciente",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Daniela Rosas Disselkoen",
+                  "cargo": "Profesional Clinico",
+                  "telefono": "647434",
+                  "email": "daniela.rosasdi@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Magaly D`Alencon Flores",
+                  "cargo": "Jefe Departamento Calidad y Seguridad del Pac",
+                  "telefono": "645830",
+                  "email": "magaly.dalencon@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "salud_mental",
+          "nombre": "Dpto. Salud Mental",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Marcela Villagrán Rivera",
+                  "cargo": "Jefa Departamento de Salud Mental",
+                  "telefono": "645801",
+                  "email": "marcela.villagran@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Jefa Subdepto de Gestión Clínica y Administrativa de la Red Temática de Salud Mental de Especialidad",
+              "personas": [
+                {
+                  "nombre": "Antonia Caifil Martínez",
+                  "cargo": "TJefa Subdepartamento de Gestión Clínica y Ad",
+                  "telefono": "645813",
+                  "email": "antonia.caifil@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepartamento de Salud Mental en APS y Temas Transversales",
+              "personas": [
+                {
+                  "nombre": "Carolina Oyarzo Menzel",
+                  "cargo": "Trabajadora Social",
+                  "telefono": "645799",
+                  "email": "carolina.oyarzo.m@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Marta Muñoz Acuña",
+                  "cargo": "Gestora Intersectorial",
+                  "telefono": "645799",
+                  "email": "marta.munoza@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto de APS y Temáticas Transversales",
+              "personas": [
+                {
+                  "nombre": "Jorge Espinoza Vergara",
+                  "cargo": "Psicólogo Subdepto de APS y Temáticas Transv",
+                  "telefono": "645813",
+                  "email": "jorge.espinozav@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Silvia Andrea Pérez Aros",
+                  "cargo": "Jefa Subdepto de APS y Temáticas Transversale",
+                  "telefono": "645799",
+                  "email": "silviaandrea.perez@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto de Gestión Clínica y Administrativa de la Red Temática de Salud Mental de Especialidad",
+              "personas": [
+                {
+                  "nombre": "Angelo Palma Igor",
+                  "cargo": "Enfermero Subdepto de Gestión Clínica y Admin",
+                  "telefono": "645799",
+                  "email": "angelo.palma@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Eduard Heberlein Araneda",
+                  "cargo": "Médico Psiquiatra Subdepto de Gestión Clínica",
+                  "telefono": "645813",
+                  "email": "eduard.heberleina@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "salud_digital",
+          "nombre": "Dpto. Salud Digital",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Alex Alvarado Vargas",
+                  "cargo": "Profesional SIDRA",
+                  "telefono": "647377",
+                  "email": "alex.alvarado@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Claudia Cardenas Gómez",
+                  "cargo": "Asistente Social",
+                  "telefono": "647377",
+                  "email": "claudia.cardenasg@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Marcelo Rodríguez Molina",
+                  "cargo": "Profesional SIDRA",
+                  "telefono": "645465",
+                  "email": "marcelo.rodriguez@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Mario Seguel Sánchez",
+                  "cargo": "Coordinador SIDRA",
+                  "telefono": "647378",
+                  "email": "mario.seguels@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Olivia Vidal Ruiz",
+                  "cargo": "Profesional SIDRA",
+                  "telefono": "647377",
+                  "email": "olivia.vidalruiz@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Valeska Quinteros Perez",
+                  "cargo": "Profesional (Sidra)",
+                  "telefono": "645465",
+                  "email": "valeska.quinteros@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Análisis de Sistema",
+              "personas": [
+                {
+                  "nombre": "Maria José Fuentes Riquelme",
+                  "cargo": "UADS",
+                  "telefono": "647376",
+                  "email": "mjose.fuentesr@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Richard Oyarzun Mancilla",
+                  "cargo": "UADS",
+                  "telefono": "647376",
+                  "email": "richard.oyarzun@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Rodrigo Wendling Villegas",
+                  "cargo": "UADS",
+                  "telefono": "647379",
+                  "email": "rodrigo.wendling@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Valeria Ide Mayorga",
+                  "cargo": "Jefa Unidad Análisis y Diseño de Sistemas",
+                  "telefono": "647379",
+                  "email": "valeria.ide@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "administrativa",
+      "nombre": "Subdirección Administrativa",
+      "resolucion": "Res. Ex. N°6449/15.06.2020",
+      "personas": [
+        {
+          "nombre": "Hector Alarcon Alarcon",
+          "cargo": "Subdirector Administrativo",
+          "telefono": "645755",
+          "email": "hector.alarcon@redsalud.gob.cl"
+        }
+      ],
+      "unidades_propias": [],
+      "departamentos": [
+        {
+          "id": "finanzas",
+          "nombre": "Dpto. Finanzas",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Angy Orozco Coronel",
+                  "cargo": "",
+                  "telefono": "645821",
+                  "email": "angy.orozco@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Rodrigo Martínez Alvarado",
+                  "cargo": "Jefe Departamento de Finanzas",
+                  "telefono": "645782",
+                  "email": "rodrigo.martineza@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Sara Fonseca Miranda",
+                  "cargo": "Secretaria (S)",
+                  "telefono": "645821",
+                  "email": "sara.fonseca@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sección de Control y Gestión Documentaria",
+              "personas": [
+                {
+                  "nombre": "Claudio Altamirano Velasquez",
+                  "cargo": "Encargado",
+                  "telefono": "645786",
+                  "email": "claudio.altamirano@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Contabilidad y Control",
+              "personas": [
+                {
+                  "nombre": "Marcela Barrientos",
+                  "cargo": "Técnico Contable",
+                  "telefono": "645826",
+                  "email": "marcela.barrientos@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Sandra Catalán Márquez",
+                  "cargo": "Jefa Subdepto. de Contabilidad y Control",
+                  "telefono": "645788",
+                  "email": "sandra.catalan@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Tesorería",
+              "personas": [
+                {
+                  "nombre": "Erwin Camino Borquez",
+                  "cargo": "Cajero",
+                  "telefono": "645785",
+                  "email": "erwin.camino@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Jenniffer Gonzalez",
+                  "cargo": "Profesional Apoyo Tesorería",
+                  "telefono": "646629",
+                  "email": "yenniffer.gonzalez@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Patricia Gatica Arriagada",
+                  "cargo": "Jefe Subdepartamento de Tesorería",
+                  "telefono": "645762",
+                  "email": "patricia.gatica@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto.de Gestión y Presupuesto",
+              "personas": [
+                {
+                  "nombre": "Christian Jaramillo Segovia",
+                  "cargo": "Jefe Subdepto. de Gestión y Presupuesto",
+                  "telefono": "645781",
+                  "email": "christian.jaramillo@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Yoselin Rail Asenjo",
+                  "cargo": "Administrativo",
+                  "telefono": "645786",
+                  "email": "yoselin.rail@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Inversión y Control de Activo Fijo",
+              "personas": [
+                {
+                  "nombre": "Pablo Miranda Azocar",
+                  "cargo": "Encargado Inventario y Control de Activo F",
+                  "telefono": "645599",
+                  "email": "pablo.mirandaa@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "recursos_fisicos",
+          "nombre": "Dpto. Recursos Físicos",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Hugo Duran Benavides",
+                  "cargo": "Jefe Departamento Recursos Físicos",
+                  "telefono": "645098",
+                  "email": "hugo.duran@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Marta Bórquez Pacheco",
+                  "cargo": "Secretaria",
+                  "telefono": "647382",
+                  "email": "marta.borquez@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Obras Mayores",
+              "personas": [
+                {
+                  "nombre": "Giovanni Francisco Lancellotti Saavedra",
+                  "cargo": ", Jefe del Subdepto. De Ejecución de Obras y",
+                  "telefono": "645841",
+                  "email": "giovanni.lancellotti.s@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jaime Vasquez Gebhard",
+                  "cargo": "ITOS Mejoramientos HPO/HRN/HMSJC",
+                  "telefono": "647385",
+                  "email": "jaime.vasquezg@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Obras Mayores.",
+              "personas": [
+                {
+                  "nombre": "José Miguel Muñoz Peña",
+                  "cargo": "Constructor Civil - ITOS",
+                  "telefono": "647382",
+                  "email": "jm.munoz@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Roberto Núñez Pizarro",
+                  "cargo": "Arquitecto RRFF",
+                  "telefono": "645847",
+                  "email": "roberto.nunezp@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Rodrigo Neira Ricouz",
+                  "cargo": "Constructor RRFF",
+                  "telefono": "647385",
+                  "email": "rodrigo.neirar@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Viviana Sánchez Henríquez",
+                  "cargo": "Constructor Civil RRFF",
+                  "telefono": "647382",
+                  "email": "viviana.sanchezh@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Obras Menores.",
+              "personas": [
+                {
+                  "nombre": "Carlos Toledo Uribe",
+                  "cargo": "Jefe Subdepartamento de Obras Menores.",
+                  "telefono": "645779",
+                  "email": "carlos.toledo@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Diego Saldivia González",
+                  "cargo": "Ingeniero en Electricidad",
+                  "telefono": "645653",
+                  "email": "diego.saldivia@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Garibe Gallardo Trujillo",
+                  "cargo": "Ing. Constructor RRFF",
+                  "telefono": "645596",
+                  "email": "garibe.gallardo@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Natalia Carrasco Mancilla",
+                  "cargo": "Ing. Constructor RRFF",
+                  "telefono": "645596",
+                  "email": "natalia.carrascom@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Raúl Rojas Cortés",
+                  "cargo": "Dibujante RRFF",
+                  "telefono": "645596",
+                  "email": "raul.rojasc@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Roberto Gálvez Bugueño",
+                  "cargo": "Constructor Civil",
+                  "telefono": "645653",
+                  "email": "roberto.galvez@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Gestión Doc. y Financiera de Obras",
+              "personas": [
+                {
+                  "nombre": "Claudia Momberg Pacheco",
+                  "cargo": "Administrador Público",
+                  "telefono": "645653",
+                  "email": "claudia.momberg@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Graciela Sánchez Abarzúa",
+                  "cargo": "Jefa Subdepto. Gestión Documental y Financier",
+                  "telefono": "645646",
+                  "email": "graciela.sanchez@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Leslie Reyes Ramos",
+                  "cargo": "Arquitecto",
+                  "telefono": "645847",
+                  "email": "leslie.reyes@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Rosemary Alarcón Oyarzún",
+                  "cargo": "Profesional Financiero",
+                  "telefono": "647384",
+                  "email": "rosemary.alarcon@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "proyectos",
+          "nombre": "Dpto. Proyectos",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Ximena Carrasco Figueroa",
+                  "cargo": "Jefa depto. de Proyectos",
+                  "telefono": "645824",
+                  "email": "ximena.carrasco@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Yanet Gutiérrez Huaiquimilla",
+                  "cargo": "Secretaria",
+                  "telefono": "645764",
+                  "email": "yanet.gutierrez@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Diseño de Infraestructura de Salud",
+              "personas": [
+                {
+                  "nombre": "Daniel Silva Alarcon",
+                  "cargo": "Arquitecto",
+                  "telefono": "645659",
+                  "email": "daniel.silvaa@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Gonzalo Cardenas Diaz",
+                  "cargo": "Arquitecto",
+                  "telefono": "645843",
+                  "email": "gonzalo.cardenas@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jose Vera Schuler",
+                  "cargo": "Arquitecto",
+                  "telefono": "645843",
+                  "email": "jose.vera@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Luis Felipe Avila Freund",
+                  "cargo": "Arquitecto",
+                  "telefono": "646414",
+                  "email": "felipe.avila@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Mario Barrientos Marin",
+                  "cargo": "Jefe Subdepto. de Diseño de Infraestru",
+                  "telefono": "645843",
+                  "email": "mario.barrientos@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Sergio Paillalef Antillanca",
+                  "cargo": "Arquitecto",
+                  "telefono": "645843",
+                  "email": "sergio.paillalef@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Estudios de Pre Inversión",
+              "personas": [
+                {
+                  "nombre": "Mónica Toledo Coliboro",
+                  "cargo": "Formuladora de Proyectos",
+                  "telefono": "645322",
+                  "email": "monica.toledo@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Sandra Cárdenas Soto",
+                  "cargo": "Jefa Subdepto. Estudios de Pre Inversión",
+                  "telefono": "645823",
+                  "email": "sandra.cardenass@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad Análisis Financiero",
+              "personas": [
+                {
+                  "nombre": "Italo Espinoza Villalobos",
+                  "cargo": "Jefe Unidad Análisis Financiero",
+                  "telefono": "645823",
+                  "email": "italo.espinoza@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "tecnologias_info",
+          "nombre": "Dpto. Tecnologías de la Información",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Bruno Ojeda Álvarez",
+                  "cargo": "Jefe Depto. Tecnologías de la Información",
+                  "telefono": "645840",
+                  "email": "bruno.ojeda@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Makarena Oyarzun Sanhueza",
+                  "cargo": "Secretaria",
+                  "telefono": "645834",
+                  "email": "makarena.oyarzun@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sección Gestión de Sistemas y Seguridad de la Información",
+              "personas": [
+                {
+                  "nombre": "Alejandro Núñez Arcos",
+                  "cargo": "Encargado Gestión de Sistemas",
+                  "telefono": "645685",
+                  "email": "alejandro.nunez01@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Álvaro Montecinos Ovalle",
+                  "cargo": "JEFE (S)Encargado Seguridad de la Información",
+                  "telefono": "645838",
+                  "email": "alvaro.montecinos@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Roxana Trimpai Naguil",
+                  "cargo": "Profesional",
+                  "telefono": "647437",
+                  "email": "roxana.trimpai@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Soporte y Redes de Comunicación",
+              "personas": [
+                {
+                  "nombre": "Daniel Coronado Sandoval",
+                  "cargo": "Técnico",
+                  "telefono": "645688",
+                  "email": "daniel.coronado@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Luis Andres Fuenzalida Espejo",
+                  "cargo": "",
+                  "telefono": "645839",
+                  "email": "andres.fuenzalidae@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Luis Mella Oyarzún",
+                  "cargo": "EN SERVICIO HBO Jefe Subdepto Soporte",
+                  "telefono": "666666",
+                  "email": "luis.mella@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Pedro Ramírez Rodríguez",
+                  "cargo": "Técnico",
+                  "telefono": "645839",
+                  "email": "pedro.ramirezr@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "abastecimiento",
+          "nombre": "Dpto. Abastecimiento y Operaciones",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Cristina Flores Coronado",
+                  "cargo": "Jefe Depto. Abastecimiento y Operaciones",
+                  "telefono": "645650",
+                  "email": "cristina.flores@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Marisol Jara Levican",
+                  "cargo": "Secretaria Depto. Abastec. y Operaciones",
+                  "telefono": "645652",
+                  "email": "marisold.jara@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Administración Interna",
+              "personas": [
+                {
+                  "nombre": "Alex Mancilla Villarroel",
+                  "cargo": "Conductor",
+                  "telefono": "645660",
+                  "email": "alex.mancilla@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Álvaro Guzmán Toledo",
+                  "cargo": "Auxiliar",
+                  "telefono": "645660",
+                  "email": "alvaro.guzman@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Erwin Agüero Muñoz",
+                  "cargo": "Auxiliar",
+                  "telefono": "645660",
+                  "email": "erwin.aguero@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Fernando Paicil Soto",
+                  "cargo": "Auxiliar",
+                  "telefono": "645660",
+                  "email": ""
+                },
+                {
+                  "nombre": "Hermuth Neira Loaiza",
+                  "cargo": "Conductor",
+                  "telefono": "645660",
+                  "email": "hermuth.neira@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Iris Pérez Barrientos",
+                  "cargo": "Auxiliar de Reemplazo",
+                  "telefono": "645660",
+                  "email": ""
+                },
+                {
+                  "nombre": "Johanna Tellez Salazar",
+                  "cargo": "Encargada Sección Administración Interna",
+                  "telefono": "645660",
+                  "email": "johanna.tellez@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Juan Vargas Alvarez",
+                  "cargo": "Conductor Reemplazo",
+                  "telefono": "645660",
+                  "email": ""
+                },
+                {
+                  "nombre": "Marcos Mayorga Cardenas",
+                  "cargo": "Conductor",
+                  "telefono": "645660",
+                  "email": ""
+                },
+                {
+                  "nombre": "Pablo Oyarzo Diaz",
+                  "cargo": "1er Sub Encargado Sección Adm. Interna",
+                  "telefono": "645660",
+                  "email": "pablo.oyarzo@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Robinson González Arriagada",
+                  "cargo": "Auxiliar",
+                  "telefono": "645660",
+                  "email": "robinson.gonzaleza@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sección Administración de Contratos",
+              "personas": [
+                {
+                  "nombre": "Lorena Alvarez Diaz",
+                  "cargo": "Encargada Sección Adm Contrato",
+                  "telefono": "647381",
+                  "email": "lorena.alvarezd@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Lorena Torres Castillo",
+                  "cargo": "Encargada (S) Sección Adm. Contrato",
+                  "telefono": "647381",
+                  "email": "lorena.torresc@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Luis Angulo Fernández",
+                  "cargo": "Apoyo Profesional",
+                  "telefono": "645848",
+                  "email": "luis.angulo@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sección Mantenimiento de Vehículos",
+              "personas": [
+                {
+                  "nombre": "Felipe Salvo Barriga",
+                  "cargo": "Encargado Sección Mantenimiento de Vehículos",
+                  "telefono": "645654",
+                  "email": "felipe.salvob@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jonathan Riffo Bastidas",
+                  "cargo": "Profesional Apoyo Sección Mant. de Vehículo",
+                  "telefono": "645654",
+                  "email": "jonathan.riffo@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Abastecimiento",
+              "personas": [
+                {
+                  "nombre": "Daniela Jara Cerda",
+                  "cargo": "Ejecutivo Administración de Contratos",
+                  "telefono": "645848",
+                  "email": "daniela.jarac@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Alicia Vidal Paredes",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "647439",
+                  "email": "alicia.vidal@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Ariela Acevedo Nahuelcura",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "647383",
+                  "email": "ariela.acevedo@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Bastián Miranda Coronado",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "643580",
+                  "email": "bastian.miranda@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Daniela Cona Rios",
+                  "cargo": "Secretaria Subdepto.de Abastecimiento",
+                  "telefono": "645662",
+                  "email": "daniela.cona@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Ivan Vargas Ojeda",
+                  "cargo": "Encargado Bodega de Inversiones SSO",
+                  "telefono": "643580",
+                  "email": "ivan.vargas@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jacqueline Oyarzun Álvarez",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "647383",
+                  "email": "jacqueline.oyarzuna@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Juan Felipe Rojel Huentro",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "645644",
+                  "email": "juan.rojelh@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Lesly Diaz Aburto",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "645663",
+                  "email": "lesly.diaz@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Miguel Aro Roa",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "645666",
+                  "email": "miguel.aro@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Nicolas Asencio Moreira",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "645663",
+                  "email": "nicolas.asencio@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Ruben Uribe Aguilar",
+                  "cargo": "Ejecutivo de Compras SSO",
+                  "telefono": "645644",
+                  "email": "ruben.uribe@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Sandra Espinoza Asenjo",
+                  "cargo": "Jefe Subdepto.de Abastecimiento",
+                  "telefono": "645594",
+                  "email": "sandrap.espinoza@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Abastecimiento / Droguería SSO",
+              "personas": [
+                {
+                  "nombre": "Leonor Araneda Alarcón",
+                  "cargo": "Directora Técnico Droguería",
+                  "telefono": "645651",
+                  "email": "leonor.aranedaa@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto.de Abastecimiento / Bodega General",
+              "personas": [
+                {
+                  "nombre": "Cecilia Garay",
+                  "cargo": "Encargada Bodega General SSO",
+                  "telefono": "645716",
+                  "email": "cecilia.garay@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jose Luis Vallejos Sotomayor",
+                  "cargo": "Encargado Bodega General SSO",
+                  "telefono": "645656",
+                  "email": "joseluis.vallejos@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto.de Abastecimiento / Droguería SSO",
+              "personas": [
+                {
+                  "nombre": "Dannae Rodriguez Ojeda",
+                  "cargo": "Técnico Drogueria",
+                  "telefono": "645651",
+                  "email": "dannae.rodriguez@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jaqueline Sepulveda",
+                  "cargo": "Técnico Droguería",
+                  "telefono": "645651",
+                  "email": "jaqueline.sepulveda@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Patricia Gutiérrez Agüero",
+                  "cargo": "Secretaria Droguería SSO",
+                  "telefono": "645845",
+                  "email": "patricia.gutierreza@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "ingenieria_clinica",
+          "nombre": "Dpto. Ingeniería Clínica",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Maria Fernanda Olarte",
+                  "cargo": "Encargada de Adquisiciones de Equipo y Equipa",
+                  "telefono": "647386",
+                  "email": "maria.olarte.m@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Miguel Navarro Salgado",
+                  "cargo": "Jefe (S) Departamento",
+                  "telefono": "645842",
+                  "email": "miguel.navarro@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Inversiones Equipos y Equipamientos",
+              "personas": [
+                {
+                  "nombre": "Maria Elena Muñoz Pineda",
+                  "cargo": "Jefe (S) Subdepartamento",
+                  "telefono": "647386",
+                  "email": "maria.munozp@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Mantención Equipos Médicos e Industriales",
+              "personas": [
+                {
+                  "nombre": "Karen Leal Vargas",
+                  "cargo": "Encargada Mantención de Equipos Industriales",
+                  "telefono": "645655",
+                  "email": "karen.leal.v@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Khris Silva Vargas",
+                  "cargo": "Jefa Subdepartamento",
+                  "telefono": "647431",
+                  "email": "khris.silva@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Mayra Vergara González",
+                  "cargo": "Encargada Mantención de Equipos Médicos",
+                  "telefono": "647431",
+                  "email": "mayra.gonzalez@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gestion_personas",
+      "nombre": "Subdirección de Gestión y Desarrollo de las Personas",
+      "resolucion": "Res. Ex. N°8904/30.08.2021",
+      "personas": [
+        {
+          "nombre": "Eduardo Barrientos Navarrete",
+          "cargo": "Subdirector Recursos Humanos",
+          "telefono": "645756",
+          "email": "eduardo.barrientosn@redsalud.gov.cl"
+        },
+        {
+          "nombre": "Paola Turra Molina",
+          "cargo": "Secretaria",
+          "telefono": "645815",
+          "email": "paola.turra@redsalud.gob.cl"
+        }
+      ],
+      "unidades_propias": [
+        {
+          "id": "ctrl_gestion_rhs",
+          "nombre": "Unidad Control de Gestión RHS",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Jorge Paillahueque Vasquez",
+                  "cargo": "Profesional",
+                  "telefono": "645780",
+                  "email": "jorge.paillahueque@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "relaciones_laborales",
+          "nombre": "Unidad Relaciones Laborales",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Paula Seguel Bachiloglu",
+                  "cargo": "Encargada Relaciones Laborales",
+                  "telefono": "647609",
+                  "email": "paula.seguel@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "departamentos": [
+        {
+          "id": "gestion_personas_dpto",
+          "nombre": "Dpto. Gestión de las Personas",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Consuelo LLanquipichun Maldonado",
+                  "cargo": "Enfermera",
+                  "telefono": "645784",
+                  "email": "consuelo.ll.m@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Javiera Gutiérrez Cárcamo",
+                  "cargo": "Asistente Social",
+                  "telefono": "645784",
+                  "email": "javiera.gutierrez.c@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Nicole Quezada Martinez",
+                  "cargo": "Secretaria (S)",
+                  "telefono": "645784",
+                  "email": "nicole.quezada.m@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Rene Jaramillo Müller",
+                  "cargo": "Jefe Dpto. Gestión de las Personas",
+                  "telefono": "645768",
+                  "email": "rene.jaramillo@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sección Gestión y Desarrollo Ley Medica",
+              "personas": [
+                {
+                  "nombre": "Jocelyn Prieto Diaz",
+                  "cargo": "Jefa Sección Gestión y Desarrollo Ley Medica",
+                  "telefono": "645767",
+                  "email": "jocelyne.prieto@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Luis Tejo Aguilar",
+                  "cargo": "Apoyo Ley Medica",
+                  "telefono": "647767",
+                  "email": "luis.tejoa@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "María Fernanda Cárdenas Treufo",
+                  "cargo": "Apoyo Ley Medica",
+                  "telefono": "647767",
+                  "email": "maria.cardenastreufo@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Yasna Nuñez Carrillo",
+                  "cargo": "Apoyo Ley Medica",
+                  "telefono": "647767",
+                  "email": "yasna.nunez.c@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Sección Personal y Registro",
+              "personas": [
+                {
+                  "nombre": "Brunilda Delgado Ampuero",
+                  "cargo": "Convenios Honorarios",
+                  "telefono": "645714",
+                  "email": "brunilda.delgado@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Claudia Barra Caniu",
+                  "cargo": "Profesional",
+                  "telefono": "645765",
+                  "email": "claudia.barrac@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Jeanette Ojeda Almonacid",
+                  "cargo": "Control Asistencia",
+                  "telefono": "645712",
+                  "email": "jeanette.ojeda@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Jemima Gallardo Alarcón",
+                  "cargo": "Profesional",
+                  "telefono": "645714",
+                  "email": "jemima.gallardoa@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Jorge Oyarzun Silva",
+                  "cargo": "Profesional",
+                  "telefono": "645780",
+                  "email": "jorge.oyarzuns@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Karen Silva Ríos",
+                  "cargo": "Licencias Médicas, Declaraciones de Patrimoni",
+                  "telefono": "645712",
+                  "email": "karen.silva@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Marco Gonzalez Azocar",
+                  "cargo": "Profesional",
+                  "telefono": "645780",
+                  "email": "marcoi.gonzalez@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Maria Cristina Ponce",
+                  "cargo": "Tramitación de Licencias Médicas, Bonos Sala",
+                  "telefono": "645765",
+                  "email": "mariacristina.ponce@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Nancy Diaz Loaiza",
+                  "cargo": "Viatico",
+                  "telefono": "645780",
+                  "email": "nancy.diazl@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Norma Mancilla Carrillo",
+                  "cargo": "Jefa Sección Personal y Registro",
+                  "telefono": "645766",
+                  "email": "norma.mancilla@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Remuneraciones y Previsión Social",
+              "personas": [
+                {
+                  "nombre": "Álex Alonso Álvarez Pérez",
+                  "cargo": "Técnico",
+                  "telefono": "645791",
+                  "email": "alex.alvarez@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Nicolás Alfonso Serra Millahueique",
+                  "cargo": "Técnico",
+                  "telefono": "645792",
+                  "email": "nicolas.serra@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Pablo Cesar Muñoz Quezada",
+                  "cargo": "Jefe (S) Subdepto. Remuneraciones",
+                  "telefono": "645789",
+                  "email": "pablo.munoz2@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Víctor Neira Loaiza",
+                  "cargo": "Técnico",
+                  "telefono": "645790",
+                  "email": "victoralejandro.neira@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "calidad_vida",
+          "nombre": "Dpto. Calidad de Vida",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Karin Scholz Brandt",
+                  "cargo": "Jefatura Departamento Calidad de Vida",
+                  "telefono": "647046",
+                  "email": "karin.scholz@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Pilar Mora Wilder",
+                  "cargo": "Encargada Programa SaludableMente",
+                  "telefono": "647096",
+                  "email": "pilar.mora@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Solange Molina Vera",
+                  "cargo": "Administrativa Depto. Calidad de Vida",
+                  "telefono": "646526",
+                  "email": "solange.molinav@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "SAFU",
+              "personas": [
+                {
+                  "nombre": "Reserva de horas",
+                  "cargo": "",
+                  "telefono": "646327- 646526",
+                  "email": ""
+                }
+              ]
+            },
+            {
+              "unidad": "Servicio de Atención al Funcionario (SAFU)",
+              "personas": [
+                {
+                  "nombre": "Ana Lara Paredes",
+                  "cargo": "TENS",
+                  "telefono": "646327",
+                  "email": "ana.larap@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Carolina Rueger Hernandez",
+                  "cargo": "TENS",
+                  "telefono": "646327",
+                  "email": "carolina.rueger@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Daniela Cancino Oyarzún",
+                  "cargo": "Nutricionista",
+                  "telefono": "647032",
+                  "email": "daniela.cancino01@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Dra.Lilian Hott Mansilla",
+                  "cargo": "Jefatura Unidad de Salud Funcionaria",
+                  "telefono": "647097",
+                  "email": "lilian.hott@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Kassandra Fernández Rodriguez",
+                  "cargo": "Asistente Social",
+                  "telefono": "646339",
+                  "email": "kassandra.fernandez@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Katherine Carrasco Vargas",
+                  "cargo": "Administrativa",
+                  "telefono": "646526",
+                  "email": "katherine.carrasco.v@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Lhya Kortmann Pizarro",
+                  "cargo": "Sala de procedimientos / Enfermera",
+                  "telefono": "647034",
+                  "email": "lhya.kortmann@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. de Prevención de Riesgos Salud Ocupacional y Gestión Ambiental",
+              "personas": [
+                {
+                  "nombre": "Carlos López Gutiérrez",
+                  "cargo": "Jefe Unidad de Gestión Ambiental",
+                  "telefono": "647030",
+                  "email": "carlos.lopez@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Carolina Bahamonde Hernandez",
+                  "cargo": "Encargada Salud Ocupacional",
+                  "telefono": "647030",
+                  "email": "carolina.bahamonde@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "David Serrano Gallardo",
+                  "cargo": "Jefatura Subdepartamento PR, SO y GA.",
+                  "telefono": "646628",
+                  "email": "david.serrano@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Juan Carlos Flores",
+                  "cargo": "Ingeniero en Prevención de Riesgos",
+                  "telefono": "647030",
+                  "email": "juan.floresr@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Venecia Rercabarren Ruiz",
+                  "cargo": "Encargada de Prevención de Riesgos",
+                  "telefono": "647030",
+                  "email": "venecia.recabarren@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdpto.de Prevención de Riesgos Salud Ocupacional y Gestión Ambiental",
+              "personas": [
+                {
+                  "nombre": "Alicia Sáez Ampuero",
+                  "cargo": "Administrativo",
+                  "telefono": "646130",
+                  "email": "alicia.saez@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Cuidados Infantiles",
+              "personas": [
+                {
+                  "nombre": "Claudia Muñoz García",
+                  "cargo": "Encargada de Cuidados Infantiles",
+                  "telefono": "647096",
+                  "email": "claudia.munozga@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "capacitacion",
+          "nombre": "Dpto. Capacitación, Formación Continua y RAD",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Axel Vogt Lillo",
+                  "cargo": "Jefe Departamento Capacitación",
+                  "telefono": "645668",
+                  "email": "axel.vogt@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Rita Maldonado Rivera",
+                  "cargo": "Secretaria",
+                  "telefono": "645641",
+                  "email": "rita.maldonado@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Relación Asistencial Docente (RAD)",
+              "personas": [
+                {
+                  "nombre": "Matías Aburto Guzmán",
+                  "cargo": "Profesional (S)",
+                  "telefono": "645670",
+                  "email": "matias.aburtog@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Formación Continua",
+              "personas": [
+                {
+                  "nombre": "Guisella Franco Gatica",
+                  "cargo": "Profesional",
+                  "telefono": "645670",
+                  "email": "guisella.franco@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Gestión Integral de Capacitación",
+              "personas": [
+                {
+                  "nombre": "María Isabel Sáez",
+                  "cargo": "Profesional Gestión Integral Capacitación",
+                  "telefono": "645671",
+                  "email": "isabel.saez@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Procesos de Compra y Control Presupuestario",
+              "personas": [
+                {
+                  "nombre": "Angela Montesinos Hernández",
+                  "cargo": "Profesional",
+                  "telefono": "645849",
+                  "email": "angela.montesinos@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad SIAD y Plataforma Moodle",
+              "personas": [
+                {
+                  "nombre": "Silvia Soto Troncoso",
+                  "cargo": "Profesional",
+                  "telefono": "645669",
+                  "email": "silviag.troncoso@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "desarrollo_org",
+          "nombre": "Dpto. Desarrollo Organizacional",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Gustavo Aravena Ortega",
+                  "cargo": "Jefe Departamento Desarrollo Organizacional",
+                  "telefono": "645783",
+                  "email": "gustavo.aravena@redsalud.gov.cl"
+                },
+                {
+                  "nombre": "Lorena Lobos Hernández",
+                  "cargo": "Secretaria Departamento Desarrollo Organizaci",
+                  "telefono": "645819",
+                  "email": "lorenao.lobos@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Subdepto. Cultura y Clima Organizacional",
+              "personas": [
+                {
+                  "nombre": "Alvaro Sanhueza Soto",
+                  "cargo": "Psicólogo Subdepto. Cultura y Clima Organizac",
+                  "telefono": "647690",
+                  "email": "alvaro.sanhueza@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Karen Mesas Carmona",
+                  "cargo": "Psicóloga Subdepto. Cultura y Clima Organizac",
+                  "telefono": "647690",
+                  "email": "karen.mesas@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Solange Hormazábal Hormazábal",
+                  "cargo": "Psicóloga Subdepto. Cultura y Clima Organizac",
+                  "telefono": "647690",
+                  "email": "solange.hormazabal@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Waleska Monsalvez Dallez",
+                  "cargo": "Jefe Subdepto. De Cultura y Clima Organizacio",
+                  "telefono": "647690",
+                  "email": "waleska.monsalvez@redsalud.gob.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Ciclo Laboral",
+              "personas": [
+                {
+                  "nombre": "Carolina Günther Fuica",
+                  "cargo": "Encargada de Egreso y Movilidad Interna",
+                  "telefono": "645713",
+                  "email": "carolina.gunther@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Sandra Rodríguez Kramm",
+                  "cargo": "Jefe Unidad de Ciclo Laboral",
+                  "telefono": "645713",
+                  "email": "sandra.rodriguez@redsalud.gov.cl"
+                }
+              ]
+            },
+            {
+              "unidad": "Unidad de Reclutamiento y Selección",
+              "personas": [
+                {
+                  "nombre": "Carla Mancilla Alvarez",
+                  "cargo": "Jefatura(s) Unidad de Reclutamiento y Selecci",
+                  "telefono": "647387",
+                  "email": "carla.mancilla@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Guisella Franco Gatica",
+                  "cargo": "Jefa Unidad Reclutamiento y Selección",
+                  "telefono": "645640",
+                  "email": "guisella.franco@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "John Paul Muster Parra",
+                  "cargo": "Psicólogo Unidad Reclutamiento y Selección",
+                  "telefono": "647387",
+                  "email": "John.muster@redsalud.gob.cl"
+                },
+                {
+                  "nombre": "Pablo Rodríguez Estrada",
+                  "cargo": "Psicólogo Unidad Reclutamiento y Selección",
+                  "telefono": "647387",
+                  "email": "pablo.rodriguez@redsalud.gob.cl"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "id": "planificacion_rhs",
+          "nombre": "Dpto. Planificación RHS",
+          "unidades": [
+            {
+              "unidad": "(sin unidad)",
+              "personas": [
+                {
+                  "nombre": "Susana Vidal Cárdenas",
+                  "cargo": "Jefa Departamento Planificación RHS",
+                  "telefono": "645760",
+                  "email": "susana.vidal@redsalud.gov.cl"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "otros": [
+    {
+      "id": "fenpruss",
+      "nombre": "FENPRUSS",
+      "unidades": [
+        {
+          "unidad": "FENPRUSS",
+          "personas": [
+            {
+              "nombre": "Alex Saphier Herrera",
+              "cargo": "Presidente FENPRUSS",
+              "telefono": "645673",
+              "email": "dirssosorno@fenpruss.cl"
+            },
+            {
+              "nombre": "Lorena Álvarez Díaz",
+              "cargo": "Secretaria FENPRUSS",
+              "telefono": "645673",
+              "email": "dirssosorno@fenpruss.cl"
+            },
+            {
+              "nombre": "Silvia Soto Troncoso",
+              "cargo": "Tesorera FENPRUSS",
+              "telefono": "645673",
+              "email": "dirssosorno@fenpruss.cl"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "oficina_partes",
+      "nombre": "Oficina de Partes",
+      "unidades": [
+        {
+          "unidad": "(sin unidad)",
+          "personas": [
+            {
+              "nombre": "Oficina de Partes",
+              "cargo": "(Oficios y Resoluciones)",
+              "telefono": "645820",
+              "email": "oficinapartes.sso@redsalud.gov.cl"
+            },
+            {
+              "nombre": "Oficina de Partes",
+              "cargo": "Documentación externa– facturas",
+              "telefono": "645776",
+              "email": "oficinapartes.sso@redsalud.gov.cl"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "bienestar",
+      "nombre": "Servicio de Bienestar",
+      "unidades": [
+        {
+          "unidad": "(sin unidad)",
+          "personas": [
+            {
+              "nombre": "Loreto Colipue Momberg",
+              "cargo": "Encargada Contable",
+              "telefono": "646166",
+              "email": "loreto.colipue@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Viviana Orellana Laviñanza",
+              "cargo": "Administrativa",
+              "telefono": "646165",
+              "email": "viviana.orellana@redsalud.gob.cl"
+            }
+          ]
+        },
+        {
+          "unidad": "Servicio de Bienestar",
+          "personas": [
+            {
+              "nombre": "Andrea Navarro Toledo",
+              "cargo": "Jefa Servicio Bienestar",
+              "telefono": "647389",
+              "email": "andrea.navarro@redsalud.gov.cl"
+            },
+            {
+              "nombre": "Claudia Centeno Torres",
+              "cargo": "Cajera",
+              "telefono": "646164",
+              "email": "claudia.centenot@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Macarena Lemus Igor",
+              "cargo": "Administrativa",
+              "telefono": "647389",
+              "email": "macarena.lemus@redsalud.gov.cl"
+            },
+            {
+              "nombre": "Verónica Arriagada Muñoz",
+              "cargo": "Administrativa",
+              "telefono": "647389",
+              "email": "veronica.arriagadam@redsalud.gob.cl"
+            },
+            {
+              "nombre": "Viviana Coronado del Rio",
+              "cargo": "Secretaria",
+              "telefono": "646622",
+              "email": "vivianam.coronado@redsalud.gov.cl"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
