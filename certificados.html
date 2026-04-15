@@ -16,7 +16,7 @@
     #topbar {
       background: #1a3a5c;
       padding: 0.45rem 1rem;
-      display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+      display: flex; align-items: center; gap: 0.7rem; flex-wrap: wrap;
       flex-shrink: 0;
     }
     #topbar h1 {
@@ -39,12 +39,31 @@
       display: flex; align-items: center; justify-content: center;
       font-size: 0.58rem; color: #567; text-align: center; line-height: 1.1;
     }
+    #rayenBtn {
+      padding: 0.32em 0.9em; font-size: 0.82rem;
+      border: none; border-radius: 4px;
+      background: #1a7a4a; color: white; cursor: pointer;
+    }
+    #rayenBtn:hover { background: #15623b; }
+    #rayenBtn.loading { background: #555; cursor: wait; }
+    #rayenStatus {
+      font-size: 0.72rem; font-family: sans-serif;
+      padding: 0.2em 0.6em; border-radius: 3px; display: none;
+    }
+    #rayenStatus.ok  { background: #1a4a2a; color: #7de8a8; display: inline-block; }
+    #rayenStatus.err { background: #4a1a1a; color: #e87d7d; display: inline-block; }
     #printBtn {
       padding: 0.32em 1em; font-size: 0.82rem;
       border: none; border-radius: 4px;
       background: #2e86c1; color: white; cursor: pointer;
     }
     #printBtn:hover { background: #1a6fa0; }
+    #downloadBtn {
+      padding: 0.32em 0.9em; font-size: 0.82rem;
+      border: none; border-radius: 4px;
+      background: #555e6e; color: white; cursor: pointer;
+    }
+    #downloadBtn:hover { background: #444c5c; }
 
     /* ── LAYOUT ── */
     main { display: flex; flex-grow: 1; overflow: hidden; }
@@ -55,8 +74,6 @@
       background: #f4f6f8; border-right: 2px solid #c8d0da;
       display: flex; flex-direction: column;
     }
-
-    /* Tabs */
     .tabs {
       display: flex; flex-shrink: 0;
       border-bottom: 2px solid #c8d0da;
@@ -75,12 +92,8 @@
       border-bottom: 2px solid #2e86c1;
       background: #f4f6f8;
     }
-
-    /* Tab content */
     .tab-panel { display: none; flex: 1; overflow-y: auto; padding: 1rem 1rem 2rem; flex-direction: column; gap: 0.6rem; }
     .tab-panel.active { display: flex; }
-
-    /* Markdown tab */
     #tab-md { padding: 0.6rem; gap: 0.4rem; }
     #tab-md label { font-size: 0.7rem; font-family: sans-serif; color: #445; }
     #markdownInput {
@@ -97,7 +110,6 @@
     }
     .btn-secondary:hover { background: #d0e4f4; }
 
-    /* Form tab */
     .section-title {
       font-size: 0.68rem; font-family: sans-serif; font-weight: bold;
       color: #1a3a5c; text-transform: uppercase; letter-spacing: 0.06em;
@@ -111,10 +123,8 @@
       border: 1px solid #bcc; border-radius: 4px;
       background: white; font-family: Cambria, Georgia, serif;
     }
-    .field input.autofilled {
-      border-color: #2e86c1;
-      background: #eef4fb;
-    }
+    .field input.prefilled { background: #edfbf3; border-color: #5cb88a; }
+
     .list-field { display: flex; flex-direction: column; gap: 0.3rem; }
     .list-field label { font-size: 0.72rem; font-family: sans-serif; color: #445; }
     .list-items { display: flex; flex-direction: column; gap: 0.25rem; }
@@ -124,6 +134,7 @@
       border: 1px solid #bcc; border-radius: 4px;
       font-family: Cambria, Georgia, serif;
     }
+    .list-item input.prefilled { background: #edfbf3; border-color: #5cb88a; }
     .btn-rm {
       background: #c0392b; color: white; border: none;
       border-radius: 3px; width: 20px; height: 20px;
@@ -143,75 +154,6 @@
       width: 100%; height: 80px; resize: none; line-height: 1.5;
     }
 
-    /* ── CARGA RAYEN ── */
-    .rayen-box {
-      background: #eaf2fb;
-      border: 1px solid #a8cde8;
-      border-radius: 6px;
-      padding: 0.65rem 0.75rem;
-      display: flex;
-      flex-direction: column;
-      gap: 0.45rem;
-      margin-bottom: 0.2rem;
-    }
-    .rayen-box-title {
-      font-size: 0.68rem; font-family: sans-serif; font-weight: bold;
-      color: #1a3a5c; text-transform: uppercase; letter-spacing: 0.06em;
-      display: flex; align-items: center; gap: 0.4rem;
-    }
-    .rayen-box-title span { color: #2e86c1; }
-    .btn-rayen-clip {
-      display: flex; align-items: center; justify-content: center; gap: 0.4rem;
-      padding: 0.38em 0.8em; font-size: 0.82rem; font-family: sans-serif;
-      font-weight: bold; cursor: pointer;
-      border: none; border-radius: 5px;
-      background: linear-gradient(135deg, #1a4fff, #0b2db0);
-      color: white; width: 100%;
-      box-shadow: 0 2px 8px rgba(26,79,255,.25);
-      transition: filter .15s, transform .1s;
-    }
-    .btn-rayen-clip:hover { filter: brightness(1.1); transform: translateY(-1px); }
-    .btn-rayen-clip:active { transform: translateY(0); }
-    .btn-rayen-clip:disabled { opacity: .4; cursor: not-allowed; transform: none; }
-    .rayen-status {
-      font-size: 0.72rem; font-family: sans-serif;
-      padding: 0.3em 0.55em; border-radius: 4px;
-      display: none; line-height: 1.4;
-    }
-    .rayen-status.ok   { background: #e0f4ea; color: #1a5c30; display: block; }
-    .rayen-status.err  { background: #fde8e8; color: #8a0010; display: block; }
-    .rayen-status.warn { background: #fff3e0; color: #7a4000; display: block; }
-    .rayen-fallback-toggle {
-      font-size: 0.7rem; font-family: sans-serif; color: #4a7fa8;
-      cursor: pointer; text-decoration: underline; text-decoration-style: dotted;
-      align-self: flex-start; background: none; border: none; padding: 0;
-    }
-    .rayen-fallback { display: none; flex-direction: column; gap: 0.3rem; }
-    .rayen-fallback.open { display: flex; }
-    .rayen-paste {
-      width: 100%; height: 56px; font-size: 0.75rem;
-      font-family: "Courier New", monospace;
-      border: 1px solid #a8cde8; border-radius: 4px;
-      padding: 0.35rem 0.5rem; background: white; resize: none;
-      color: #334;
-    }
-    .rayen-paste::placeholder { color: #aab; }
-    .btn-rayen-parse {
-      align-self: flex-end; font-size: 0.72rem; padding: 0.22em 0.7em;
-      border: 1px solid #4a7fa8; border-radius: 4px;
-      background: #e8f0f8; color: #1a3a5c; cursor: pointer; font-family: sans-serif;
-    }
-    .btn-rayen-parse:hover { background: #d0e4f4; }
-
-    /* Spinner inline */
-    @keyframes spin { to { transform: rotate(360deg); } }
-    .spin {
-      display: inline-block; width: 11px; height: 11px;
-      border: 2px solid rgba(255,255,255,.35); border-top-color: #fff;
-      border-radius: 50%; animation: spin .65s linear infinite;
-      vertical-align: middle;
-    }
-
     /* ── PANEL DERECHO ── */
     #previewPane {
       width: 58%; height: 100%; overflow-y: auto;
@@ -225,12 +167,10 @@
     #logoArea { min-height: 50px; margin-bottom: 1.2rem; display: flex; align-items: center; }
     #logoArea img { max-height: 64px; max-width: 260px; object-fit: contain; }
     #logoPlaceholder { font-size: 0.72rem; color: #ccc; font-family: sans-serif; border: 1px dashed #ddd; padding: 0.3rem 0.7rem; border-radius: 4px; }
-
     #preview { line-height: 1.9; font-size: 0.97rem; }
     #preview p { margin: 0.5em 0; text-align: justify; }
     #preview ul { margin: 0.3em 0 0.3em 1.5em; padding: 0; }
     #preview li { margin-bottom: 0.15em; }
-
     .firma-container {
       display: flex; justify-content: space-between; align-items: flex-end;
       margin-top: 3rem; border-top: 1px solid #bbb; padding-top: 1rem; gap: 1rem;
@@ -253,20 +193,24 @@
 
 <div id="topbar">
   <h1>📄 Certificados Psiquiátricos — COSAM Rahue</h1>
+
   <span class="tb-label">Logo:</span>
   <div id="logoThumbWrap"><div class="thumb-ph">sin logo</div></div>
   <label class="upload-btn">📁 <input type="file" id="logoInput" accept="image/*"> Adjuntar</label>
+
   <span class="tb-label">Firma:</span>
   <div id="firmaThumbWrap"><div class="thumb-ph">sin firma</div></div>
   <label class="upload-btn">✍️ <input type="file" id="firmaInput" accept="image/*"> Adjuntar</label>
+
+  <button id="rayenBtn" onclick="cargarDesdeRayen()">🏥 Rayen — Cargar paciente</button>
+  <span id="rayenStatus"></span>
+
   <button id="printBtn" onclick="window.print()">🖨️ Imprimir</button>
   <button id="downloadBtn" onclick="downloadHTML()">💾 Descargar HTML</button>
 </div>
 
 <main>
   <section id="leftPane">
-
-    <!-- Tabs -->
     <div class="tabs">
       <button class="tab-btn active" onclick="switchTab('form')">🗂 Formulario</button>
       <button class="tab-btn" onclick="switchTab('md')">✏️ Markdown</button>
@@ -274,21 +218,6 @@
 
     <!-- Tab: Formulario -->
     <div class="tab-panel active" id="tab-form">
-
-      <!-- ── CARGA DESDE RAYEN ── -->
-      <div class="rayen-box">
-        <div class="rayen-box-title">📡 <span>Rayen</span> — cargar paciente</div>
-        <button class="btn-rayen-clip" id="btnClip">
-          <span id="clipIcon">📋</span>
-          <span id="clipTxt">Leer desde portapapeles</span>
-        </button>
-        <div class="rayen-status" id="rayenStatus"></div>
-        <button class="rayen-fallback-toggle" id="fallbackToggle" onclick="toggleFallback()">▸ pegar JSON manualmente</button>
-        <div class="rayen-fallback" id="fallbackArea">
-          <textarea class="rayen-paste" id="pasteArea" placeholder="Pegar JSON de usuarioAps aquí..."></textarea>
-          <button class="btn-rayen-parse" onclick="parsePaste()">Parsear</button>
-        </div>
-      </div>
 
       <div class="section-title">Paciente</div>
       <div class="field">
@@ -336,9 +265,10 @@
 
       <div class="section-title">Profesional firmante</div>
       <div class="field">
-        <textarea class="firma-edit-area" id="firmaTextoInput">Dr.xx
-xx– COSAM xx
-RUT: xx | RCM: xx | SIS: xx</textarea>
+        <textarea class="firma-edit-area" id="firmaTextoInput">Dr. Camilo Martínez Rodríguez
+Médico Psiquiatra Adultos
+Subdirector Clínico Comunitario – COSAM Rahue
+RUT: 15.843.686-8 | RCM: 30085-3 | SIS: 349381</textarea>
       </div>
 
     </div>
@@ -355,7 +285,6 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
 
   </section>
 
-  <!-- Preview -->
   <section id="previewPane">
     <div id="sheet">
       <div id="logoArea">
@@ -374,141 +303,40 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
 <script>
-  /* ── Utilidades Rayen ─────────────────────────────────────────── */
-  function formatRut(r) {
-    if (!r) return '';
-    const s = (r + '').replace(/[^0-9kK]/g, '');
-    if (s.length < 2) return s;
-    // Insertar puntos cada 3 dígitos + guión antes del dígito verificador
-    const dv  = s.slice(-1);
-    const num = s.slice(0, -1);
-    const numFmt = num.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    return numFmt + '-' + dv;
-  }
-
-  function formatNombre(d) {
-    if (!d) return '';
-    return [d.Nombres, d.ApellidoPaterno, d.ApellidoMaterno].filter(Boolean).join(' ');
-  }
-
-  function setStatus(msg, tipo) {
-    const el = document.getElementById('rayenStatus');
-    el.textContent = msg;
-    el.className = 'rayen-status ' + tipo;
-  }
-
-  function poblarDesdeRayen(json) {
-    const d = Array.isArray(json) ? json[0] : json;
-    if (!d) throw new Error('JSON vacío o estructura inesperada');
-
-    const nombre = d.NombreFormateado || formatNombre(d);
-    const rut    = formatRut(d.Rut || d.NumeroDeFicha || '');
-
-    const fNombre = document.getElementById('fNombre');
-    const fRut    = document.getElementById('fRut');
-
-    fNombre.value = nombre;
-    fRut.value    = rut;
-
-    // Marcar campos autocompletados
-    [fNombre, fRut].forEach(el => {
-      el.classList.add('autofilled');
-      el.addEventListener('input', () => el.classList.remove('autofilled'), { once: true });
-    });
-
-    onFormChange();
-    return nombre;
-  }
-
-  /* ── Leer portapapeles ────────────────────────────────────────── */
-  document.getElementById('btnClip').addEventListener('click', async () => {
-    const btn  = document.getElementById('btnClip');
-    const icon = document.getElementById('clipIcon');
-    const txt  = document.getElementById('clipTxt');
-
-    icon.outerHTML; // noop
-    btn.disabled = true;
-    document.getElementById('clipIcon').className = 'spin';
-    document.getElementById('clipIcon').textContent = '';
-    txt.textContent = 'Leyendo...';
-
-    try {
-      const raw = await navigator.clipboard.readText();
-      if (!raw || !raw.trim()) throw new Error('Portapapeles vacío');
-      const json = JSON.parse(raw.trim());
-      const nombre = poblarDesdeRayen(json);
-      setStatus('✅ ' + nombre, 'ok');
-      document.getElementById('clipIcon').className = '';
-      document.getElementById('clipIcon').textContent = '✅';
-      txt.textContent = 'Datos cargados';
-      setTimeout(() => {
-        document.getElementById('clipIcon').textContent = '📋';
-        txt.textContent = 'Leer desde portapapeles';
-        btn.disabled = false;
-      }, 2500);
-    } catch (e) {
-      const msg = e.name === 'NotAllowedError'
-        ? 'Permiso denegado — usa el fallback manual'
-        : e.message;
-      setStatus('⚠️ ' + msg, 'warn');
-      document.getElementById('clipIcon').className = '';
-      document.getElementById('clipIcon').textContent = '📋';
-      txt.textContent = 'Leer desde portapapeles';
-      btn.disabled = false;
-      // Abrir fallback automáticamente si hay error de permisos
-      if (e.name === 'NotAllowedError') toggleFallback(true);
-    }
-  });
-
-  /* ── Fallback manual ──────────────────────────────────────────── */
-  function toggleFallback(forceOpen) {
-    const area = document.getElementById('fallbackArea');
-    const toggle = document.getElementById('fallbackToggle');
-    const open = forceOpen !== undefined ? forceOpen : !area.classList.contains('open');
-    area.classList.toggle('open', open);
-    toggle.textContent = open ? '▾ pegar JSON manualmente' : '▸ pegar JSON manualmente';
-  }
-
-  function parsePaste() {
-    const t = document.getElementById('pasteArea').value.trim();
-    if (!t) { setStatus('⚠️ No hay contenido.', 'warn'); return; }
-    try {
-      const json = JSON.parse(t);
-      const nombre = poblarDesdeRayen(json);
-      setStatus('✅ ' + nombre, 'ok');
-    } catch (e) {
-      setStatus('❌ ' + e.message, 'err');
-    }
-  }
-
-  /* ── Estado de tab activo ─────────────────────────────────────── */
+// LZString 1.4.4 inline — evita dependencia de CDN en file://
+var LZString=function(){function o(o,r){if(!t[o]){t[o]={};for(var n=0;n<o.length;n++)t[o][o.charAt(n)]=n}return t[o][r]}var r=String.fromCharCode,n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",e="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",t={},i={compressToBase64:function(o){if(null==o)return"";var r=i._compress(o,6,function(o){return n.charAt(o)});switch(r.length%4){default:case 0:return r;case 1:return r+"===";case 2:return r+"==";case 3:return r+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(e){return o(n,r.charAt(e))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(o){return null==o?"":""==o?null:i._decompress(o.length,16384,function(r){return o.charCodeAt(r)-32})},compressToUint8Array:function(o){for(var r=i.compress(o),n=new Uint8Array(2*r.length),e=0,t=r.length;e<t;e++){var s=r.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(o){return null==o?"":i._compress(o,6,function(o){return e.charAt(o)})},decompressFromEncodedURIComponent:function(o){return null==o?"":""==o?null:(o=o.replace(/ /g,"+"),i._decompress(o.length,32,function(r){return o(e,o.charAt(r))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},decompress:function(o){return null==o?"":""==o?null:i._decompress(o.length,32768,function(r){return o.charCodeAt(r)})},_compress:function(o,r,n){if(null==o)return"";var e,t,i,s={},p={},u="",c="",a="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<o.length;i+=1){u=o.charAt(i);Object.prototype.hasOwnProperty.call(s,u)||(s[u]=f++,p[u]=!0);c=a+u;if(Object.prototype.hasOwnProperty.call(s,c))a=c;else{if(Object.prototype.hasOwnProperty.call(p,a)){if(a.charCodeAt(0)<256){for(e=0;e<h;e++)m=m<<1,v==r-1?(v=0,d.push(n(m)),m=0):v++;for(t=a.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=a.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}l--,0==l&&(l=Math.pow(2,h),h++);delete p[a]}else for(t=s[a],e=0;e<h;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;l--,0==l&&(l=Math.pow(2,h),h++);s[c]=f++,a=String(u)}}if(""!==a){if(Object.prototype.hasOwnProperty.call(p,a)){if(a.charCodeAt(0)<256){for(e=0;e<h;e++)m=m<<1,v==r-1?(v=0,d.push(n(m)),m=0):v++;for(t=a.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=a.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}l--,0==l&&(l=Math.pow(2,h),h++)}else for(t=s[a],e=0;e<h;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;l--,0==l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==r-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m=m<<1,v==r-1){d.push(n(m));break}v++}return d.join("")},_decompress:function(o,n,e){var t,i,s,p,u,c,a,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(i=0;i<3;i+=1)l[i]=i;for(s=0,u=Math.pow(2,2),c=1;c!=u;)p=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(p>0?1:0)*c,c<<=1;switch(t=s){case 0:for(s=0,u=Math.pow(2,8),c=1;c!=u;)p=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(p>0?1:0)*c,c<<=1;a=r(s);break;case 1:for(s=0,u=Math.pow(2,16),c=1;c!=u;)p=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(p>0?1:0)*c,c<<=1;a=r(s);break;case 2:return""}for(v.push(a),m=a;;){if(g.index>o)return"";for(s=0,u=Math.pow(2,d),c=1;c!=u;)p=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(p>0?1:0)*c,c<<=1;switch(a=s){case 0:for(s=0,u=Math.pow(2,8),c=1;c!=u;)p=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(p>0?1:0)*c,c<<=1;l[f++]=r(s),a=f-1,h--;break;case 1:for(s=0,u=Math.pow(2,16),c=1;c!=u;)p=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(p>0?1:0)*c,c<<=1;l[f++]=r(s),a=f-1,h--;break;case 2:return v.join("")}if(0==h&&(h=Math.pow(2,d),d++),l[a])i=l[a];else{if(a!==f)return null;i=m+m.charAt(0)}v.push(i),l[f++]=m+i.charAt(0),h--,m=i,0==h&&(h=Math.pow(2,d),d++)}}}; return i}();
+</script>
+<script>
+  // ── Tabs ──
   let activeTab = 'form';
-
   function switchTab(tab) {
     activeTab = tab;
-    document.querySelectorAll('.tab-btn').forEach((b, i) => {
-      b.classList.toggle('active', (i === 0 && tab === 'form') || (i === 1 && tab === 'md'));
-    });
-    document.getElementById('tab-form').style.display = tab === 'form' ? 'flex' : 'none';
-    document.getElementById('tab-md').style.display   = tab === 'md'   ? 'flex' : 'none';
-    if (tab === 'md') {
-      const md = document.getElementById('markdownInput');
-      if (!md.dataset.userEdited) syncFormToMd();
-    }
+    document.querySelectorAll('.tab-btn').forEach((b,i) =>
+      b.classList.toggle('active', (i===0&&tab==='form')||(i===1&&tab==='md')));
+    document.getElementById('tab-form').style.display = tab==='form' ? 'flex' : 'none';
+    document.getElementById('tab-md').style.display   = tab==='md'   ? 'flex' : 'none';
+    if (tab==='md' && !document.getElementById('markdownInput').dataset.userEdited) syncFormToMd();
     render();
   }
 
-  /* ── Listas dinámicas ─────────────────────────────────────────── */
-  function addItem(listId, placeholder) {
+  // ── Listas dinámicas ──
+  function addItem(listId, placeholder, value='', prefilled=false) {
     const list = document.getElementById(listId);
-    const div  = document.createElement('div');
+    const div = document.createElement('div');
     div.className = 'list-item';
     div.innerHTML = `<input type="text" placeholder="${placeholder}"><button class="btn-rm" title="Eliminar">✕</button>`;
+    const inp = div.querySelector('input');
+    if (value) { inp.value = value; }
+    if (prefilled) inp.classList.add('prefilled');
     div.querySelector('.btn-rm').onclick = () => { div.remove(); onFormChange(); };
-    div.querySelector('input').addEventListener('input', onFormChange);
+    inp.addEventListener('input', () => { inp.classList.remove('prefilled'); onFormChange(); });
     list.appendChild(div);
-    div.querySelector('input').focus();
     onFormChange();
+    return inp;
+  }
+
+  function clearList(listId) {
+    document.getElementById(listId).innerHTML = '';
   }
 
   function getItems(listId) {
@@ -516,11 +344,147 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
       .map(i => i.value.trim()).filter(Boolean);
   }
 
-  function cap(s) {
-    return s.replace(/\b\w/g, c => c.toUpperCase());
+  function cap(s) { return s.replace(/\b\w/g, c => c.toUpperCase()); }
+
+  // ── Formatear RUT ──
+  function formatRut(rut) {
+    if (!rut) return '';
+    const clean = rut.toString().replace(/\D/g,'');
+    if (clean.length < 2) return clean;
+    const dv = clean.slice(-1);
+    const num = clean.slice(0,-1).replace(/\B(?=(\d{3})+(?!\d))/g,'.');
+    return `${num}-${dv}`;
   }
 
-  /* ── Construir markdown desde formulario ──────────────────────── */
+  // ── Rayen: cargar desde portapapeles ──
+  async function cargarDesdeRayen() {
+    const btn = document.getElementById('rayenBtn');
+    const status = document.getElementById('rayenStatus');
+    btn.textContent = '⏳ Leyendo...';
+    btn.classList.add('loading');
+    btn.disabled = true;
+    status.className = '';
+    status.style.display = 'none';
+
+    try {
+      const raw = await navigator.clipboard.readText();
+      console.log('RAW portapapeles:', raw?.slice(0,120));
+      if (!raw?.trim()) throw new Error('Portapapeles vacío');
+
+      // Intentar descomprimir LZString primero (formato del bookmarklet)
+      let source = raw.trim();
+      try {
+        const dec = LZString.decompressFromBase64(source);
+        if (dec && (dec[0] === '[' || dec[0] === '{')) source = dec;
+      } catch(e) {}
+
+      let json;
+      try { json = JSON.parse(source); }
+      catch { throw new Error('El contenido no es JSON válido'); }
+
+      // Detectar formato — igual que el visor clínico
+      let paciente = null, historial = null;
+
+      if (json && !Array.isArray(json) && (json.paciente || json.historial)) {
+        // Objeto unificado {paciente, historial}
+        paciente  = json.paciente;
+        historial = json.historial;
+      } else if (Array.isArray(json)) {
+        // Heurística por FechaDeNacimiento
+        if (json[0]?.FechaDeNacimiento !== undefined) {
+          paciente = json;
+        } else {
+          historial = json;
+        }
+      }
+
+      if (!paciente && !historial) throw new Error('Formato no reconocido');
+
+      let campos = [];
+
+      // ── Datos del paciente ──
+      if (paciente) {
+        const p = Array.isArray(paciente) ? paciente[0] : paciente;
+        if (p.NombreFormateado) {
+          const inp = document.getElementById('fNombre');
+          inp.value = cap(p.NombreFormateado.toLowerCase());
+          inp.classList.add('prefilled');
+          campos.push('nombre');
+        }
+        if (p.Rut) {
+          const inp = document.getElementById('fRut');
+          inp.value = formatRut(p.Rut);
+          inp.classList.add('prefilled');
+          campos.push('RUT');
+        }
+      }
+
+      // ── Datos del historial: diagnósticos y fármacos del último control ──
+      if (historial && Array.isArray(historial) && historial.length > 0) {
+        // Ordenar por fecha descendente y tomar el primer registro con datos
+        const sorted = [...historial].sort((a,b) => {
+          const fa = a.FechaAtencion || a.Fecha || '';
+          const fb = b.FechaAtencion || b.Fecha || '';
+          return fb.localeCompare(fa);
+        });
+
+        // Diagnósticos: acumular únicos de los últimos registros (hasta 3 controles)
+        const dxSet = new Map();
+        const txSet = new Map();
+
+        for (const reg of sorted.slice(0, 5)) {
+          // Diagnósticos
+          const dxArr = reg.Diagnosticos || reg.DiagnosticosAtencion || [];
+          for (const dx of dxArr) {
+            const nombre = dx.NombreDiagnostico || dx.Nombre || dx.Descripcion || '';
+            const estado = dx.EstadoDiagnostico?.Nombre || dx.Estado?.Nombre || '';
+            if (nombre && !['Descartada','Ninguno'].includes(estado)) {
+              dxSet.set(nombre, estado);
+            }
+          }
+          // Fármacos / indicaciones
+          const txArr = reg.Indicaciones || reg.Farmacos || reg.Medicamentos || [];
+          for (const tx of txArr) {
+            const nom = tx.NombreMedicamento || tx.Nombre || tx.Descripcion || '';
+            const dos = tx.Dosis || tx.DosisTexto || '';
+            if (nom) txSet.set(nom, dos);
+          }
+        }
+
+        if (dxSet.size > 0) {
+          clearList('diagList');
+          for (const [nombre] of dxSet) {
+            addItem('diagList', '', nombre, true);
+          }
+          campos.push('diagnósticos');
+        }
+        if (txSet.size > 0) {
+          clearList('txList');
+          for (const [nom, dos] of txSet) {
+            const txt = dos ? `${nom}: ${dos}` : nom;
+            addItem('txList', '', txt, true);
+          }
+          campos.push('tratamiento');
+        }
+      }
+
+      if (campos.length === 0) throw new Error('No se encontraron datos utilizables');
+
+      status.textContent = `✅ Cargado: ${campos.join(', ')}`;
+      status.className = 'ok';
+      onFormChange();
+
+    } catch(e) {
+      status.textContent = `⚠️ ${e.message}`;
+      status.className = 'err';
+    } finally {
+      btn.textContent = '🏥 Rayen — Cargar paciente';
+      btn.classList.remove('loading');
+      btn.disabled = false;
+    }
+  }
+
+  // ── Build markdown ──
   function buildMarkdown() {
     const nombre     = document.getElementById('fNombre').value.trim();
     const rut        = document.getElementById('fRut').value.trim();
@@ -529,10 +493,8 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     const finalidad  = document.getElementById('fFinalidad').value.trim();
     const diags      = getItems('diagList');
     const txs        = getItems('txList');
-
-    const nombreFmt = nombre ? cap(nombre) : '___________________';
-    const rutFmt    = rut    ? rut         : '___________';
-
+    const nombreFmt  = nombre ? cap(nombre) : '___________________';
+    const rutFmt     = rut    ? rut         : '___________';
     let md = `A quien corresponda:\n\n`;
     md += `Certifico que **${nombreFmt}**, RUT: **${rutFmt}**, mantiene controles por especialidad en ${centro} `;
     md += `por los siguientes diagnósticos:\n\n`;
@@ -549,7 +511,6 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     md.value = buildMarkdown();
     md.dataset.userEdited = '';
   }
-
   function resetMd() {
     const md = document.getElementById('markdownInput');
     md.value = buildMarkdown();
@@ -557,17 +518,14 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     render();
   }
 
-  /* ── Render ───────────────────────────────────────────────────── */
+  // ── Render ──
   let debounce;
   function render() {
     clearTimeout(debounce);
     debounce = setTimeout(() => {
-      const src = activeTab === 'form'
-        ? buildMarkdown()
-        : document.getElementById('markdownInput').value;
+      const src = activeTab==='form' ? buildMarkdown() : document.getElementById('markdownInput').value;
       document.getElementById('preview').innerHTML = marked.parse(src);
-      document.getElementById('firmaTextoPreview').textContent =
-        document.getElementById('firmaTextoInput').value;
+      document.getElementById('firmaTextoPreview').textContent = document.getElementById('firmaTextoInput').value;
     }, 150);
   }
 
@@ -577,16 +535,18 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
   }
 
   ['fNombre','fRut','fFinalidad'].forEach(id =>
-    document.getElementById(id).addEventListener('input', onFormChange));
+    document.getElementById(id).addEventListener('input', () => {
+      document.getElementById(id).classList.remove('prefilled');
+      onFormChange();
+    }));
   ['fCentro','fAdherencia'].forEach(id =>
     document.getElementById(id).addEventListener('change', onFormChange));
   document.getElementById('firmaTextoInput').addEventListener('input', render);
   document.getElementById('markdownInput').addEventListener('input', function() {
-    this.dataset.userEdited = '1';
-    render();
+    this.dataset.userEdited = '1'; render();
   });
 
-  /* ── Upload logo ──────────────────────────────────────────────── */
+  // ── Upload logo ──
   document.getElementById('logoInput').addEventListener('change', function() {
     const file = this.files[0]; if (!file) return;
     const r = new FileReader();
@@ -595,14 +555,14 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
       document.getElementById('logoThumbWrap').innerHTML = `<img class="thumb" src="${src}">`;
       const area = document.getElementById('logoArea');
       document.getElementById('logoPlaceholder').style.display = 'none';
-      area.querySelectorAll('img').forEach(i => i.remove());
-      const img = document.createElement('img'); img.src = src; img.alt = 'Logo';
+      area.querySelectorAll('img').forEach(i=>i.remove());
+      const img = document.createElement('img'); img.src=src; img.alt='Logo';
       area.appendChild(img);
     };
     r.readAsDataURL(file);
   });
 
-  /* ── Upload firma ─────────────────────────────────────────────── */
+  // ── Upload firma ──
   document.getElementById('firmaInput').addEventListener('change', function() {
     const file = this.files[0]; if (!file) return;
     const r = new FileReader();
@@ -611,16 +571,16 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
       document.getElementById('firmaThumbWrap').innerHTML = `<img class="thumb" src="${src}">`;
       const area = document.getElementById('firmaImgArea');
       document.getElementById('firmaImgPh').style.display = 'none';
-      area.querySelectorAll('img').forEach(i => i.remove());
-      const img = document.createElement('img'); img.src = src; img.alt = 'Firma';
+      area.querySelectorAll('img').forEach(i=>i.remove());
+      const img = document.createElement('img'); img.src=src; img.alt='Firma';
       area.appendChild(img);
     };
     r.readAsDataURL(file);
   });
 
-  /* ── Descargar HTML ───────────────────────────────────────────── */
+  // ── Descargar HTML ──
   function downloadHTML() {
-    const blob = new Blob([document.documentElement.outerHTML], { type: 'text/html;charset=utf-8' });
+    const blob = new Blob([document.documentElement.outerHTML], {type:'text/html;charset=utf-8'});
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'certificado_cosam.html';
@@ -628,11 +588,9 @@ RUT: xx | RCM: xx | SIS: xx</textarea>
     URL.revokeObjectURL(a.href);
   }
 
-  /* ── Init ─────────────────────────────────────────────────────── */
-  addItem('diagList', '');
-  document.querySelector('#diagList input').value = 'Trastorno afectivo bipolar';
-  addItem('txList', '');
-  document.querySelector('#txList input').value = 'Lamotrigina 100 mg: 2-0-0';
+  // ── Init ──
+  addItem('diagList',''); document.querySelector('#diagList input').value='Trastorno afectivo bipolar';
+  addItem('txList','');   document.querySelector('#txList input').value='Lamotrigina 100 mg: 2-0-0';
   render();
 </script>
 </body>
