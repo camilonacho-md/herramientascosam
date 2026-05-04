@@ -1,0 +1,832 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suite SIC — COSAM Rahue</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.4.4/lz-string.min.js"></script>
+<style>
+:root{
+  --bg:#f7f6f2;--surface:#fff;--surface2:#f0ede6;--border:#ddd9d0;--border2:#c8c4bb;
+  --text:#1c1a16;--text2:#5a5650;--text3:#9a9790;
+  --accent:#1a3a6e;--accent2:#0e2347;
+  --red:#c0291a;--red-bg:#fdf0ee;
+  --amber:#8a4f00;--amber-bg:#fef6e8;
+  --green:#1a5a2e;--green-bg:#edf7f0;
+  --blue:#0e3d7a;--blue-bg:#edf4fc;
+  --purple:#4a1a7a;--purple-bg:#f3eefb;
+  --teal:#0e5a4a;--teal-bg:#eaf5f2;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'IBM Plex Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:13px}
+code,.mono{font-family:'IBM Plex Mono',monospace}
+
+/* Header */
+.header{background:var(--text);color:#fff;padding:16px 24px;display:flex;align-items:center;justify-content:space-between}
+.header-title{font-size:14px;font-weight:500}
+.header-sub{font-size:10px;color:#888;font-family:'IBM Plex Mono',monospace;margin-top:2px}
+.header-badge{font-family:'IBM Plex Mono',monospace;font-size:10px;background:var(--accent);color:#fff;padding:3px 8px;letter-spacing:.05em}
+
+/* Layout */
+.main{max-width:1280px;margin:0 auto;padding:20px}
+
+/* Input zone */
+.input-zone{background:var(--surface);border:1px solid var(--border);padding:16px;margin-bottom:16px}
+.zone-label{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2);text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+.input-row{display:flex;gap:8px}
+textarea{flex:1;height:72px;font-family:'IBM Plex Mono',monospace;font-size:11px;background:var(--surface2);border:1px solid var(--border);padding:8px;color:var(--text);resize:vertical;outline:none}
+textarea:focus{border-color:var(--accent)}
+.btn-col{display:flex;flex-direction:column;gap:5px}
+button{font-family:'IBM Plex Sans',sans-serif;cursor:pointer;font-size:12px;font-weight:500;border-radius:0;transition:all .12s}
+.btn-primary{background:var(--accent);color:#fff;border:none;padding:8px 16px}
+.btn-primary:hover{background:var(--accent2)}
+.btn-secondary{background:var(--surface);color:var(--text);border:1px solid var(--border2);padding:7px 12px}
+.btn-secondary:hover{background:var(--surface2)}
+.btn-sm{font-size:11px;padding:5px 10px}
+.btn-danger{background:var(--surface);color:var(--red);border:1px solid #f5c5c0;padding:7px 12px}
+.status-bar{margin-top:6px;font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--text2);min-height:14px}
+.status-bar.ok{color:var(--green)}.status-bar.err{color:var(--red)}
+
+/* Tabs */
+.tabs{display:flex;border-bottom:2px solid var(--border);margin-bottom:16px}
+.tab{padding:9px 18px;font-size:12px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--text2);border-bottom:2px solid transparent;margin-bottom:-2px;font-family:'IBM Plex Sans',sans-serif}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab:hover:not(.active){color:var(--text)}
+.tab-panel{display:none}.tab-panel.active{display:block}
+
+/* Cards / sections */
+.card{background:var(--surface);border:1px solid var(--border);padding:14px 16px;margin-bottom:12px}
+.card-title{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);margin-bottom:10px;text-transform:uppercase;letter-spacing:.08em;border-bottom:1px solid var(--border);padding-bottom:6px}
+
+/* Bar charts */
+.metrics{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin-bottom:16px}
+.mc{background:var(--surface);border:1px solid var(--border);padding:10px 12px}
+.mc-label{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);margin-bottom:3px;text-transform:uppercase;letter-spacing:.06em}
+.mc-val{font-size:22px;font-weight:300}
+.mc-sub{font-size:10px;color:var(--text3);margin-top:1px;font-family:'IBM Plex Mono',monospace}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px}
+.bar-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.bar-label{font-size:11px;width:180px;flex-shrink:0}
+.bar-label.sm{width:120px}
+.bar-track{flex:1;height:6px;background:var(--surface2);border-radius:0}
+.bar-fill{height:100%}
+.bar-n{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);min-width:52px;text-align:right}
+.cooc{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);margin-top:8px;padding-top:6px;border-top:1px solid var(--border)}
+.cooc span{display:inline-block;margin-right:14px;margin-top:3px}
+
+/* Pills */
+.pill{display:inline-block;font-size:9px;font-family:'IBM Plex Mono',monospace;font-weight:500;padding:1px 6px;white-space:nowrap;margin:1px 1px 1px 0}
+.p-red{background:var(--red-bg);color:var(--red)}
+.p-amber{background:var(--amber-bg);color:var(--amber)}
+.p-green{background:var(--green-bg);color:var(--green)}
+.p-blue{background:var(--blue-bg);color:var(--blue)}
+.p-purple{background:var(--purple-bg);color:var(--purple)}
+.p-teal{background:var(--teal-bg);color:var(--teal)}
+.p-gray{background:var(--surface2);color:var(--text2);border:1px solid var(--border)}
+.flags{display:flex;flex-wrap:wrap;gap:2px}
+
+/* Tables */
+.tbl-controls{display:flex;gap:8px;margin-bottom:8px;flex-wrap:wrap;align-items:center}
+.tbl-controls input,.tbl-controls select{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 9px;border:1px solid var(--border);background:var(--surface);color:var(--text);outline:none}
+.tbl-controls input{flex:1;min-width:160px}
+.tbl-controls input:focus,.tbl-controls select:focus{border-color:var(--accent)}
+.tbl-count{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-left:auto}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--border)}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:7px 9px;font-size:10px;font-family:'IBM Plex Mono',monospace;font-weight:500;color:var(--text2);background:var(--surface2);border-bottom:1px solid var(--border);white-space:nowrap;cursor:pointer;user-select:none;letter-spacing:.04em}
+th:hover{color:var(--text)}
+td{padding:6px 9px;border-bottom:1px solid var(--border);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--surface2)}
+.detail-btn{background:none;border:none;cursor:pointer;color:var(--accent);font-size:10px;font-family:'IBM Plex Mono',monospace;padding:0;text-decoration:underline}
+
+/* SIC cards (tab B) */
+.sic-card{background:var(--surface);border:1px solid var(--border);margin-bottom:10px}
+.sic-card-hdr{padding:10px 14px;background:var(--surface2);border-bottom:1px solid var(--border);display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.sic-num{font-family:'IBM Plex Mono',monospace;font-size:11px;font-weight:500;color:var(--accent)}
+.sic-fecha{font-family:'IBM Plex Mono',monospace;font-size:10px;color:var(--text2)}
+.sic-card-body{padding:12px 14px;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.sic-sec-title{font-size:9px;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.1em;color:var(--text3);margin-bottom:3px}
+.sic-field{font-size:11px;margin-bottom:2px}
+.sic-field strong{color:var(--text2);font-weight:500;font-size:10px}
+.sic-glosa{grid-column:1/-1}
+.glosa-text{font-size:10px;font-family:'IBM Plex Mono',monospace;background:var(--surface2);border:1px solid var(--border);padding:9px;white-space:pre-wrap;line-height:1.55;max-height:180px;overflow-y:auto}
+.dg-list{display:flex;flex-direction:column;gap:2px}
+.dg-item{font-size:10px;font-family:'IBM Plex Mono',monospace}
+.dg-item.principal{color:var(--accent);font-weight:500}
+.dg-item.secundario{color:var(--text2)}
+.obs-ct{font-size:10px;font-family:'IBM Plex Mono',monospace;border-left:3px solid var(--accent);padding-left:6px;margin-top:3px;color:var(--text2)}
+
+/* Columns checklist (tab A) */
+.cols-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:6px;margin-bottom:14px}
+.col-item{display:flex;align-items:center;gap:7px;padding:7px 10px;background:var(--surface);border:1px solid var(--border);cursor:pointer}
+.col-item:hover{border-color:var(--accent)}
+.col-item.checked{background:#eef1fa;border-color:var(--accent)}
+.col-item input[type=checkbox]{accent-color:var(--accent);width:13px;height:13px;cursor:pointer}
+.col-item label{font-size:11px;cursor:pointer;flex:1}
+.sel-row{display:flex;gap:6px;margin-bottom:10px}
+.sep-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:12px}
+.sep-row select{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:6px 9px;border:1px solid var(--border2);background:var(--surface);color:var(--text)}
+
+/* Planilla contraloría output */
+.planilla-out{border:1px solid var(--border);margin-top:12px}
+.planilla-out-hdr{background:var(--surface2);padding:8px 12px;font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.planilla-table-wrap{overflow-x:auto;max-height:320px;overflow-y:auto}
+.planilla-table th{background:#bfe3bf;color:#1a3a1a}
+
+/* Modal */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:1000;align-items:center;justify-content:center}
+.modal-bg.open{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);max-width:700px;width:90%;max-height:86vh;overflow-y:auto;padding:22px}
+.modal-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;border-bottom:1px solid var(--border);padding-bottom:10px}
+.modal-title{font-size:13px;font-weight:500}
+.modal-close{background:none;border:none;cursor:pointer;font-size:18px;color:var(--text2)}
+.modal-label{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text2);text-transform:uppercase;letter-spacing:.08em;margin-bottom:3px;margin-top:10px}
+.modal-glosa{font-size:10px;font-family:'IBM Plex Mono',monospace;background:var(--surface2);border:1px solid var(--border);padding:10px;white-space:pre-wrap;line-height:1.6;max-height:280px;overflow-y:auto;margin-top:4px}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* Fmt filter bar */
+.fmt-bar{display:flex;gap:8px;margin-bottom:12px;flex-wrap:wrap;align-items:center}
+.fmt-bar select{font-family:'IBM Plex Mono',monospace;font-size:11px;padding:5px 9px;border:1px solid var(--border);background:var(--surface);color:var(--text)}
+.fmt-count{font-size:10px;font-family:'IBM Plex Mono',monospace;color:var(--text3);margin-left:auto}
+
+/* Empty */
+.empty{text-align:center;padding:48px 24px;color:var(--text3);font-family:'IBM Plex Mono',monospace;font-size:11px}
+.action-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
+.section-hdr{font-size:11px;font-weight:500;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);padding-bottom:5px;margin:16px 0 10px;color:var(--text)}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div>
+    <div class="header-title">Suite SIC — COSAM Rahue</div>
+    <div class="header-sub">Procesador · Vista formateada · Análisis de glosas · Planilla Contraloría</div>
+  </div>
+  <div class="header-badge">v2.0</div>
+</div>
+
+
+<div style="background:#0e2347;color:#e0e0e0;padding:12px 24px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:2px solid #000">
+  <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#7a9fd4;white-space:nowrap">PASO 1 — CAPTURAR</div>
+  <a href="javascript:(function()%7B%20function%20run()%7B%20if(window.__rayenSICActive)%7Bif(window.__rayenSICUI)window.__rayenSICUI.style.display%3D'flex'%3Breturn%3B%7D%20window.__rayenSICActive%3Dtrue%3B%20window.__rayenSIC%3D%7B%7D%3B%20function%20extraerSIC(item)%7B%20var%20u%3Ditem.UsuarioApsDerivacion%7C%7C%7B%7D%3B%20var%20tels%3D(u.Telefonos%7C%7C%5B%5D).filter(function(t)%7Breturn%20!t.EsBorrado%26%26t.TelefonoDescripcion%3B%7D)%20.map(function(t)%7Breturn((t.CodigoPais%3F'%2B'%2Bt.CodigoPais%2B'%20'%3A'')%2Bt.TelefonoDescripcion).trim()%3B%7D)%20.filter(function(v%2Ci%2Ca)%7Breturn%20a.indexOf(v)%3D%3D%3Di%3B%7D)%3B%20var%20geo%3D(u.Georeferencias%7C%7C%5B%5D)%5B0%5D%3B%20var%20dgs%3D(item.ArrDiagnosticos%7C%7C%5B%5D).map(function(d)%7B%20return%7Bprincipal%3Ad.EsPrincipal%2Ccie10%3Ad.CodigoCIE10%2Cdescripcion%3Ad.ClasificacionDiagnostica%7C%7Cd.HipotesisDiagnostica%7D%3B%20%7D)%3B%20var%20obs%3D((item.SolicitudInterconsulta%7C%7C%7B%7D).ObservacionesInterconsultas%7C%7C%5B%5D)%20.map(function(o)%7Breturn%7Bfecha%3Ao.FechaRegistroObservacion%2Cfuncionario%3Ao.NombreFuncionarioGenerador%2Ctexto%3Ao.Observacion%7D%3B%7D)%3B%20var%20ejec%3Ditem.FuncionarioPrestadorEjecutor%7C%7C%7B%7D%3B%20var%20contra%3Ditem.FuncionarioPrestadorContralor%7C%7C%7B%7D%3B%20var%20estado%3Ditem.DescripcionEstado%7C%7Citem.Estado%7C%7C''%3B%20return%7B%20id%3Aitem.Id%2CnumeroSolicitud%3Aitem.NumeroSolicitud%2CfechaCreacion%3Aitem.FechaHoraCreacion%2C%20fechaCita%3Aitem.FechaHoraCita%7C%7C''%2Cprioridad%3Aitem.Prioridad%2CesGES%3Aitem.EsAuge%2C%20estado%3Aestado%2C%20especialidad%3Aitem.Especialidad%2CmotivoInterconsulta%3Aitem.MotivoInterconsulta%2C%20problemaSalud%3Aitem.ProblemaSalud%2Cdiagnosticos%3Adgs%2C%20establecimientoOrigen%3Aitem.EstablecimientoOrigen%7C%7C''%2C%20medicoDerivador%3Aejec.NombreFormateado%7C%7C''%2Ccontralor%3Acontra.NombreFormateado%7C%7C''%2C%20paciente%3A%7Bnombre%3Au.NombreFormateado%7C%7C''%2Crut%3Au.Rut%7C%7C''%2Cedad%3Au.Edad%7C%7C''%2C%20sexo%3Au.Sexo%3Fu.Sexo.Nombre%3A''%2Cprevision%3Au.ConvenioPrevisional%7C%7C''%2C%20telefonos%3Atels%2Cdireccion%3Ageo%3Fgeo.DireccionFormateada%3A''%7D%2C%20glosa%3A%7BfundamentosClinicos%3Aitem.FundamentosClinicos%7C%7C''%2C%20examenesRealizados%3Aitem.ExamenesRealizados%7C%7C''%2Cobservaciones%3Aitem.Observaciones%7C%7C''%7D%2C%20observacionesContralor%3Aobs%2CcapturaTimestamp%3Anew%20Date().toISOString()%20%7D%3B%20%7D%20function%20toTexto(arr)%7B%20var%20sep%3D'%3D'.repeat(70)%3B%20return%20arr.map(function(s)%7B%20var%20dgs%3D(s.diagnosticos%7C%7C%5B%5D).map(function(d)%7Breturn(d.principal%3F'%5BP%5D%20'%3A'%20')%2Bd.cie10%2B'%20-%20'%2Bd.descripcion%3B%7D).join('%5Cn')%3B%20var%20obs%3D(s.observacionesContralor%7C%7C%5B%5D).map(function(o)%7Breturn'%20%5B'%2Bo.fecha%2B'%5D%20'%2Bo.funcionario%2B'%3A%20'%2Bo.texto%3B%7D).join('%5Cn')%3B%20return%5Bsep%2C%20'N%5Cu00BA%3A%20'%2Bs.numeroSolicitud%2B'%20%7C%20'%2Bs.fechaCreacion%2B'%20%7C%20GES%3A%20'%2Bs.esGES%2B'%20%7C%20Prioridad%3A%20'%2Bs.prioridad%2B'%20%7C%20Estado%3A%20'%2B(s.estado%7C%7C'%3F')%2C%20'ESPECIALIDAD%3A%20'%2Bs.especialidad%2B'%20%7C%20MOTIVO%3A%20'%2Bs.motivoInterconsulta%2C%20'PROBLEMA%20SALUD%3A%20'%2Bs.problemaSalud%2Csep%2C%20'PACIENTE%3A%20'%2Bs.paciente.nombre%2B'%20%7C%20RUT%3A%20'%2Bs.paciente.rut%2B'%20%7C%20'%2Bs.paciente.edad%2B'%20%7C%20'%2Bs.paciente.sexo%2C%20'PREVISION%3A%20'%2Bs.paciente.prevision%2B'%20%7C%20TEL%3A%20'%2Bs.paciente.telefonos.join('%20%2F%20')%2C%20'DIRECCION%3A%20'%2Bs.paciente.direccion%2Csep%2C%20'ORIGEN%3A%20'%2Bs.establecimientoOrigen%2B'%20%7C%20MEDICO%3A%20'%2Bs.medicoDerivador%2B'%20%7C%20CONTRALOR%3A%20'%2Bs.contralor%2C%20'CITA%3A%20'%2B(s.fechaCita%7C%7C'No%20registrada')%2Csep%2C%20'DIAGNOSTICOS%3A'%2Cdgs%7C%7C'(sin%20datos)'%2Csep%2C%20'FUNDAMENTOS%20CLINICOS%3A'%2Cs.glosa.fundamentosClinicos%7C%7C'(vacio)'%2C''%2C%20'EXAMENES%3A'%2Cs.glosa.examenesRealizados%7C%7C'(vacio)'%2C''%2C%20'OBSERVACIONES%3A'%2Cs.glosa.observaciones%7C%7C'(vacio)'%2C%20obs%3F'%5CnOBS%20CONTRALOR%3A%5Cn'%2Bobs%3A''%20%5D.join('%5Cn')%3B%20%7D).join('%5Cn%5Cn')%2B'%5Cn%5Cn'%2Bsep%3B%20%7D%20function%20copiar(texto%2Cbtn%2Clabel)%7B%20navigator.clipboard.writeText(texto).then(function()%7B%20btn.textContent%3D'%5Cu2713%20Copiado'%3B%20setTimeout(function()%7Bbtn.textContent%3Dlabel%3B%7D%2C2500)%3B%20%7D).catch(function()%7B%20window.prompt('Copia%20manualmente%20(Ctrl%2BA%2C%20Ctrl%2BC)%3A'%2Ctexto.substring(0%2C200)%2B'...')%3B%20%7D)%3B%20%7D%20var%20_f%3Dwindow.fetch%3B%20window.fetch%3Dfunction()%7B%20var%20a%3Darguments%3B%20return%20_f.apply(this%2Ca).then(function(r)%7B%20var%20url%3D(a%5B0%5D%26%26a%5B0%5D.url)%7C%7Ca%5B0%5D%7C%7C''%3B%20if((url%2B'').indexOf('SolicitudInterconsultaDerivacionPorIds')%3E-1)%7B%20r.clone().json().then(function(data)%7B%20if(!Array.isArray(data))return%3B%20var%20n%3D0%3B%20data.forEach(function(item)%7B%20if(item%26%26item.Id%26%26!window.__rayenSIC%5Bitem.Id%5D)%7B%20window.__rayenSIC%5Bitem.Id%5D%3DextraerSIC(item)%3Bn%2B%2B%3B%20%7D%20%7D)%3B%20if(n%3E0%26%26window.__rayenSICBadge)%7B%20window.__rayenSICBadge.textContent%3DObject.keys(window.__rayenSIC).length%2B'%20SIC'%3B%20%7D%20%7D).catch(function()%7B%7D)%3B%20%7D%20return%20r%3B%20%7D)%3B%20%7D%3B%20var%20ui%3Ddocument.createElement('div')%3B%20window.__rayenSICUI%3Dui%3B%20ui.style.cssText%3D'position%3Afixed%3Bbottom%3A20px%3Bright%3A20px%3Bz-index%3A2147483647%3Bbackground%3A%231a1815%3Bborder%3A2px%20solid%20%237b7bf5%3Bborder-radius%3A10px%3Bpadding%3A10px%2014px%3Bfont-family%3Amonospace%3Bfont-size%3A12px%3Bcolor%3A%23e8e3db%3Bdisplay%3Aflex%3Balign-items%3Acenter%3Bgap%3A8px%3Bbox-shadow%3A0%204px%2024px%20rgba(0%2C0%2C0%2C.7)%3Bflex-wrap%3Awrap%3Bmax-width%3A420px%3B'%3B%20var%20lbl%3Ddocument.createElement('span')%3B%20lbl.style.color%3D'%236a7898'%3Blbl.textContent%3D'%5CuD83D%5CuDCCB%20SIC'%3B%20var%20badge%3Ddocument.createElement('span')%3B%20badge.style.cssText%3D'background%3A%237b7bf5%3Bcolor%3A%23fff%3Bpadding%3A2px%209px%3Bborder-radius%3A999px%3Bfont-size%3A11px%3Bfont-weight%3A700%3B'%3B%20badge.textContent%3D'0%20SIC'%3B%20window.__rayenSICBadge%3Dbadge%3B%20function%20mkBtn(label%2Cbg)%7B%20var%20b%3Ddocument.createElement('button')%3B%20b.textContent%3Dlabel%3B%20b.style.cssText%3D'background%3A'%2Bbg%2B'%3Bborder%3Anone%3Bcolor%3A%23fff%3Bpadding%3A5px%2010px%3Bborder-radius%3A5px%3Bcursor%3Apointer%3Bfont-family%3Amonospace%3Bfont-size%3A11px%3Bfont-weight%3A700%3Bwhite-space%3Anowrap%3B'%3B%20return%20b%3B%20%7D%20var%20btnTxt%20%3D%20mkBtn('%5CuD83D%5CuDCCB%20TXT'%2C'%234a6fa5')%3B%20var%20btnJSON%20%3D%20mkBtn('%7B%20%7D%20JSON'%2C'%232a5a2a')%3B%20var%20btnLZ%20%3D%20mkBtn('%5CuD83D%5CuDDDC%20LZ'%2C'%235a3a7a')%3B%20var%20btnLimpiar%20%3D%20mkBtn('%E2%9C%95%20Limpiar'%2C'%235a1a1a')%3B%20var%20cerrar%20%3D%20document.createElement('button')%3B%20cerrar.textContent%3D'%5Cu2715'%3B%20cerrar.style.cssText%3D'background%3Anone%3Bborder%3Anone%3Bcolor%3A%235a5650%3Bcursor%3Apointer%3Bfont-size%3A14px%3Bpadding%3A0%202px%3Bline-height%3A1%3Bmargin-left%3A2px%3B'%3B%20cerrar.onclick%3Dfunction()%7Bui.style.display%3D'none'%3B%7D%3B%20ui.appendChild(lbl)%3Bui.appendChild(badge)%3B%20ui.appendChild(btnTxt)%3Bui.appendChild(btnJSON)%3Bui.appendChild(btnLZ)%3Bui.appendChild(btnLimpiar)%3B%20ui.appendChild(cerrar)%3B%20document.body.appendChild(ui)%3B%20btnLimpiar.onclick%3Dfunction()%7B%20if(confirm('%C2%BFLimpiar%20todas%20las%20SIC%20capturadas%3F'))%7B%20window.__rayenSIC%3D%7B%7D%3B%20if(window.__rayenSICBadge)window.__rayenSICBadge.textContent%3D'0%20SIC'%3B%20%7D%20%7D%3B%20btnTxt.onclick%3Dfunction()%7B%20var%20arr%3DObject.values(window.__rayenSIC)%3B%20if(!arr.length)%7Balert('Sin%20datos.%20Navega%20por%20el%20m%5Cu00f3dulo%20SIC%20primero.')%3Breturn%3B%7D%20copiar(toTexto(arr)%2CbtnTxt%2C'%5CuD83D%5CuDCCB%20TXT')%3B%20%7D%3B%20btnJSON.onclick%3Dfunction()%7B%20var%20arr%3DObject.values(window.__rayenSIC)%3B%20if(!arr.length)%7Balert('Sin%20datos.%20Navega%20por%20el%20m%5Cu00f3dulo%20SIC%20primero.')%3Breturn%3B%7D%20copiar(JSON.stringify(arr%2Cnull%2C2)%2CbtnJSON%2C'%7B%20%7D%20JSON')%3B%20%7D%3B%20btnLZ.onclick%3Dfunction()%7B%20var%20arr%3DObject.values(window.__rayenSIC)%3B%20if(!arr.length)%7Balert('Sin%20datos.%20Navega%20por%20el%20m%5Cu00f3dulo%20SIC%20primero.')%3Breturn%3B%7D%20if(!window.LZString)%7Balert('LZString%20no%20disponible.')%3Breturn%3B%7D%20var%20compressed%3DLZString.compressToBase64(JSON.stringify(arr))%3B%20copiar(compressed%2CbtnLZ%2C'%5CuD83D%5CuDDDC%20LZ')%3B%20%7D%3B%20%7D%20if(window.LZString)%7Brun()%3B%7D%20else%7B%20var%20s%3Ddocument.createElement('script')%3B%20s.src%3D'https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Flz-string%2F1.4.4%2Flz-string.min.js'%3B%20s.onload%3Drun%3B%20document.head.appendChild(s)%3B%20%7D%20%7D)()%3B" style="display:inline-block;background:#1a5a2e;color:#fff;font-family:'IBM Plex Mono',monospace;font-size:11px;padding:6px 14px;text-decoration:none;white-space:nowrap;border:1px solid #2a8a4a">📋 Capturador SIC Rayen</a>
+  <div style="font-size:11px;color:#888;max-width:420px">Arrastra este botón a tu barra de marcadores. Úsalo en Rayen (Recepción/Derivación Contralor) para capturar las interconsultas y copiar el JSON. Luego pégalo abajo y clic en <strong style="color:#e0e0e0">Cargar JSON</strong>.</div>
+  <div style="font-size:11px;font-family:'IBM Plex Mono',monospace;color:#7a9fd4;white-space:nowrap;margin-left:auto">PASO 2 — PROCESAR ↓</div>
+</div>
+<div class="main">
+
+  <!-- Entrada de datos -->
+  <div class="input-zone">
+    <div class="zone-label">Datos de entrada</div>
+    <div class="input-row">
+      <textarea id="jsonInput" placeholder="Pega aquí el JSON capturado con el bookmarklet (crudo o LZString comprimido)..."></textarea>
+      <div class="btn-col">
+        <button class="btn-primary" onclick="cargar()">Cargar JSON</button>
+        <button class="btn-secondary btn-sm" onclick="cargarLZ()">Descomprimir LZ</button>
+        <button class="btn-danger btn-sm" onclick="limpiar()">Limpiar</button>
+      </div>
+    </div>
+    <div class="status-bar mono" id="statusBar">Sin datos cargados.</div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button class="tab active" onclick="switchTab('csv')">A — Tabla / CSV</button>
+    <button class="tab" onclick="switchTab('fmt')">B — Vista clínica</button>
+    <button class="tab" onclick="switchTab('glosas')">C — Análisis de glosas</button>
+  </div>
+
+  <!-- ═══ TAB A: CSV + Planilla Contraloría ═══ -->
+  <div id="tab-csv" class="tab-panel active">
+    <div class="section-hdr">Selección de columnas</div>
+    <div class="sel-row">
+      <button class="btn-secondary btn-sm" onclick="selAll(true)">Seleccionar todo</button>
+      <button class="btn-secondary btn-sm" onclick="selAll(false)">Deseleccionar todo</button>
+    </div>
+    <div class="cols-grid" id="colGrid"></div>
+    <div class="sep-row">
+      <select id="sepSelect">
+        <option value=",">Separador: coma (,)</option>
+        <option value=";">Separador: punto y coma (;)</option>
+        <option value="	">Separador: tab</option>
+      </select>
+      <button class="btn-primary" onclick="exportarCSV()">↓ Exportar CSV</button>
+      <button class="btn-secondary btn-sm" onclick="copiarCSV()">Copiar CSV</button>
+    </div>
+
+    <div class="section-hdr" style="margin-top:20px">Planilla Contraloría</div>
+    <p style="font-size:11px;color:var(--text2);margin-bottom:10px">Genera automáticamente la planilla en formato contraloría con las columnas estándar. Los campos FECHA CONTRALORÍA y MÉDICO CONTRALOR se dejan en blanco para completar manualmente.</p>
+    <div class="action-row">
+      <button class="btn-primary" onclick="generarPlanilla()">Generar planilla contraloría</button>
+      <button class="btn-secondary btn-sm" id="btnDlPlanilla" disabled onclick="descargarPlanilla()">↓ Descargar planilla</button>
+      <button class="btn-secondary btn-sm" id="btnCopiarPlanilla" disabled onclick="copiarPlanilla()">Copiar CSV planilla</button>
+    </div>
+    <div id="planillaContainer"></div>
+  </div>
+
+  <!-- ═══ TAB B: Vista clínica ═══ -->
+  <div id="tab-fmt" class="tab-panel">
+    <div class="fmt-bar">
+      <select id="filtroEsp" onchange="renderFmt()">
+        <option value="">Toda especialidad</option>
+        <option value="Psiquiatría Adulto">Psiq. Adulto</option>
+        <option value="Psiquiatría Pediátrica y de la Adolescencia">Psiq. Pediátrica</option>
+      </select>
+      <select id="filtroGES" onchange="renderFmt()">
+        <option value="">Todo GES</option>
+        <option value="Si">GES</option>
+        <option value="No">No GES</option>
+      </select>
+      <select id="filtroPrior" onchange="renderFmt()">
+        <option value="">Toda prioridad</option>
+        <option value="2">Prioridad 2</option>
+        <option value="3">Prioridad 3</option>
+      </select>
+      <select id="filtroEstado" onchange="renderFmt()">
+        <option value="">Todo estado</option>
+        <option value="Enviada">Enviada</option>
+        <option value="Aceptada">Aceptada</option>
+        <option value="Recibida">Recibida</option>
+        <option value="Rechazada">Rechazada</option>
+        <option value="Egresada">Egresada</option>
+        <option value="Anulada">Anulada</option>
+      </select>
+      <button class="btn-secondary btn-sm" onclick="exportarHTMLFmt()">↓ HTML</button>
+      <button class="btn-secondary btn-sm" onclick="copiarMDFmt()">Copiar Markdown</button>
+      <span class="fmt-count" id="fmtCount"></span>
+    </div>
+    <div id="fmtContainer"><div class="empty">Carga datos para ver la vista clínica.</div></div>
+  </div>
+
+  <!-- ═══ TAB C: Análisis de glosas ═══ -->
+  <div id="tab-glosas" class="tab-panel">
+    <div id="glosasEmpty" class="empty">Carga datos para ver el análisis de glosas.</div>
+    <div id="glosasContent" style="display:none">
+      <div class="section-hdr">Marcadores clínicos</div>
+      <div id="gMetricas" class="metrics"></div>
+      <div class="grid2" id="gCharts"></div>
+      <div class="section-hdr">Reporte por SIC</div>
+      <div class="action-row">
+        <button class="btn-secondary btn-sm" onclick="exportGlosasCSV()">↓ Exportar CSV análisis</button>
+        <button class="btn-secondary btn-sm" onclick="copiarGlosasMD()">Copiar Markdown</button>
+      </div>
+      <div class="tbl-controls">
+        <input type="text" id="gSearch" placeholder="Buscar N° SIC, paciente, diagnóstico..." oninput="renderGlosasTabla()">
+        <select id="gFiltroMarcador" onchange="renderGlosasTabla()">
+          <option value="">Todos los marcadores</option>
+          <option value="suicid">Suicidalidad</option>
+          <option value="hosp">Hospitalización previa</option>
+          <option value="vif">VIF / Trauma</option>
+          <option value="refrac">Refractariedad</option>
+          <option value="consumo">Consumo sustancias</option>
+          <option value="incoherente">Dg. a revisar</option>
+          <option value="incompleta">Anamnesis incompleta</option>
+          <option value="alta">Alta complejidad (3+)</option>
+        </select>
+        <select id="gFiltroComp" onchange="renderGlosasTabla()">
+          <option value="">Toda completitud</option>
+          <option value="completa">Completa</option>
+          <option value="parcial">Parcial</option>
+          <option value="incompleta">Incompleta</option>
+        </select>
+        <span class="tbl-count" id="gCount"></span>
+      </div>
+      <div class="tbl-wrap">
+        <table>
+          <thead><tr>
+            <th onclick="gSort('n')">N° SIC</th>
+            <th onclick="gSort('pac')">Paciente</th>
+            <th onclick="gSort('cie_code')">CIE-10</th>
+            <th>Marcadores</th>
+            <th onclick="gSort('coh')">Dg/glosa</th>
+            <th onclick="gSort('comp')">Anamnesis</th>
+            <th>Detalle</th>
+          </tr></thead>
+          <tbody id="gTbody"></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal detalle -->
+<div class="modal-bg" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="modalTitle"></div>
+      <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">×</button>
+    </div>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<script>
+// ─── Estado global ────────────────────────────────────────────────────────────
+let datos = [];
+let glosasRows = [];
+let planillaData = [];
+let gSortKey = 'n', gSortAsc = true;
+
+// ─── Helpers UI ───────────────────────────────────────────────────────────────
+function setStatus(msg, type) {
+  const el = document.getElementById('statusBar');
+  el.textContent = msg;
+  el.className = 'status-bar mono' + (type ? ' '+type : '');
+}
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach((t,i)=>t.classList.toggle('active',['csv','fmt','glosas'][i]===tab));
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+tab).classList.add('active');
+}
+function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open');}
+
+// ─── Carga de datos ───────────────────────────────────────────────────────────
+function parseDatos(txt){
+  txt=txt.trim();
+  let d;try{d=JSON.parse(txt);}catch(e){throw new Error('JSON inválido: '+e.message);}
+  if(!Array.isArray(d))throw new Error('Se esperaba un array');
+  return d;
+}
+function cargar(){
+  try{procesar(parseDatos(document.getElementById('jsonInput').value.trim()));}
+  catch(e){setStatus('Error: '+e.message,'err');}
+}
+function cargarLZ(){
+  const txt=document.getElementById('jsonInput').value.trim();
+  if(!txt){setStatus('Sin datos.','err');return;}
+  try{
+    const dec=LZString.decompressFromBase64(txt);
+    if(!dec)throw new Error('No se pudo descomprimir');
+    procesar(parseDatos(dec));
+  }catch(e){try{procesar(parseDatos(txt));}catch(e2){setStatus('Error: '+e.message,'err');}}
+}
+function limpiar(){
+  document.getElementById('jsonInput').value='';datos=[];glosasRows=[];planillaData=[];
+  setStatus('Sin datos cargados.');
+  document.getElementById('fmtContainer').innerHTML='<div class="empty">Carga datos para ver la vista clínica.</div>';
+  document.getElementById('glosasEmpty').style.display='';
+  document.getElementById('glosasContent').style.display='none';
+  document.getElementById('planillaContainer').innerHTML='';
+  document.getElementById('btnDlPlanilla').disabled=true;
+  document.getElementById('btnCopiarPlanilla').disabled=true;
+}
+function procesar(data){
+  datos=data;
+  setStatus(data.length+' interconsultas cargadas.','ok');
+  buildColGrid();
+  renderFmt();
+  procesarGlosas();
+}
+
+// ─── TAB A: Columnas CSV ──────────────────────────────────────────────────────
+const COLUMNAS=[
+  {key:'numeroSolicitud',label:'N° SIC',get:r=>r.numeroSolicitud},
+  {key:'fechaCreacion',label:'Fecha creación',get:r=>r.fechaCreacion},
+  {key:'fechaCita',label:'Fecha cita',get:r=>r.fechaCita||''},
+  {key:'estado',label:'Estado',get:r=>r.estado||''},
+  {key:'esGES',label:'GES',get:r=>r.esGES},
+  {key:'prioridad',label:'Prioridad',get:r=>r.prioridad},
+  {key:'especialidad',label:'Especialidad',get:r=>r.especialidad},
+  {key:'motivoInterconsulta',label:'Motivo',get:r=>r.motivoInterconsulta},
+  {key:'problemaSalud',label:'Problema salud',get:r=>(r.problemaSalud||'').trim()},
+  {key:'pacNombre',label:'Paciente nombre',get:r=>(r.paciente||{}).nombre||''},
+  {key:'pacRut',label:'RUT',get:r=>(r.paciente||{}).rut||''},
+  {key:'pacEdad',label:'Edad',get:r=>(r.paciente||{}).edad||''},
+  {key:'pacSexo',label:'Sexo',get:r=>(r.paciente||{}).sexo||''},
+  {key:'pacPrev',label:'Previsión',get:r=>(r.paciente||{}).prevision||''},
+  {key:'pacTel',label:'Teléfonos',get:r=>((r.paciente||{}).telefonos||[]).join(' / ')},
+  {key:'pacDir',label:'Dirección',get:r=>(r.paciente||{}).direccion||''},
+  {key:'establecimientoOrigen',label:'Establecimiento origen',get:r=>r.establecimientoOrigen||''},
+  {key:'medicoDerivador',label:'Médico derivador',get:r=>r.medicoDerivador||''},
+  {key:'contralor',label:'Contralor',get:r=>r.contralor||''},
+  {key:'dg_principal',label:'Dg principal CIE-10',get:r=>{const d=(r.diagnosticos||[]).find(x=>x.principal);return d?d.cie10+' '+d.descripcion:'';}},
+  {key:'dg_todos',label:'Todos diagnósticos',get:r=>(r.diagnosticos||[]).map(d=>(d.principal?'[P]':'   ')+' '+d.cie10+' '+d.descripcion).join(' | ')},
+  {key:'fundamentosClinicos',label:'Fundamentos clínicos',get:r=>(r.glosa||{}).fundamentosClinicos||''},
+  {key:'examenesRealizados',label:'Exámenes realizados',get:r=>(r.glosa||{}).examenesRealizados||''},
+  {key:'observaciones',label:'Observaciones',get:r=>(r.glosa||{}).observaciones||''},
+  {key:'obsContralor',label:'Obs. contralor',get:r=>(r.observacionesContralor||[]).map(o=>'['+o.fecha+'] '+o.funcionario+': '+o.texto).join(' | ')},
+];
+const DEFAULT_COLS=['numeroSolicitud','fechaCreacion','estado','esGES','prioridad','pacNombre','pacRut','pacEdad','pacSexo','especialidad','dg_principal','establecimientoOrigen','medicoDerivador'];
+
+function buildColGrid(){
+  const grid=document.getElementById('colGrid');
+  grid.innerHTML='';
+  COLUMNAS.forEach(col=>{
+    const checked=DEFAULT_COLS.includes(col.key);
+    const div=document.createElement('div');
+    div.className='col-item'+(checked?' checked':'');
+    div.innerHTML=`<input type="checkbox" id="col_${col.key}"${checked?' checked':''}><label for="col_${col.key}">${col.label}</label>`;
+    div.querySelector('input').addEventListener('change',function(){div.classList.toggle('checked',this.checked);});
+    grid.appendChild(div);
+  });
+}
+function selAll(v){document.querySelectorAll('#colGrid input[type=checkbox]').forEach(cb=>{cb.checked=v;cb.closest('.col-item').classList.toggle('checked',v);});}
+
+function getCSVContent(sep){
+  const cols=COLUMNAS.filter(c=>document.getElementById('col_'+c.key)?.checked);
+  if(!cols.length){alert('Selecciona al menos una columna.');return null;}
+  const esc=v=>{const s=String(v??'').replace(/\r?\n/g,' ');return(s.includes(sep)||s.includes('"'))?'"'+s.replace(/"/g,'""')+'"':s;};
+  const rows=[cols.map(c=>esc(c.label)).join(sep)];
+  datos.forEach(r=>rows.push(cols.map(c=>{try{return esc(c.get(r));}catch{return '';}}).join(sep)));
+  return rows.join('\r\n');
+}
+function getSep(){const v=document.getElementById('sepSelect').value;return v==='\t'?'\t':v;}
+function exportarCSV(){
+  if(!datos.length){alert('Sin datos.');return;}
+  const csv=getCSVContent(getSep());if(!csv)return;
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sic_cosam_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+function copiarCSV(){
+  if(!datos.length){alert('Sin datos.');return;}
+  const csv=getCSVContent(getSep());if(!csv)return;
+  navigator.clipboard.writeText(csv).then(()=>alert('CSV copiado ('+datos.length+' filas)'));
+}
+
+// ─── TAB A: Planilla Contraloría ──────────────────────────────────────────────
+function limpiarRut(rut){return(rut||'').replace(/[^0-9kK]/g,'');}
+function marcarEstado(estado){
+  const s=String(estado||'').toLowerCase();
+  return{aceptada:s.includes('aceptad')?'X':'',rechazada:s.includes('rechazad')?'X':''};
+}
+
+function generarPlanilla(){
+  if(!datos.length){alert('Sin datos cargados.');return;}
+  planillaData=datos.map(r=>{
+    const pac=r.paciente||{};
+    const dg=(r.diagnosticos||[]).find(d=>d.principal);
+    const dgStr=dg?dg.cie10+' '+dg.descripcion:'';
+    // ACEPTADA/RECHAZADA según estado — VERDADERO/FALSO estilo Excel
+    const s=String(r.estado||'').toLowerCase();
+    const aceptada=s.includes('acept')||s.includes('enviad')||s.includes('recibid')?'VERDADERO':'FALSO';
+    const rechazada=s.includes('rechaz')?'VERDADERO':'FALSO';
+    // Prioridad mapeada al formato de la planilla
+    const priorMap={1:'ALTA',2:'MEDIA',3:'BAJA','1':'ALTA','2':'MEDIA','3':'BAJA'};
+    const priorStr=priorMap[r.prioridad]||'PRIORIDAD SEGÚN GES';
+    // Unidad: normalizar especialidad al formato planilla
+    const esp=r.especialidad||'';
+    const unidad=esp.includes('Adulto')?'Psiquiatría Adulto':esp.includes('Pediátrica')||esp.includes('Infanto')||esp.includes('Adolescencia')?'INFANTO ADOLESCENTE':esp;
+    return{
+      'FECHA ENVIO':r.fechaCreacion||'',
+      'FECHA CONTRALORIA':'',
+      'MEDICO CONTRALOR (USAR MENÚ)':r.contralor||'',
+      'TIPO SIC PAPEL/DIGITAL (USAR MENÚ)':'Digital',
+      'CENTRO DERIVADOR':r.establecimientoOrigen||'',
+      'NOMBRE USUARIO':pac.nombre||'',
+      'RUT':pac.rut||'',
+      'RUT LIMPIO':limpiarRut(pac.rut||''),
+      'GES':r.esGES==='Si'?'SI':r.esGES==='No'?'NO':r.esGES||'',
+      'ACEPTADA':aceptada,
+      'RECHAZADA':rechazada,
+      'OBSERVACIÓN':dgStr,
+      'UNIDAD (USAR MENÚ)':unidad,
+      'PRIORIDAD (USAR MENÚ)':priorStr,
+      'FECHA 1°CITA':r.fechaCita||'',
+      'PROFESIONAL (USAR MENÚ)':'',
+      'ESTADO (USAR MENÚ)':'',
+      'OBSERVACION':'',
+      'FECHA 2°CITA':'',
+      'PROFESIONAL':'',
+      'ESTADO':'',
+      'OBSERVACION ':'',
+    };
+  });
+  renderPlanilla();
+  document.getElementById('btnDlPlanilla').disabled=false;
+  document.getElementById('btnCopiarPlanilla').disabled=false;
+}
+
+function renderPlanilla(){
+  if(!planillaData.length)return;
+  const headers=Object.keys(planillaData[0]);
+  let html='<div class="planilla-out"><div class="planilla-out-hdr"><span>Planilla Contraloría — '+planillaData.length+' registros</span><span style="font-size:10px;color:var(--text3)">Los campos en blanco se completan manualmente</span></div>';
+  html+='<div class="planilla-table-wrap"><table class="planilla-table"><thead><tr>'+headers.map(h=>`<th>${h}</th>`).join('')+'</tr></thead><tbody>';
+  html+=planillaData.map(row=>'<tr>'+headers.map(h=>`<td>${row[h]??''}</td>`).join('')+'</tr>').join('');
+  html+='</tbody></table></div></div>';
+  document.getElementById('planillaContainer').innerHTML=html;
+}
+
+function planillaToCSV(){
+  if(!planillaData.length)return'';
+  const headers=Object.keys(planillaData[0]);
+  const esc=v=>{const s=String(v??'');return(s.includes(',')||s.includes('"'))?'"'+s.replace(/"/g,'""')+'"':s;};
+  return[headers.join(','),...planillaData.map(r=>headers.map(h=>esc(r[h])).join(','))].join('\r\n');
+}
+function descargarPlanilla(){
+  const csv=planillaToCSV();if(!csv)return;
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='planilla_contraloria_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+function copiarPlanilla(){
+  const csv=planillaToCSV();if(!csv)return;
+  navigator.clipboard.writeText(csv).then(()=>alert('Planilla copiada ('+planillaData.length+' filas)'));
+}
+
+// ─── TAB B: Vista clínica ─────────────────────────────────────────────────────
+function filtrarFmt(){
+  const esp=document.getElementById('filtroEsp').value;
+  const ges=document.getElementById('filtroGES').value;
+  const pr=document.getElementById('filtroPrior').value;
+  const est=document.getElementById('filtroEstado').value;
+  return datos.filter(r=>{
+    if(esp&&r.especialidad!==esp)return false;
+    if(ges&&r.esGES!==ges)return false;
+    if(pr&&String(r.prioridad)!==pr)return false;
+    if(est&&r.estado!==est)return false;
+    return true;
+  });
+}
+
+function renderFmt(){
+  const container=document.getElementById('fmtContainer');
+  if(!datos.length){container.innerHTML='<div class="empty">Carga datos para ver la vista clínica.</div>';return;}
+  const filtered=filtrarFmt();
+  document.getElementById('fmtCount').textContent=filtered.length+' / '+datos.length;
+  if(!filtered.length){container.innerHTML='<div class="empty">Sin resultados con los filtros seleccionados.</div>';return;}
+
+  const estadoMap={Enviada:'p-blue',Aceptada:'p-green',Recibida:'p-green',Rechazada:'p-red',Egresada:'p-gray',Anulada:'p-red'};
+
+  container.innerHTML=filtered.map(r=>{
+    const pac=r.paciente||{};
+    const dgs=(r.diagnosticos||[]);
+    const dgHtml=dgs.map(d=>`<div class="dg-item ${d.principal?'principal':'secundario'}">${d.principal?'[P]':'   '} ${d.cie10} — ${d.descripcion}</div>`).join('');
+    const obsHtml=(r.observacionesContralor||[]).map(o=>`<div class="obs-ct">[${o.fecha}] ${o.funcionario}: ${o.texto}</div>`).join('');
+    const gesPill=r.esGES==='Si'?'<span class="pill p-purple">GES</span>':'<span class="pill p-gray">No GES</span>';
+    const prPill=r.prioridad==2?'<span class="pill p-amber">P2</span>':'<span class="pill p-green">P3</span>';
+    const estPill=r.estado?`<span class="pill ${estadoMap[r.estado]||'p-gray'}">${r.estado}</span>`:'';
+    const glosa=[
+      (r.glosa||{}).fundamentosClinicos,
+      (r.glosa||{}).examenesRealizados?'--- EXÁMENES ---\n'+(r.glosa||{}).examenesRealizados:'',
+      (r.glosa||{}).observaciones?'--- OBSERVACIONES ---\n'+(r.glosa||{}).observaciones:''
+    ].filter(Boolean).join('\n\n');
+    return`<div class="sic-card">
+<div class="sic-card-hdr">
+  <span class="sic-num">${r.numeroSolicitud}</span>
+  <span class="sic-fecha">${r.fechaCreacion}</span>
+  ${gesPill}${prPill}${estPill}
+  <span style="font-size:10px;color:var(--text2);margin-left:auto">${r.especialidad}</span>
+</div>
+<div class="sic-card-body">
+  <div>
+    <div class="sic-sec-title">Paciente</div>
+    <div class="sic-field"><strong>Nombre</strong> ${pac.nombre}</div>
+    <div class="sic-field"><strong>RUT</strong> <span class="mono">${pac.rut}</span></div>
+    <div class="sic-field"><strong>Edad</strong> ${pac.edad} · ${pac.sexo}</div>
+    <div class="sic-field"><strong>Previsión</strong> ${pac.prevision}</div>
+    <div class="sic-field"><strong>Tel.</strong> ${(pac.telefonos||[]).join(' / ')}</div>
+    <div class="sic-field"><strong>Dirección</strong> ${pac.direccion||''}</div>
+  </div>
+  <div>
+    <div class="sic-sec-title">Derivación</div>
+    <div class="sic-field"><strong>Origen</strong> ${r.establecimientoOrigen||''}</div>
+    <div class="sic-field"><strong>Médico</strong> ${r.medicoDerivador||''}</div>
+    <div class="sic-field"><strong>Contralor</strong> ${r.contralor||'—'}</div>
+    <div class="sic-field"><strong>Motivo</strong> ${r.motivoInterconsulta||''}</div>
+    <div class="sic-field"><strong>Cita</strong> ${r.fechaCita||'No registrada'}</div>
+    <div class="sic-sec-title" style="margin-top:8px">Diagnósticos</div>
+    <div class="dg-list">${dgHtml}</div>
+    ${obsHtml?'<div class="sic-sec-title" style="margin-top:6px">Obs. contralor</div>'+obsHtml:''}
+  </div>
+  ${glosa?`<div class="sic-glosa">
+    <div class="sic-sec-title">Glosa clínica</div>
+    <div class="glosa-text">${glosa.replace(/</g,'&lt;')}</div>
+  </div>`:''}
+</div></div>`;
+  }).join('');
+}
+
+function exportarHTMLFmt(){
+  if(!datos.length){alert('Sin datos.');return;}
+  const container=document.getElementById('fmtContainer');
+  const blob=new Blob([`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>SIC COSAM</title>
+<style>body{font-family:sans-serif;max-width:960px;margin:24px auto;font-size:12px;color:#1a1a1a}
+.sic-card{border:1px solid #ccc;margin-bottom:10px;border-radius:4px;overflow:hidden}
+.sic-card-hdr{padding:9px 13px;background:#f5f5f0;border-bottom:1px solid #ccc;display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.sic-card-body{padding:10px 13px;display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.sic-sec-title{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#888;margin-bottom:3px}
+.sic-field{font-size:11px;margin-bottom:2px} .sic-field strong{color:#555}
+.sic-num{font-weight:700;color:#1a3a8f;font-family:monospace}
+.pill{font-size:9px;padding:1px 6px;border-radius:2px;font-family:monospace}
+.dg-item{font-size:10px;font-family:monospace}.principal{color:#1a3a8f;font-weight:600}
+.glosa-text{font-family:monospace;font-size:10px;background:#f8f8f5;border:1px solid #ddd;padding:8px;white-space:pre-wrap}
+.sic-glosa{grid-column:1/-1} .obs-ct{font-size:10px;font-family:monospace;border-left:3px solid #1a3a8f;padding-left:5px;color:#555;margin-top:2px}
+</style></head><body><h2 style="font-size:13px;margin-bottom:14px">SIC COSAM Rahue — ${new Date().toLocaleDateString('es-CL')}</h2>
+${container.innerHTML}</body></html>`],{type:'text/html;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='sic_vista_'+new Date().toISOString().slice(0,10)+'.html';a.click();
+}
+
+function copiarMDFmt(){
+  if(!datos.length){alert('Sin datos.');return;}
+  const filtered=filtrarFmt();
+  const md=filtered.map(r=>{
+    const pac=r.paciente||{};
+    const dgs=(r.diagnosticos||[]).map(d=>(d.principal?'**[P]**':'   ')+' `'+d.cie10+'` '+d.descripcion).join('\n');
+    return`## ${r.numeroSolicitud} · ${r.fechaCreacion} · ${r.esGES==='Si'?'GES':'No GES'} · P${r.prioridad}\n\n**Paciente:** ${pac.nombre} · RUT \`${pac.rut}\` · ${pac.edad} · ${pac.sexo}\n**Tel:** ${(pac.telefonos||[]).join(' / ')}\n**Origen:** ${r.establecimientoOrigen} · **Médico:** ${r.medicoDerivador}\n**Cita:** ${r.fechaCita||'No registrada'}\n\n### Diagnósticos\n${dgs}\n\n### Glosa\n${(r.glosa||{}).fundamentosClinicos||'(vacío)'}`;
+  }).join('\n\n---\n\n');
+  navigator.clipboard.writeText(md).then(()=>alert('Markdown copiado ('+filtered.length+' SIC)'));
+}
+
+// ─── TAB C: Análisis de glosas ────────────────────────────────────────────────
+function detectar(item){
+  const g=[
+    (item.glosa||{}).fundamentosClinicos||'',
+    (item.glosa||{}).examenesRealizados||'',
+    (item.glosa||{}).observaciones||'',
+    (item.observacionesContralor||[]).map(o=>o.texto).join(' ')
+  ].join(' ').toLowerCase();
+  return{
+    suicid:/suicid|autol[ií]s|intent[oa]\s+de|se arrojó|lanzarse|ahorcarse|intoxicaci[oó]n.*pastilla|ingesta de.*comprimido|cortarse|autolesion|ideaci[oó]n|muerte recurrente|quiero morir|deseos de morir|planificaci[oó]n suicida|conducta suicida|atentar contra su vida/.test(g),
+    hosp:/hospitali[zs][aá]|internaci[oó]n|ingresó.*hospital|dau\s|urgencia del|unidad de.*estadía|hospitaliz/.test(g),
+    vif:/\bvif\b|violencia (intrafamiliar|familiar|doméstica|de género|por parte)|abuso sexual|\basi\b|maltrato|víctima de|vulneración|tept|abandono parental|negligencia parental/.test(g),
+    refrac:/sin respuesta|mala respuesta|refractari|sin mejoría|respuesta parcial|múltiples (fármacos|esquemas|tratamientos)|nula respuesta|abandono de tratamiento|resistente a|cambios de (fármaco|medicamento)/.test(g),
+    consumo:/pasta base|cocaína|marihuana|\bthc\b|consumo (de alcohol|de droga|activo|de sustancia)|policonsumo|psicoactiva|dependencia (a|de|al)|uso de (alcohol|drogas|sustancias)/.test(g)
+  };
+}
+function coherencia(cie,item){
+  const g=[(item.glosa||{}).fundamentosClinicos||'',(item.glosa||{}).examenesRealizados||'',(item.glosa||{}).observaciones||''].join(' ').toLowerCase();
+  const c=(cie||'').toUpperCase();
+  if(c.match(/^F3[012]/))return/depresi[oó]n|ánimo (bajo|depresivo)|anhedonia|tristeza|decaimiento|abulia|distimia|llanto/.test(g)?'ok':'revisar';
+  if(c.match(/^F2[0235]/))return/alucinaci[oó]n|psicosis|psicótic|delirio|esquizofrenia|voces/.test(g)?'ok':'revisar';
+  if(c.match(/^F1[049]/))return/consumo|sustancia|droga|cocaína|pasta base|alcohol|marihuana|thc|dependencia/.test(g)?'ok':'revisar';
+  if(c.match(/^F6[01]/))return/personalidad|borderline|tlp|inestable|impulsividad|labilidad/.test(g)?'ok':'revisar';
+  if(c.match(/^F7[0-8]/))return/discapacidad|retraso|intelectual|psicometr[ií]a|credencial|dificultad/.test(g)?'ok':'revisar';
+  if(c.match(/^F4[34]/))return/trauma|tept|disociativ|conversivo|vif|abuso|estrés/.test(g)?'ok':'revisar';
+  if(c.match(/^F84/))return/tea|autismo|espectro autista|autista|williams|asperger/.test(g)?'ok':'revisar';
+  return'ok';
+}
+function completitud(item){
+  const g=[(item.glosa||{}).fundamentosClinicos||'',(item.glosa||{}).examenesRealizados||'',(item.glosa||{}).observaciones||''].join(' ').toLowerCase();
+  let s=0;
+  if(/\bam\b|antecedente(s)? mórbido|mórbido/.test(g))s++;
+  if(/fármaco|medicamento|tratamiento|tto\s/.test(g))s++;
+  if(/\bsocial\b|vive con|red de apoyo|escolaridad|ocupaci[oó]n/.test(g))s++;
+  if(/examen mental|\bem:\b|al examen|vigil|lenguaje/.test(g))s++;
+  if(/ideaci[oó]n suicida|suicidalidad|niega ideaci[oó]n|sin ideaci[oó]n/.test(g))s++;
+  if(/alergi|ram\b/.test(g))s++;
+  return s>=5?'completa':s>=3?'parcial':'incompleta';
+}
+
+function procesarGlosas(){
+  glosasRows=datos.map(item=>{
+    const dgs=item.diagnosticos||[];
+    const dg=dgs.find(d=>d.principal)||dgs[0]||{};
+    const cie_code=dg.cie10||'';
+    const cie=cie_code+' '+(dg.descripcion||'');
+    const m=detectar(item);
+    const coh=coherencia(cie_code,item);
+    const comp=completitud(item);
+    const nMarcadores=[m.suicid,m.hosp,m.vif,m.refrac,m.consumo].filter(Boolean).length;
+    return{n:String(item.numeroSolicitud||item.id),pac:(item.paciente||{}).nombre||'',cie,cie_code,...m,coh,comp,nMarcadores,_item:item};
+  });
+  document.getElementById('glosasEmpty').style.display='none';
+  document.getElementById('glosasContent').style.display='';
+  renderGMetricas();
+  renderGCharts();
+  renderGlosasTabla();
+}
+
+function renderGMetricas(){
+  const tot=glosasRows.length;
+  const cnt=k=>glosasRows.filter(r=>r[k]).length;
+  const pct=k=>Math.round(cnt(k)/tot*100);
+  document.getElementById('gMetricas').innerHTML=`
+    <div class="mc"><div class="mc-label">Suicidalidad</div><div class="mc-val" style="color:var(--red)">${cnt('suicid')}</div><div class="mc-sub">${pct('suicid')}% del total</div></div>
+    <div class="mc"><div class="mc-label">Hosp. previa</div><div class="mc-val" style="color:var(--blue)">${cnt('hosp')}</div><div class="mc-sub">${pct('hosp')}%</div></div>
+    <div class="mc"><div class="mc-label">VIF / Trauma</div><div class="mc-val" style="color:var(--amber)">${cnt('vif')}</div><div class="mc-sub">${pct('vif')}%</div></div>
+    <div class="mc"><div class="mc-label">Refractariedad</div><div class="mc-val" style="color:var(--purple)">${cnt('refrac')}</div><div class="mc-sub">${pct('refrac')}%</div></div>
+    <div class="mc"><div class="mc-label">Consumo activo</div><div class="mc-val" style="color:var(--teal)">${cnt('consumo')}</div><div class="mc-sub">${pct('consumo')}%</div></div>`;
+}
+
+function bar(v,max,color){return`<div class="bar-track"><div class="bar-fill" style="width:${Math.round(v/max*100)}%;background:${color}"></div></div>`;}
+
+function renderGCharts(){
+  const tot=glosasRows.length;
+  const cnt=k=>glosasRows.filter(r=>r[k]).length;
+  const pct=(v,t)=>Math.round(v/t*100);
+  const cohOk=glosasRows.filter(r=>r.coh==='ok').length;
+  const compC=glosasRows.filter(r=>r.comp==='completa').length;
+  const compP=glosasRows.filter(r=>r.comp==='parcial').length;
+  const compI=glosasRows.filter(r=>r.comp==='incompleta').length;
+  const maxM=Math.max(cnt('suicid'),cnt('hosp'),cnt('vif'),cnt('refrac'),cnt('consumo'),1);
+  document.getElementById('gCharts').innerHTML=`
+  <div class="card">
+    <div class="card-title">Marcadores clínicos</div>
+    <div class="bar-row"><span class="bar-label">Suicidalidad</span>${bar(cnt('suicid'),maxM,'#c0291a')}<span class="bar-n">${cnt('suicid')} (${pct(cnt('suicid'),tot)}%)</span></div>
+    <div class="bar-row"><span class="bar-label">Hospitaliz. previa</span>${bar(cnt('hosp'),maxM,'#0e3d7a')}<span class="bar-n">${cnt('hosp')} (${pct(cnt('hosp'),tot)}%)</span></div>
+    <div class="bar-row"><span class="bar-label">VIF / Trauma</span>${bar(cnt('vif'),maxM,'#8a4f00')}<span class="bar-n">${cnt('vif')} (${pct(cnt('vif'),tot)}%)</span></div>
+    <div class="bar-row"><span class="bar-label">Refractariedad</span>${bar(cnt('refrac'),maxM,'#4a1a7a')}<span class="bar-n">${cnt('refrac')} (${pct(cnt('refrac'),tot)}%)</span></div>
+    <div class="bar-row"><span class="bar-label">Consumo sustancias</span>${bar(cnt('consumo'),maxM,'#0e5a4a')}<span class="bar-n">${cnt('consumo')} (${pct(cnt('consumo'),tot)}%)</span></div>
+    <div class="cooc">
+      <span>Suicid+Hosp: <strong>${glosasRows.filter(r=>r.suicid&&r.hosp).length}</strong></span>
+      <span>Suicid+VIF: <strong>${glosasRows.filter(r=>r.suicid&&r.vif).length}</strong></span>
+      <span>Refrac+Consumo: <strong>${glosasRows.filter(r=>r.refrac&&r.consumo).length}</strong></span>
+      <span>Alta complejidad (3+): <strong>${glosasRows.filter(r=>r.nMarcadores>=3).length}</strong></span>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-title">Coherencia diagnóstico ↔ glosa</div>
+    <div class="bar-row"><span class="bar-label">Coherente</span>${bar(cohOk,tot,'#1a5a2e')}<span class="bar-n">${cohOk} (${pct(cohOk,tot)}%)</span></div>
+    <div class="bar-row"><span class="bar-label">A revisar</span>${bar(tot-cohOk,tot,'#8a4f00')}<span class="bar-n">${tot-cohOk} (${pct(tot-cohOk,tot)}%)</span></div>
+    <div class="card-title" style="margin-top:12px">Completitud de anamnesis</div>
+    <div class="bar-row"><span class="bar-label">Completa (≥5 campos)</span>${bar(compC,tot,'#1a5a2e')}<span class="bar-n">${compC} (${pct(compC,tot)}%)</span></div>
+    <div class="bar-row"><span class="bar-label">Parcial (3-4 campos)</span>${bar(compP,tot,'#8a4f00')}<span class="bar-n">${compP} (${pct(compP,tot)}%)</span></div>
+    <div class="bar-row"><span class="bar-label">Incompleta (&lt;3 campos)</span>${bar(compI,tot,'#c0291a')}<span class="bar-n">${compI} (${pct(compI,tot)}%)</span></div>
+    <div class="cooc">Campos evaluados: AM, fármacos, contexto social, examen mental, suicidalidad explícita, alergias/RAM</div>
+  </div>`;
+}
+
+function gFiltrar(){
+  const q=document.getElementById('gSearch').value.toLowerCase();
+  const fm=document.getElementById('gFiltroMarcador').value;
+  const fc=document.getElementById('gFiltroComp').value;
+  return glosasRows.filter(r=>{
+    if(q&&!r.n.includes(q)&&!r.pac.toLowerCase().includes(q)&&!r.cie.toLowerCase().includes(q))return false;
+    if(fm==='suicid'&&!r.suicid)return false;
+    if(fm==='hosp'&&!r.hosp)return false;
+    if(fm==='vif'&&!r.vif)return false;
+    if(fm==='refrac'&&!r.refrac)return false;
+    if(fm==='consumo'&&!r.consumo)return false;
+    if(fm==='incoherente'&&r.coh!=='revisar')return false;
+    if(fm==='incompleta'&&r.comp!=='incompleta')return false;
+    if(fm==='alta'&&r.nMarcadores<3)return false;
+    if(fc&&r.comp!==fc)return false;
+    return true;
+  });
+}
+
+function gSort(key){if(gSortKey===key)gSortAsc=!gSortAsc;else{gSortKey=key;gSortAsc=true;}renderGlosasTabla();}
+
+function renderGlosasTabla(){
+  let filtered=gFiltrar();
+  filtered.sort((a,b)=>{let va=a[gSortKey]||'',vb=b[gSortKey]||'';if(typeof va==='boolean'){va=va?0:1;vb=vb?0:1;}const c=String(va).localeCompare(String(vb),'es',{numeric:true});return gSortAsc?c:-c;});
+  document.getElementById('gCount').textContent=filtered.length+' / '+glosasRows.length;
+  const pM=(v,l,cls)=>v?`<span class="pill ${cls}">${l}</span>`:'';
+  const cohP=c=>c==='ok'?'<span class="pill p-green">ok</span>':'<span class="pill p-amber">revisar</span>';
+  const compP=c=>({completa:'<span class="pill p-green">completa</span>',parcial:'<span class="pill p-amber">parcial</span>',incompleta:'<span class="pill p-red">incompleta</span>'})[c]||'';
+  document.getElementById('gTbody').innerHTML=filtered.map(r=>`<tr>
+    <td class="mono" style="white-space:nowrap">${r.n}</td>
+    <td style="white-space:nowrap">${r.pac}</td>
+    <td class="mono" style="font-size:10px;white-space:nowrap">${r.cie_code}</td>
+    <td><div class="flags">${pM(r.suicid,'suicid.','p-red')}${pM(r.hosp,'hosp.','p-blue')}${pM(r.vif,'vif','p-amber')}${pM(r.refrac,'refrac.','p-purple')}${pM(r.consumo,'consumo','p-teal')}${r.nMarcadores===0?'<span class="pill p-gray">—</span>':''}</div></td>
+    <td>${cohP(r.coh)}</td>
+    <td>${compP(r.comp)}</td>
+    <td><button class="detail-btn" onclick="abrirModal('${r.n}')">ver →</button></td>
+  </tr>`).join('');
+}
+
+function abrirModal(n){
+  const r=glosasRows.find(x=>x.n===n);if(!r)return;
+  const item=r._item;const pac=item.paciente||{};
+  document.getElementById('modalTitle').textContent='SIC '+r.n+' — '+r.pac;
+  const pM=(v,l,cls)=>v?`<span class="pill ${cls}" style="font-size:10px">${l}</span> `:'';
+  const cohP=c=>c==='ok'?'<span class="pill p-green">coherente</span>':'<span class="pill p-amber">revisar coherencia</span>';
+  const compP=c=>({completa:'<span class="pill p-green">anamnesis completa</span>',parcial:'<span class="pill p-amber">anamnesis parcial</span>',incompleta:'<span class="pill p-red">anamnesis incompleta</span>'})[c]||'';
+  const glosa=[(item.glosa||{}).fundamentosClinicos?'=== FUNDAMENTOS CLÍNICOS ===\n'+(item.glosa||{}).fundamentosClinicos:'',
+    (item.glosa||{}).examenesRealizados?'\n=== EXÁMENES ===\n'+(item.glosa||{}).examenesRealizados:'',
+    (item.glosa||{}).observaciones?'\n=== OBSERVACIONES ===\n'+(item.glosa||{}).observaciones:''
+  ].filter(Boolean).join('\n\n')||'(sin glosa)';
+  const obsHtml=(item.observacionesContralor||[]).length?
+    (item.observacionesContralor||[]).map(o=>`<div style="margin-bottom:5px"><span class="mono" style="font-size:10px;color:var(--text2)">[${o.fecha}] ${o.funcionario}</span><br>${o.texto}</div>`).join(''):
+    '<span style="color:var(--text3);font-size:11px">Sin observaciones</span>';
+  document.getElementById('modalBody').innerHTML=`
+    <div class="modal-grid" style="margin-bottom:12px">
+      <div><div class="modal-label">CIE-10 principal</div><div style="font-size:11px;font-family:monospace">${r.cie}</div></div>
+      <div><div class="modal-label">Especialidad</div><div style="font-size:11px">${item.especialidad||''}</div></div>
+      <div><div class="modal-label">Origen</div><div style="font-size:11px">${item.establecimientoOrigen||''}</div></div>
+      <div><div class="modal-label">Médico</div><div style="font-size:11px">${item.medicoDerivador||''}</div></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:4px;margin-bottom:10px">
+      ${pM(r.suicid,'suicidalidad','p-red')}${pM(r.hosp,'hospitaliz. previa','p-blue')}${pM(r.vif,'vif/trauma','p-amber')}${pM(r.refrac,'refractariedad','p-purple')}${pM(r.consumo,'consumo','p-teal')}
+      ${cohP(r.coh)} ${compP(r.comp)}
+    </div>
+    <div class="modal-label">Glosa clínica completa</div>
+    <div class="modal-glosa">${glosa.replace(/</g,'&lt;')}</div>
+    <div class="modal-label">Observaciones contralor</div>
+    <div style="margin-top:4px">${obsHtml}</div>`;
+  document.getElementById('modal').classList.add('open');
+}
+
+function exportGlosasCSV(){
+  const filtered=gFiltrar();if(!filtered.length){alert('Sin datos.');return;}
+  const headers=['N° SIC','Paciente','CIE-10','Suicidalidad','Hosp. previa','VIF/Trauma','Refractariedad','Consumo','Marcadores N°','Dg/Glosa','Completitud'];
+  const esc=v=>{const s=String(v??'');return(s.includes(';')||s.includes('"'))?'"'+s.replace(/"/g,'""')+'"':s;};
+  const body=filtered.map(r=>[r.n,r.pac,r.cie_code,r.suicid?'Sí':'No',r.hosp?'Sí':'No',r.vif?'Sí':'No',r.refrac?'Sí':'No',r.consumo?'Sí':'No',r.nMarcadores,r.coh,r.comp].map(esc).join(';'));
+  const csv=[headers.join(';'),...body].join('\r\n');
+  const blob=new Blob(['\uFEFF'+csv],{type:'text/csv;charset=utf-8'});
+  const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='analisis_glosas_'+new Date().toISOString().slice(0,10)+'.csv';a.click();
+}
+
+function copiarGlosasMD(){
+  const filtered=gFiltrar();if(!filtered.length){alert('Sin datos.');return;}
+  const mStr=r=>[r.suicid&&'suicid.',r.hosp&&'hosp.',r.vif&&'vif',r.refrac&&'refrac.',r.consumo&&'consumo'].filter(Boolean).join(', ')||'—';
+  const md=`# Análisis de glosas SIC — COSAM Rahue\n${new Date().toLocaleDateString('es-CL')} · ${filtered.length} SIC\n\n| N° SIC | Paciente | CIE-10 | Marcadores | Dg/Glosa | Anamnesis |\n|--------|----------|--------|------------|----------|-----------|\n`+
+    filtered.map(r=>`| ${r.n} | ${r.pac} | ${r.cie_code} | ${mStr(r)} | ${r.coh} | ${r.comp} |`).join('\n');
+  navigator.clipboard.writeText(md).then(()=>alert('Markdown copiado ('+filtered.length+' SIC)'));
+}
+
+buildColGrid();
+</script>
+</body>
+</html>
