@@ -1,0 +1,1829 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ADC · IPD GES</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" rel="stylesheet">
+<style>
+/* =========================================================
+   TOKENS — paleta ADC institucional (clara con header dark)
+   ========================================================= */
+:root {
+  /* Layout claro */
+  --bg: #f4f5f8;
+  --surface: #ffffff;
+  --surface2: #fbfcfd;
+  --surface3: #f0f2f6;
+  --border: #e4e6ec;
+  --border2: #d0d3dc;
+
+  /* Tinta */
+  --ink: #1a1d24;
+  --ink-mid: #4a4f5c;
+  --ink-soft: #6b7080;
+  --ink-dim: #9095a3;
+
+  /* Acentos */
+  --accent: #2d5fd4;
+  --accent2: #4a7cf7;
+  --accent-soft: #eaf0ff;
+  --green: #2d8c4e;
+  --green-soft: #e8f5ec;
+  --yellow: #b8761e;
+  --yellow-soft: #fdf3e0;
+  --red: #a83232;
+  --red-soft: #fbe9e9;
+
+  /* Header (oscuro) */
+  --hdr-bg: #161a23;
+  --hdr-ink: #d4daf0;
+  --hdr-mid: #9aa3c4;
+  --hdr-dim: #6b7494;
+  --hdr-border: #252a38;
+
+  /* Documento (preview) */
+  --doc-bg: #ffffff;
+  --doc-ink: #000000;
+  --doc-rule: #000000;
+
+  /* Tipografía */
+  --mono: 'IBM Plex Mono', 'Consolas', monospace;
+  --sans: 'IBM Plex Sans', system-ui, sans-serif;
+  --serif: 'Source Serif 4', Georgia, serif;
+
+  --shadow: 0 1px 2px rgba(26,29,36,.04), 0 8px 24px rgba(26,29,36,.06);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--sans);
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--ink);
+  background: var(--bg);
+}
+button, input, textarea, select { font: inherit; color: inherit; }
+button { cursor: pointer; }
+
+/* =========================================================
+   HEADER GLOBAL ADC
+   ========================================================= */
+.adc-bar {
+  background: var(--hdr-bg);
+  border-bottom: 1px solid var(--hdr-border);
+  padding: 14px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.adc-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.sys-tag {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--hdr-dim);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  border: 1px solid var(--hdr-border);
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.adc-title {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--hdr-ink);
+  letter-spacing: 0.02em;
+}
+.adc-title .sep {
+  color: var(--hdr-dim);
+  margin: 0 6px;
+}
+.version-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  background: var(--accent);
+  color: #fff;
+  padding: 2px 7px;
+  border-radius: 3px;
+  letter-spacing: 0.02em;
+}
+.adc-bar-meta {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--hdr-mid);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.adc-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: #1f2430;
+  color: var(--hdr-mid);
+  border: 1px solid var(--hdr-border);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.adc-pill.ok    { background: #0f2018; color: #5abf80; border-color: #1d3a26; }
+.adc-pill.warn  { background: #2a1f0a; color: #f0c040; border-color: #3a2e15; }
+.adc-pill.bad   { background: #2a1010; color: #f08080; border-color: #3a1818; }
+
+/* =========================================================
+   APP LAYOUT
+   ========================================================= */
+.app {
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  min-height: calc(100vh - 50px);
+}
+@media (max-width: 980px) {
+  .app { grid-template-columns: 1fr; }
+}
+
+/* =========================================================
+   PANEL (control)
+   ========================================================= */
+.panel {
+  background: var(--surface);
+  border-right: 1px solid var(--border);
+  padding: 18px 20px 28px;
+  overflow-y: auto;
+  max-height: calc(100vh - 50px);
+  position: sticky;
+  top: 50px;
+}
+@media (max-width: 980px) {
+  .panel { position: static; max-height: none; }
+}
+
+/* Sección con título tipo norm-ref */
+.section-label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-dim);
+  margin: 18px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--border);
+}
+.section-label:first-child { margin-top: 0; }
+
+/* Acciones primarias */
+.actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+.actions button {
+  background: var(--accent);
+  color: #fff;
+  border: 1px solid var(--accent);
+  padding: 9px 12px;
+  border-radius: 4px;
+  font-family: var(--mono);
+  font-weight: 500;
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  transition: background .12s, border-color .12s;
+}
+.actions button:hover { background: #1f4ec0; border-color: #1f4ec0; }
+.actions button.secondary {
+  background: var(--surface);
+  color: var(--ink-mid);
+  border: 1px solid var(--border2);
+}
+.actions button.secondary:hover {
+  background: var(--surface3);
+  color: var(--ink);
+  border-color: var(--ink-dim);
+}
+.actions button.print {
+  grid-column: span 2;
+  background: var(--ink);
+  color: #fff;
+  border-color: var(--ink);
+}
+.actions button.print:hover { background: #2a2f3a; border-color: #2a2f3a; }
+
+/* Pegado manual */
+.paste-block {
+  margin-top: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+.paste-block > summary {
+  padding: 9px 12px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.paste-block > summary::before {
+  content: '▸';
+  font-size: 9px;
+  color: var(--ink-dim);
+  transition: transform .15s;
+}
+.paste-block[open] > summary::before { transform: rotate(90deg); }
+.paste-block > summary::-webkit-details-marker { display: none; }
+.paste-body {
+  padding: 0 12px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.paste-body textarea {
+  width: 100%;
+  min-height: 70px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  padding: 8px 10px;
+  font-family: var(--mono);
+  font-size: 11px;
+  resize: vertical;
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  word-break: break-all;
+}
+.paste-body textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.paste-body button {
+  align-self: flex-start;
+  background: var(--ink);
+  color: #fff;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.paste-body button:hover { background: #2a2f3a; }
+.paste-hint {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--ink-dim);
+  line-height: 1.5;
+}
+
+/* Fieldsets */
+fieldset {
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 4px 14px 12px;
+  margin: 12px 0 0;
+  background: var(--surface);
+}
+legend {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  padding: 0 6px;
+}
+
+/* Campos */
+.field { display: flex; flex-direction: column; gap: 3px; margin-top: 8px; }
+.field:first-of-type { margin-top: 4px; }
+.field label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+}
+.field input,
+.field textarea,
+.field select {
+  background: #fff;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  padding: 7px 9px;
+  font-size: 12.5px;
+  color: var(--ink);
+  outline: none;
+  font-family: var(--sans);
+  transition: border-color .12s, box-shadow .12s;
+}
+.field input:focus,
+.field textarea:focus,
+.field select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 2px var(--accent-soft);
+}
+.field textarea {
+  resize: vertical;
+  min-height: 56px;
+  font-family: var(--sans);
+}
+.field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.field-row-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+
+/* Indicador campo precargado desde Rayen */
+.field input.from-rayen,
+.field select.from-rayen {
+  border-color: var(--green);
+  background: var(--green-soft);
+}
+
+/* Details collapsable (configuración) */
+details.collapse {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  margin-top: 12px;
+}
+details.collapse > summary {
+  padding: 9px 12px;
+  cursor: pointer;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  list-style: none;
+  user-select: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+details.collapse > summary::before {
+  content: '▸';
+  font-size: 9px;
+  color: var(--ink-dim);
+  transition: transform .15s;
+}
+details.collapse[open] > summary::before { transform: rotate(90deg); }
+details.collapse > summary::-webkit-details-marker { display: none; }
+details.collapse > .field,
+details.collapse > .field-row,
+details.collapse > .field-row-3 { margin: 0 12px 8px; }
+details.collapse > .field:first-of-type,
+details.collapse > .field-row:first-of-type,
+details.collapse > .field-row-3:first-of-type { margin-top: 4px; }
+details.collapse > .asset-row { margin: 4px 12px 12px; }
+
+/* Plantillas */
+.plantilla-row {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 5px;
+  align-items: end;
+}
+.plantilla-row select { font-size: 11px; padding: 5px 7px; }
+.plantilla-row button {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  padding: 5px 9px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+.plantilla-row button:hover {
+  background: var(--surface3);
+  color: var(--ink);
+  border-color: var(--ink-dim);
+}
+
+/* Asset uploads */
+.asset-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+.asset-slot {
+  border: 1px dashed var(--border2);
+  border-radius: 3px;
+  padding: 8px;
+  text-align: center;
+  cursor: pointer;
+  background: #fff;
+  transition: border-color .12s, background .12s;
+}
+.asset-slot:hover { border-color: var(--accent); background: var(--accent-soft); }
+.asset-slot > .asset-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  display: block;
+  margin-bottom: 4px;
+}
+.asset-slot img {
+  max-width: 100%;
+  max-height: 50px;
+  display: block;
+  margin: 4px auto 0;
+}
+.asset-slot input[type=file] { display: none; }
+.asset-slot .empty {
+  font-family: var(--mono);
+  font-size: 9px;
+  color: var(--ink-dim);
+}
+
+/* =========================================================
+   PREVIEW (documento)
+   ========================================================= */
+.preview-wrap {
+  padding: 24px 24px 60px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  background: var(--bg);
+}
+.documento {
+  background: var(--doc-bg);
+  color: var(--doc-ink);
+  width: 21cm;
+  min-height: 29.7cm;
+  padding: 1.4cm 1.4cm;
+  box-shadow: var(--shadow);
+  font-family: 'Helvetica', 'Arial', sans-serif;
+  font-size: 10pt;
+  line-height: 1.25;
+}
+
+/* Header del documento (Crystal Reports) */
+.doc-header {
+  display: grid;
+  grid-template-columns: 80px 1fr 160px;
+  align-items: center;
+  gap: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1.5px solid var(--doc-rule);
+}
+.doc-logo { width: 80px; height: 80px; display: flex; align-items: center; justify-content: center; }
+.doc-logo img { max-width: 100%; max-height: 100%; }
+.doc-logo .placeholder {
+  width: 70px; height: 70px;
+  border: 1px dashed #999;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 8pt; color: #999; text-align: center;
+}
+.doc-titulo { text-align: center; }
+.doc-titulo h2 {
+  font-size: 13pt; font-weight: 700; margin: 0;
+  text-decoration: underline; letter-spacing: 0.01em;
+}
+.doc-titulo .fecha { font-size: 10pt; margin-top: 4px; font-weight: 700; }
+.doc-titulo .fecha span { font-weight: 400; margin-left: 4px; }
+.doc-folio { font-size: 10pt; font-weight: 700; text-align: right; padding-right: 4px; }
+.doc-folio span {
+  font-weight: 400;
+  border-bottom: 1px solid var(--doc-rule);
+  display: inline-block;
+  min-width: 90px;
+  text-align: center;
+  padding: 0 4px;
+}
+
+.doc-section-title {
+  font-size: 11pt; font-weight: 700;
+  margin: 14px 0 6px;
+  border-bottom: 1px solid var(--doc-rule);
+  padding-bottom: 2px;
+}
+.doc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px 12px; margin-bottom: 4px; }
+.doc-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px 12px; margin-bottom: 4px; }
+.doc-field { display: flex; flex-direction: column; gap: 2px; }
+.doc-field .doc-label { font-size: 9.5pt; font-weight: 700; }
+.doc-field .doc-value {
+  border: 1px solid var(--doc-rule);
+  padding: 3px 6px;
+  min-height: 18px;
+  font-size: 10pt;
+  background: #fff;
+}
+.doc-field-block {
+  border-bottom: 1px solid var(--doc-rule);
+  padding-bottom: 4px;
+  margin-bottom: 6px;
+}
+.doc-field-block .doc-label { font-size: 10pt; font-weight: 700; margin-bottom: 2px; }
+.doc-field-block .doc-value {
+  padding: 2px 0;
+  white-space: pre-wrap;
+  font-size: 10pt;
+  min-height: 14px;
+}
+
+.doc-prof-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px 16px;
+  margin-top: 8px;
+}
+.doc-firma {
+  border-bottom: 1px solid var(--doc-rule);
+  height: 60px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding-bottom: 2px;
+}
+.doc-firma img { max-height: 56px; max-width: 100%; }
+.doc-firma-label {
+  text-align: center;
+  font-size: 9.5pt;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+/* =========================================================
+   PRINT
+   ========================================================= */
+@page { size: A4 portrait; margin: 0; }
+@media print {
+  body { background: #fff; }
+  .adc-bar, .panel { display: none !important; }
+  .app { display: block; }
+  .preview-wrap { padding: 0; background: #fff; }
+  .documento {
+    box-shadow: none;
+    width: 100%;
+    min-height: auto;
+    padding: 1cm 1.2cm;
+  }
+}
+
+/* =========================================================
+   SUGERENCIAS DEL HISTORIAL
+   ========================================================= */
+.suggest-body {
+  padding: 4px 12px 12px;
+}
+.suggest-item {
+  margin-top: 8px;
+}
+.suggest-item:first-child { margin-top: 4px; }
+.suggest-item label {
+  font-family: var(--mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  display: block;
+  margin-bottom: 4px;
+}
+.suggest-item select {
+  width: 100%;
+  padding: 6px 8px;
+  border: 1px solid var(--border2);
+  border-radius: 3px;
+  font-size: 12px;
+  background: #fff;
+  color: var(--ink);
+  outline: none;
+  font-family: var(--sans);
+}
+.suggest-item select:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.chip-row { display: flex; flex-wrap: wrap; gap: 4px; }
+.chip {
+  background: var(--accent-soft);
+  color: var(--accent);
+  border: 1px solid #c8d6f5;
+  padding: 4px 9px;
+  border-radius: 12px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  cursor: pointer;
+  transition: background .12s, color .12s, border-color .12s;
+  white-space: nowrap;
+  max-width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.chip:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+.suggest-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 10px;
+}
+.suggest-actions button {
+  width: 100%;
+  background: var(--surface);
+  border: 1px solid var(--border2);
+  padding: 7px 10px;
+  border-radius: 3px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--ink-mid);
+  text-align: left;
+  cursor: pointer;
+  transition: background .12s, border-color .12s, color .12s;
+}
+.suggest-actions button:hover {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.suggest-actions button .meta {
+  font-size: 9px;
+  color: var(--ink-dim);
+  text-transform: none;
+  letter-spacing: 0;
+  display: block;
+  margin-top: 2px;
+}
+.suggest-actions button:hover .meta { color: var(--accent); opacity: 0.7; }
+.sg-count {
+  font-family: var(--mono);
+  font-size: 9px;
+  background: var(--accent);
+  color: #fff;
+  padding: 1px 6px;
+  border-radius: 999px;
+  margin-left: 6px;
+  letter-spacing: 0.02em;
+}
+
+/* Scrollbar fino */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-dim); }
+</style>
+</head>
+<body>
+
+<!-- =========================================================
+     HEADER GLOBAL ADC
+     ========================================================= -->
+<header class="adc-bar">
+  <div class="adc-bar-left">
+    <span class="sys-tag">ADC</span>
+    <span class="adc-title">IPD GES <span class="sep">·</span> Informe del Proceso Diagnóstico</span>
+    <span class="version-badge">v1.0</span>
+  </div>
+  <div class="adc-bar-meta">
+    <span id="metaEstablecimiento">OSORNO · COSAM Rahue</span>
+    <span class="adc-pill ok" id="statusPill">Listo</span>
+  </div>
+</header>
+
+<div class="app">
+
+  <!-- =========================================================
+       PANEL DE CONTROL
+       ========================================================= -->
+  <aside class="panel">
+
+    <div class="section-label">Acciones</div>
+    <div class="actions">
+      <button onclick="cargarRayen()">Rayen — Cargar</button>
+      <button class="secondary" onclick="limpiarPaciente()">Limpiar paciente</button>
+      <button class="print" onclick="window.print()">Imprimir documento</button>
+    </div>
+
+    <!-- Pegado manual del payload LZ -->
+    <details class="paste-block">
+      <summary>Pegar payload LZ manualmente</summary>
+      <div class="paste-body">
+        <p class="paste-hint">
+          Si el portapapeles no funciona, pega aquí el string LZ-Base64 del bookmarklet
+          (o un JSON crudo <code>{paciente, historial}</code>) y procesa.
+        </p>
+        <textarea id="pasteLZ" placeholder="N4IgxgFgpgxglgIwK4FsCmBJADmgYgZwHsoBXAJxgEMAbAFwH1IBPCwhJ..."></textarea>
+        <button onclick="procesarTextoPegado()">Procesar texto pegado</button>
+      </div>
+    </details>
+
+    <!-- Sugerencias extraídas del historial Rayen -->
+    <details class="collapse" id="sugerenciasHistorial" style="display:none">
+      <summary>Sugerencias del historial<span class="sg-count" id="sg_count"></span></summary>
+      <div class="suggest-body">
+        <div class="suggest-item" id="sg_fichasItem">
+          <label>Ficha clínica disponible</label>
+          <select id="sg_fichas" onchange="aplicarFicha(this.value)">
+            <option value="">— elegir —</option>
+          </select>
+        </div>
+        <div class="suggest-item" id="sg_augeItem">
+          <label>Diagnósticos AUGE → campos 12 + 15</label>
+          <div class="chip-row" id="sg_auge"></div>
+        </div>
+        <div class="suggest-actions">
+          <button id="sg_btnReceta" onclick="aplicarUltimaReceta()" style="display:none">
+            <span id="sg_btnRecetaLabel">Aplicar última receta psiquiátrica</span>
+            <span class="meta" id="sg_btnRecetaMeta"></span>
+          </button>
+          <button id="sg_btnEvol" onclick="aplicarUltimaEvolucion()" style="display:none">
+            <span>Fundamentar con evolución reciente</span>
+            <span class="meta" id="sg_btnEvolMeta"></span>
+          </button>
+        </div>
+      </div>
+    </details>
+
+    <!-- Configuración institucional -->
+    <details class="collapse">
+      <summary>Configuración institucional</summary>
+      <div class="field-row">
+        <div class="field">
+          <label>1. Servicio de Salud</label>
+          <input id="i_servicio" data-config>
+        </div>
+        <div class="field">
+          <label>2. Establecimiento</label>
+          <input id="i_establecimiento" data-config>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>3. Especialidad</label>
+          <input id="i_especialidad" data-config>
+        </div>
+        <div class="field">
+          <label>4. Unidad</label>
+          <input id="i_unidad" data-config>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>19. Profesional — Nombre</label>
+          <input id="i_profNombre" data-config>
+        </div>
+        <div class="field">
+          <label>20. Profesional — RUT</label>
+          <input id="i_profRut" data-config>
+        </div>
+      </div>
+      <div class="asset-row">
+        <label class="asset-slot" for="i_logoFile">
+          <span class="asset-label">Logo MINSAL</span>
+          <input type="file" id="i_logoFile" accept="image/*">
+          <img id="i_logoPreview" style="display:none">
+          <span class="empty" id="i_logoEmpty">Click para subir</span>
+        </label>
+        <label class="asset-slot" for="i_firmaFile">
+          <span class="asset-label">Firma profesional</span>
+          <input type="file" id="i_firmaFile" accept="image/*">
+          <img id="i_firmaPreview" style="display:none">
+          <span class="empty" id="i_firmaEmpty">Click para subir</span>
+        </label>
+      </div>
+    </details>
+
+    <!-- Documento -->
+    <fieldset>
+      <legend>Documento</legend>
+      <div class="field-row">
+        <div class="field">
+          <label>Folio N°</label>
+          <input id="i_folio" placeholder="(manual)">
+        </div>
+        <div class="field">
+          <label>Fecha informe</label>
+          <input id="i_fecha">
+        </div>
+      </div>
+    </fieldset>
+
+    <!-- Paciente -->
+    <fieldset>
+      <legend>Paciente</legend>
+      <div class="field">
+        <label>5. Nombre</label>
+        <input id="i_pNombre">
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>6. Historia Clínica</label>
+          <input id="i_pHistoria">
+        </div>
+        <div class="field">
+          <label>7. RUT</label>
+          <input id="i_pRut">
+        </div>
+      </div>
+      <div class="field-row-3">
+        <div class="field">
+          <label>9. Sexo</label>
+          <select id="i_pSexo">
+            <option value=""></option>
+            <option value="Hombre">Hombre</option>
+            <option value="Mujer">Mujer</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>10. Fecha Nac.</label>
+          <input id="i_pFechaNac" placeholder="dd/mm/yyyy">
+        </div>
+        <div class="field">
+          <label>11. Edad</label>
+          <input id="i_pEdad" placeholder="auto">
+        </div>
+      </div>
+      <div class="field">
+        <label>8. RUT padre/madre (si recién nacido)</label>
+        <input id="i_pRutTutor">
+      </div>
+    </fieldset>
+
+    <!-- Clínico -->
+    <fieldset>
+      <legend>Datos clínicos</legend>
+      <div class="field">
+        <label>12. Problema de salud AUGE</label>
+        <input id="i_problemaAuge" list="problemasAugeList">
+        <datalist id="problemasAugeList">
+          <option value="Esquizofrenia">
+          <option value="Depresión en personas de 15 años y más">
+          <option value="Consumo perjudicial o dependencia de alcohol y drogas en menores de 20 años">
+          <option value="Trastorno bipolar en personas de 15 años y más">
+          <option value="Enfermedad de Alzheimer y otras demencias">
+        </datalist>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>13. Confirma AUGE</label>
+          <select id="i_confirmaAuge">
+            <option value="SI">SI</option>
+            <option value="NO">NO</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>14. Subgrupo / subproblema</label>
+          <input id="i_subgrupo">
+        </div>
+      </div>
+
+      <div class="field">
+        <label>15. Diagnóstico</label>
+        <div class="plantilla-row">
+          <select id="pl_diagnostico" onchange="aplicarPlantilla('diagnostico', this.value)">
+            <option value="">— plantillas —</option>
+          </select>
+          <button onclick="guardarPlantilla('diagnostico')">Guardar</button>
+          <button onclick="eliminarPlantilla('diagnostico')">×</button>
+        </div>
+        <textarea id="i_diagnostico" rows="2"></textarea>
+      </div>
+
+      <div class="field">
+        <label>16. Fundamentos del diagnóstico</label>
+        <div class="plantilla-row">
+          <select id="pl_fundamentos" onchange="aplicarPlantilla('fundamentos', this.value)">
+            <option value="">— plantillas —</option>
+          </select>
+          <button onclick="guardarPlantilla('fundamentos')">Guardar</button>
+          <button onclick="eliminarPlantilla('fundamentos')">×</button>
+        </div>
+        <textarea id="i_fundamentos" rows="3"></textarea>
+      </div>
+
+      <div class="field">
+        <label>17. Tratamiento e indicaciones</label>
+        <div class="plantilla-row">
+          <select id="pl_tratamiento" onchange="aplicarPlantilla('tratamiento', this.value)">
+            <option value="">— plantillas —</option>
+          </select>
+          <button onclick="guardarPlantilla('tratamiento')">Guardar</button>
+          <button onclick="eliminarPlantilla('tratamiento')">×</button>
+        </div>
+        <textarea id="i_tratamiento" rows="6"></textarea>
+      </div>
+    </fieldset>
+
+  </aside>
+
+  <!-- =========================================================
+       PREVIEW DEL DOCUMENTO
+       ========================================================= -->
+  <main class="preview-wrap">
+    <div class="documento" id="documento">
+
+      <header class="doc-header">
+        <div class="doc-logo">
+          <img id="d_logo" style="display:none">
+          <div class="placeholder" id="d_logoPlaceholder">Logo<br>MINSAL</div>
+        </div>
+        <div class="doc-titulo">
+          <h2>INFORME DEL PROCESO DIAGNÓSTICO</h2>
+          <div class="fecha">FECHA INFORME:<span id="d_fecha"></span></div>
+        </div>
+        <div class="doc-folio">FOLIO N° <span id="d_folio">______</span></div>
+      </header>
+
+      <div class="doc-grid" style="margin-top:10px">
+        <div class="doc-field">
+          <span class="doc-label">1. Servicio de Salud</span>
+          <span class="doc-value" id="d_servicio"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">2. Establecimiento</span>
+          <span class="doc-value" id="d_establecimiento"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">3. Especialidad</span>
+          <span class="doc-value" id="d_especialidad"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">4. Unidad</span>
+          <span class="doc-value" id="d_unidad"></span>
+        </div>
+      </div>
+
+      <div class="doc-section-title">DATOS DEL (LA) PACIENTE</div>
+      <div class="doc-grid">
+        <div class="doc-field">
+          <span class="doc-label">5. Nombre</span>
+          <span class="doc-value" id="d_pNombre"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">6. Historia Clínica</span>
+          <span class="doc-value" id="d_pHistoria"></span>
+        </div>
+      </div>
+      <div class="doc-grid">
+        <div class="doc-field">
+          <span class="doc-label">7. RUT</span>
+          <span class="doc-value" id="d_pRut"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">8. Si es recién nacido, RUT, de padre o madre beneficiario</span>
+          <span class="doc-value" id="d_pRutTutor"></span>
+        </div>
+      </div>
+      <div class="doc-grid-3">
+        <div class="doc-field">
+          <span class="doc-label">9. Sexo</span>
+          <span class="doc-value" id="d_pSexo"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">10. Fecha de Nacimiento</span>
+          <span class="doc-value" id="d_pFechaNac"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">11. Edad</span>
+          <span class="doc-value" id="d_pEdad"></span>
+        </div>
+      </div>
+
+      <div class="doc-section-title">DATOS CLÍNICOS</div>
+      <div class="doc-grid">
+        <div class="doc-field">
+          <span class="doc-label">12. Problema de salud AUGE</span>
+          <span class="doc-value" id="d_problemaAuge"></span>
+        </div>
+        <div class="doc-field">
+          <span class="doc-label">13. ¿Confirma que el diagnóstico pertenece al sistema AUGE?</span>
+          <span class="doc-value" id="d_confirmaAuge"></span>
+        </div>
+      </div>
+
+      <div class="doc-field-block">
+        <div class="doc-label">14. Subgrupo o subproblema de salud AUGE</div>
+        <div class="doc-value" id="d_subgrupo"></div>
+      </div>
+
+      <div class="doc-field-block">
+        <div class="doc-label">15. Diagnóstico (anote el(los) diagnóstico(s) con letra legible y sin siglas)</div>
+        <div class="doc-value" id="d_diagnostico"></div>
+      </div>
+
+      <div class="doc-field-block">
+        <div class="doc-label">16. Fundamentos del diagnóstico</div>
+        <div class="doc-value" id="d_fundamentos"></div>
+      </div>
+
+      <div class="doc-field-block">
+        <div class="doc-label">17. Tratamiento e indicaciones</div>
+        <div class="doc-value" id="d_tratamiento" style="min-height:80px"></div>
+      </div>
+
+      <div class="doc-section-title">DATOS DEL (LA) PROFESIONAL</div>
+      <div class="doc-prof-grid">
+        <div>
+          <div class="doc-firma"></div>
+          <div class="doc-firma-label">19. Nombre</div>
+          <div style="text-align:center; font-size:9.5pt" id="d_profNombre"></div>
+        </div>
+        <div>
+          <div class="doc-firma"></div>
+          <div class="doc-firma-label">20. RUT</div>
+          <div style="text-align:center; font-size:9.5pt" id="d_profRut"></div>
+        </div>
+        <div>
+          <div class="doc-firma">
+            <img id="d_firma" style="display:none">
+          </div>
+          <div class="doc-firma-label">Firma profesional</div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+</div>
+
+<script>
+/* =========================================================
+   LZString 1.4.4 (inline para soporte file://)
+   ========================================================= */
+var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(r){return i._compress(r,16,function(r){return _fromCharCode(r)})},_compress:function(o,n,e){if(null==o)return"";var t,i,s,u={},a={},f="",l="",c="",p=2,h=3,d=2,m=[],v=0,g=0;for(s=0;s<o.length;s+=1)if(f=o.charAt(s),Object.prototype.hasOwnProperty.call(u,f)||(u[f]=h++,a[f]=!0),l=c+f,Object.prototype.hasOwnProperty.call(u,l))c=l;else{if(Object.prototype.hasOwnProperty.call(a,c)){if(c.charCodeAt(0)<256){for(t=0;t<d;t++)v<<=1,g==n-1?(g=0,m.push(e(v)),v=0):g++;for(i=c.charCodeAt(0),t=0;t<8;t++)v=v<<1|1&i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i>>=1}else{for(i=1,t=0;t<d;t++)v=v<<1|i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i=0;for(i=c.charCodeAt(0),t=0;t<16;t++)v=v<<1|1&i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i>>=1}0==--p&&(p=Math.pow(2,d),d++),delete a[c]}else for(i=u[c],t=0;t<d;t++)v=v<<1|1&i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i>>=1;0==--p&&(p=Math.pow(2,d),d++),u[l]=h++,c=String(f)}if(""!==c){if(Object.prototype.hasOwnProperty.call(a,c)){if(c.charCodeAt(0)<256){for(t=0;t<d;t++)v<<=1,g==n-1?(g=0,m.push(e(v)),v=0):g++;for(i=c.charCodeAt(0),t=0;t<8;t++)v=v<<1|1&i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i>>=1}else{for(i=1,t=0;t<d;t++)v=v<<1|i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i=0;for(i=c.charCodeAt(0),t=0;t<16;t++)v=v<<1|1&i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i>>=1}0==--p&&(p=Math.pow(2,d),d++),delete a[c]}else for(i=u[c],t=0;t<d;t++)v=v<<1|1&i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i>>=1;0==--p&&(p=Math.pow(2,d),d++)}for(i=2,t=0;t<d;t++)v=v<<1|1&i,g==n-1?(g=0,m.push(e(v)),v=0):g++,i>>=1;for(;;){if(v<<=1,g==n-1){m.push(e(v));break}g++}return m.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,f,l,c=[],p=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)c[t]=t;for(s=0,a=Math.pow(2,2),f=1;f!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*f,f<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),f=1;f!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*f,f<<=1;l=r(s);break;case 1:for(s=0,a=Math.pow(2,16),f=1;f!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*f,f<<=1;l=r(s);break;case 2:return""}for(c[3]=l,i=l,v.push(l);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),f=1;f!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*f,f<<=1;switch(l=s){case 0:for(s=0,a=Math.pow(2,8),f=1;f!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*f,f<<=1;c[h++]=r(s),l=h-1,p--;break;case 1:for(s=0,a=Math.pow(2,16),f=1;f!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*f,f<<=1;c[h++]=r(s),l=h-1,p--;break;case 2:return v.join("")}if(0==p&&(p=Math.pow(2,d),d++),c[l])m=c[l];else{if(l!==h)return null;m=i+i.charAt(0)}v.push(m),c[h++]=i+m.charAt(0),i=m,0==--p&&(p=Math.pow(2,d),d++)}}};return i}();
+
+/* =========================================================
+   ESTADO Y CONFIGURACIÓN
+   ========================================================= */
+const STORAGE = {
+  config:    'adc.ipd.config',
+  plantillas:'adc.ipd.plantillas',
+  logo:      'adc.ipd.logo',
+  firma:     'adc.ipd.firma'
+};
+
+const CONFIG_DEFAULTS = {
+  servicio:        'OSORNO',
+  establecimiento: 'COSAM Rahue',
+  especialidad:    'Psiquiatría Adulto',
+  unidad:          'Psiquiatría',
+  profNombre:      'CAMILO IGNACIO MARTINEZ RODRIGUEZ',
+  profRut:         '15843686 - 8'
+};
+
+const BIND = [
+  ['i_servicio','d_servicio'],
+  ['i_establecimiento','d_establecimiento'],
+  ['i_especialidad','d_especialidad'],
+  ['i_unidad','d_unidad'],
+  ['i_profNombre','d_profNombre'],
+  ['i_profRut','d_profRut'],
+  ['i_folio','d_folio'],
+  ['i_fecha','d_fecha'],
+  ['i_pNombre','d_pNombre'],
+  ['i_pHistoria','d_pHistoria'],
+  ['i_pRut','d_pRut'],
+  ['i_pRutTutor','d_pRutTutor'],
+  ['i_pSexo','d_pSexo'],
+  ['i_pFechaNac','d_pFechaNac'],
+  ['i_pEdad','d_pEdad'],
+  ['i_problemaAuge','d_problemaAuge'],
+  ['i_confirmaAuge','d_confirmaAuge'],
+  ['i_subgrupo','d_subgrupo'],
+  ['i_diagnostico','d_diagnostico'],
+  ['i_fundamentos','d_fundamentos'],
+  ['i_tratamiento','d_tratamiento']
+];
+
+/* =========================================================
+   UTILS
+   ========================================================= */
+function $(id) { return document.getElementById(id); }
+
+function setStatus(msg, type='ok') {
+  const pill = $('statusPill');
+  pill.className = 'adc-pill ' + (type==='warn'?'warn':type==='bad'?'bad':'ok');
+  pill.textContent = msg.length > 38 ? msg.slice(0,36)+'…' : msg;
+  pill.title = msg;
+}
+
+function ahoraFormateado() {
+  const d = new Date();
+  const p = n => String(n).padStart(2,'0');
+  return `${p(d.getDate())}/${p(d.getMonth()+1)}/${d.getFullYear()} ${p(d.getHours())}:${p(d.getMinutes())}:${p(d.getSeconds())}`;
+}
+
+function calcularEdad(fechaStr) {
+  const m = fechaStr && fechaStr.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if (!m) return '';
+  const nac = new Date(+m[3], +m[2]-1, +m[1]);
+  if (isNaN(nac)) return '';
+  const hoy = new Date();
+  let years = hoy.getFullYear() - nac.getFullYear();
+  let months = hoy.getMonth() - nac.getMonth();
+  if (hoy.getDate() < nac.getDate()) months--;
+  if (months < 0) { years--; months += 12; }
+  if (years < 1) return `${months} meses`;
+  return `${years} años ${months} meses`;
+}
+
+function normalizarRut(rut) {
+  if (!rut) return '';
+  /* Rayen entrega 'Rut': '196423087' sin formato. Separar DV final. */
+  rut = String(rut).replace(/\./g,'').replace(/\s/g,'').replace(/-/g,'').trim();
+  if (!/^[0-9]+[0-9kK]$/i.test(rut)) return rut;
+  const cuerpo = rut.slice(0, -1);
+  const dv = rut.slice(-1).toUpperCase();
+  return `${cuerpo} - ${dv}`;
+}
+
+/* =========================================================
+   BIND REACTIVO
+   ========================================================= */
+function actualizarPreview() {
+  for (const [inId, outId] of BIND) {
+    const inEl = $(inId);
+    const outEl = $(outId);
+    if (!inEl || !outEl) continue;
+    let val = inEl.value || '';
+    if (outId === 'd_folio') val = val || '______';
+    outEl.textContent = val;
+  }
+  /* Meta del header refleja servicio + establecimiento */
+  const meta = `${$('i_servicio').value || ''} · ${$('i_establecimiento').value || ''}`.replace(/^ ·\s*/,'').replace(/\s*·\s*$/,'');
+  $('metaEstablecimiento').textContent = meta || 'Sin establecimiento';
+}
+
+function bindInputs() {
+  for (const [inId] of BIND) {
+    const el = $(inId);
+    if (!el) continue;
+    el.addEventListener('input', () => {
+      actualizarPreview();
+      if (el.dataset.config !== undefined) guardarConfig();
+      if (inId === 'i_pFechaNac') {
+        const edad = $('i_pEdad');
+        if (!edad.value || edad.dataset.auto === 'yes') {
+          const calc = calcularEdad(el.value);
+          if (calc) {
+            edad.value = calc;
+            edad.dataset.auto = 'yes';
+            actualizarPreview();
+          }
+        }
+      }
+      if (inId === 'i_pEdad') el.dataset.auto = 'no';
+    });
+    el.addEventListener('change', actualizarPreview);
+  }
+}
+
+/* =========================================================
+   CONFIG
+   ========================================================= */
+function cargarConfig() {
+  let cfg = {};
+  try { cfg = JSON.parse(localStorage.getItem(STORAGE.config) || '{}'); } catch(e){}
+  cfg = Object.assign({}, CONFIG_DEFAULTS, cfg);
+  $('i_servicio').value = cfg.servicio;
+  $('i_establecimiento').value = cfg.establecimiento;
+  $('i_especialidad').value = cfg.especialidad;
+  $('i_unidad').value = cfg.unidad;
+  $('i_profNombre').value = cfg.profNombre;
+  $('i_profRut').value = cfg.profRut;
+}
+function guardarConfig() {
+  const cfg = {
+    servicio:        $('i_servicio').value,
+    establecimiento: $('i_establecimiento').value,
+    especialidad:    $('i_especialidad').value,
+    unidad:          $('i_unidad').value,
+    profNombre:      $('i_profNombre').value,
+    profRut:         $('i_profRut').value
+  };
+  localStorage.setItem(STORAGE.config, JSON.stringify(cfg));
+}
+
+/* =========================================================
+   ASSETS (logo + firma)
+   ========================================================= */
+function bindAsset(fileId, previewId, emptyId, storageKey, docTargetId, docPlaceholderId) {
+  const file = $(fileId), preview = $(previewId), empty = $(emptyId);
+  const saved = localStorage.getItem(storageKey);
+  if (saved) aplicarAsset(saved);
+
+  file.addEventListener('change', e => {
+    const f = e.target.files[0];
+    if (!f) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+      localStorage.setItem(storageKey, ev.target.result);
+      aplicarAsset(ev.target.result);
+    };
+    reader.readAsDataURL(f);
+  });
+
+  function aplicarAsset(dataUrl) {
+    preview.src = dataUrl;
+    preview.style.display = 'block';
+    empty.style.display = 'none';
+    const docEl = $(docTargetId);
+    docEl.src = dataUrl;
+    docEl.style.display = 'block';
+    if (docPlaceholderId) $(docPlaceholderId).style.display = 'none';
+  }
+}
+
+/* =========================================================
+   PLANTILLAS
+   ========================================================= */
+function getPlantillas() {
+  try { return JSON.parse(localStorage.getItem(STORAGE.plantillas) || '{}'); }
+  catch(e) { return {}; }
+}
+function setPlantillas(p) { localStorage.setItem(STORAGE.plantillas, JSON.stringify(p)); }
+
+function refreshPlantillaSelect(tipo) {
+  const sel = $('pl_'+tipo);
+  const p = getPlantillas();
+  const lista = p[tipo] || [];
+  sel.innerHTML = '<option value="">— plantillas —</option>' +
+    lista.map((it, i) => `<option value="${i}">${escapeHtml(it.nombre)}</option>`).join('');
+}
+function escapeHtml(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function aplicarPlantilla(tipo, idx) {
+  if (idx === '') return;
+  const p = getPlantillas();
+  const it = (p[tipo] || [])[+idx];
+  if (!it) return;
+  $('i_'+tipo).value = it.contenido;
+  actualizarPreview();
+  setStatus(`Plantilla aplicada: ${it.nombre}`);
+}
+function guardarPlantilla(tipo) {
+  const contenido = $('i_'+tipo).value.trim();
+  if (!contenido) { setStatus('Campo vacío', 'warn'); return; }
+  const nombre = prompt(`Nombre de la plantilla de ${tipo}:`);
+  if (!nombre) return;
+  const p = getPlantillas();
+  p[tipo] = p[tipo] || [];
+  p[tipo].push({ nombre: nombre.trim(), contenido });
+  setPlantillas(p);
+  refreshPlantillaSelect(tipo);
+  setStatus(`Plantilla guardada: ${nombre}`);
+}
+function eliminarPlantilla(tipo) {
+  const sel = $('pl_'+tipo);
+  const idx = sel.value;
+  if (idx === '') { setStatus('Selecciona una plantilla', 'warn'); return; }
+  const p = getPlantillas();
+  const it = (p[tipo] || [])[+idx];
+  if (!it) return;
+  if (!confirm(`¿Eliminar plantilla "${it.nombre}"?`)) return;
+  p[tipo].splice(+idx, 1);
+  setPlantillas(p);
+  refreshPlantillaSelect(tipo);
+  setStatus(`Plantilla eliminada`);
+}
+
+/* =========================================================
+   DECODIFICAR PAYLOAD (LZ Base64 o JSON crudo)
+   ========================================================= */
+function decodificarPayload(text) {
+  if (!text || !text.trim()) return null;
+  text = text.trim();
+  /* Intento 1: JSON directo */
+  try { return JSON.parse(text); } catch(e) {}
+  /* Intento 2: LZString Base64 → JSON */
+  try {
+    const decomp = LZString.decompressFromBase64(text);
+    if (decomp) return JSON.parse(decomp);
+  } catch(e) {}
+  return null;
+}
+
+/* =========================================================
+   CARGA DESDE PORTAPAPELES
+   ========================================================= */
+async function cargarRayen() {
+  let text;
+  try {
+    text = await navigator.clipboard.readText();
+  } catch(e) {
+    setStatus('Sin acceso a portapapeles — usar pegado manual', 'bad');
+    return;
+  }
+  procesarPayload(text, 'portapapeles');
+}
+
+/* =========================================================
+   PEGADO MANUAL
+   ========================================================= */
+function procesarTextoPegado() {
+  const text = $('pasteLZ').value;
+  if (!text || !text.trim()) {
+    setStatus('Pega contenido primero', 'warn');
+    return;
+  }
+  procesarPayload(text, 'pegado manual');
+}
+
+function procesarPayload(text, fuente) {
+  const data = decodificarPayload(text);
+  if (!data) {
+    setStatus(`Contenido no reconocido (${fuente})`, 'bad');
+    return;
+  }
+  const populated = poblarPaciente(data);
+
+  /* Análisis del historial: extraer fichas, GES, prescripciones, evoluciones */
+  const histo = data.historial || data.Historial || data.HistorialAtencion || data.historialAtencion || [];
+  const paciente = data.paciente || data.Paciente || (Array.isArray(data) ? data[0] : data);
+  if (Array.isArray(histo) && histo.length) {
+    __ultimoAnalisis = analizarHistorial(histo, paciente);
+    renderizarSugerencias(__ultimoAnalisis);
+  } else {
+    __ultimoAnalisis = null;
+    $('sugerenciasHistorial').style.display = 'none';
+  }
+
+  if (populated > 0) {
+    const sugCount = __ultimoAnalisis
+      ? (__ultimoAnalisis.fichas.length + __ultimoAnalisis.augeDetectados.length + (__ultimoAnalisis.ultimaAtencionPsi?1:0) + (__ultimoAnalisis.ultimaConSoap?1:0))
+      : 0;
+    const extra = sugCount ? ` · ${sugCount} sugerencias` : '';
+    setStatus(`${populated} campos cargados (${fuente})${extra}`, 'ok');
+    if (fuente === 'pegado manual') $('pasteLZ').value = '';
+  } else {
+    setStatus(`Sin campos de paciente reconocibles`, 'warn');
+  }
+}
+
+/* =========================================================
+   POBLAR CAMPOS DEL PACIENTE
+   ========================================================= */
+function poblarPaciente(data) {
+  let count = 0;
+
+  /* Shape del bookmarklet dual ADC: { paciente: {...}, historial: [...] }
+     También se aceptan variantes legacy. */
+  const candidatos = [];
+  if (Array.isArray(data)) candidatos.push(...data);
+  else candidatos.push(data);
+
+  if (data.paciente)   candidatos.push(data.paciente);
+  if (data.Paciente)   candidatos.push(data.Paciente);
+  if (data.usuarioAps) candidatos.push(data.usuarioAps);
+  if (data.UsuarioAps) candidatos.push(data.UsuarioAps);
+
+  const histArrays = [data.historial, data.Historial, data.HistorialAtencion, data.historialAtencion];
+  for (const h of histArrays) {
+    if (Array.isArray(h) && h[0]) candidatos.push(h[0]);
+  }
+
+  /* Mapeo de keys. Rayen entrega PascalCase con valores anidados {Nombre:...}. */
+  const mapa = {
+    nombre:    ['NombreFormateado','nombreFormateado','nombre','Nombre','nombreCompleto','NombreCompleto','nombrePaciente'],
+    nombres:   ['Nombres','nombres'],
+    primerNom: ['primerNombre','PrimerNombre'],
+    segNom:    ['segundoNombre','SegundoNombre'],
+    apPat:     ['ApellidoPaterno','apellidoPaterno','primerApellido'],
+    apMat:     ['ApellidoMaterno','apellidoMaterno','segundoApellido'],
+    rut:       ['Rut','rut','RUT','rutPaciente','rutCompleto','rutFormateado','numeroDocumento'],
+    sexo:      ['Sexo','sexo','Genero','genero','sexoDescripcion','sexoDesc'],
+    fechaNac:  ['FechaDeNacimiento','fechaDeNacimiento','fechaNacimiento','FechaNacimiento','fechaNac','fechaNacimientoFormateada'],
+    edad:      ['edad','Edad','edadDescripcion','edadFormateada'],
+    ficha:     ['OtroDato','otroDato','NumeroDeFicha','numeroDeFicha','fichaClinica','FichaClinica','ficha','Ficha','idFicha','numeroFicha','historiaClinica','historiaClinic','IdUsuarioAps','idUsuarioAps','idPaciente','IdPaciente']
+  };
+
+  function buscar(obj, keys) {
+    if (!obj || typeof obj !== 'object') return null;
+    for (const k of keys) {
+      if (obj[k] != null && obj[k] !== '') {
+        const v = obj[k];
+        /* Rayen entrega varios campos como { Nombre: "..." } o { Descripcion: "..." } */
+        if (typeof v === 'object' && !Array.isArray(v)) {
+          return v.Nombre || v.nombre || v.Descripcion || v.descripcion || null;
+        }
+        return v;
+      }
+    }
+    return null;
+  }
+
+  let nombre, rut, sexo, fechaNac, edad, ficha;
+  let nombres, primerNom, segNom, apPat, apMat;
+
+  for (const c of candidatos) {
+    if (!c || typeof c !== 'object') continue;
+    nombre   = nombre   || buscar(c, mapa.nombre);
+    nombres  = nombres  || buscar(c, mapa.nombres);
+    primerNom= primerNom|| buscar(c, mapa.primerNom);
+    segNom   = segNom   || buscar(c, mapa.segNom);
+    apPat    = apPat    || buscar(c, mapa.apPat);
+    apMat    = apMat    || buscar(c, mapa.apMat);
+    rut      = rut      || buscar(c, mapa.rut);
+    sexo     = sexo     || buscar(c, mapa.sexo);
+    fechaNac = fechaNac || buscar(c, mapa.fechaNac);
+    edad     = edad     || buscar(c, mapa.edad);
+    ficha    = ficha    || buscar(c, mapa.ficha);
+  }
+
+  if (!nombre) {
+    const partes = [nombres || primerNom, segNom, apPat, apMat]
+      .filter(p => p && String(p).trim())
+      .map(p => String(p).trim());
+    if (partes.length) nombre = partes.join(' ');
+  }
+
+  if (nombre)   { setRayen('i_pNombre', String(nombre).toUpperCase()); count++; }
+  if (rut)      { setRayen('i_pRut', normalizarRut(rut)); count++; }
+  if (ficha)    { setRayen('i_pHistoria', String(ficha)); count++; }
+
+  if (sexo) {
+    const s = String(sexo).toLowerCase();
+    let sexoNorm = '';
+    if (s.includes('masc') || s === 'm' || s.includes('hombre')) sexoNorm = 'Hombre';
+    else if (s.includes('fem') || s === 'f' || s.includes('mujer')) sexoNorm = 'Mujer';
+    if (sexoNorm) { setRayen('i_pSexo', sexoNorm); count++; }
+  }
+
+  if (fechaNac) {
+    /* Rayen: "19980506 000000" (YYYYMMDD HHMMSS). Otros: yyyy-mm-dd, dd/mm/yyyy. */
+    let f = String(fechaNac).trim();
+    let dd, mm, yyyy;
+    let m;
+    if ((m = f.match(/^(\d{4})(\d{2})(\d{2})(?:\s|$)/)))      { yyyy = m[1]; mm = m[2]; dd = m[3]; }
+    else if ((m = f.match(/^(\d{4})-(\d{1,2})-(\d{1,2})/)))   { yyyy = m[1]; mm = m[2]; dd = m[3]; }
+    else if ((m = f.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/))) { dd = m[1]; mm = m[2]; yyyy = m[3]; }
+    else if ((m = f.match(/^(\d{1,2})-(\d{1,2})-(\d{4})/)))   { dd = m[1]; mm = m[2]; yyyy = m[3]; }
+    if (dd && mm && yyyy) {
+      const fmt = `${String(dd).padStart(2,'0')}/${String(mm).padStart(2,'0')}/${yyyy}`;
+      setRayen('i_pFechaNac', fmt);
+      count++;
+      if (!edad) {
+        const e = calcularEdad(fmt);
+        if (e) { setRayen('i_pEdad', e); count++; }
+      }
+    }
+  }
+
+  if (edad) { setRayen('i_pEdad', String(edad)); count++; }
+
+  actualizarPreview();
+  return count;
+}
+
+function setRayen(id, val) {
+  const el = $(id);
+  if (!el) return;
+  el.value = val;
+  el.classList.add('from-rayen');
+}
+
+function limpiarPaciente() {
+  if (!confirm('¿Limpiar datos del paciente y campos clínicos? Configuración y plantillas se mantienen.')) return;
+  const aLimpiar = ['i_pNombre','i_pHistoria','i_pRut','i_pRutTutor','i_pSexo','i_pFechaNac','i_pEdad',
+                    'i_problemaAuge','i_confirmaAuge','i_subgrupo','i_diagnostico','i_fundamentos','i_tratamiento','i_folio'];
+  for (const id of aLimpiar) {
+    const el = $(id);
+    if (!el) continue;
+    if (id === 'i_confirmaAuge') el.value = 'SI';
+    else el.value = '';
+    el.classList.remove('from-rayen');
+    delete el.dataset.auto;
+  }
+  $('i_fecha').value = ahoraFormateado();
+  $('pasteLZ').value = '';
+  __ultimoAnalisis = null;
+  $('sugerenciasHistorial').style.display = 'none';
+  actualizarPreview();
+  setStatus('Paciente limpiado');
+}
+
+/* =========================================================
+   ANÁLISIS DEL HISTORIAL RAYEN
+   ========================================================= */
+let __ultimoAnalisis = null;
+
+function formatearFechaCorta(s) {
+  /* "20251029 122611" → "29/10/2025" */
+  if (!s) return '';
+  const m = String(s).match(/^(\d{4})(\d{2})(\d{2})/);
+  if (!m) return s;
+  return `${m[3]}/${m[2]}/${m[1]}`;
+}
+
+function analizarHistorial(historial, paciente) {
+  /* 1. Mapeo IdNodo → _NombreNodo (resuelto por el bookmarklet) */
+  const nodoNombres = {};
+  for (const reg of historial) {
+    if (reg && reg.IdNodo && reg._NombreNodo) {
+      nodoNombres[reg.IdNodo] = reg._NombreNodo;
+    }
+  }
+
+  /* 2. Fichas únicas etiquetadas por establecimiento */
+  const fichas = [];
+  const fichasVistas = new Set();
+  const usuariosNodo = (paciente && paciente.UsuariosNodo) || [];
+  for (const un of usuariosNodo) {
+    const nombreNodo = nodoNombres[un.IdNodo] || `Nodo ${un.IdNodo}`;
+    for (const nf of (un.NumerosFichas || [])) {
+      if (!nf.Numero) continue;
+      const num = String(nf.Numero);
+      const key = `${num}@${un.IdNodo}`;
+      if (fichasVistas.has(key)) continue;
+      fichasVistas.add(key);
+      fichas.push({ numero: num, idNodo: un.IdNodo, nombreNodo, tipo: nf.IdTipoNumeroFicha });
+    }
+  }
+  /* Si OtroDato tiene un valor que no aparece en ninguna ficha registrada, agregarlo al inicio */
+  const otroDato = paciente && paciente.OtroDato;
+  if (otroDato && !fichas.some(f => f.numero === String(otroDato))) {
+    fichas.unshift({ numero: String(otroDato), idNodo: null, nombreNodo: '(OtroDato)', tipo: null });
+  }
+
+  /* 3. Diagnósticos AUGE únicos (más recientes primero) */
+  const augeMap = new Map();
+  for (const reg of historial) {
+    for (const d of (reg.Diagnosticos || [])) {
+      const desc = d.DescripcionClasificacion || '';
+      const esAuge = d.EsAuge || /\(AUGE\)/i.test(desc);
+      if (!esAuge) continue;
+      /* Limpiar paréntesis: "Trastorno bipolar (Confirmada) (AUGE)" → "Trastorno bipolar" */
+      const limpio = desc.replace(/\s*\([^)]+\)\s*/g, '').trim();
+      if (!limpio) continue;
+      const fechaActual = reg.Fecha || '';
+      const prev = augeMap.get(limpio);
+      if (!prev || fechaActual > prev.fechaUltima) {
+        augeMap.set(limpio, { desc: limpio, fechaUltima: fechaActual, raw: desc });
+      }
+    }
+  }
+  const augeDetectados = Array.from(augeMap.values())
+    .sort((a,b) => (b.fechaUltima || '').localeCompare(a.fechaUltima || ''));
+
+  /* 4. Última atención psiquiátrica con prescripciones */
+  let ultimaAtencionPsi = null;
+  for (const reg of historial) {
+    const prestadores = reg.FuncionariosPrestadores || [];
+    const esPsi = prestadores.some(f => /psiquiatra/i.test(f.NombreInstrumento || ''));
+    if (!esPsi) continue;
+    const prescripciones = reg.Prescripciones || [];
+    if (!prescripciones.length) continue;
+    const fechaActual = reg.Fecha || '';
+    if (!ultimaAtencionPsi || fechaActual > ultimaAtencionPsi.fecha) {
+      const prof = prestadores.find(f => /psiquiatra/i.test(f.NombreInstrumento || ''));
+      ultimaAtencionPsi = {
+        fecha: fechaActual,
+        nodo: reg._NombreNodo || '',
+        profesional: prof ? prof.NombreCompleto : '',
+        prescripciones,
+        diagnosticos: reg.Diagnosticos || []
+      };
+    }
+  }
+
+  /* 5. Última atención psiquiátrica con SOAP estructurado */
+  let ultimaConSoap = null;
+  for (const reg of historial) {
+    const prestadores = reg.FuncionariosPrestadores || [];
+    const esPsi = prestadores.some(f => /psiquiatra/i.test(f.NombreInstrumento || ''));
+    if (!esPsi) continue;
+    const ana = (reg.Anamnesis || [])[0];
+    if (!ana || !ana.HistoriaEnfermedadActual) continue;
+    if (ana.HistoriaEnfermedadActual.length < 100) continue;
+    const fechaActual = reg.Fecha || '';
+    if (!ultimaConSoap || fechaActual > ultimaConSoap.fecha) {
+      ultimaConSoap = {
+        fecha: fechaActual,
+        motivo: ana.MotivoConsulta || '',
+        nodo: reg._NombreNodo || ''
+      };
+    }
+  }
+
+  return { fichas, augeDetectados, ultimaAtencionPsi, ultimaConSoap };
+}
+
+function renderizarSugerencias(info) {
+  const wrap = $('sugerenciasHistorial');
+  if (!info) { wrap.style.display = 'none'; return; }
+
+  const total = info.fichas.length + info.augeDetectados.length
+              + (info.ultimaAtencionPsi ? 1 : 0) + (info.ultimaConSoap ? 1 : 0);
+  if (!total) { wrap.style.display = 'none'; return; }
+
+  wrap.style.display = '';
+  wrap.open = true;
+  $('sg_count').textContent = `(${total})`;
+
+  /* Fichas */
+  const sgFichas = $('sg_fichas');
+  if (info.fichas.length) {
+    $('sg_fichasItem').style.display = '';
+    sgFichas.innerHTML = '<option value="">— elegir ficha —</option>' +
+      info.fichas.map(f => {
+        const lbl = f.nombreNodo === '(OtroDato)' ? `${f.numero} — ficha principal` : `${f.numero} — ${f.nombreNodo}`;
+        return `<option value="${escapeHtml(f.numero)}">${escapeHtml(lbl)}</option>`;
+      }).join('');
+
+    /* Auto-seleccionar la ficha que matchee el establecimiento configurado */
+    const cfg = ($('i_establecimiento').value || '').toLowerCase().trim();
+    let elegida = null;
+    if (cfg) {
+      elegida = info.fichas.find(f => {
+        const n = (f.nombreNodo || '').toLowerCase();
+        return n && (n.includes(cfg) || cfg.includes(n.replace(/^cosam\s+/, '').replace(/^centro de salud familiar\s+/, '')));
+      });
+    }
+    /* Fallback: la primera (que es OtroDato si existe, sino la primera registrada) */
+    if (!elegida) elegida = info.fichas[0];
+
+    if (elegida) {
+      sgFichas.value = elegida.numero;
+      /* Solo sobreescribir el campo si está vacío o vino de Rayen */
+      const histInput = $('i_pHistoria');
+      if (!histInput.value || histInput.classList.contains('from-rayen')) {
+        histInput.value = elegida.numero;
+        histInput.classList.add('from-rayen');
+      }
+    }
+  } else {
+    $('sg_fichasItem').style.display = 'none';
+  }
+
+  /* GES */
+  const sgAuge = $('sg_auge');
+  if (info.augeDetectados.length) {
+    $('sg_augeItem').style.display = '';
+    sgAuge.innerHTML = info.augeDetectados.map((a, i) => {
+      const tooltip = `Última mención: ${formatearFechaCorta(a.fechaUltima)}`;
+      return `<button class="chip" type="button" onclick="aplicarAuge(${i})" title="${escapeHtml(tooltip)}">${escapeHtml(a.desc)}</button>`;
+    }).join('');
+  } else {
+    $('sg_augeItem').style.display = 'none';
+  }
+
+  /* Receta psiquiátrica */
+  const btnR = $('sg_btnReceta');
+  if (info.ultimaAtencionPsi) {
+    btnR.style.display = '';
+    const r = info.ultimaAtencionPsi;
+    $('sg_btnRecetaMeta').textContent = `${formatearFechaCorta(r.fecha)} · ${r.profesional || 'sin nombre'} · ${r.prescripciones.length} fármacos`;
+  } else {
+    btnR.style.display = 'none';
+  }
+
+  /* Evolución */
+  const btnE = $('sg_btnEvol');
+  if (info.ultimaConSoap) {
+    btnE.style.display = '';
+    const e = info.ultimaConSoap;
+    $('sg_btnEvolMeta').textContent = `${formatearFechaCorta(e.fecha)} · ${e.motivo || 'consulta psiquiátrica'}`;
+  } else {
+    btnE.style.display = 'none';
+  }
+}
+
+function aplicarFicha(numero) {
+  if (!numero) return;
+  const el = $('i_pHistoria');
+  el.value = numero;
+  el.classList.add('from-rayen');
+  actualizarPreview();
+  setStatus(`Ficha aplicada: ${numero}`);
+}
+
+/* Mapeo diagnóstico Rayen → categoría AUGE oficial Minsal (salud mental).
+   Usado para inferir el campo 12 cuando aplicas un chip al campo 15. */
+const MAPA_GES_PSIQ = [
+  { regex: /esquizofrenia/i,                              categoria: 'Esquizofrenia' },
+  { regex: /trastorno\s+(afectivo\s+)?bipolar/i,          categoria: 'Trastorno bipolar en personas de 15 años y más' },
+  { regex: /depresi[oó]n|depresiv[oa]/i,                  categoria: 'Depresión en personas de 15 años y más' },
+  { regex: /alzheimer|demencia/i,                         categoria: 'Enfermedad de Alzheimer y otras demencias' },
+  { regex: /(consumo|dependencia|abuso).*(alcohol|drog)/i,categoria: 'Consumo perjudicial o dependencia de alcohol y drogas en menores de 20 años' }
+];
+
+function inferirCategoriaGES(desc) {
+  for (const m of MAPA_GES_PSIQ) {
+    if (m.regex.test(desc)) return m.categoria;
+  }
+  return null;
+}
+
+function limpiarDxParaIPD(desc) {
+  /* "Trastorno afectivo bipolar, no especificado" → "TRASTORNO AFECTIVO BIPOLAR"
+     "Esquizofrenia paranoide"                    → "ESQUIZOFRENIA PARANOIDE"
+     Quita "no especificado", "sin especificación", paréntesis residuales. */
+  let r = String(desc || '');
+  r = r.replace(/\s*\([^)]+\)\s*/g, ' ');           // paréntesis residuales
+  r = r.replace(/,?\s*no especificad[oa][^,]*$/i, '');
+  r = r.replace(/,?\s*sin especificaci[oó]n[^,]*$/i, '');
+  r = r.replace(/\s+/g, ' ').trim();
+  return r.toUpperCase();
+}
+
+function aplicarAuge(idx) {
+  if (!__ultimoAnalisis) return;
+  const a = __ultimoAnalisis.augeDetectados[idx];
+  if (!a) return;
+
+  /* Campo 15 — Diagnóstico clínico en mayúsculas (formato IPD MINSAL) */
+  const dxClinico = limpiarDxParaIPD(a.desc);
+  const elDx = $('i_diagnostico');
+  elDx.value = dxClinico;
+  elDx.classList.add('from-rayen');
+
+  /* Campo 12 — Categoría AUGE oficial si hay match con GES psiquiátrico conocido */
+  const cat = inferirCategoriaGES(a.desc);
+  let msg = `Diagnóstico aplicado: ${dxClinico}`;
+  if (cat) {
+    const elAuge = $('i_problemaAuge');
+    elAuge.value = cat;
+    elAuge.classList.add('from-rayen');
+    msg = `${dxClinico} + AUGE: ${cat.split(' en ')[0]}`;
+  }
+
+  actualizarPreview();
+  setStatus(msg);
+}
+
+function formatearPrescripcion(p) {
+  /* Rayen entrega:
+       Descripcion: "Olanzapina 10 mg Comprimidos : 1 Comprimido cada 24 horas por 180 días de la Receta Nº 547451717"
+       Observacion: "0-0-1"
+     IPD espera:
+       Olanzapina 10 mg Comprimidos
+       1 Comprimido cada 24 horas por 180 días | 0-0-1                                                                       */
+  let desc = (p.Descripcion || '').trim();
+  desc = desc.replace(/\s*de la Receta Nº\s*\d+\s*$/i, '').trim();
+  const partes = desc.split(/\s*:\s*/);
+  if (partes.length < 2) return desc;
+  const nombre = partes[0].trim();
+  const posologia = partes.slice(1).join(': ').trim();
+  const obs = (p.Observacion || '').trim();
+  /* Solo aceptar Observacion como sufijo si parece dosis (e.g. "1-0-1", "0-0-1", "noche", "ayunas") */
+  let sufijo = '';
+  if (obs && /^[\d\sxnocheamñ\/\.\-]+$/i.test(obs) && obs.length < 30) {
+    sufijo = ` | ${obs}`;
+  } else if (obs && /^(noche|ayunas|mañana|tarde)\s*$/i.test(obs)) {
+    sufijo = ` | ${obs}`;
+  }
+  return `${nombre}\n${posologia}${sufijo}`;
+}
+
+function aplicarUltimaReceta() {
+  if (!__ultimoAnalisis || !__ultimoAnalisis.ultimaAtencionPsi) return;
+  const r = __ultimoAnalisis.ultimaAtencionPsi;
+  const lineas = r.prescripciones.map(formatearPrescripcion).filter(Boolean);
+  if (!lineas.length) { setStatus('Sin prescripciones para aplicar', 'warn'); return; }
+  const el = $('i_tratamiento');
+  el.value = lineas.join('\n');
+  el.classList.add('from-rayen');
+  actualizarPreview();
+  setStatus(`Tratamiento de ${formatearFechaCorta(r.fecha)} aplicado`);
+}
+
+function aplicarUltimaEvolucion() {
+  if (!__ultimoAnalisis || !__ultimoAnalisis.ultimaConSoap) return;
+  const e = __ultimoAnalisis.ultimaConSoap;
+  const el = $('i_fundamentos');
+  el.value = `Evolución clínica documentada en consulta psiquiátrica del ${formatearFechaCorta(e.fecha)}.`;
+  el.classList.add('from-rayen');
+  actualizarPreview();
+  setStatus(`Fundamento basado en evolución del ${formatearFechaCorta(e.fecha)}`);
+}
+
+/* =========================================================
+   INIT
+   ========================================================= */
+function init() {
+  cargarConfig();
+  $('i_fecha').value = ahoraFormateado();
+  $('i_confirmaAuge').value = 'SI';
+  bindInputs();
+  bindAsset('i_logoFile','i_logoPreview','i_logoEmpty', STORAGE.logo, 'd_logo','d_logoPlaceholder');
+  bindAsset('i_firmaFile','i_firmaPreview','i_firmaEmpty', STORAGE.firma, 'd_firma', null);
+  refreshPlantillaSelect('diagnostico');
+  refreshPlantillaSelect('fundamentos');
+  refreshPlantillaSelect('tratamiento');
+  actualizarPreview();
+  setStatus('Listo');
+}
+
+document.addEventListener('DOMContentLoaded', init);
+</script>
+
+</body>
+</html>
