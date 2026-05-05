@@ -155,6 +155,73 @@ tr:hover td{background:var(--surface2)}
 .empty{text-align:center;padding:48px 24px;color:var(--text3);font-family:'IBM Plex Mono',monospace;font-size:11px}
 .action-row{display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap}
 .section-hdr{font-size:11px;font-weight:500;font-family:'IBM Plex Mono',monospace;text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);padding-bottom:5px;margin:16px 0 10px;color:var(--text)}
+
+/* Pill de inconsistencia */
+.pill.p-incon{
+  background:#fef0e8;
+  color:#8a3a00;
+  border:1px solid #d4a880;
+  font-weight:500;
+}
+.pill.p-incon::before{ content:'⚠ '; }
+
+/* Pill de marcador histórico (suicidalidad histórica) */
+.pill.p-hist{
+  background:var(--surface2);
+  color:var(--text2);
+  border:1px dashed var(--border2);
+  font-style:italic;
+}
+
+/* Pill de antecedente familiar */
+.pill.p-fam{
+  background:#f3eefb;
+  color:#4a1a7a;
+  border:1px solid #c4a4d8;
+  font-size:9px;
+}
+.pill.p-fam::before{ content:'fam: '; opacity:0.7; }
+
+/* Tooltip de evidencia */
+.evid-tooltip{
+  position:absolute;
+  background:#1c1a16;
+  color:#fff;
+  padding:8px 10px;
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  max-width:420px;
+  line-height:1.4;
+  z-index:1000;
+  white-space:normal;
+  border-radius:2px;
+  box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  pointer-events:none;
+}
+.evid-tooltip strong{ color:#f0a880; font-weight:500; }
+
+/* Modal de detalle */
+.modal-evid h4{
+  font-family:'IBM Plex Mono',monospace;
+  font-size:10px;
+  color:var(--text2);
+  text-transform:uppercase;
+  letter-spacing:0.08em;
+  margin:12px 0 6px;
+}
+.modal-evid .ev-block{
+  background:var(--surface2);
+  padding:8px 10px;
+  border-left:2px solid var(--accent);
+  font-size:11px;
+  margin-bottom:4px;
+  font-family:'IBM Plex Mono',monospace;
+}
+.modal-evid .ev-incon{
+  border-left-color:var(--red);
+  background:var(--red-bg);
+}
+
 </style>
 </head>
 <body>
@@ -265,6 +332,7 @@ tr:hover td{background:var(--surface2)}
     <div id="glosasContent" style="display:none">
       <div class="section-hdr">Marcadores clínicos</div>
       <div id="gMetricas" class="metrics"></div>
+      <div id="gMetricasExtra" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px;margin-bottom:16px"></div>
       <div class="grid2" id="gCharts"></div>
       <div class="section-hdr">Reporte por SIC</div>
       <div class="action-row">
@@ -283,6 +351,11 @@ tr:hover td{background:var(--surface2)}
           <option value="incoherente">Dg. a revisar</option>
           <option value="incompleta">Anamnesis incompleta</option>
           <option value="alta">Alta complejidad (3+)</option>
+          <option value="incons">Con inconsistencia interna</option>
+          <option value="suicid_hist">Suicidalidad histórica</option>
+          <option value="suicid_fam">Antec. familiar suicidalidad</option>
+          <option value="vif_fam">Antec. familiar VIF</option>
+          <option value="consumo_fam">Antec. familiar consumo</option>
         </select>
         <select id="gFiltroComp" onchange="renderGlosasTabla()">
           <option value="">Toda completitud</option>
@@ -629,33 +702,320 @@ function copiarMDFmt(){
 }
 
 // ─── TAB C: Análisis de glosas ────────────────────────────────────────────────
-function detectar(item){
-  const g=[
-    (item.glosa||{}).fundamentosClinicos||'',
-    (item.glosa||{}).examenesRealizados||'',
-    (item.glosa||{}).observaciones||'',
-    (item.observacionesContralor||[]).map(o=>o.texto).join(' ')
-  ].join(' ').toLowerCase();
-  return{
-    suicid:/suicid|autol[ií]s|intent[oa]\s+de|se arrojó|lanzarse|ahorcarse|intoxicaci[oó]n.*pastilla|ingesta de.*comprimido|cortarse|autolesion|ideaci[oó]n|muerte recurrente|quiero morir|deseos de morir|planificaci[oó]n suicida|conducta suicida|atentar contra su vida/.test(g),
-    hosp:/hospitali[zs][aá]|internaci[oó]n|ingresó.*hospital|dau\s|urgencia del|unidad de.*estadía|hospitaliz/.test(g),
-    vif:/\bvif\b|violencia (intrafamiliar|familiar|doméstica|de género|por parte)|abuso sexual|\basi\b|maltrato|víctima de|vulneración|tept|abandono parental|negligencia parental/.test(g),
-    refrac:/sin respuesta|mala respuesta|refractari|sin mejoría|respuesta parcial|múltiples (fármacos|esquemas|tratamientos)|nula respuesta|abandono de tratamiento|resistente a|cambios de (fármaco|medicamento)/.test(g),
-    consumo:/pasta base|cocaína|marihuana|\bthc\b|consumo (de alcohol|de droga|activo|de sustancia)|policonsumo|psicoactiva|dependencia (a|de|al)|uso de (alcohol|drogas|sustancias)/.test(g)
+// =============================================================================
+// SUITE SIC — DETECTOR DE MARCADORES v2 (catete + inconsistencia)
+// =============================================================================
+// Reemplaza las funciones detectar() y coherencia() en suite_sic.html
+//
+// Cambios respecto a v1:
+//   - Maneja negaciones tabulares: "Suicidalidad: ... (-)", "OH (-)", etc.
+//   - Maneja negaciones narrativas: "niega ideación suicida", "sin VIF"
+//   - Discrimina paciente vs familiar para suicid, vif, consumo
+//   - Filtra TBQ aislado en consumo (no activa el flag)
+//   - Desambigua "abuso sexual" vs "abuso de sustancias"
+//   - Captura evidencia textual (snippets) para auditoría
+//   - Añade flag de inconsistencia interna del relato
+//   - Añade clasificación histórica para suicidalidad
+//
+// Caso de regresión cubierto:
+//   "Suicidalidad: Ideación Suicida (-) Intento Suicida (-)" → suicid=false
+// =============================================================================
+
+// --- Normalización (sin tildes, lowercase, espacios colapsados) ---
+function _norm(s){
+  return (s||'').toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g,'')
+    .replace(/\s+/g,' ');
+}
+
+// --- Patrones auxiliares ---
+const _NEG_RE  = /\b(niega|sin |no presenta|no refiere|no tiene|no hay|descart[oa]|ausencia de|nego|negar|sin antecedent)/;
+const _FAM_RE  = /\b(madre|padre|papa|mama|hermano|hermana|tio|tia|abuelo|abuela|primo|prima|familiar|fliar|fliares|antecedent[e]? familiar|antec familiar|ant\.? familiar|ant fliares|antecedentes? fliar|familia)\b/;
+const _HIST_RE = /\b(previo|previa|antes|pasado|hace \d+ (a[ñn]os?|meses?)|historico|antiguo|ex-?\s|abandono|suspendido|abstinencia|en remision|dej[oó] de|dejo el|antecedent[e]?s? de (intent|conduct|autolesi|consumo)|en \d{4}|\d{4} hospitaliza|hospitalizad[oa] en \d{4})/;
+
+// --- ¿Está negado el match? ---
+// Mira lookbehind por negadores verbales (mismo período, no cruza puntos)
+// y lookahead por (-) tabular hasta el próximo punto o salto de línea,
+// sin que haya un (+) antes.
+function _esNegado(text, pos){
+  const left = text.slice(Math.max(0,pos-40), pos);
+  const negMatch = left.match(_NEG_RE);
+  if(negMatch){
+    const negPos = left.search(_NEG_RE);
+    const intermedio = left.slice(negPos);
+    // Si hay un punto+espacio o salto de línea entre el negador y el match,
+    // la negación no aplica (frases distintas)
+    if(!/\.\s|\n/.test(intermedio)) return true;
+  }
+  const right = text.slice(pos, pos+80);
+  let corte = right.length;
+  const np = right.indexOf('. '), nl = right.indexOf('\n');
+  if(np>=0) corte = Math.min(corte, np);
+  if(nl>=0) corte = Math.min(corte, nl);
+  const seg = right.slice(0, corte);
+  if(/\(\s*-\s*\)/.test(seg) && !/\(\s*\+\s*\)/.test(seg)) return true;
+  return false;
+}
+
+function _esFamiliar(text, pos){
+  // Mira tanto a la izquierda como a la derecha cercana
+  // (las glosas suelen escribir "OH crónico (+) PAPÁ" o "Madre con suicidalidad")
+  const left  = text.slice(Math.max(0,pos-60), pos);
+  const right = text.slice(pos, pos+50);
+  // En lookahead solo cuenta si el familiar está ≤ 30 chars (mismo bloque tabular)
+  const rightCorto = right.slice(0, 30);
+  return _FAM_RE.test(left) || _FAM_RE.test(rightCorto);
+}
+
+function _esHistorico(text, pos){
+  const left = text.slice(Math.max(0,pos-50), pos);
+  const right = text.slice(pos, pos+60);
+  return _HIST_RE.test(left) || _HIST_RE.test(right);
+}
+
+function _snippet(text, pos, len=100){
+  const start = Math.max(0, pos-30);
+  const end   = Math.min(text.length, pos+len-30);
+  return (start>0?'…':'') + text.slice(start,end).trim().replace(/\s+/g,' ') + (end<text.length?'…':'');
+}
+
+// --- Escaneo de un patrón sobre un texto normalizado ---
+function _scan(text, regexSrc, opts={}){
+  const out = [];
+  const re = new RegExp(regexSrc, 'gi');
+  let m;
+  while((m = re.exec(text)) !== null){
+    const pos = m.index;
+    out.push({
+      pos,
+      texto:    m[0],
+      negado:   _esNegado(text, pos),
+      familiar: opts.familiar !== false ? _esFamiliar(text, pos) : false,
+      historico: _esHistorico(text, pos),
+      snippet:  _snippet(text, pos)
+    });
+    if(re.lastIndex === pos) re.lastIndex++;  // evita loop en zero-width
+  }
+  return out;
+}
+
+// =============================================================================
+// DETECTOR PRINCIPAL
+// =============================================================================
+function detectar(glosa){
+  const g = _norm(glosa);
+
+  // --- SUICIDALIDAD ---
+  // Sufijos abiertos: suicida/suicidas/suicidalidad/suicidio/suicidarse/autolit*/etc.
+  const suicid_re = '\\b(suicid\\w*|autolit\\w*|autolis\\w*|autoles\\w*|autoinfli\\w*|ahorca\\w*|'
+                  + 'intent[oa] de (quitarse|matar|ahorcar|suicid|autolit)|'
+                  + 'lanzarse al rio|arrojarse al|quitarse la vida|cortarse|'
+                  + 'ideacion suicid\\w*|idea[s]? suicid\\w*|'
+                  + 'idea[s]? de muerte|pensamientos? de muerte|'
+                  + 'conducta suicid\\w*|riesgo suicid\\w*|planificacion suicid\\w*)\\b';
+  const sM = _scan(g, suicid_re);
+
+  const suicid_pac    = sM.filter(m=>!m.negado && !m.familiar && !m.historico);
+  const suicid_hist   = sM.filter(m=>!m.negado && !m.familiar &&  m.historico);
+  const suicid_fam    = sM.filter(m=>!m.negado &&  m.familiar);
+
+  // --- HOSPITALIZACIÓN ---
+  const hosp_re = '\\b(hospitaliza|internaci|ingreso a|hospitalizad|dau\\b|'
+                + 'servicio de urgencia|unidad de corta|uce[p]?\\b|'
+                + 'hospitalizacion previa)\\b';
+  const hM = _scan(g, hosp_re, {familiar:false});
+  const hosp_pac = hM.filter(m=>!m.negado);
+
+  // --- VIF (incluye ASI) ---
+  const vif_re = '\\b(vif\\b|violencia (intrafamiliar|familiar|domestica|de genero|de pareja|fisica|psicologica|sexual|por parte de)|'
+               + 'maltrato( infantil| familiar| fisico| psicologico)?|'
+               + 'abuso (sexual|fisico|psicologico|infantil|de poder)|'
+               + '\\basi\\b|'
+               + 'victima de (violencia|abuso|maltrato|agresion)|'
+               + 'negligencia parental|violacion|violada|abusador)\\b';
+  const vM = _scan(g, vif_re);
+
+  const vif_validos = vM.filter(m=>{
+    if(m.negado) return false;
+    // descartar "abuso de sustancia/droga/alcohol/oh/medicamento/cocaina/etc."
+    const around = g.slice(m.pos, m.pos+50);
+    if(/^abuso\s+(de\s+)?(sustancia|droga|alcohol|\boh\b|medicamento|coca|tramad|bdz|benzodi|farmac|opioid)/.test(around)) return false;
+    // "asi" en minúsculas: solo válido si el original lo trae en mayúsculas
+    // o con contexto explícito (víctima de, antecedente de, por, historial de)
+    if(/^asi\b/i.test(m.texto)){
+      const orig = glosa.slice(m.pos, m.pos+5);
+      if(!/ASI\b/.test(orig)){
+        const left = g.slice(Math.max(0,m.pos-50), m.pos).trim();
+        if(!/(victima|antecedent[e]?|historial|por) de\s*$/.test(left)) return false;
+      }
+    }
+    return true;
+  });
+  const vif_pac = vif_validos.filter(m=>!m.familiar);
+  const vif_fam = vif_validos.filter(m=> m.familiar);
+
+  // --- REFRACTARIEDAD ---
+  const refrac_re = '\\b(refractari\\w*|sin respuesta|mala respuesta|nula respuesta|respuesta parcial|'
+                  + 'sin mejoria|no logra mejoria|abandono de tratamiento|'
+                  + 'multiples (farmacos|esquemas|tratamientos|psicofarmacos)|'
+                  + 'resistente al tratamiento)\\b';
+  const rM = _scan(g, refrac_re, {familiar:false});
+  const refrac_pac = rM.filter(m=>!m.negado);
+
+  // --- CONSUMO (sustancias; TBQ aislado NO cuenta) ---
+  const consumo_re = '\\b(pasta base|cocaina|marihuana|cannabis|thc\\b|tussi|lsd|extasis|'
+                   + 'anfetamin|mdma|ketamin|tramadol|alcohol(?:emia|ismo)?\\b|'
+                   + '\\boh\\b|policonsumo|abuso de sustancia|abuso de droga|'
+                   + 'consumo (activo|de sustancia|de alcohol|de droga|problemati|abusivo|cronico|de coca|de marihuana|de pasta|de thc)|'
+                   + 'dependencia (a |de |al )?(alcohol|cocaina|sustancia|oh)|'
+                   + 'abstinencia (de )?(alcohol|cocaina|sustancia|oh|droga)|'
+                   + 'craving|sustancias psicoactivas|drogas)\\b';
+  const cM = _scan(g, consumo_re);
+  const consumo_validos = cM.filter(m=>!m.negado);
+  const consumo_pac = consumo_validos.filter(m=>!m.familiar);
+  const consumo_fam = consumo_validos.filter(m=> m.familiar);
+
+  // Tabular positivo "OH (+)" / "Drogas: +" para sustancias (no TBQ aislado)
+  const tab_re = /\b(oh|alcohol|drogas?|sustancia[s]?|cocaina|marihuana|thc|pasta base)\b\s*:?\s*\(?\s*\+\s*\)?/gi;
+  const tab_pos = [];
+  let tm;
+  while((tm = tab_re.exec(g)) !== null){
+    if(!_esFamiliar(g, tm.index) && !_esNegado(g, tm.index)){
+      tab_pos.push({pos:tm.index, texto:tm[0], snippet:_snippet(g, tm.index)});
+    }
+  }
+
+  // --- INCONSISTENCIAS internas ---
+  const inc = _detectarInconsistencia(g, glosa, sM, cM, vM);
+
+  return {
+    // Booleanos del paciente
+    suicid:           suicid_pac.length > 0,
+    suicid_historico: suicid_pac.length === 0 && suicid_hist.length > 0,
+    suicid_fam:       suicid_fam.length > 0,
+    hosp:             hosp_pac.length > 0,
+    vif:              vif_pac.length > 0,
+    vif_fam:          vif_fam.length > 0,
+    refrac:           refrac_pac.length > 0,
+    consumo:          consumo_pac.length > 0 || tab_pos.length > 0,
+    consumo_fam:      consumo_fam.length > 0,
+
+    // Evidencia textual (para auditoría)
+    evidencia: {
+      suicid:    [...suicid_pac, ...suicid_hist].map(m=>m.snippet),
+      hosp:      hosp_pac.map(m=>m.snippet),
+      vif:       vif_pac.map(m=>m.snippet),
+      refrac:    refrac_pac.map(m=>m.snippet),
+      consumo:   [...consumo_pac, ...tab_pos].map(m=>m.snippet)
+    },
+
+    // Inconsistencia interna
+    inconsistencia: inc
   };
 }
-function coherencia(cie,item){
-  const g=[(item.glosa||{}).fundamentosClinicos||'',(item.glosa||{}).examenesRealizados||'',(item.glosa||{}).observaciones||''].join(' ').toLowerCase();
-  const c=(cie||'').toUpperCase();
-  if(c.match(/^F3[012]/))return/depresi[oó]n|ánimo (bajo|depresivo)|anhedonia|tristeza|decaimiento|abulia|distimia|llanto/.test(g)?'ok':'revisar';
-  if(c.match(/^F2[0235]/))return/alucinaci[oó]n|psicosis|psicótic|delirio|esquizofrenia|voces/.test(g)?'ok':'revisar';
-  if(c.match(/^F1[049]/))return/consumo|sustancia|droga|cocaína|pasta base|alcohol|marihuana|thc|dependencia/.test(g)?'ok':'revisar';
-  if(c.match(/^F6[01]/))return/personalidad|borderline|tlp|inestable|impulsividad|labilidad/.test(g)?'ok':'revisar';
-  if(c.match(/^F7[0-8]/))return/discapacidad|retraso|intelectual|psicometr[ií]a|credencial|dificultad/.test(g)?'ok':'revisar';
-  if(c.match(/^F4[34]/))return/trauma|tept|disociativ|conversivo|vif|abuso|estrés/.test(g)?'ok':'revisar';
-  if(c.match(/^F84/))return/tea|autismo|espectro autista|autista|williams|asperger/.test(g)?'ok':'revisar';
-  return'ok';
+
+// =============================================================================
+// DETECTOR DE INCONSISTENCIA INTERNA
+// =============================================================================
+function _detectarInconsistencia(gNorm, gOrig, sM, cM, vM){
+  const flags = [];
+
+  // 1. Suicidalidad: hay match positivo Y negado en la misma glosa
+  const sPos = sM.filter(m=>!m.negado && !m.familiar);
+  const sNeg = sM.filter(m=> m.negado);
+  if(sPos.length > 0 && sNeg.length > 0){
+    flags.push({
+      tipo: 'suicidalidad',
+      detalle: 'Mención positiva y negación coexisten',
+      evidencia: [sPos[0].snippet, sNeg[0].snippet]
+    });
+  }
+
+  // 2. Suicidalidad: ideas/pensamientos relacionados con muerte/desaparecer +
+  //    desambiguación explícita (sin riesgo/objetivo suicida, etc.)
+  const reDesambig1 = /(idea|pensamiento|pens[oa])[s]?[^.]{0,30}(de|a la|con|relacionad[oa]s? (a|con) la)?[^.]{0,40}(muerte|desaparec)[^.]{0,120}(sin (riesgo|objetivo|intencion|planificacion) suicid|sin ideacion suicid|sin riesgo suicid|sin objetivo (suicid|de hacerse dano|autolit))/;
+  const reDesambig2 = /(desaparec\w*|morir|muerte)[^.]{0,80}(con el objetivo de descansar|sin querer hacerse|sin intencion|sin objetivo suicid|no de hacerse dano|sin planificaci)/;
+  if(reDesambig1.test(gNorm) || reDesambig2.test(gNorm)){
+    const m = (gNorm.match(reDesambig1) || gNorm.match(reDesambig2));
+    flags.push({
+      tipo: 'suicidalidad',
+      detalle: 'Ideas de muerte/desaparición explícitamente desambiguadas (requiere relectura)',
+      evidencia: [_snippet(gNorm, gNorm.indexOf(m[0]), 150)]
+    });
+  }
+
+  // 3. Consumo: tabular (-) + mención narrativa positiva de la misma sustancia.
+  //    Mapeo semántico: oh↔alcohol, tbq↔tabaco, drogas↔(coca|marihuana|thc|...)
+  const sustEquiv = {
+    'oh':       ['oh','alcohol','cerveza','vino','etilismo','etilico'],
+    'alcohol':  ['oh','alcohol','cerveza','vino','etilismo','etilico'],
+    'tbq':      ['tbq','tabaco','cigarrillo','fuma'],
+    'tabaco':   ['tbq','tabaco','cigarrillo','fuma'],
+    'drogas':   ['cocaina','pasta base','marihuana','thc','tussi','lsd','cannabis','extasis','mdma','consumo de droga','policonsumo'],
+    'droga':    ['cocaina','pasta base','marihuana','thc','tussi','lsd','cannabis','consumo de droga','policonsumo'],
+    'cocaina':  ['cocaina','coca '],
+    'marihuana':['marihuana','thc','cannabis'],
+    'thc':      ['thc','marihuana','cannabis'],
+    'pasta base':['pasta base','pbc','paco']
+  };
+  const reTabNeg = /\b(oh|alcohol|drogas?|cocaina|marihuana|thc|pasta base|tbq|tabaco)\s*:?\s*\(\s*-\s*\)/gi;
+  let tn;
+  const yaReportadas = new Set();
+  while((tn = reTabNeg.exec(gNorm)) !== null){
+    const sustancia = tn[1].toLowerCase();
+    if(yaReportadas.has(sustancia)) continue;
+    const equivalentes = sustEquiv[sustancia] || [sustancia];
+    const resto = gNorm.slice(tn.index + tn[0].length);
+    for(const eq of equivalentes){
+      const reSust = new RegExp('\\b' + eq.replace(/\s+/g,'\\s+') + '\\b', 'i');
+      const mRest = resto.match(reSust);
+      if(mRest){
+        const posAbs = tn.index + tn[0].length + resto.indexOf(mRest[0]);
+        if(!_esNegado(gNorm, posAbs) && !_esFamiliar(gNorm, posAbs)){
+          flags.push({
+            tipo: 'consumo',
+            detalle: `Tabular negativo (${tn[0].trim()}) y mención narrativa positiva ("${eq}")`,
+            evidencia: [_snippet(gNorm, tn.index, 80), _snippet(gNorm, posAbs)]
+          });
+          yaReportadas.add(sustancia);
+          break;
+        }
+      }
+    }
+  }
+
+  // 4. VIF: mención positiva y negación coexisten
+  const vPos = vM.filter(m=>!m.negado);
+  const vNeg = vM.filter(m=> m.negado);
+  if(vPos.length > 0 && vNeg.length > 0){
+    flags.push({
+      tipo: 'vif',
+      detalle: 'Mención positiva y negación de violencia/abuso coexisten',
+      evidencia: [vPos[0].snippet, vNeg[0].snippet]
+    });
+  }
+
+  return { presente: flags.length > 0, flags };
 }
+
+// =============================================================================
+// COHERENCIA DIAGNÓSTICO ↔ GLOSA (sin cambios estructurales)
+// =============================================================================
+function coherencia(cie, glosa){
+  const g = _norm(glosa);
+  const c = (cie||'').toUpperCase();
+  if(c.startsWith('F32')||c.startsWith('F33')||c.startsWith('F31'))
+    return /depresion|animo (bajo|depresivo)|anhedonia|tristeza|decaimiento|abulia|distimia/.test(g) ? 'ok' : 'revisar';
+  if(c.startsWith('F20')||c.startsWith('F23')||c.startsWith('F25'))
+    return /alucinacion|psicosis|psicotic|delirio|esquizofrenia|voces|paranoid/.test(g) ? 'ok' : 'revisar';
+  if(c.startsWith('F19')||c.startsWith('F14')||c.startsWith('F10'))
+    return /consumo|sustancia|droga|cocaina|pasta base|alcohol|marihuana|thc|dependencia|policonsumo/.test(g) ? 'ok' : 'revisar';
+  if(c.startsWith('F60')||c.startsWith('F61'))
+    return /personalidad|borderline|tlp|inestable|impulsividad|labilidad/.test(g) ? 'ok' : 'revisar';
+  return 'ok';
+}
+
+
 function completitud(item){
   const g=[(item.glosa||{}).fundamentosClinicos||'',(item.glosa||{}).examenesRealizados||'',(item.glosa||{}).observaciones||''].join(' ').toLowerCase();
   let s=0;
@@ -668,17 +1028,121 @@ function completitud(item){
   return s>=5?'completa':s>=3?'parcial':'incompleta';
 }
 
+function pillsMarcadores(r){
+  const out = [];
+  const pill = (label, cls, evidArr) => {
+    const ev = (evidArr||[]).join(' • ').replace(/"/g,'&quot;');
+    return `<span class="pill ${cls}" data-evid="${ev}">${label}</span>`;
+  };
+
+  if(r.suicid)            out.push(pill('suicid.',     'p-red',    r.evidencia.suicid));
+  if(r.suicid_historico)  out.push(pill('suicid. hist.','p-hist',  r.evidencia.suicid));
+  if(r.suicid_fam)        out.push(pill('suicid.',     'p-fam',    []));
+
+  if(r.hosp)              out.push(pill('hosp.',       'p-blue',   r.evidencia.hosp));
+
+  if(r.vif)               out.push(pill('vif',         'p-amber',  r.evidencia.vif));
+  if(r.vif_fam)           out.push(pill('vif',         'p-fam',    []));
+
+  if(r.refrac)            out.push(pill('refrac.',     'p-purple', r.evidencia.refrac));
+
+  if(r.consumo)           out.push(pill('consumo',     'p-green',  r.evidencia.consumo));
+  if(r.consumo_fam)       out.push(pill('consumo',     'p-fam',    []));
+
+  if(r.inconsistencia.presente){
+    const det = r.inconsistencia.flags
+                  .map(f => f.tipo + ': ' + f.detalle)
+                  .join(' • ')
+                  .replace(/"/g,'&quot;');
+    out.push(`<span class="pill p-incon" data-evid="${det}">inconsist.</span>`);
+  }
+
+  if(out.length === 0) out.push('<span class="pill p-gray">ninguno</span>');
+  return out.join(' ');
+}
+
+// -----------------------------------------------------------------------------
+// 3. TOOLTIP — pegar al final del <script> del Tab C
+// -----------------------------------------------------------------------------
+
+// Activa tooltips de evidencia al hacer hover sobre cualquier .pill[data-evid]
+
+function activarTooltips(){
+  let tip = document.querySelector('.evid-tooltip');
+  if(!tip){
+    tip = document.createElement('div');
+    tip.className = 'evid-tooltip';
+    tip.style.display = 'none';
+    document.body.appendChild(tip);
+  }
+  document.body.addEventListener('mouseover', e => {
+    const t = e.target.closest('.pill[data-evid]');
+    if(!t) return;
+    const ev = t.getAttribute('data-evid');
+    if(!ev) return;
+    tip.textContent = ev;
+    tip.style.display = 'block';
+    const r = t.getBoundingClientRect();
+    tip.style.left = (r.left + window.scrollX) + 'px';
+    tip.style.top  = (r.bottom + window.scrollY + 4) + 'px';
+  });
+  document.body.addEventListener('mouseout', e => {
+    if(e.target.closest('.pill[data-evid]')) tip.style.display = 'none';
+  });
+}
+// Llamar activarTooltips() después de buildColGrid() en la inicialización.
+
+// -----------------------------------------------------------------------------
+// 4. MODAL de detalle por SIC — reemplaza el contenido del modal existente
+//    para incluir la sección de evidencia textual
+// -----------------------------------------------------------------------------
+
+function modalDetalleHTML(r){
+  const ev = r.evidencia;
+  const blockEv = (titulo, arr) => arr && arr.length
+    ? `<h4>${titulo}</h4>${arr.map(e => `<div class="ev-block">${e}</div>`).join('')}`
+    : '';
+
+  let inconsHTML = '';
+  if(r.inconsistencia.presente){
+    inconsHTML = '<h4 style="color:var(--red)">⚠ Inconsistencia interna del relato</h4>'
+               + r.inconsistencia.flags.map(f =>
+                   `<div class="ev-block ev-incon">
+                      <strong>${f.tipo}:</strong> ${f.detalle}
+                      ${f.evidencia ? f.evidencia.map(e=>`<div style="margin-top:4px;color:var(--text2)">› ${e}</div>`).join('') : ''}
+                    </div>`
+                 ).join('');
+  }
+
+  return `
+    <div class="modal-evid">
+      ${inconsHTML}
+      ${blockEv('Evidencia · suicidalidad', ev.suicid)}
+      ${blockEv('Evidencia · hospitalización', ev.hosp)}
+      ${blockEv('Evidencia · VIF', ev.vif)}
+      ${blockEv('Evidencia · refractariedad', ev.refrac)}
+      ${blockEv('Evidencia · consumo', ev.consumo)}
+    </div>
+  `;
+}
+
 function procesarGlosas(){
   glosasRows=datos.map(item=>{
     const dgs=item.diagnosticos||[];
     const dg=dgs.find(d=>d.principal)||dgs[0]||{};
     const cie_code=dg.cie10||'';
     const cie=cie_code+' '+(dg.descripcion||'');
-    const m=detectar(item);
-    const coh=coherencia(cie_code,item);
+    const glosaTxt=[
+      (item.glosa||{}).fundamentosClinicos||'',
+      (item.glosa||{}).examenesRealizados||'',
+      (item.glosa||{}).observaciones||'',
+      (item.observacionesContralor||[]).map(o=>o.texto).join(' ')
+    ].join(' ');
+    const m=detectar(glosaTxt);
+    const coh=coherencia(cie_code,glosaTxt);
     const comp=completitud(item);
     const nMarcadores=[m.suicid,m.hosp,m.vif,m.refrac,m.consumo].filter(Boolean).length;
-    return{n:String(item.numeroSolicitud||item.id),pac:(item.paciente||{}).nombre||'',cie,cie_code,...m,coh,comp,nMarcadores,_item:item};
+    return{n:String(item.numeroSolicitud||item.id),pac:(item.paciente||{}).nombre||'',cie,cie_code,...m,coh,comp,nMarcadores,evidencia:m.evidencia||{},inconsistencia:m.inconsistencia||{presente:false,flags:[]},_item:item};
   });
   document.getElementById('glosasEmpty').style.display='none';
   document.getElementById('glosasContent').style.display='';
@@ -691,6 +1155,16 @@ function renderGMetricas(){
   const tot=glosasRows.length;
   const cnt=k=>glosasRows.filter(r=>r[k]).length;
   const pct=k=>Math.round(cnt(k)/tot*100);
+  const conIncons=glosasRows.filter(r=>r.inconsistencia&&r.inconsistencia.presente).length;
+  const conSuicHist=glosasRows.filter(r=>r.suicid_historico).length;
+  const conSuicFam=glosasRows.filter(r=>r.suicid_fam).length;
+  const conVifFam=glosasRows.filter(r=>r.vif_fam).length;
+  const mExtra=document.getElementById('gMetricasExtra');
+  if(mExtra) mExtra.innerHTML=
+    '<div class="mc"><div class="mc-label">Inconsistencias</div><div class="mc-val" style="color:#8a3a00">'+conIncons+'</div><div class="mc-sub">'+Math.round(conIncons/tot*100)+'%</div></div>'+
+    '<div class="mc"><div class="mc-label">Suicid. histórica</div><div class="mc-val" style="color:var(--text2)">'+conSuicHist+'</div><div class="mc-sub">'+Math.round(conSuicHist/tot*100)+'%</div></div>'+
+    '<div class="mc"><div class="mc-label">Fam. suicidalidad</div><div class="mc-val" style="color:var(--purple)">'+conSuicFam+'</div><div class="mc-sub">'+Math.round(conSuicFam/tot*100)+'%</div></div>'+
+    '<div class="mc"><div class="mc-label">Fam. VIF</div><div class="mc-val" style="color:var(--amber)">'+conVifFam+'</div><div class="mc-sub">'+Math.round(conVifFam/tot*100)+'%</div></div>';
   document.getElementById('gMetricas').innerHTML=`
     <div class="mc"><div class="mc-label">Suicidalidad</div><div class="mc-val" style="color:var(--red)">${cnt('suicid')}</div><div class="mc-sub">${pct('suicid')}% del total</div></div>
     <div class="mc"><div class="mc-label">Hosp. previa</div><div class="mc-val" style="color:var(--blue)">${cnt('hosp')}</div><div class="mc-sub">${pct('hosp')}%</div></div>
@@ -751,6 +1225,11 @@ function gFiltrar(){
     if(fm==='incoherente'&&r.coh!=='revisar')return false;
     if(fm==='incompleta'&&r.comp!=='incompleta')return false;
     if(fm==='alta'&&r.nMarcadores<3)return false;
+    if(fm==='incons'&&!(r.inconsistencia&&r.inconsistencia.presente))return false;
+    if(fm==='suicid_hist'&&!r.suicid_historico)return false;
+    if(fm==='suicid_fam'&&!r.suicid_fam)return false;
+    if(fm==='vif_fam'&&!r.vif_fam)return false;
+    if(fm==='consumo_fam'&&!r.consumo_fam)return false;
     if(fc&&r.comp!==fc)return false;
     return true;
   });
@@ -769,7 +1248,7 @@ function renderGlosasTabla(){
     <td class="mono" style="white-space:nowrap">${r.n}</td>
     <td style="white-space:nowrap">${r.pac}</td>
     <td class="mono" style="font-size:10px;white-space:nowrap">${r.cie_code}</td>
-    <td><div class="flags">${pM(r.suicid,'suicid.','p-red')}${pM(r.hosp,'hosp.','p-blue')}${pM(r.vif,'vif','p-amber')}${pM(r.refrac,'refrac.','p-purple')}${pM(r.consumo,'consumo','p-teal')}${r.nMarcadores===0?'<span class="pill p-gray">—</span>':''}</div></td>
+    <td><div class="flags">${pillsMarcadores(r)}</div></td>
     <td>${cohP(r.coh)}</td>
     <td>${compP(r.comp)}</td>
     <td><button class="detail-btn" onclick="abrirModal('${r.n}')">ver →</button></td>
@@ -801,6 +1280,7 @@ function abrirModal(n){
       ${pM(r.suicid,'suicidalidad','p-red')}${pM(r.hosp,'hospitaliz. previa','p-blue')}${pM(r.vif,'vif/trauma','p-amber')}${pM(r.refrac,'refractariedad','p-purple')}${pM(r.consumo,'consumo','p-teal')}
       ${cohP(r.coh)} ${compP(r.comp)}
     </div>
+    ${modalDetalleHTML(r)}
     <div class="modal-label">Glosa clínica completa</div>
     <div class="modal-glosa">${glosa.replace(/</g,'&lt;')}</div>
     <div class="modal-label">Observaciones contralor</div>
@@ -827,6 +1307,7 @@ function copiarGlosasMD(){
 }
 
 buildColGrid();
+activarTooltips();
 </script>
 </body>
 </html>
