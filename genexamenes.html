@@ -177,7 +177,7 @@ button{cursor:pointer}
 .sheet{width:720px;min-height:900px;background:#fff;color:#1a1a1a;
   font-family:'Source Serif 4',Georgia,serif;font-size:13px;line-height:1.65;
   position:relative;border:1px solid #ccc;box-shadow:0 6px 40px rgba(0,0,0,.5);
-  padding-bottom:88px}
+  padding-bottom:110px}
 [data-theme="light"] .sheet{box-shadow:0 2px 20px rgba(0,0,0,.15)}
 .sh-head{display:flex;align-items:flex-start;justify-content:space-between;padding:22px 28px 14px}
 .sh-logo-wrap{flex-shrink:0;width:110px}
@@ -212,7 +212,7 @@ button{cursor:pointer}
 .sh-sign{
   position:absolute;
   right:28px;
-  bottom:90px;   /* desde el .sheet, no desde .sh-body */
+  bottom:110px;   /* desde el .sheet, no desde .sh-body */
   display:flex;flex-direction:column;align-items:center;
   z-index:2
 }
@@ -223,11 +223,11 @@ button{cursor:pointer}
 
 /* PIE con QR real */
 .sh-foot{position:absolute;bottom:0;left:0;right:0;border-top:1px solid #ddd;
-  padding:8px 20px;display:flex;align-items:center;gap:14px;background:#faf9f7}
-.sh-qr-wrap{flex-shrink:0;width:62px;height:62px;display:flex;
+  padding:10px 20px;display:flex;align-items:center;gap:16px;background:#faf9f7;min-height:110px}
+.sh-qr-wrap{flex-shrink:0;width:110px;height:110px;display:flex;
   align-items:center;justify-content:center}
-.sh-qr-wrap canvas,.sh-qr-wrap img{max-width:62px!important;max-height:62px!important}
-.sh-qr-ph{width:62px;height:62px;background:#eee;border-radius:2px;
+.sh-qr-wrap canvas,.sh-qr-wrap img{max-width:110px!important;max-height:110px!important}
+.sh-qr-ph{width:110px;height:110px;background:#eee;border-radius:2px;
   display:flex;align-items:center;justify-content:center;
   font-family:'DM Mono',monospace;font-size:7px;color:#aaa;text-align:center}
 .sh-foot-text{font-size:9px;color:#666;line-height:1.6;text-align:center;flex:1;
@@ -244,7 +244,7 @@ button{cursor:pointer}
   .main-area,.preview-wrap{padding:0;background:#fff}
   .preview-empty{display:none!important}
   .sheet{width:100%;min-height:0;box-shadow:none;border:none;
-    font-size:12px;padding-bottom:90px}
+    font-size:12px;padding-bottom:110px}
   .sh-sign{position:absolute}
   .sh-foot{position:absolute}
 }
@@ -744,7 +744,7 @@ function renderList(){
 /* ══════════════════════════════════════════════════════════
    RENDER HOJA + FIRMA ECDSA
 ══════════════════════════════════════════════════════════ */
-var VERIF_URL = 'https://camilonacho-md.github.io/herramientascosam/verificar.html';
+var VERIF_URL = 'https://camilonacho-md.github.io/herramientascosam/verificar';
 
 async function renderSheet(){
   var emEl = document.getElementById('previewEmpty');
@@ -865,7 +865,7 @@ async function renderSheet(){
       +'<div class="sh-qr-wrap" id="qrContainer"></div>'
       +'<div class="sh-foot-text">'
         +'La presente orden podrá ser verificada en<br>'
-        +'<a href="'+tokenURL+'" target="_blank">camilonacho-md.github.io/herramientascosam/verificar.html</a><br>'
+        +'<a href="'+tokenURL+'" target="_blank">camilonacho-md.github.io/herramientascosam/verificar</a><br>'
         +(firmaB64
           ? '<strong>Token: '+payloadB64.slice(0,16)+'…</strong><br>'
           : '')
@@ -880,8 +880,8 @@ async function renderSheet(){
     try {
       new QRCode(qrEl, {
         text: tokenURL,
-        width:  62,
-        height: 62,
+        width:  110,
+        height: 110,
         colorDark:  '#1a1a1a',
         colorLight: '#ffffff',
         correctLevel: QRCode.CorrectLevel.M
