@@ -174,8 +174,8 @@ button{cursor:pointer}
 .preview-empty p{font-size:12px;line-height:1.7;max-width:300px}
 
 /* HOJA MÉDICA */
-.sheet{width:680px;min-height:880px;background:#fff;color:#1a1a1a;
-  font-family:'Source Serif 4',Georgia,serif;font-size:11.5px;line-height:1.6;
+.sheet{width:720px;min-height:900px;background:#fff;color:#1a1a1a;
+  font-family:'Source Serif 4',Georgia,serif;font-size:13px;line-height:1.65;
   position:relative;border:1px solid #ccc;box-shadow:0 6px 40px rgba(0,0,0,.5);
   padding-bottom:88px}
 [data-theme="light"] .sheet{box-shadow:0 2px 20px rgba(0,0,0,.15)}
@@ -185,31 +185,37 @@ button{cursor:pointer}
 .sh-logo-ph{width:110px;height:70px;background:#f0ede8;border-radius:3px;
   display:flex;align-items:center;justify-content:center;
   font-family:'DM Mono',monospace;font-size:9px;color:#bbb}
-.sh-doctor{text-align:right;font-size:11px;line-height:1.75;color:#1a1a1a;
+.sh-doctor{text-align:right;font-size:12px;line-height:1.8;color:#1a1a1a;
   font-family:'Source Serif 4',Georgia,serif}
-.sh-doctor-name{font-family:'Syne',sans-serif;font-size:12.5px;font-weight:600;
+.sh-doctor span{display:block}
+.sh-doctor-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:600;
   color:#1a1a1a;display:block}
-.sh-doctor-esp{font-family:'Syne',sans-serif;font-size:11px;font-weight:600;
+.sh-doctor-esp{font-family:'Syne',sans-serif;font-size:12px;font-weight:600;
   color:#1a1a1a;display:block;letter-spacing:.01em}
 .sh-rule-red{height:3px;background:linear-gradient(90deg,#c0392b 0%,#e04030 60%,#c0392b 100%);
-  margin:0 28px;border-radius:1px}
-.sh-rule-thin{height:1px;background:#ddd;margin:0 28px}
-.sh-patient{padding:14px 28px 10px;font-size:11.5px;line-height:1.8;color:#1a1a1a;
+  margin:0;border-radius:0}
+.sh-rule-thin{height:1px;background:#e8e5e0;margin:0}
+.sh-patient{padding:14px 28px 10px;font-size:13px;line-height:1.8;color:#1a1a1a;
   font-family:'Source Serif 4',Georgia,serif}
-.sh-body{padding:18px 28px 0;position:relative}
-.sh-section-title{font-family:'Syne',sans-serif;font-size:11.5px;font-weight:600;
+.sh-body{padding:18px 28px 100px;position:relative}
+.sh-section-title{font-family:'Syne',sans-serif;font-size:13px;font-weight:600;
   color:#1a1a1a;margin-bottom:10px}
-.sh-exam-item{display:flex;align-items:baseline;gap:8px;font-size:11.5px;
+.sh-exam-item{display:flex;align-items:baseline;gap:8px;font-size:13px;
   line-height:1.7;color:#1a1a1a;padding:3px 0;border-bottom:1px solid #f0ede8}
 .sh-exam-item:last-child{border-bottom:none}
 .sh-exam-bullet{color:#c0392b;font-size:14px;flex-shrink:0;line-height:1}
 .sh-exam-code{font-family:'DM Mono',monospace;font-size:10px;color:#888;flex-shrink:0}
-.sh-exam-name{flex:1;color:#1a1a1a}
+.sh-exam-name{flex:1;color:#1a1a1a;font-size:13px}
 .sh-indic-wrap{margin-top:16px}
-.sh-indic-text{font-size:11.5px;line-height:1.7;color:#1a1a1a;text-align:justify}
+.sh-indic-text{font-size:13px;line-height:1.7;color:#1a1a1a;text-align:justify}
 .sh-indic-block{display:block}
-.sh-sign{position:absolute;right:28px;bottom:96px;
-  display:flex;flex-direction:column;align-items:center}
+.sh-sign{
+  position:absolute;
+  right:28px;
+  bottom:90px;   /* desde el .sheet, no desde .sh-body */
+  display:flex;flex-direction:column;align-items:center;
+  z-index:2
+}
 .sh-sign img{max-width:130px;max-height:65px;object-fit:contain;display:block}
 .sh-sign-ph{width:120px;height:1px;background:#999;margin-bottom:3px}
 .sh-sign p{font-size:10px;color:#666;text-align:center;margin-top:3px;
@@ -738,7 +744,7 @@ function renderList(){
 /* ══════════════════════════════════════════════════════════
    RENDER HOJA + FIRMA ECDSA
 ══════════════════════════════════════════════════════════ */
-var VERIF_URL = 'https://camilonacho-md.github.io/herramientascosam/verificar';
+var VERIF_URL = 'https://camilonacho-md.github.io/herramientascosam/verificar.html';
 
 async function renderSheet(){
   var emEl = document.getElementById('previewEmpty');
@@ -828,16 +834,14 @@ async function renderSheet(){
 
   var signHTML =
     '<div class="sh-sign">'
-    +'<img src="img/firma.png" alt="Firma"'
-    +' onerror="this.outerHTML=\'<div class=\"sh-sign-ph\"></div>\'">'
+    +'<img src="img/firma.png" alt="Firma" onerror="this.style.display=\'none\'">'
     +'<p>Firma</p>'
     +'</div>';
 
   shEl.innerHTML =
     '<div class="sh-head">'
       +'<div class="sh-logo-wrap">'
-        +'<img class="sh-logo" src="img/logo.png" alt="Logo"'
-        +' onerror="this.outerHTML=\'<div class=\"sh-logo-ph\">logo</div>\'">'
+        +'<img class="sh-logo" src="img/logo.png" alt="Logo" onerror="this.style.display=\'none\'">'
       +'</div>'
       +'<div class="sh-doctor">'+doctorLines+'</div>'
     +'</div>'
@@ -855,13 +859,13 @@ async function renderSheet(){
       +'<div class="sh-section-title">Orden de exámenes:</div>'
       +examRows
       +indicHTML
-      +signHTML
     +'</div>'
+    +signHTML
     +'<div class="sh-foot">'
       +'<div class="sh-qr-wrap" id="qrContainer"></div>'
       +'<div class="sh-foot-text">'
         +'La presente orden podrá ser verificada en<br>'
-        +'<a href="'+tokenURL+'" target="_blank">camilonacho-md.github.io/herramientascosam/verificar</a><br>'
+        +'<a href="'+tokenURL+'" target="_blank">camilonacho-md.github.io/herramientascosam/verificar.html</a><br>'
         +(firmaB64
           ? '<strong>Token: '+payloadB64.slice(0,16)+'…</strong><br>'
           : '')
