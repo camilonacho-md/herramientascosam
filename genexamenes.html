@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Orden de Exámenes</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@400;500&family=Source+Serif+4:ital,opsz,wght@0,8..60,300;0,8..60,400;1,8..60,300&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700&family=DM+Mono:wght@400;500&family=Source+Serif+4:opsz,wght@8..60,300;8..60,400&display=swap" rel="stylesheet">
 <script>
 var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});
 </script>
@@ -15,7 +15,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   --bg:#1e1c18;--surface:#252220;--surface2:#201e1a;--surface3:#2a2825;
   --border:#36322c;--border2:#42403a;
   --ink:#e8e3db;--ink2:#c0bab0;--ink3:#8a847c;--ink-muted:#5a5650;--ink-label:#6a6560;
-  --accent:#c87533;--accent-soft:#2a1a08;--accent-hover:#e08840;
+  --accent:#c0392b;--accent-soft:#2a0a08;--accent-hover:#e04030;
   --ok-bg:#0f2018;--ok-ink:#5abf80;
   --err-bg:#201010;--err-ink:#f08080;
   --warn-bg:#201800;--warn-ink:#d4a060;
@@ -28,7 +28,7 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
   --bg:#f2f1ed;--surface:#fff;--surface2:#eeebe6;--surface3:#e5e1db;
   --border:#d8d4ce;--border2:#c8c4bc;
   --ink:#1a1814;--ink2:#3d3a34;--ink3:#6b6560;--ink-muted:#9a9590;--ink-label:#7a7570;
-  --accent:#b86820;--accent-soft:#fdf3e8;--accent-hover:#9a5518;
+  --accent:#c0392b;--accent-soft:#fdf0ef;--accent-hover:#a0302a;
   --ok-bg:#e8f5ee;--ok-ink:#1a5c30;
   --err-bg:#fde8e8;--err-ink:#8a0010;
   --warn-bg:#fff3e0;--warn-ink:#7a4000;
@@ -119,13 +119,10 @@ button{cursor:pointer}
 .sr-sub{font-size:10px;color:var(--ink3)}
 .hl{color:var(--accent);font-weight:600}
 
-/* ══ TAGS SELECCIONADOS ══ */
+/* ══ TAGS ══ */
 .exams-list{display:flex;flex-direction:column;gap:5px;min-height:32px}
-.etag{
-  display:flex;align-items:flex-start;gap:6px;
-  background:var(--surface3);border:1px solid var(--border);border-radius:var(--r);
-  padding:6px 9px;
-}
+.etag{display:flex;align-items:flex-start;gap:6px;
+  background:var(--surface3);border:1px solid var(--border);border-radius:var(--r);padding:6px 9px;}
 .etag-code{font-family:var(--mono);font-size:10px;color:var(--accent);flex-shrink:0;padding-top:1px}
 .etag-name{flex:1;font-size:11px;line-height:1.4;color:var(--ink2)}
 .etag-del{background:none;border:none;color:var(--ink-muted);font-size:15px;line-height:1;
@@ -135,101 +132,162 @@ button{cursor:pointer}
 .exams-empty{color:var(--ink-muted);font-family:var(--mono);font-size:11px;
   text-align:center;padding:8px 0}
 
-/* ══ PREVIEW ÁREA ══ */
+/* scrollbar */
+::-webkit-scrollbar{width:5px;height:5px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+
+/* ══ PREVIEW WRAP ══ */
 .preview-wrap{
   flex:1;display:flex;align-items:flex-start;justify-content:center;
-  padding:28px 20px;overflow-y:auto;
+  padding:32px 20px;overflow-y:auto;
 }
 .preview-empty{
   flex:1;display:flex;flex-direction:column;align-items:center;
-  justify-content:center;gap:10px;color:var(--ink3);
-  text-align:center;padding:60px 40px;
+  justify-content:center;gap:10px;color:var(--ink3);text-align:center;padding:60px 40px;
 }
 .preview-empty-icon{font-size:38px;opacity:.1}
 .preview-empty h2{font-size:15px;font-weight:600;color:var(--ink2)}
 .preview-empty p{font-size:12px;line-height:1.7;max-width:300px}
 
-/* ══════════════════════════════════════════════
-   HOJA MÉDICA — replica encuadrado.com
-   595×842px → A4 a 72dpi
-   text-[8px] en el original → ~8px aquí
-══════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════
+   HOJA MÉDICA — fiel al diseño de la imagen de referencia
+   Carta ~216mm → usamos 680px de ancho en pantalla
+   font-size base: 11.5px (legible, no 8px)
+══════════════════════════════════════════════════════════ */
 .sheet{
-  width:543px;          /* igual al panel de encuadrado */
-  min-height:592px;     /* altura panel encuadrado */
+  width:680px;
+  min-height:880px;
   background:#fff;
-  color:#111;
+  color:#1a1a1a;
   font-family:'Source Serif 4',Georgia,serif;
-  font-size:8px;
-  line-height:1.5;
+  font-size:11.5px;
+  line-height:1.6;
   position:relative;
-  border:1px solid #ddd;
-  box-shadow:0 4px 32px rgba(0,0,0,.45);
+  border:1px solid #ccc;
+  box-shadow:0 6px 40px rgba(0,0,0,.5);
+  padding-bottom:80px; /* espacio para el pie fijo */
 }
-[data-theme="light"] .sheet{box-shadow:0 2px 16px rgba(0,0,0,.12)}
+[data-theme="light"] .sheet{box-shadow:0 2px 20px rgba(0,0,0,.15)}
 
-/* cabecera: logo izq + datos médico der */
+/* ── cabecera: logo izq / doctor der ── */
 .sh-head{
-  display:flex;align-items:flex-start;justify-content:space-between;
-  padding:12px 16px 8px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding:22px 28px 14px;
 }
-.sh-logo{max-width:100px;max-height:75px;object-fit:contain;display:block}
-.sh-logo-placeholder{
-  width:100px;height:56px;background:#f0ede8;border-radius:3px;
+.sh-logo-wrap{flex-shrink:0;width:110px}
+.sh-logo{max-width:110px;max-height:80px;object-fit:contain;display:block}
+.sh-logo-ph{
+  width:110px;height:70px;background:#f0ede8;border-radius:3px;
   display:flex;align-items:center;justify-content:center;
-  font-family:'DM Mono',monospace;font-size:7px;color:#aaa;text-align:center;
+  font-family:'DM Mono',monospace;font-size:9px;color:#bbb;
 }
-.sh-doctor{text-align:right;font-size:8px;color:#222;line-height:1.7}
+.sh-doctor{
+  text-align:right;font-size:11px;line-height:1.75;color:#1a1a1a;
+  font-family:'Source Serif 4',Georgia,serif;
+}
+.sh-doctor-name{
+  font-family:'Syne',sans-serif;font-size:12.5px;font-weight:600;
+  color:#1a1a1a;display:block;
+}
+.sh-doctor-esp{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:600;
+  color:#1a1a1a;display:block;letter-spacing:.01em;
+}
 
-/* datos paciente */
+/* ── separador rojo principal (igual al de la imagen) ── */
+.sh-rule-red{
+  height:3px;
+  background:linear-gradient(90deg, #c0392b 0%, #e04030 60%, #c0392b 100%);
+  margin:0 28px;
+  border-radius:1px;
+}
+/* ── líneas delgadas decorativas ── */
+.sh-rule-thin{
+  height:1px;background:#ddd;margin:0 28px;
+}
+
+/* ── datos paciente ── */
 .sh-patient{
-  padding:0 16px 6px;font-size:8px;color:#222;line-height:1.8;
+  padding:14px 28px 10px;
+  font-size:11.5px;
+  line-height:1.8;
+  color:#1a1a1a;
+  font-family:'Source Serif 4',Georgia,serif;
 }
 
-/* separador */
-.sh-sep{height:1px;background:#ddd;margin:0 16px}
+/* ── separador fino pre-cuerpo ── */
 
-/* cuerpo — mismo h-[calc(100%-210px)] del original */
+/* ── cuerpo ── */
 .sh-body{
-  padding:10px 23px 0;
-  min-height:calc(592px - 210px);
+  padding:18px 28px 0;
   position:relative;
 }
-.sh-body-label{font-size:8px;color:#222}
-.sh-exam-row{margin-left:8px;font-size:8px;color:#111;line-height:1.7}
-.sh-indic{margin-top:8px;font-size:8px;color:#222;text-align:justify;line-height:1.6}
+.sh-section-title{
+  font-family:'Syne',sans-serif;
+  font-size:11.5px;
+  font-weight:600;
+  color:#1a1a1a;
+  margin-bottom:10px;
+}
+.sh-exam-item{
+  display:flex;align-items:baseline;gap:8px;
+  font-size:11.5px;line-height:1.7;color:#1a1a1a;
+  padding:3px 0;
+  border-bottom:1px solid #f0ede8;
+}
+.sh-exam-item:last-child{border-bottom:none}
+.sh-exam-bullet{color:#c0392b;font-size:14px;flex-shrink:0;line-height:1}
+.sh-exam-code{
+  font-family:'DM Mono',monospace;font-size:10px;
+  color:#888;flex-shrink:0;
+}
+.sh-exam-name{flex:1;color:#1a1a1a}
+
+/* ── indicaciones ── */
+.sh-indic-wrap{margin-top:16px}
+.sh-indic-title{
+  font-family:'Syne',sans-serif;font-size:11px;font-weight:600;
+  color:#555;margin-bottom:4px;
+}
+.sh-indic-text{
+  font-size:11.5px;line-height:1.7;color:#1a1a1a;
+  text-align:justify;
+}
 .sh-indic-block{display:block}
 
-/* firma — absolute right-4 bottom-10 del original */
+/* ── firma ── */
 .sh-sign{
-  position:absolute;right:16px;bottom:56px;
+  position:absolute;
+  right:28px;
+  /* se posiciona respecto al sh-body, que tiene position:relative heredado del sheet */
+  bottom:96px; /* justo encima del pie */
   display:flex;flex-direction:column;align-items:center;
-  max-width:120px;
 }
-.sh-sign img{max-width:120px;max-height:60px;object-fit:contain;display:block}
-.sh-sign-placeholder{
-  width:110px;height:50px;border-bottom:1px solid #999;
-  display:flex;align-items:flex-end;justify-content:center;
-  padding-bottom:2px;font-family:'DM Mono',monospace;font-size:6px;color:#bbb;
+.sh-sign img{max-width:130px;max-height:65px;object-fit:contain;display:block}
+.sh-sign-ph{
+  width:120px;height:1px;background:#999;margin-bottom:3px;
 }
-.sh-sign p{font-size:7px;color:#555;margin-top:2px;text-align:center}
+.sh-sign p{font-size:10px;color:#666;text-align:center;margin-top:3px;
+  font-family:'Source Serif 4',Georgia,serif}
 
-/* pie — absolute bottom-4 */
+/* ── pie ── */
 .sh-foot{
   position:absolute;bottom:0;left:0;right:0;
-  border-top:1px solid #ddd;padding:4px 16px;
-  display:flex;align-items:center;gap:10px;background:#faf9f7;
+  border-top:1px solid #ddd;
+  padding:8px 24px;
+  display:flex;align-items:center;gap:14px;
+  background:#faf9f7;
 }
-.sh-qr{width:54px;height:54px;flex-shrink:0}   /* tamaño original: 65×65 escalado a 8px */
-.sh-foot-text{font-size:6.5px;color:#555;line-height:1.55;text-align:center;flex:1}
-.sh-foot-text a{color:#3b82f6;text-decoration:underline}
-.sh-foot-text strong{font-family:'DM Mono',monospace;letter-spacing:.03em}
-
-/* scrollbar fino */
-::-webkit-scrollbar{width:5px;height:5px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
-::-webkit-scrollbar-thumb:hover{background:var(--ink-muted)}
+.sh-qr{width:58px;height:58px;flex-shrink:0}
+.sh-foot-text{
+  font-size:9px;color:#666;line-height:1.6;text-align:center;flex:1;
+  font-family:'Source Serif 4',Georgia,serif;
+}
+.sh-foot-text a{color:#2563eb;text-decoration:underline}
+.sh-foot-text strong{font-family:'DM Mono',monospace;letter-spacing:.03em;color:#333}
 
 /* ══ PRINT ══ */
 @media print{
@@ -239,10 +297,10 @@ button{cursor:pointer}
   .preview-empty{display:none!important}
   .sheet{
     width:100%;min-height:0;box-shadow:none;border:none;
-    font-size:10px;
+    font-size:12px;padding-bottom:90px;
   }
-  .sh-sign{position:relative;bottom:auto;right:auto;margin:32px auto 0;align-items:center}
-  .sh-foot{position:relative;bottom:auto}
+  .sh-sign{position:absolute}
+  .sh-foot{position:absolute}
 }
 </style>
 </head>
@@ -253,7 +311,6 @@ button{cursor:pointer}
   document.documentElement.setAttribute('data-theme',t);
 })();
 </script>
-
 <body>
 
 <!-- HEADER -->
@@ -271,41 +328,38 @@ button{cursor:pointer}
 
 <div class="layout">
 
-  <!-- ══ SIDEBAR ══ -->
+  <!-- SIDEBAR -->
   <aside class="sidebar">
 
-    <!-- Médico -->
     <div>
       <div class="s-label">Médico emisor</div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <input class="ui-input" id="medNombre" placeholder="Nombre completo">
-        <input class="ui-input" id="medEspecialidad" placeholder="Especialidad">
+        <input class="ui-input" id="medNombre" placeholder="Dr. Nombre Apellido" value="Dr. Camilo Ignacio Martínez Rodríguez">
+        <input class="ui-input" id="medEsp" placeholder="Especialidad" value="Médico, Especialista en Psiquiatría Adultos">
         <div class="row2">
-          <input class="ui-input" id="medRun" placeholder="RUN">
-          <input class="ui-input" id="medRnpi" placeholder="RNPI">
+          <input class="ui-input" id="medRun" placeholder="RUN" value="15.843.686-8">
+          <input class="ui-input" id="medRnpi" placeholder="RNPI" value="349381">
         </div>
         <div class="row2">
-          <input class="ui-input" id="medTel" placeholder="Teléfono">
-          <input class="ui-input" id="medEmail" placeholder="Email">
+          <input class="ui-input" id="medTel" placeholder="Teléfono" value="966576793">
+          <input class="ui-input" id="medEmail" placeholder="Email" value="camilomartinezdr@outlook.cl">
         </div>
       </div>
     </div>
 
-    <!-- Paciente -->
     <div>
       <div class="s-label">Paciente</div>
       <div style="display:flex;flex-direction:column;gap:6px">
-        <input class="ui-input" id="patNombre" placeholder="Nombre completo">
+        <input class="ui-input" id="patNombre" placeholder="Nombre completo" value="Paulina Fuica Padilla">
         <div class="row2">
-          <input class="ui-input" id="patRun" placeholder="RUN">
-          <input class="ui-input" id="patFnac" placeholder="Fecha nac. dd-mm-aaaa">
+          <input class="ui-input" id="patRun" placeholder="RUN" value="16.240.677-9">
+          <input class="ui-input" id="patFnac" placeholder="Fecha nac. dd-mm-aaaa" value="09-10-1985">
         </div>
-        <input class="ui-input" id="patDir" placeholder="Dirección">
+        <input class="ui-input" id="patDir" placeholder="Dirección, Ciudad, Chile" value="Avenida Juan Mackenna 1949, Osorno, Chile">
         <input class="ui-input" id="docFecha" type="date">
       </div>
     </div>
 
-    <!-- Buscador -->
     <div>
       <div class="s-label">Agregar examen</div>
       <div style="display:flex;flex-direction:column;gap:6px">
@@ -322,8 +376,7 @@ button{cursor:pointer}
       </div>
     </div>
 
-    <!-- Lista seleccionados -->
-    <div style="flex:1;min-height:0">
+    <div style="flex:1;min-height:0;overflow-y:auto">
       <div class="s-label" style="display:flex;justify-content:space-between;align-items:center">
         <span>Exámenes</span>
         <span class="etag-count" id="examCount">0</span>
@@ -333,11 +386,10 @@ button{cursor:pointer}
       </div>
     </div>
 
-    <!-- Indicaciones / diagnóstico -->
     <div>
       <div class="s-label">Indicaciones y diagnóstico</div>
       <textarea class="ui-textarea" id="indicaciones" rows="4"
-        placeholder="Indicaciones clínicas, zona anatómica, lateralidad...&#10;Dg: ..."></textarea>
+        placeholder="Indicaciones clínicas, zona, lateralidad...&#10;Dg: ..."></textarea>
     </div>
 
     <div id="statusBar" class="status-bar"></div>
@@ -345,24 +397,21 @@ button{cursor:pointer}
 
   </aside>
 
-  <!-- ══ PREVIEW ══ -->
+  <!-- PREVIEW -->
   <main class="main-area" id="mainArea">
-
     <div class="preview-empty" id="previewEmpty">
       <div class="preview-empty-icon">🧪</div>
       <h2>Sin exámenes aún</h2>
-      <p>Completa los datos del médico y paciente, agrega exámenes desde el buscador y presiona <em>Actualizar hoja</em>.</p>
+      <p>Completa los datos, agrega exámenes y presiona <em>Actualizar hoja</em>.</p>
     </div>
-
     <div class="preview-wrap" id="previewWrap" style="display:none">
       <div class="sheet" id="sheet"></div>
     </div>
-
   </main>
 </div>
 
 <script>
-/* ══ FONASA DATA ══ */
+/* ══ FONASA ══ */
 var FONASA = [{"c":"0301002","n":"ACIDO FÓLICO O FOLATOS","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301003","n":"ADENOGRAMA, MIELOGRAMA, C/U","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301006","n":"AGREGACIÓN PLAQUETARIA CON DIFERENTES AGONISTAS","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301007","n":"ANTICOAGULANTES CIRCULANTES O ANTICOAGULANTE LÚPICO","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301008","n":"ANTITROMBINA III","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301011","n":"COAGULACIÓN, TIEMPO DE","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301013","n":"TIEMPO DE LISIS DEL COÁGULO","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301014","n":"PRUEBA DE ANTIGLOBULINA DIRECTA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301017","n":"DESHIDROGENASA GLUCOSA-6-FOSFATO EN ERITROCITOS","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301020","n":"TIEMPO DE LISIS DE EUGLOBULINAS","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301021","n":"FIBRINÓGENO","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301022","n":"TEST DE NEUTRALIZACIÓN PLAQUETARIA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301024","n":"FACTOR V","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301025","n":"FACTORES VII, VIII, IX, X, XI, XII, XIII, C/U","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301026","n":"FERRITINA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301027","n":"FIBRINÓGENO, PRODUCTOS DE DEGRADACIÓN DEL","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301028","n":"FIERRO SÉRICO","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301029","n":"FIERRO, CAPACIDAD DE FIJACIÓN DEL (INCLUYE FIERRO SÉRICO)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301030","n":"FIERRO, CINÉTICA DEL (CADA DETERMINACIÓN)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301034","n":"CLASIFICACIÓN SANGUÍNEA AB0 Y RHD","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301035","n":"HAPTOGLOBINA CUANTITATIVA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301036","n":"HEMATOCRITO (PROC. AUT.)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301038","n":"HEMOGLOBINA EN SANGRE TOTAL (PROC. AUT.)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301040","n":"HEMOGLOBINA FETAL CUANTITATIVA EN ERITROCITOS","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301041","n":"HEMOGLOBINA GLICADA A1C","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301042","n":"HEMOGLOBINA PLASMÁTICA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301044","n":"ELECTROFORESIS DE HEMOGLOBINA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301045","n":"HEMOGRAMA (INCLUYE RECUENTOS DE LEUCOCITOS, ERITROCITOS, PLAQUETAS, HEMOGLOBINA, HEMATOCRITO, FÓRMULA LEUCOCITARIA, CARACTERÍSTICAS DE LOS ELEMENTOS FIGURADOS Y VELOCIDAD DE ERITROSEDIMENTACIÓN)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301048","n":"HEMOSIDERINA MEDULAR","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301049","n":"CUANTIFICACIÓN DE HEPARINA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301051","n":"IDENTIFICACIÓN DE ANTICUERPOS IRREGULARES ERITROCITARIOS","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301054","n":"METAHEMOGLOBINA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301059","n":"TIEMPO DE PROTROMBINA (INCLUYE INR, RAZÓN INTERNACIONAL NORMALIZADA)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301062","n":"RECUENTO DE BASÓFILOS (ABSOLUTO)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301063","n":"RECUENTO DE EOSINÓFILOS (ABSOLUTO)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301064","n":"RECUENTO DE ERITROCITOS, ABSOLUTO (PROC. AUT.)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301065","n":"RECUENTO DE LEUCOCITOS, ABSOLUTO (PROC. AUT.)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301066","n":"RECUENTO DE LINFOCITOS (ABSOLUTO)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301067","n":"RECUENTO DE PLAQUETAS (ABSOLUTO)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301068","n":"RECUENTO DE RETICULOCITOS (ABSOLUTO O PORCENTUAL)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301069","n":"RECUENTO DIFERENCIAL O FÓRMULA LEUCOCITARIA (PROC. AUT.)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301070","n":"RESISTENCIA GLOBULAR OSMÓTICA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301072","n":"TIEMPO DE SANGRÍA (NO INCLUYE DISPOSITIVO ASOCIADO)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301082","n":"TRANSFERRINA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301083","n":"TROMBINA, TIEMPO DE","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301085","n":"TROMBOPLASTINA, TIEMPO PARCIAL DE (TTPA, TTPK O SIMILARES)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301086","n":"VELOCIDAD DE ERITROSEDIMENTACIÓN (PROC. AUT.)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301089","n":"FACTOR VON WILLEBRAND ANTIGÉNICO (FVW:AG)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301090","n":"FACTOR VON WILLEBRAND ANTIGÉNICO COFACTOR RISTOCETINA (FVW:CORIS)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301091","n":"PROTEÍNA C FUNCIONAL","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301092","n":"PROTEÍNA S","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301093","n":"RESISTENCIA A LA PROTEÍNA C ACTIVADA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301094","n":"ESTUDIO DE LA HEMOGLOBINURIA PAROXÍSTICA NOCTURNA (HPN) POR CITOMETRÍA DE FLUJO","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301095","n":"DÍMERO-D","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301096","n":"PROCALCITONINA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301097","n":"INHIBIDOR DE FACTOR DE LA COAGULACIÓN","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301098","n":"SECRECIÓN PLAQUETARIA CON DIFERENTES AGONISTAS","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301099","n":"TIEMPO DE VENENO DE VÍBORA DE RUSSELL DILUÍDO","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301100","n":"ANTITROMBINA III ANTIGÉNICA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301114","n":"PROTEÍNA C ANTIGÉNICA","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0301116","n":"HEMOGLOBINA GLICADA, A1C, TEST RÁPIDO EN EL LUGAR DE ASISTENCIA (INCLUYE TOMA DE MUESTRA SANGRE CAPILAR)","g":"LAB","s":"SANGRE, HEMATOLOGIA"},{"c":"0302001","n":"CUERPOS CETÓNICOS EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302002","n":"ACIDO CÍTRICO","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302004","n":"LACTATO EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302005","n":"ACIDO ÚRICO, EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302008","n":"AMILASA, EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302009","n":"AMINOÁCIDOS, CUALITATIVO EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302010","n":"AMONIO","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302070","n":"APOLIPOPROTEÍNAS (A1, B U OTRAS) C/U","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302011","n":"BICARBONATO (PROC. AUT.)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302012","n":"BILIRRUBINA TOTAL (PROC. AUT.)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302013","n":"BILIRRUBINA TOTAL Y CONJUGADA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302015","n":"CALCIO EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302017","n":"CAROTENO","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302018","n":"CAROTENO, PRUEBA DE SOBRECARGA DE, ADEMÁS 2 CÓDIGOS 03-07-011 O 03-07-012.","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302019","n":"CERULOPLASMINA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302020","n":"COBRE EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302067","n":"COLESTEROL TOTAL (PROC. AUT.)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302068","n":"COLESTEROL HDL (PROC. AUT.)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302021","n":"COLINESTERASA EN SUERO O PLASMA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302023","n":"CREATININA EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302024","n":"CLEARANCE DE CREATININA (PROC.AUT.)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302025","n":"CREATINQUINASA CK - MB ACTIVIDAD","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302026","n":"CREATINQUINASA CK - TOTAL","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302027","n":"TROPONINA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302030","n":"DESHIDROGENASA LÁCTICA TOTAL (LDH)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302031","n":"DESHIDROGENASA LÁCTICA TOTAL (LDH), CON SEPARACIÓN DE ISOENZIMAS","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302032","n":"ELECTROLITOS PLASMÁTICOS (SODIO, POTASIO, CLORO) C/U","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302033","n":"ENZIMA CONVERTIDORA DE ANGIOTENSINA I","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302034","n":"PERFIL LIPÍDICO (INCLUYE MEDICIONES DE COLESTEROL TOTAL, HDL-COLESTEROL Y TRIGLICÉRIDOS CON ESTIMACIONES POR FÓRMULA DE LDL-COLESTEROL, VLDL-COLESTEROL Y COLESTEROL NO-HDL)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302035","n":"FÁRMACOS Y/O DROGAS; NIVELES PLASMÁTICOS DE (ALCOHOL, ANOREXÍGENOS, ANTIARRÍTMICOS, ANTIBIÓTICOS, ANTIDEPRESIVOS, ANTIEPILÉPTICOS, ANTIHISTAMÍNICOS, ANTIINFLAMATORIOS Y ANALGÉSICOS, ESTIMULANTES RESPIRATORIOS, TRANQUILIZANTES MAYORES Y MENORES, ETC.) C/U","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302036","n":"FENILALANINA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302039","n":"FOSFATASAS ALCALINAS CON SEPARACIÓN DE ISOENZIMAS HEPÁTICAS, INTESTINALES, ÓSEAS C/U","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302040","n":"FOSFATASAS ALCALINAS TOTALES","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302042","n":"FÓSFORO (FOSFATOS) EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302043","n":"GALACTOSA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302045","n":"GAMMA GLUTAMILTRANSPEPTIDASA (GGT)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302046","n":"GASES Y EQUILIBRIO ÁCIDO BASE EN SANGRE (INCLUYE: PH, O2, CO2, EXCESO DE BASE Y BICARBONATO), TODOS O CADA UNO DE LOS PARÁMETROS","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302047","n":"GLUCOSA EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302048","n":"GLUCOSA, PRUEBA DE TOLERANCIA A LA GLUCOSA ORAL (PTGO), (DOS DETERMINACIONES; NO INCLUYE LA GLUCOSA QUE SE ADMINISTRA; INCLUYE EL VALOR DE LAS DOS TOMAS DE MUESTRAS)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302050","n":"ADENOSINDEAMINASA EN SANGRE U OTRO FLUIDO BIOLÓGICO (ADA)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302052","n":"LEUCINAMINOPEPTIDASA (LAP)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302053","n":"LIPASA EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302055","n":"LITIO EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302056","n":"MAGNESIO EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302057","n":"NITRÓGENO UREICO Y/O UREA, EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302058","n":"OSMOLALIDAD EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302075","n":"PERFIL BIOQUÍMICO (DETERMINACIÓN AUTOMATIZADA DE 12 PARÁMETROS)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302061","n":"ELECTROFORESIS DE PROTEÍNAS (INCLUYE CÓD. 03-02-100 Y 03-02-101 )","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302076","n":"PERFIL HEPÁTICO (INCLUYE TIEMPO DE PROTROMBINA, BILIRRUBINA TOTAL Y CONJUGADA, FOSFATASAS ALCALINAS TOTALES, GGT, TRANSAMINASAS GOT/AST Y GPT/ALT)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302063","n":"TRANSAMINASAS, OXALACÉTICA (GOT/AST), PIRÚVICA (GPT/ALT), C/U","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302064","n":"TRIGLICÉRIDOS EN SANGRE (PROC.AUT.)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302066","n":"XILOSA, PRUEBA DE ABSORCIÓN (NO INCLUYE LA XILOSA QUE SE ADMINISTRA)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302077","n":"VITAMINA B12 POR INMUNOENSAYO","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302078","n":"25 OH VITAMINA D TOTAL POR INMUNOENSAYO (QUIMIOLUMINISCENCIA, ENZIMOINMUNOENSAYO, RADIO INMUNOENSAYO Y OTROS)","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302080","n":"VITAMINA B6 POR HPLC","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302081","n":"CALCIO IÓNICO. INCLUYE MEDICIÓN DE PH MÉTODO IÓN SELECTIVO. NO INCLUYE POINT OF CARE TESTING POCT","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302082","n":"FENILALANINA CUANTITATIVA EN GOTAS DE SANGRE SECA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302083","n":"CARBOXIHEMOGLOBINA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302084","n":"PLOMO EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302085","n":"PREALBUMINA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302086","n":"HOMOCISTEÍNA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302100","n":"PROTEÍNAS TOTALES EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302101","n":"ALBÚMINAS EN SANGRE","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302095","n":"TIOPURINA METILTRANSFERASA, ACTIVIDAD ENZIMATICA","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302097","n":"HORMONA TIROESTIMULANTE, NEONATAL EN GSS","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302098","n":"PERFIL DE AMINOÁCIDOS Y ACILCARNITINAS EN GSS","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302099","n":"PESQUISA NEONATAL AMPLIADA EN GSS (INCLUYE PERFIL DE AMINOÁCIDOS Y ACILCARNITINAS; SUCCINILACETONA; HORMONA TIROESTIMULANTE, NEONATAL; BIOTINIDASA; GALACTOSA TOTAL; GALACTOSA-1-FOSFATO URIDILTRANSFERASA; 17-HIDROXIPROGESTERONA; TRIPSINA INMUNORREACTIVA).","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302102","n":"LEUCINA CUALITATIVA EN GSS","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0302121","n":"TEST RESPIRATORIO DE LACTOSA, LACTULOSA, FRUCTUOSA, C/U.","g":"LAB","s":"SANGRE, EXAMENES BIOQUIMICOS"},{"c":"0303001","n":"ADENOCORTICOTROFINA (ACTH)","g":"LAB","s":"HORMONAS"},{"c":"0303002","n":"ALDOSTERONA","g":"LAB","s":"HORMONAS"},{"c":"0303003","n":"ANDROSTENEDIONA","g":"LAB","s":"HORMONAS"},{"c":"0303004","n":"ANGIOTENSINA","g":"LAB","s":"HORMONAS"},{"c":"0303006","n":"CORTISOL","g":"LAB","s":"HORMONAS"},{"c":"0303007","n":"CRECIMIENTO, HORMONA DE (HGH) (SOMATOTROFINA)","g":"LAB","s":"HORMONAS"},{"c":"0303008","n":"DEHIDROEPIANDROSTERONA SULFATO (DHEA-S)","g":"LAB","s":"HORMONAS"},{"c":"0303009","n":"ERITROPOYETINA","g":"LAB","s":"HORMONAS"},{"c":"0303012","n":"GASTRINA","g":"LAB","s":"HORMONAS"},{"c":"0303014","n":"GONADOTROFINA CORIÓNICA, SUB-UNIDAD BETA (CUANTIFICACIÓN)","g":"LAB","s":"HORMONAS"},{"c":"0303015","n":"HORMONA FOLÍCULO ESTIMULANTE (FSH)","g":"LAB","s":"HORMONAS"},{"c":"0303016","n":"HORMONA LUTEINIZANTE (LH)","g":"LAB","s":"HORMONAS"},{"c":"0303047","n":"IGF1 O SOMATOMEDINA - C (INSULINE LIKE GROWTH FACTOR)","g":"LAB","s":"HORMONAS"},{"c":"0303048","n":"IGFBP3, IGFBP1 (INSULIN LIKE GROWTH FACTOR BINDING PROTEINS) C/U","g":"LAB","s":"HORMONAS"},{"c":"0303017","n":"INSULINA","g":"LAB","s":"HORMONAS"},{"c":"0303031","n":"INSULINA, CURVA DE (MÍNIMO DOS DETERMINACIONES E INCLUYE TODAS LAS TOMAS DE MUESTRA NECESARIAS. NO INCLUYE LA GLUCOSA QUE SE ADMINISTRA)","g":"LAB","s":"HORMONAS"},{"c":"0303018","n":"PARATHORMONA, HORMONA PARATIROÍDEA O PTH.","g":"LAB","s":"HORMONAS"},{"c":"0303019","n":"PROGESTERONA","g":"LAB","s":"HORMONAS"},{"c":"0303020","n":"PROLACTINA (PRL)","g":"LAB","s":"HORMONAS"},{"c":"0303021","n":"RENINA","g":"LAB","s":"HORMONAS"},{"c":"0303046","n":"SHBG (SEX-HORMONE BINDING GLOBULIN)","g":"LAB","s":"HORMONAS"},{"c":"0303022","n":"TESTOSTERONA EN SANGRE","g":"LAB","s":"HORMONAS"},{"c":"0303023","n":"TESTOSTERONA LIBRE EN SANGRE","g":"LAB","s":"HORMONAS"},{"c":"0303123","n":"ÍNDICE ANDROGÉNICO (INCLUYE TESTOSTERONA TOTAL Y SHBG)","g":"LAB","s":"HORMONAS"},{"c":"0303024","n":"TIROESTIMULANTE (TSH), HORMONA (ADULTO, NIÑO O R.N.)","g":"LAB","s":"HORMONAS"},{"c":"0303025","n":"TIROGLOBULINA","g":"LAB","s":"HORMONAS"},{"c":"0303026","n":"TIROXINA LIBRE (T4L)","g":"LAB","s":"HORMONAS"},{"c":"0303027","n":"TIROXINA O TETRAYODOTIRONINA (T4)","g":"LAB","s":"HORMONAS"},{"c":"0303028","n":"TRIYODOTIRONINA (T3)","g":"LAB","s":"HORMONAS"},{"c":"0303029","n":"17 - HIDROXIPROGESTERONA","g":"LAB","s":"HORMONAS"},{"c":"0303030","n":"ESTRADIOL (17-BETA)","g":"LAB","s":"HORMONAS"},{"c":"0303049","n":"CATECOLAMINAS EN SANGRE (INCLUYE MEDICIÓN DE ADRENALINA, NORADRENALINA Y DOPAMINA POR SEPARADO POR MÉTODOS CROMATOGRÁFICOS)","g":"LAB","s":"HORMONAS"},{"c":"0303052","n":"PEPTIDO C","g":"LAB","s":"HORMONAS"},{"c":"0303053","n":"CALCITONINA","g":"LAB","s":"HORMONAS"},{"c":"0303054","n":"INHIBINA B","g":"LAB","s":"HORMONAS"},{"c":"0303055","n":"NT-PRO BNP O BNP","g":"LAB","s":"HORMONAS"},{"c":"0303057","n":"TRIYODOTIRONINA LIBRE (T3 LIBRE)","g":"LAB","s":"HORMONAS"},{"c":"0303058","n":"HORMONA ANTIMULLERIANA","g":"LAB","s":"HORMONAS"},{"c":"0303033","n":"ANGIOTENSINA","g":"LAB","s":"HORMONAS"},{"c":"0303035","n":"CORTISOL LIBRE URINARIO","g":"LAB","s":"HORMONAS"},{"c":"0303039","n":"GONADOTROFINA CORIÓNICA, SUB-UNIDAD BETA; TITULACIÓN POR (ELISA; RIA O IRMA; QUIMIOLUMINISCENCIA U OTRA TÉCNICA)","g":"LAB","s":"HORMONAS"},{"c":"0303050","n":"METANEFRINAS URINARIAS (INCLUYE DETERMINACIÓN DE METANEFRINA Y NORMETANEFRINA POR SEPARADO POR MÉTODOS CROMATOGRÁFICOS)","g":"LAB","s":"HORMONAS"},{"c":"0303051","n":"CATECOLAMINAS URINARIAS (INCLUYE MEDICIÓN DE ADRENALINA, NORADRENALINA Y DOPAMINA POR SEPARADO POR MÉTODOS CROMATOGRÁFICOS)","g":"LAB","s":"HORMONAS"},{"c":"0303056","n":"CORTISOL SALIVAL","g":"LAB","s":"HORMONAS"},{"c":"0304001","n":"CARIOTIPO EN SANGRE POR CULTIVO DE LINFOCITOS (INCLUYE MÍNIMO 25 MITOSIS CON BANDEO G Y EVENTUALMENTE Q, R, C, NOR) (MONTAJE DE 3 METAFASES BANDEADAS)","g":"LAB","s":"GENETICA"},{"c":"0304002","n":"CARIOTIPO CON TÉCNICAS ESPECIALES (INCLUYE MUESTRA DE SANGRE O DE MÉDULA ÓSEA, TRATAMIENTO CON FUDR, BROMURO DE ETIDIO, MEDIO DEFICIENTE EN ÁCIDO FÓLICO)","g":"LAB","s":"GENETICA"},{"c":"0304003","n":"CARIOTIPO EN FIBROBLASTOS POR CULTIVO DE TROFOBLASTO, LÍQUIDO AMNIÓTICO, PIEL U OTROS BANDEOS G Y EVENTUALMENTE Q, R, C, NOR","g":"LAB","s":"GENETICA"},{"c":"0304006","n":"FISH CROMOSOMAS X E Y","g":"LAB","s":"GENETICA"},{"c":"0304007","n":"DIAGNÓSTICO GENÉTICO MOLECULAR: DISPLASIA TANATOFÓRICA TIPO I Y II","g":"LAB","s":"GENETICA"},{"c":"0304008","n":"AMPLIFICACIÓN POR PCR MÁS ANÁLISIS DE FRAGMENTOS FLUORESCENTES POR ELECTROFORESIS CAPILAR (HASTA 5 FRAGMENTOS)","g":"LAB","s":"GENETICA"},{"c":"0304009","n":"ESTUDIO DE DELECIONES Y DUPLICACIONES POR AMPLIFICACIÓN MÚLTIPLE DE SONDAS DEPENDIENTE DE LIGACIÓN (MLPA) (1 O VARIOS GENES)","g":"LAB","s":"GENETICA"},{"c":"0304010","n":"ESTUDIO DE DELECIONES Y DUPLICACIONES POR AMPLIFICACIÓN MÚLTIPLE DE SONDAS DEPENDIENTE DE LIGACIÓN (MLPA) MÁS ESTUDIO DE METILACIÓN O SEGUNDO SET DE SONDAS (1 O VARIOS GENES)","g":"LAB","s":"GENETICA"},{"c":"0304012","n":"AMPLIFICACIÓN POR PCR EN TIEMPO REAL CUANTITATIVO CON SONDA","g":"LAB","s":"GENETICA"},{"c":"0304013","n":"AMPLIFICACIÓN DE ADN Y ARN POR PCR CONVENCIONAL DE 1 FRAGMENTO","g":"LAB","s":"GENETICA"},{"c":"0304014","n":"AMPLIFICACIÓN POR PCR MÁS ANÁLISIS POR RESTRICCIÓN ENZIMÁTICA","g":"LAB","s":"GENETICA"},{"c":"0304015","n":"FISH EN FROTIS FRESCOS DE MÉDULA ÓSEA, SANGRE, CONCENTRADO DE CÉLULAS PLASMÁTICAS SELECCIONADAS, BÚSQUEDA DE ALTERACIONES ADQUIRIDAS","g":"LAB","s":"GENETICA"},{"c":"0304016","n":"CARIOTIPO MOLECULAR (HIBRIDACIÓN GENÓMICA COMPARATIVA EN MICROMATRICES) 60K (INCLUYE LA EXTRACCIÓN DE ADN)","g":"LAB","s":"GENETICA"},{"c":"0305001","n":"ALFA -1- ANTITRIPSINA CUANTITATIVA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305002","n":"ALFA -2- MACROGLOBULINA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305003","n":"ALFA FETOPROTEÍNAS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305004","n":"TAMIZAJE DE ANTICUERPOS ANTI-ANTÍGENOS NUCLEARES EXTRACTABLES (A- ENA) (INCLUYE SM, RNP, RO, LA, SCL- 70 Y JO- 1).","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305005","n":"ANTICUERPOS ANTINUCLEARES (ANA), ANTIMITOCONDRIALES, ANTI DNA (ADNA), ANTI MÚSCULO LISO, ANTICENTRÓMERO, U OTROS, C/U.","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305007","n":"ANTICUERPOS ESPECÍFICOS Y OTROS AUTOANTICUERPOS (ANTICUERPOS ANTITIROÍDEOS: ANTICUERPOS ANTIMICROSOMALES Y ANTITIROGLOBULINAS Y OTROS ANTICUERPOS: PROSTÁTICO, ESPERMIOS, ETC.) C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305008","n":"ANTIESTREPTOLISINA O, POR TÉCNICA DE LÁTEX","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305009","n":"ANTÍGENO CARCINOEMBRIONARIO (CEA)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305070","n":"ANTÍGENO PROSTÁTICO ESPECÍFICO","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305170","n":"ANTÍGENO CA 125, CA 15-3 Y CA 19-9, C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305010","n":"BETA-2-MICROGLOBULINA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305012","n":"COMPLEMENTO C1Q, C2, C3, C4, ETC., C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305013","n":"COMPLEMENTO HEMOLÍTICO (CH 50)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305014","n":"CRIOGLOBULINAS, PRECIPITACIÓN EN FRÍO (CUALITATIVA) O CUANTITATIVA C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305019","n":"FACTOR REUMATOÍDEO POR TÉCNICA DE LÁTEX U OTRAS SIMILARES","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305020","n":"FACTOR REUMATOÍDEO POR TÉCNICA DE SCAT, WAALER ROSE, NEFELOMÉTRICAS Y/O TURBIDIMÉTRICAS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305021","n":"INHIBIDOR DE C1Q, C2 Y C3, C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305025","n":"INMUNOFIJACIÓN DE INMUNOGLOBULINA, C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305026","n":"INMUNOGLOBULINA IGA SECRETORA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305027","n":"INMUNOGLOBULINAS IGA, IGG, IGM, C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305028","n":"INMUNOGLOBULINAS IGE, IGD TOTAL, C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305029","n":"INMUNOGLOBULINAS IGE, IGG ESPECÍFICAS, C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305030","n":"PROTEÍNA C REACTIVA POR TÉCNICA DE LÁTEX U OTRAS SIMILARES","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305031","n":"PROTEÍNA C REACTIVA POR TÉCNICAS AUTOMATIZADAS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305081","n":"ANTICUERPO ANTIENDOMISIO (EMA, ANTIMEMBRANA BASAL GLOMERULAR (GBM), ANTIRETICULINA, POR IFI C/U.","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305181","n":"ANTICUERPOS ANTITRANSGLUTAMINASA (TTG)(INCLUYE IGG E IGA)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305082","n":"ANTICUERPOS ANTICITOPLASMA DE NEUTRÓFILOS (ANCA), (INCLUYE C-ANCA Y P-ANCA), POR IFI.","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305083","n":"DETERMINACIÓN DE ISOTIPOS DE ANTICUERPOS ANTICITOPLASMA DE NEUTRÓFILOS (G-M-A-C'3), POR IFI, C/U.","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305084","n":"ANTICUERPOS ANTICARDIOLIPINAS (IGG, IGM), C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305085","n":"ANTICUERPOS ANTI LKM-1","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305086","n":"ANTICUERPOS CONTRA PÉPTIDOS DEAMINADOS DE GLIADINA IGG E IGA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305098","n":"CROMOGRANINA A","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305099","n":"PÉPTIDO CÍCLICO CITRULINADO, ANTICUERPOS IGG","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305104","n":"ANTÍGENO PROSTÁTICO TOTAL Y LIBRE","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305105","n":"ANTICUERPOS ANTI-BETA 2 GLICOPROTEINA 1 (IGG, IGM), C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305106","n":"ESTUDIO INMUNOLÓGICO DE DIABETES (INCLUYE DETERMINACIÓN SIMULTÁNEA DE ANTICUERPOS ANTI-CÉLULAS DE ISLOTES (ICA), AUTO ANTICUERPO INSULINA NATIVA (IAA), ANTI-ANTÍGENO DE INSULINOMA-2 (IA2) Y ANTI-GLUTAMATO DESCARBOXILASA (GADA).","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305107","n":"ANTICUERPOS ANTI-MPO (MIELOPEROXIDASA)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305108","n":"ANTICUERPOS ANTI ANTÍGENOS NUCLEARES EXTRACTABLES (A-ENA): SM, RNP, SS-A/RO, SS-B/LA, SCL-70, JO-1). C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305124","n":"RECEPTOR DE TIROTROPINA (TRAB), ANTICUERPOS ANTI","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305035","n":"DETECCIÓN, IDENTIFICACIÓN Y TITULACIÓN DE CRIOAGLUTININAS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305036","n":"CRIOHEMOLISINAS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305037","n":"DIGESTIÓN FAGOCÍTICA NITROBLUE-TETRAZOLIUM CUALITATIVO Y CUANTITATIVO","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305038","n":"FAGOCITOSIS: INGESTIÓN Y DIGESTIÓN (KILLING) DE LEVADURAS POR POLIMORFONUCLEARES","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305039","n":"FAGOCITOSIS: INGESTIÓN Y DIGESTIÓN (KILLING) DE BACTERIAS POR POLIMORFONUCLEARES","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305040","n":"INMUNOADHERENCIA DE LEUCOCITOS MACRÓFAGOS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305041","n":"INTRADERMORREACCIÓN (PPD, HISTOPLASMINA, ASPERGILINA, U OTROS, INCLUYE EL VALOR DEL ANTÍGENO Y REACCIÓN DE CONTROL), C/U.","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305080","n":"ESTUDIO PARA HIPERSENSIBILIDAD RETARDADA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305042","n":"LIF O MIF","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305044","n":"LINFOCITOS B (ROSETAS EAC) Y LINFOCITOS T (ROSETAS E) C/U","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305047","n":"LINFOTOXINAS HUMANAS, DETECCIÓN DE","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305049","n":"TRANSFORMACIÓN LINFOBLÁSTICA A DROGAS, ANÁLISIS DE TRANSFORMACIÓN ESPONTÁNEA CON ESTÍMULO INESPECÍFICO Y CON DIFERENTES CONCENTRACIONES DE LA DROGA EN 1000 CÉLULAS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305089","n":"LINFOCITOS B TOTALES (CD19). TÉCNICA CITOMETRÍA DE FLUJO","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305091","n":"LINFOCITOS T (INCLUYE CD3, CD4, CD8). TÉCNICA CITOMETRÍA DE FLUJO","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305092","n":"NATURAL KILLERS (INCLUYE CD16, CD 56). TÉCNICA CITOMETRÍA DE FLUJO","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305093","n":"INMUNOFENOTIPO EN LEUCEMIAS AGUDAS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305094","n":"INMUNOFENOTIPO EN SÍNDROME LINFOPROLIFERATIVOS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305095","n":"INMUNOFENOTIPO EN SÍNDROME MIELODISPLÁSICOS","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305096","n":"DETECCIÓN DE ENFERMEDAD RESIDUAL MÍNIMA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305097","n":"CUANTIFICACIÓN DE CÉLULAS PROGENITORAS HEMATOPOYÉTICAS CD 34","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305110","n":"ALOCROSS MATCH LINFOCITOS T Y LINFOCITOS B (CITOMETRÍA DE FLUJO)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305111","n":"ANTICUERPO ANTI HLA CLASE I Y II SCREENING (LUMINEX)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305112","n":"AUTOCROSSMATCH LINFOCITOS T Y B (CITOMETRÍA DE FLUJO )","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305113","n":"ESPECIFICIDAD DE ANTICUERPOS HLA CON ANTÍGENOS INDIVIDUALES CLASE I (LUMINEX)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305114","n":"ESPECIFICIDAD DE ANTICUERPOS HLA CON ANTÍGENOS INDIVIDUALES CLASE II (LUMINEX)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305115","n":"ESTUDIO RECEPTOR TRASPLANTADO CON DONANTE CADÁVER","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305116","n":"HLA-AB TIPIFICACIÓN (BIOLOGÍA MOLECULAR)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305117","n":"HLA-ABDR TIPIFICACIÓN (BIOLOGÍA MOLECULAR)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305118","n":"HLA-B27 TIPIFICACIÓN (BIOLOGÍA MOLECULAR)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305119","n":"HLA-C TIPIFICACIÓN (BIOLOGÍA MOLECULAR)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305120","n":"HLA-DP TIPIFICACIÓN (BIOLOGÍA MOLECULAR)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305121","n":"HLA-DQ TIPIFICACIÓN (BIOLOGÍA MOLECULAR)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305122","n":"HLA-DR TIPIFICACIÓN (BIOLOGÍA MOLECULAR)","g":"LAB","s":"INMUNOLOGIA"},{"c":"0305123","n":"SEROTECA MENSUAL Y MANTENCIÓN EN LISTA DE ESPERA","g":"LAB","s":"INMUNOLOGIA"},{"c":"0306001","n":"BACILOSCOPÍA POR MÉTODO DE CONCENTRACIÓN","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306002","n":"BACILOSCOPÍA ZIEHL-NEELSEN, C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306004","n":"EXAMEN DIRECTO AL FRESCO, C/S TINCIÓN (INCLUYE TRICHOMONAS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306005","n":"TINCIÓN DE GRAM","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306006","n":"ULTRAMICROSCOPÍA (INCLUYE TOMA DE MUESTRAS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306102","n":"TINCIÓN DE TOLUIDINA","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306007","n":"COPROCULTIVO, C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306008","n":"CULTIVO CORRIENTE (EXCEPTO COPROCULTIVO, HEMOCULTIVO Y UROCULTIVO) C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306011","n":"UROCULTIVO, RECUENTO DE COLONIAS Y ANTIBIOGRAMA (CUALQUIER TÉCNICA) (INCLUYE TOMA DE ORINA ASÉPTICA Y FRASCO RECOLECTOR) (NO INCLUYE RECOLECTOR PEDIÁTRICO NI SONDA)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306091","n":"HEMOCULTIVO AUTOMATIZADO. INCLUYE ANTIBIOGRAMA CON CIM. 2 FRASCOS (COSTO NO INCLUIDO EN EL ARANCEL)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306093","n":"HEMOCULTIVO AUTOMATIZADO PARA MICOBACTERIAS.1 FRASCO (COSTO NO INCLUIDO EN EL ARANCEL)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306101","n":"CULTIVO DE LÍQUIDO DE CAVIDADES ESTÉRILES EN FRASCO DE HEMOCULTIVO AUTOMATIZADO. INCLUYE ANTIBIOGRAMA POR DIFUSIÓN O DILUCIÓN (1 FRASCO, COSTO NO INCLUIDO EN ARANCEL).","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306106","n":"HEMOCULTIVO AUTOMATIZADO PARA HONGOS","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306012","n":"CULTIVO PARA ANAEROBIOS (INCLUYE CÓD. 03-06-008)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306013","n":"CULTIVO PARA BORDETELLA","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306014","n":"CULTIVO PARA CAMPYLOBACTER, YERSINIA, VIBRIO, C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306016","n":"NEISSERIA GONORRHOEAE (GONOCOCO)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306017","n":"CULTIVO PARA HONGOS (LEVADURAS Y FILAMENTOSOS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306117","n":"CULTIVO PARA DERMATOFITOS","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306018","n":"CULTIVO PARA MICOBACTERIAS (INCLUYE BACILO DE KOCH)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306019","n":"CULTIVO PARA LEGIONELLA","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306022","n":"CULTIVO Y TIPIFICACIÓN DE MICOBACTERIAS","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306023","n":"CULTIVO MYCOPLASMA Y UREAPLASMA, C/U.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306099","n":"STREPTOCOCCUS GRUPO B/ AGALACTIAE EN EMBARAZADA POR CULTIVO CON MEDIO SELECTIVO Y/O ENRIQUECIDO.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306100","n":"CULTIVO ACELERADO PARA MICOBACTERIAS","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306025","n":"ANTIBIOGRAMA BACILO DE KOCH (CADA FÁRMACO)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306026","n":"ANTIBIOGRAMA CORRIENTE (MÍNIMO 10 FÁRMACOS) (EN CASO DE UROCULTIVO NO CORRESPONDE SU COBRO; INCLUIDO EN EL VALOR 03-06-011)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306027","n":"ANTIBIOGRAMA DE ESTUDIO DE SENSIBILIDAD POR DILUCIÓN (CIM) (MÍNIMO 6 FÁRMACOS) (EN CASO DE UROCULTIVO, NO CORRESPONDE SU COBRO; INCLUIDO EN EL VALOR CÓDIGO 03-06-011)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306028","n":"ANTIFUNGIGRAMA (MÍNIMO 4 FÁRMACOS ANTIHONGOS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306090","n":"TEST RÁPIDO DE DETECCIÓN DE STREPTOCOCCUS GRUPO A (PYOGENES)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306097","n":"CHLAMYDIA TRACHOMATIS Y NEISSERIA GONORRHOEAE DETECCIÓN POR TÉCNICA DE BIOLOGÍA MOLECULAR","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306098","n":"TOXINA CLOSTRIDIUM DIFFICILE EN DEPOSICIONES TEST RÁPIDO","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306107","n":"PNEUMOCYSTIS JIROVECCI POR TÉCNICA DE BIOLOGÍA MOLECULAR EN TIEMPO REAL","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306118","n":"AMPLIFICACIÓN DE DNA DE BORDETELLA PERTUSSIS POR TÉCNICA DE BIOLOGÍA MOLECULAR EN TIEMPO REAL","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306033","n":"BRUCELLA ABORTUS, MELITENSIS Y SUIS, ANTICUERPOS, POR AGLUTINACIÓN O ELISA","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306034","n":"CLAMIDIAS POR INMUNOFLUORESCENCIA, PEROXIDASA, ELISA O SIMILARES","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306036","n":"MONONUCLEOSIS, REACCIÓN DE PAUL BUNNELL, ANTICUERPOS HETERÓFILOS O SIMILARES","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306037","n":"MYCOPLASMA IGG, IGM, C/U.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306038","n":"R.P.R.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306039","n":"TÍFICAS, REACCIONES DE AGLUTINACIÓN (EBERTH H Y O, PARATYPHI A Y B) (WIDAL)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306041","n":"TREPONEMA PALLIDUM FTA - ABS, MHA-TP C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306042","n":"V.D.R.L.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306094","n":"ANTÍGENO GALACTOMANANO","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306119","n":"INTERFERÓN GAMMA TBC","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306043","n":"ARTRÓPODOS MACROSCÓPICOS Y MICROSCÓPICOS (IMAGOS Y/O PUPAS Y/O LARVAS), DIAGNÓSTICO DE","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306045","n":"COPROPARASITARIO SERIADO CON TÉCNICA PARA CRYPTOSPORIDIUM SP O PARA DIANTAMOEBA FRAGILIS (INCLUYE LOS CÓDIGOS 03-06-048 Y/O 03-06-059 MÁS APLICACIÓN DE TÉCNICA DE FROTIS CON TINCIÓN TRICRÓMICA O TINCIÓN ZIEHL-NEELSEN EN POR LO MENOS 3 MUESTRAS, SEGÚN CORRESPONDA)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306046","n":"COPROPARASITARIO SERIADO PARA FASCIOLA HEPÁTICA (INCLUYE DIAGNÓSTICO DE GUSANOS MACROSCÓPICOS Y EXAMEN MICROSCÓPICO DE 10 MUESTRAS POR MÉTODO DE TELEMANN Y SIMULTÁNEAMENTE POR TÉCNICA DE SEDIMENTACIÓN RÁPIDA (COPA CÓNICA)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306047","n":"COPROPARASITARIO SERIADO PARA ISOSPORA Y SARCOCYSTIS (INCLUYE DIAGNÓSTICO DE GUSANOS MACROSCÓPICOS Y EXAMEN MICROSCÓPICO DE 3 MUESTRAS SEPARADAS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306048","n":"COPROPARASITOLÓGICO SERIADO SIMPLE (INCLUYE DIAGNÓSTICO DE GUSANOS MACROSCÓPICOS Y EXAMEN MICROSCÓPICO POR CONCENTRACIÓN DE TRES MUESTRAS SEPARADAS MÉTODO TELEMANN ) (PROC. AUT.)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306049","n":"DIAGNÓSTICO DE PARÁSITOS EN JUGO DUODENAL Y/O BILIS, EXAMEN MACROSCÓPICO Y MICROSCÓPICO (DIRECTO Y/O CONCENTRACIÓN, C/S TINCIÓN)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306050","n":"DIAGNÓSTICO PARASITARIO EN EXUDADOS, SECRECIONES Y OTROS LÍQUIDOS ORGÁNICOS, EXAMEN MACRO Y MICROSCÓPICO DE (INCLUYE CONCENTRACIÓN Y/O TINCIÓN CUANDO PROCEDA), C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306051","n":"GRAHAM, EXAMEN DE (INCLUYE DIAGNÓSTICO DE GUSANOS MACROSCÓPICOS Y EXAMEN MICROSCÓPICO DE 5 MUESTRAS SEPARADAS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306052","n":"ESTUDIO DE GUSANOS MACROSCÓPICOS","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306053","n":"HEMOPARÁSITOS, DIAGNÓSTICO MICROSCÓPICO DE (MÍNIMO 10 FROTIS Y/O GOTAS GRUESAS, C/S EXAMEN DIRECTO AL FRESCO), CADA SESIÓN","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306054","n":"HEMOPARÁSITOS, DIAGNÓSTICO POR TÉCNICA DE MICROSTROUT O SIMILAR EN HASTA 10 TUBOS CAPILARES, CADA SESIÓN (CHAGAS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306056","n":"RASPADO DE PIEL, EXAMEN MICROSCÓPICO DE ('ACAROTEST'): DE 6 A 10 PREPARACIONES","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306059","n":"COPROPARASITOLÓGICO SERIADO SIMPLE (INCLUYE DIAGNÓSTICO DE GUSANOS MACROSCÓPICOS Y EXAMEN MICROSCÓPICO POR CONCENTRACIÓN DE TRES MUESTRAS SEPARADAS MÉTODO PAFS) (PROC. AUT.)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306061","n":"PARÁSITOS IGG/IGM (CHAGAS, HIDATIDOSIS, TOXOCARIASIS Y OTROS POR ELISA O INMUNOFLUORESCENCIA), C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306066","n":"INMUNOFLUORESCENCIA INDIRECTA (TOXOPLASMOSIS, CHAGAS, AMEBIASIS Y OTRAS), C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306095","n":"PARÁSITOS: DETERMINACIÓN POR REACCIÓN DE POLIMERASA EN CADENA (PCR)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306096","n":"PARÁSITOS: TEST RÁPIDO ANTICUERPOS (CHAGAS Y OTROS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306068","n":"AISLAMIENTO DE VIRUS (ADENOVIRUS, CITOMEGALOVIRUS, ENTEROVIRUS, HERPES, INFLUENZA, POLIO,SARAMPIÓN Y OTROS), C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306069","n":"ANTICUERPOS VIRALES, DETERM. DE (SARS COV-2 IGM IGG), (ADENOVIRUS, CITOMEGALOVIRUS, HERPES SIMPLE, RUBÉOLA, INFLUENZA A Y B; VIRUS VARICELA-ZOSTER; VIRUS SINCICIAL RESPIRATORIO; PARAINFLUENZA 1, 2 Y 3; EPSTEIN BARR Y OTROS), C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306169","n":"ANTICUERPOS VIRALES, DETERM. DE H.I.V.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306070","n":"ANTÍGENOS VIRALES DETERM. DE (ADENOVIRUS, CITOMEGALOVIRUS, HERPES SIMPLEX, RUBEOLA, INFLUENZA Y OTROS), (POR CUALQUIER TÉCNICA EJ: INMUNOFLUORESCENCIA), C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306170","n":"ANTÍGENOS VIRALES DETERM. DE ROTAVIRUS, POR CUALQUIER TÉCNICA","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306270","n":"ANTÍGENOS VIRALES DETERM. DE VIRUS SINCICIAL, POR CUALQUIER TÉCNICA","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306074","n":"VIRUS HEPATITIS A, ANTICUERPOS IGG, IGM O TOTALES C/U","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306075","n":"VIRUS HEPATITIS B, ANTICUERPO DEL ANTÍGENO E DEL","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306076","n":"VIRUS HEPATITIS B, ANTICORE TOTAL DEL (ANTI HBC TOTAL)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306078","n":"VIRUS HEPATITIS B, ANTÍGENO E DEL (HBEAG)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306079","n":"VIRUS HEPATITIS B, ANTÍGENO DE SUPERFICIE (HBSAG)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306080","n":"VIRUS HEPATITIS B, ANTICORE IGM DEL (ANTI HBC IGM)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306081","n":"VIRUS HEPATITIS C, ANTICUERPOS DE (ANTI HCV)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306082","n":"REACCIÓN DE POLIMERASA EN CADENA (P.C.R.) EN TIEMPO REAL, SARS COV-2, (INCLUYE TOMA MUESTRA HISOPADO NASOFARÍNGEO).","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306182","n":"REACCIÓN DE POLIMERASA EN CADENA (P.C.R.) EN TIEMPO REAL, VIRUS INFLUENZA, VIRUS HERPES, CITOMEGALOVIRUS, HEPATITIS C, MYCOBACTERIA TBC, C/U (INCLUYE TOMA MUESTRA HISOPADO NASOFARÍNGEO).","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306083","n":"CITOMEGALOVIRUS (CMV) SHELL VIAL AISLAMIENTO RÁPIDO","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306084","n":"HEPATITIS B, CARGA VIRAL","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306085","n":"HEPATITIS C CARGA VIRAL. TÉCNICA PCR","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306086","n":"VIH, CARGA VIRAL","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306087","n":"VIRUS EPSTEIN BARR (VEB) CARGA VIRAL. TÉCNICA PCR","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306088","n":"POLIOMA (BK) VIRUS CARGA VIRAL. TÉCNICA PCR","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306109","n":"VIH, GENOTIPIFICACIÓN ANTIVIRALES","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306110","n":"PCR METAPNEUMOVIRUS","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306111","n":"HTLV I Y II DETERMINACIÓN DE ANTICUERPOS VIRALES","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306112","n":"VIH, ANTICUERPOS Y ANTÍGENOS VIRALES, DETERM. DE H.I.V.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306113","n":"VIH, REACCIÓN DE POLIMERASA EN CADENA (P.C.R.) EN LÍQUIDO CEFALORAQUÍDEO","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306120","n":"PANEL VIRAL DIARREA POR PCR (DETERMINACIÓN DE ROTAVIRUS, NOROVIRUS G1, NOROVIRUS G2, ASTROVIRUS, ADENOVIRUS)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306121","n":"HANTA VIRUS, ANTICUERPOS IGM TEST RÁPIDO","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306122","n":"PANEL VIRUS RESPIRATORIO MOLECULAR (15 A 17 VIRUS) (ADENOVIRUS, VRS A, VRS B, PARAINFLUENZA 1,2,3,4, INFLUENZA A Y B, INFLUENZA A H1N1, BOCAVIRUS, CORONAVIRUS (2 TIPOS), RINOVIRUS, ENTEROVIRUS.","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306123","n":"VIRUS PAPILOMA HUMANO POR PCR CON GENOTIPIFICACIÓN DE PAPILOMA DE ALTO RIESGO DE CÁNCER CÉRVICO UTERINO TIPOS 16 Y 18","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306146","n":"REACCIÓN DE POLIMERASA EN CADENA (P.C.R.) VIRUS VIRUELA SÍMICA (INCLUYE HISOPADO DE LESIONES CUTÁNEAS).","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0306271","n":"TEST RÁPIDO DE DETECCIÓN DE ANTÍGENOS SARS-COV-2 (INCLUYE TOMA DE MUESTRA)","g":"LAB","s":"EXAMENES MICROBIOLOGICOS"},{"c":"0307001","n":"DIETILENDIAMINA TETRAACETATO DE SODIO CROMO (EDTA CR 51)","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307002","n":"PRUEBA DE LA SED (VOLUMEN, DENSIDAD, OSMOLALIDAD SERIADA EN SANGRE Y ORINA)","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307005","n":"REACCIÓN CUTÁNEA DE PARCHE C/U","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307006","n":"SOBRECARGA HÍDRICA","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307007","n":"TEST DEL SUDOR (PROCEDIMIENTO COMPLETO)","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307008","n":"VASOPRESINA TEST O SIMILARES (INCLUYE ADEMÁS MEDICIONES DE DIURESIS)","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307009","n":"ARTERIAL EN ADULTOS","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307010","n":"ARTERIAL EN NIÑOS Y LACTANTES","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307011","n":"VENOSA EN ADULTOS","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307012","n":"VENOSA EN NIÑOS Y LACTANTES","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307013","n":"CON TÉCNICA ASÉPTICA PARA HEMOCULTIVO AUTOMATIZADO, C/U, NO INCLUYE FRASCO","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307014","n":"CAPILAR ( ADULTOS, NIÑOS Y LACTANTES )","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307016","n":"PUNCIÓN TRAQUEAL","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307017","n":"PUNCIÓN VESICAL EN RECIÉN NACIDOS","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307018","n":"PUNCIÓN MEDULAR ÓSEA","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307023","n":"ASPIRADOS NASOFARÍNGEO PARA ADULTO Y NIÑO.","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0307024","n":"REACCIÓN CUTÁNEA A ALERGENOS (INCLUYE EL VALOR DE LOS ALERGENOS)","g":"LAB","s":"PROCEDIMIENTOS O DETERMINACIONES DIRECTAMENTE CON EL PACIENTE"},{"c":"0308001","n":"AZÚCARES REDUCTORES (BENEDICT-FEHLING O SIMILAR)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308003","n":"GRASAS NEUTRAS (SUDÁN III)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308004","n":"HEMORRAGIAS OCULTAS, (BENCIDINA, GUAYACO O TEST DE WEBER Y SIMILARES), CUALQUIER MÉTODO, C/MUESTRA","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308005","n":"LEUCOCITOS FECALES","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308006","n":"PH EN DEPOSICIONES","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308007","n":"ELASTASA FECAL","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308047","n":"ESTEATOCRITO","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308049","n":"CALPROTECTINA CUANTITATIVA POR ELISA","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308062","n":"ANÁLISIS INMUNOQUÍMICO/INMUNOLÓGICO DE SANGRE OCULTA EN DEPOSICIONES","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308063","n":"TEST DE HELICOBACTER PYLORI EN DEPOSICIONES","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308009","n":"CÉLULAS NEOPLÁSICAS EN FLUIDOS BIOLÓGICOS","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308010","n":"CITOLÓGICO C/S TINCIÓN (INCLUYE EXAMEN AL FRESCO, RECUENTO CELULAR Y CITOLÓGICO PORCENTUAL)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308011","n":"DIRECTO AL FRESCO C/S TINCIÓN, (INCLUYE TRICHOMONAS)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308012","n":"ELECTROLITOS (SODIO, POTASIO, CLORO), EN EXUDADOS, SECRECIONES Y OTROS LÍQUIDOS, C/U","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308013","n":"EOSINÓFILOS EN SECRECIONES","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308014","n":"FÍSICO-QUÍMICO (INCLUYE ASPECTO, COLOR, PH, GLUCOSA, PROTEÍNA, PANDY Y FILANCIA)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308015","n":"GLUCOSA EN EXUDADOS, SECRECIONES Y OTROS LÍQUIDOS","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308016","n":"MUCINA, DETERMINACIÓN DE","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308017","n":"PH EN EXUDADOS, SECRECIONES Y OTROS LÍQUIDOS (PROC. AUT.)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308019","n":"PROTEÍNAS, ELECTROFORÉSIS DE (INCLUYE PROTEÍNAS TOTALES) EN OTROS LÍQUIDOS BIOLÓGICOS","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308020","n":"BANDAS OLIGOCLONALES (INCLUYE ELECTROFORESIS DE L.C.R., SUERO E INMUNOFIJACIÓN)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308021","n":"GLUTAMINA","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308022","n":"ÍNDICE IGG/ALBÚMINA (INCLUYE DETERM. DE IGG Y ALBÚMINA EN L.C.R. Y SUERO)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308023","n":"ESTUDIO DE CRISTALES (CON LUZ POLARIZADA)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308025","n":"PRUEBA DE ESTIMULACIÓN MÁXIMA CON HISTAMINA, MÍNIMO 5 MUESTRAS (NO INCLUYE LA HISTAMINA NI EL ANTIHISTAMÍNICO).","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308029","n":"ESPERMIOGRAMA (FÍSICO Y MICROSCÓPICO, CON O SIN OBSERVACIÓN HASTA 24 HORAS)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308030","n":"FOSFATASA ÁCIDA PROSTÁTICA","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308031","n":"FRUCTOSA SEMINAL","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308033","n":"CÉLULAS ANARANJADAS (PROC. AUT.)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308034","n":"CONTAMINANTES (MECONIO Y SANGRE) (PROC. AUT.)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308035","n":"CREATININA EN EXUDADOS, SECRECIONES Y OTROS LÍQUIDOS (PROC. AUT.)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308036","n":"FOSFATIDIL GLICEROL Y/O FOSFATIDIL INOSITOL","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308037","n":"ÍNDICE DE BILIRRUBINA (PRUEBA DE LILEY)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308038","n":"ÍNDICE LECITINA/ESFINGOMIELINA","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308039","n":"MADUREZ FETAL COMPLETA (FÍSICO; CÉLULAS ANARANJADAS, BILIRRUBINA, TEST DE CLEMENTS, CREATININA, CONTAMINANTES)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308040","n":"TEST DE CLEMENTS (PROC. AUT.)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308041","n":"COLPOCITOGRAMA","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308043","n":"MOCO-SEMEN, PRUEBA DE COMPATIBILIDAD","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308044","n":"FLUJO VAGINAL O SECRECIÓN URETRAL, ESTUDIO DE (INCLUYE TOMA DE MUESTRA Y CÓDIGOS 03-06-004, 03-06-005, 03-06-008, 03-06-017 Y 03-06-026)","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308045","n":"AMILASA EN LÍQUIDOS BIOLÓGICOS","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308046","n":"LIPASA EN LÍQUIDOS BIOLÓGICOS","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308050","n":"PROTEÍNAS TOTALES EN EXUDADOS, SECRECIONES Y OTROS LÍQUIDOS","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0308051","n":"ALBÚMINAS EN EXUDADOS, SECRECIONES Y OTROS LÍQUIDOS","g":"LAB","s":"EXAMENES DE DEPOSICIONES, EXUDADOS, SECRECIONES Y OTROS LIQUIDOS"},{"c":"0309001","n":"ACIDO ASCÓRBICO","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309002","n":"ACIDO DELTA AMINOLEVULÍNICO","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309004","n":"ÁCIDO ÚRICO EN ORINA (CUANTITATIVO)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309005","n":"ACIDO 5 HIDROXIINDOLACÉTICO CUANTITATIVO","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309006","n":"AMILASA CUANTITATIVA EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309007","n":"AMINOÁCIDOS EN ORINA (CUALITATIVO)(EXCEPTO FENILALANINA, PKU)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309008","n":"CALCIO CUANTITATIVO EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309009","n":"CÁLCULO URINARIO (EXAMEN FÍSICO Y QUÍMICO)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309010","n":"CREATININA CUANTITATIVA EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309012","n":"ELECTRÓLITOS (SODIO, POTASIO, CLORO) C/U, EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309013","n":"MICROALBUMINURIA CUANTITATIVA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309014","n":"GONADOTROFINA CORIÓNICA, SUB-UNIDAD BETA EN ORINA (TEST RÁPIDO)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309015","n":"FÓSFORO CUANTITATIVO EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309016","n":"GLUCOSA (CUANTITATIVO), EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309035","n":"HEMOSIDERINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309017","n":"HIDROXIPROLINA EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309019","n":"MUCOPOLISACÁRIDOS","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309020","n":"NITRÓGENO UREICO O UREA EN ORINA (CUANTITATIVO)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309021","n":"NUCLEÓTIDOS CÍCLICOS (CAMP, CGM, U OTROS) C/U","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309022","n":"ORINA COMPLETA, (INCLUYE CÓD. 03-09-023 Y 03-09-024)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309023","n":"ORINA, FÍSICO-QUÍMICO ( ASPECTO, COLOR, DENSIDAD, PH; PROTEÍNAS, GLUCOSA, CUERPOS CETÓNICOS, UROBILINOGENO, BILIRRUBINA, HEMOGLOBINA Y NITRITOS, DETERMINACIÓN CUALITATIVA O SEMI CUANTITATIVA) TODOS O CADA UNO DE LOS PARÁMETROS (PROC. AUT.)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309024","n":"SEDIMENTO DE ORINA (PROC. AUT.)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309025","n":"OSMOLALIDAD","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309027","n":"PORFIRINAS, C/U","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309028","n":"PROTEÍNA (CUANTITATIVA), EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309029","n":"PROTEÍNAS DE BENCE-JONES PRUEBA TÉRMICA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309034","n":"ARSENICO EN ORINA (MUESTRA AISLADA)","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309036","n":"COBRE EN ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309044","n":"ÁCIDOS ORGÁNICOS, ORINA","g":"LAB","s":"EXAMENES ORINA"},{"c":"0309046","n":"SCREENING DE MUCOPOLISACARIDOS","g":"LAB","s":"EXAMENES ORINA"},{"c":"0401001","n":"RADIOGRAFÍA DE LAS GLÁNDULAS SALIVALES 'SIALOGRAFÍA'","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401002","n":"RADIOGRAFÍA DE PARTES BLANDAS, LARINGE LATERAL, CAVUM RINOFARÍNGEO (RINOFARINX).","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401004","n":"RADIOGRAFÍA DE TÓRAX, PROYECCIÓN COMPLEMENTARIA (OBLICUAS, SELECTIVAS U OTRAS)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401008","n":"RADIOGRAFÍA DE TÓRAX FRONTAL O LATERAL CON EQUIPO MÓVIL FUERA DEL DEPARTAMENTO DE RAYOS.","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401009","n":"RADIOGRAFÍA DE TÓRAX SIMPLE FRONTAL O LATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401070","n":"RADIOGRAFÍA DE TÓRAX FRONTAL Y LATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401010","n":"MAMOGRAFÍA BILATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401110","n":"MAMOGRAFÍA UNILATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401130","n":"MAMOGRAFÍA PROYECCIÓN COMPLEMENTARIA (AXILAR U OTRAS)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401011","n":"MARCACIÓN PREOPERATORIA DE LESIONES DE LA MAMA","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401012","n":"RADIOGRAFÍA DE MAMA, PIEZA OPERATORIA","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401013","n":"RADIOGRAFÍA DE ABDOMEN SIMPLE","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401014","n":"RADIOGRAFÍA DE ABDOMEN SIMPLE, PROYECCIÓN COMPLEMENTARIA (LATERAL Y/O OBLICUA)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401015","n":"COLANGIOGRAFÍA INTRA O POSTOPERATORIA (POR SONDA T, O SIMILAR)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401018","n":"ENEMA BARITADO DEL COLON (INCLUYE LLENE Y CONTROL POST-VACIAMIENTO)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401019","n":"ENEMA BARITADO DEL COLON O INTESTINO DELGADO, DOBLE CONTRASTE","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401020","n":"ESOFAGOGRAMA (INCLUYE PESQUISA DE CUERPO EXTRAÑO) (PROC.AUT.)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401021","n":"RADIOGRAFÍA DE ESÓFAGO, ESTÓMAGO Y DUODENO, RELLENO Y/O DOBLE CONTRASTE","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401022","n":"ESTUDIO RADIOLÓGICO DE DEGLUCIÓN FARÍNGEA","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401023","n":"ESTUDIO RADIOLÓGICO DEL INTESTINO DELGADO","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401024","n":"RADIOGRAFÍA DE ESÓFAGO, ESTÓMAGO Y DUODENO, SIMPLE EN NIÑOS","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401073","n":"VIDEOFLUOROSCOPIA PARA ESTUDIO DE DEGLUCIÓN","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401027","n":"PIELOGRAFÍA DE ELIMINACIÓN O DESCENDENTE: INCLUYE RENAL Y VESICAL SIMPLES PREVIAS, 3 PLACAS POST INYECCIÓN DE MEDIO DE CONTRASTE, CONTROLES DE PIE Y CISTOGRAFÍA PRE Y POST MICCIONAL.","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401028","n":"RADIOGRAFÍA RENAL SIMPLE (PROC. AUT.)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401029","n":"RADIOGRAFÍA VESICAL SIMPLE O PERIVESICAL (PROC. AUT.)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401031","n":"RADIOGRAFÍA DE CAVIDADES PERINASALES, ÓRBITAS, ARTICULACIONES TEMPOROMANDIBULARES, HUESOS PROPIOS DE LA NARIZ, MALAR, MAXILAR, ARCO CIGOMÁTICO Y CARA","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401032","n":"RADIOGRAFÍA DE CRÁNEO FRONTAL Y LATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401033","n":"RADIOGRAFÍA DE CRÁNEO PROYECCIÓN ESPECIAL DE BASE DE CRÁNEO (TOWNE)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401035","n":"RADIOGRAFÍA DE OÍDO, UNILATERAL O BILATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401040","n":"RADIOGRAFÍA DE SILLA TURCA FRONTAL Y LATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401042","n":"RADIOGRAFÍA DE COLUMNA CERVICAL O ATLAS-AXIS (FRONTAL Y LATERAL)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401043","n":"RADIOGRAFÍA DE COLUMNA CERVICAL (FRONTAL, LATERAL Y OBLICUAS)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401044","n":"RADIOGRAFÍA DE COLUMNA CERVICAL FLEXIÓN Y EXTENSIÓN (DINÁMICAS)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401045","n":"RADIOGRAFÍA DE COLUMNA DORSAL O DORSOLUMBAR LOCALIZADA, PARRILLA COSTAL (FRONTAL Y LATERAL)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401046","n":"RADIOGRAFÍA COLUMNA LUMBAR O LUMBOSACRA ( FRONTAL, LATERAL Y FOCALIZADA EN EL 5° ESPACIO)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401047","n":"RADIOGRAFÍA COLUMNA LUMBAR O LUMBOSACRA FLEXIÓN Y EXTENSIÓN (DINÁMICAS)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401048","n":"RADIOGRAFÍA COLUMNA LUMBAR O LUMBOSACRA, OBLICUAS ADICIONALES","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401049","n":"RADIOGRAFÍA DE COLUMNA TOTAL, PANORÁMICA CON FOLIO GRADUADO FRONTAL O LATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401051","n":"RADIOGRAFÍA DE PELVIS, CADERA O COXOFEMORAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401151","n":"RADIOGRAFÍA DE PELVIS, CADERA O COXOFEMORAL DE RN, LACTANTE O NIÑO MENOR DE 6 AÑOS.","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401052","n":"RADIOGRAFÍA DE PELVIS, CADERA O COXOFEMORAL, PROYECCIONES ESPECIALES; (ROTACIÓN INTERNA, ABDUCCIÓN, LATERAL, LAWENSTEIN U OTRAS)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401053","n":"RADIOGRAFÍA DE SACROCOXIS O ARTICULACIONES SACROILÍACAS.","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401054","n":"RADIOGRAFÍA DE BRAZO, ANTEBRAZO, CODO, MUÑECA, MANO, DEDOS, PIE (FRONTAL Y LATERAL)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401055","n":"RADIOGRAFÍA DE CLAVÍCULA.","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401056","n":"RADIOGRAFÍA EDAD ÓSEA: CARPO Y MANO","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401057","n":"RADIOGRAFÍA EDAD ÓSEA : RODILLA FRONTAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401058","n":"ESTUDIO RADIOLÓGICO DE ESCAFOIDES","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401059","n":"ESTUDIO RADIOLÓGICO DE MUÑECA O TOBILLO FRONTAL LATERAL Y OBLICUAS","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401060","n":"RADIOGRAFÍA DE HOMBRO, FÉMUR, RODILLA, PIERNA, COSTILLA O ESTERNÓN FRONTAL Y LATERAL","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401062","n":"RADIOGRAFÍA DE PROYECCIONES ESPECIALES OBLICUAS U OTRAS EN HOMBRO, BRAZO, CODO, RODILLA, RÓTULAS, SESAMOIDEOS, AXIAL DE AMBAS RÓTULAS O SIMILARES","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401063","n":"RADIOGRAFÍA DE TÚNEL INTERCONDÍLEO O RADIO-CARPIANO","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0401064","n":"APOYO FLUOROSCÓPICO A PROCEDIMIENTOS INTRAOPERATORIOS Y/O BIOPSIA (NO INCLUYE EL PROC.)","g":"IMG","s":"A.- EXAMENES RADIOLOGICOS SIMPLES"},{"c":"0402005","n":"GALACTOGRAFÍA, UNILATERAL","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402008","n":"COLANGIOPANCREATOGRAFÍA ENDOSCÓPICA (A.C.18-01-018; 5-7 EXP)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402009","n":"FISTULOGRAFÍA (A.C. 18-01-020) (3 EXP.)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402011","n":"HISTEROSALPINGOGRAFÍA (A.C. 20-01-013) (4 EXP.; INCLUYE PRUEBA DE COTTE TARDÍA)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402012","n":"PIELOGRAFÍA ASCENDENTE (A.C. 19-01-015) (3 EXP.)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402014","n":"URETRO Y/O CISTOURETROGRAFÍA MICCIONAL RETRÓGRADA (A.C. 19-01-016) ( 5 EXP.)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402015","n":"ARTROGRAFÍA FACETARIA","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402019","n":"ANGIOGRAFÍA SELECTIVA DE CARÓTIDA EXTERNA O INTERNA (A.C 17-01-061 AL 17-01-069, SEGÚN CORRESPONDA)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402020","n":"ANGIOGRAFÍA SELECTIVA MEDULAR (A.C 17-01-061 AL 17-01-069, SEGÚN CORRESPONDA)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402022","n":"ANGIOPLASTIA INTRALUMINAL CORONARIA. PROCEDIMIENTO RADIOLÓGICO. (A.C.17-01-031)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402023","n":"ANGIOPLASTIA INTRALUMINAL PERIFÉRICA. PROCEDIMIENTO RADIOLÓGICO. (A.C. 17-01-032)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402024","n":"AORTOGRAFÍA CON AOT O CINEANGIOGRAFÍA (A.C. 17-01-022)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402025","n":"ARTERIOGRAFÍA DE MIEMBROS SUPERIORES O INFERIORES UNILATERAL (A.C.17-01-023)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402027","n":"ARTERIOGRAFÍA SELECTIVA CON AOT O CINEANGIOGRAFÍA (PULMONAR, RENAL, TRONCO CELÍACO O SIMILAR) C/U. (A.C 17-01-061 AL 17-01-069, SEGÚN CORRESPONDA)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402029","n":"ARTERIOGRAFÍA DE VASOS DEL CUELLO ( CARÓTIDAS Y VERTEBRALES) (A.C. 11-01-013)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402030","n":"CINECORONARIOGRAFÍA (A.C. 17-01-019)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402031","n":"EMBOLIZACIÓN O BALONIZACIÓN (A.C. DE LA ANGIOGRAFÍA CORRESPONDIENTE) (INCLUYE CONTROL RADIOLÓGICO INMEDIATO)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402032","n":"INSTALACIÓN DE CATÉTER O SONDA INTRACARDÍACA, CONTROL POR RADIÓLOGO DE (A.C. 17-01-020, 17-01-021, 17-01-011 O 17-01-014, SEGÚN CORRESPONDA)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402033","n":"VENTRICULOGRAFÍA DERECHA Y/O IZQUIERDA (A.C. 17-01-011, 17-01-020 Ó 17-01-021 Ó 17-01-041 Ó 17-01-42 Ó 17-01-43, SEGÚN CORRESPONDA)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402035","n":"CAVOGRAFÍA (A.C. 17-01-025)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402038","n":"FLEBOGRAFÍA EXTREMIDAD INFERIOR O SUPERIOR, UNILATERAL (A.C. 17-01-026) CADA EXTREMIDAD.","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402041","n":"FLEBOGRAFÍA SELECTIVA DE VENAS HEPÁTICAS, RENALES, GONADALES, PÉLVICAS. (A.C. 17-01-027)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0402050","n":"MIELOGRAFÍA POR PUNCIÓN LUMBAR CON CONTRASTE HIDROSOLUBLE (A.C. 11-01-025)","g":"IMG","s":"B.- EXAMENES RADIOLOGICOS COMPLEJOS"},{"c":"0403001","n":"TOMOGRAFÍA COMPUTARIZADA DE CRÁNEO ENCEFÁLICA","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403002","n":"TOMOGRAFÍA COMPUTARIZADA DE HIPOTÁLAMO-HIPÓFISIS","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403003","n":"TOMOGRAFÍA COMPUTARIZADA DE FOSA POSTERIOR","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403006","n":"TOMOGRAFÍA COMPUTARIZADA DE TEMPORAL-OÍDO","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403007","n":"TOMOGRAFÍA COMPUTARIZADA DE ÓRBITAS MAXILOFACIAL","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403008","n":"TOMOGRAFÍA COMPUTARIZADA DE COLUMNA CERVICAL","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403018","n":"TOMOGRAFÍA COMPUTARIZADA DE COLUMNA DORSAL. INCLUYE MÍNIMO 6 ESPACIOS","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403019","n":"TOMOGRAFÍA COMPUTARIZADA DE COLUMNA LUMBAR","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403012","n":"TOMOGRAFÍA COMPUTARIZADA DE CUELLO, PARTES BLANDAS","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403013","n":"TOMOGRAFÍA COMPUTARIZADA DE TÓRAX. INCLUYE ADEMÁS: ESTERNÓN, CLAVÍCULAS, ARTICULACIÓN ACROMIOCLAVICULAR, ESCÁPULA, COSTILLAS, ARTICULACIÓN ESTERNOCLAVICULAR. INCLUYE TODO EL TÓRAX O CADA SEGMENTO O ARTICULACIÓN. INCLUYE BILATERALIDAD","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403014","n":"TOMOGRAFÍA COMPUTARIZADA DE ABDOMEN (HÍGADO, VÍAS Y VESÍCULA BILIAR, PÁNCREAS, BAZO, SUPRARRENALES Y RIÑONES)","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403016","n":"TOMOGRAFÍA COMPUTARIZADA DE PELVIS (ADEMÁS INCLUYE SACRO, COXIS, CADERAS, HUESOS PÉLVICOS, ARTICULACIONES SACRO ILÍACAS). BILATERAL","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403020","n":"TOMOGRAFÍA COMPUTARIZADA DE ABDOMEN Y PELVIS","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403021","n":"TOMOGRAFÍA COMPUTARIZADA PIELOGRAFÍA","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403022","n":"TOMOGRAFÍA COMPUTARIZADA UROGRAFÍA","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403023","n":"TOMOGRAFÍA COMPUTARIZADA DE COLONOSCOPÍA VIRTUAL. NO INCLUYE INSTALACIÓN DE SONDA","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403024","n":"TOMOGRAFÍA COMPUTARIZADA PLANIFICACIÓN RADIOTERAPIA","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403025","n":"TOMOGRAFÍA COMPUTARIZADA DE CALCIO CORONARIO","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403104","n":"TOMOGRAFÍA COMPUTARIZADA ANGIO DE CUELLO","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403105","n":"TOMOGRAFÍA COMPUTARIZADA ANGIO DE PELVIS","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403106","n":"TOMOGRAFÍA COMPUTARIZADA DE ANGIO CARDÍACO. MÍNIMO 64 CORTES","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403017","n":"TOMOGRAFÍA COMPUTARIZADA MUSCULOESQUELÉTICA POR ZONA ANATÓMICA. POR CADA SEGMENTO O ARTICULACIÓN: MUSLO, PIERNA, RODILLAS, ANTEBRAZO, CODO, MUÑECA, MANO, HOMBRO, PIE, TOBILLO U OTROS. BILATERAL SÓLO PARA RODILLAS","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403101","n":"TOMOGRAFÍA COMPUTARIZADA ANGIO DE ENCÉFALO","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403102","n":"TOMOGRAFÍA COMPUTARIZADA ANGIO DE TÓRAX","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403103","n":"TOMOGRAFÍA COMPUTARIZADA ANGIO DE ABDOMEN","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403107","n":"TOMOGRAFÍA COMPUTARIZADA ANGIO DE EXTREMIDADES INFERIORES (BILATERAL)","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0403108","n":"TOMOGRAFÍA COMPUTARIZADA ANGIO DE EXTREMIDAD SUPERIOR (UNILATERAL)","g":"IMG","s":"TOMOGRAFIA COMPUTARIZADA"},{"c":"0404002","n":"ECOGRAFÍA OBSTÉTRICA","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404003","n":"ECOGRAFÍA ABDOMINAL (INCLUYE HÍGADO, VÍA BILIAR, VESÍCULA, PÁNCREAS, RIÑONES, BAZO, RETROPERITONEO Y GRANDES VASOS)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404004","n":"ECOGRAFÍA COMO APOYO A CIRUGÍA, O A PROCEDIMIENTO (DE TÓRAX, MUSCULAR, PARTES BLANDAS, ETC.)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404005","n":"ECOGRAFÍA TRANSVAGINAL O TRANSRECTAL","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404006","n":"ECOGRAFÍA GINECOLÓGICA, PELVIANA FEMENINA U OBSTÉTRICA CON ESTUDIO FETAL","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404007","n":"ECOGRAFÍA TRANSVAGINAL PARA SEGUIMIENTO DE OVULACIÓN, PROCEDIMIENTO COMPLETO (6-8 SESIONES )","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404008","n":"ECOGRAFÍA PARA SEGUIMIENTO DE OVULACIÓN, PROCEDIMIENTO COMPLETO (6 A 8 SESIONES)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404009","n":"ECOGRAFÍA PÉLVICA MASCULINA (INCLUYE VEJIGA Y PRÓSTATA)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404010","n":"ECOGRAFÍA RENAL (BILATERAL), O DE BAZO","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404011","n":"ECOGRAFÍA ENCEFÁLICA (RN O LACTANTE)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404012","n":"ECOGRAFÍA MAMARIA BILATERAL (INCLUYE DOPPLER)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404013","n":"ECOGRAFÍA OCULAR, UNILATERAL O BILATERAL.","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404014","n":"ECOGRAFÍA TESTICULAR (UNILATERAL O BILATERAL) (INCLUYE DOPPLER)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404015","n":"ECOGRAFÍA TIROIDEA (INCLUYE DOPPLER)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404016","n":"ECOGRAFÍA PARTES BLANDAS O MUSCULOESQUELÉTICA (CADA ZONA ANATÓMICA)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404118","n":"ECOGRAFÍA VASCULAR (ARTERIAL Y VENOSA) PERIFÉRICA (BILATERAL)","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404119","n":"ECOGRAFÍA DOPPLER DE VASOS DEL CUELLO","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404120","n":"ECOGRAFÍA TRANSCRANEANA","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404121","n":"ECOGRAFÍA ABDOMINAL O DE VASOS TESTICULARES","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404122","n":"ECOGRAFÍA DOPPLER DE VASOS PLACENTARIOS","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0404218","n":"ELASTOGRAFÍA HEPÁTICA","g":"IMG","s":"ULTRASONOGRAFIA"},{"c":"0405001","n":"RESONANCIA MAGNÉTICA CRÁNEO ENCEFÁLICA U OÍDOS, BILATERAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405002","n":"RESONANCIA MAGNÉTICA DE HIPOTÁLAMO - HIPÓFISIS","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405003","n":"RESONANCIA MAGNÉTICA DE ÓRBITAS","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405004","n":"RESONANCIA MAGNÉTICA DE ARTICULACIONES TEMPOROMANDIBULARES","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405005","n":"RESONANCIA MAGNÉTICA DE COLUMNA CERVICAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405006","n":"RESONANCIA MAGNÉTICA DE COLUMNA DORSAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405007","n":"RESONANCIA MAGNÉTICA DE COLUMNA LUMBAR","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405017","n":"RESONANCIA MAGNÉTICA ANGIOGRAFÍA DE ENCÉFALO","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405018","n":"RESONANCIA MAGNÉTICA ANGIOGRAFÍA DE CUELLO","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405019","n":"RESONANCIA MAGNÉTICA ANGIOGRAFÍA DE TÓRAX","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405020","n":"RESONANCIA MAGNÉTICA ANGIOGRAFÍA DE ABDOMEN","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405021","n":"RESONANCIA MAGNÉTICA ANGIOGRAFÍA DE PELVIS","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405022","n":"RESONANCIA MAGNÉTICA ANGIOGRAFÍA DE EXTREMIDAD SUPERIOR UNILATERAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405023","n":"RESONANCIA MAGNÉTICA ANGIOGRAFÍA DE EXTREMIDAD INFERIOR BILATERAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405009","n":"RESONANCIA MAGNÉTICA DE TÓRAX ( CORAZÓN, ESTERNÓN, CLAVÍCULAS, ARTICULACIÓN ACROMIOCLAVICULAR, ESCÁPULA, COSTILLAS O ARTICULACIÓN ESTERNOCLAVICULAR). TODA LA PARED TORÁCICA O CADA SEGMENTO O ARTICULACIÓN. BILATERAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405010","n":"RESONANCIA MAGNÉTICA DE ABDOMEN","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405011","n":"RESONANCIA MAGNÉTICA DE PELVIS. INCLUYE: OSTEOARTICULAR DE SACROILIACAS U OSTEOARTICULAR DE SACROCOXIS U OSTEOARTICULAR DE HUESOS PÉLVICOS U ÓRGANOS PELVIANOS (INCLUYE GENITALES INTERNOS Y GASTROINTESTINAL)","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405012","n":"RESONANCIA MAGNÉTICA DE ABDOMEN Y PELVIS","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405098","n":"COLANGIORESONANCIA","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405013","n":"RESONANCIA MAGNÉTICA DE RODILLA","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405024","n":"RESONANCIA MAGNÉTICA DE MANO O MUÑECA","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405025","n":"RESONANCIA MAGNÉTICA DE ANTEBRAZO O BRAZO","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405026","n":"RESONANCIA MAGNÉTICA DE CODO","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405027","n":"RESONANCIA MAGNÉTICA DE HOMBRO","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405028","n":"RESONANCIA MAGNÉTICA DE PIE, ANTEPIE O TOBILLO","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405029","n":"RESONANCIA MAGNÉTICA DE PIERNA","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405030","n":"RESONANCIA MAGNÉTICA DE MUSLO O CADERA. UNILATERAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405031","n":"RESONANCIA MAGNÉTICA DE MAMA (BILATERAL)","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405032","n":"RESONANCIA MAGNÉTICA FETAL","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."},{"c":"0405016","n":"RESONANCIA COLUMNA TOTAL (CERVICAL, DORSAL, LUMBAR)","g":"IMG","s":"RESONANCIA MAGNÉTICA (incluye medio de contraste). Todas las Angio Resonancias incluyen ambas fases, arterial y venosa cuando corresponda y en el caso de extremidades inferiores, incluye bilateralidad."}];
 (function(){ FONASA.forEach(function(d){ d._n=d.n.normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase(); }); })();
 
@@ -384,8 +433,7 @@ var FONASA = [{"c":"0301002","n":"ACIDO FÓLICO O FOLATOS","g":"LAB","s":"SANGRE
 
 /* ══ FECHA DEFAULT ══ */
 (function(){
-  var d=new Date();
-  document.getElementById('docFecha').value=d.toISOString().slice(0,10);
+  document.getElementById('docFecha').value=new Date().toISOString().slice(0,10);
 })();
 
 /* ══ ESTADO ══ */
@@ -397,48 +445,41 @@ function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').rep
 function setStatus(msg,tipo){
   var el=document.getElementById('statusBar');
   el.textContent=msg; el.className='status-bar '+(tipo||'');
-  if(tipo==='ok') setTimeout(function(){ el.className='status-bar'; },2200);
+  if(tipo==='ok') setTimeout(function(){ el.className='status-bar'; },2000);
 }
 function fmtFecha(iso){
   if(!iso) return '';
-  var p=iso.split('-'); return p[2]+'/'+p[1]+'/'+p[0];
+  var p=iso.split('-'); return p[2]+'-'+p[1]+'-'+p[0];
 }
 
-/* ══ CÓDIGO DE VERIFICACIÓN (hash simple — placeholder ECDSA) ══ */
+/* ══ CÓDIGO VERIFICACIÓN (hash simple — placeholder ECDSA) ══ */
 function genCodigo(run,fecha,exams){
   var s=run+'|'+fecha+'|'+exams.map(function(e){return e.c;}).join(',');
-  var h=0;
-  for(var i=0;i<s.length;i++){ h=((h<<5)-h)+s.charCodeAt(i); h=h&h; }
+  var h=0; for(var i=0;i<s.length;i++){h=((h<<5)-h)+s.charCodeAt(i);h=h&h;}
   var chars='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
   var code=''; var n=Math.abs(h);
-  for(var j=0;j<12;j++){ code+=chars[n%chars.length]; n=Math.floor(n/chars.length)||(n+7919); }
-  return code.slice(0,4)+'-'+code.slice(4,8)+'-'+code.slice(8,12);
+  for(var j=0;j<20;j++){code+=chars[n%chars.length];n=Math.floor(n/chars.length)||(n+7919);}
+  return code.slice(0,4)+code.slice(4,8)+code.slice(8,12)+code.slice(12,16)+code.slice(16,20);
 }
 
-/* ══ QR SVG (placeholder geométrico) ══ */
+/* ══ QR SVG decorativo ══ */
 function qrSVG(){
-  /* micro QR visual — 3 position markers + ruido */
-  var s='<svg width="54" height="54" viewBox="0 0 54 54" xmlns="http://www.w3.org/2000/svg">';
-  s+='<rect width="54" height="54" fill="#f7f6f4"/>';
-  /* top-left marker */
-  s+='<rect x="2" y="2" width="15" height="15" rx="1" fill="none" stroke="#222" stroke-width="1.5"/>';
-  s+='<rect x="5" y="5" width="9" height="9" rx="0.5" fill="#222"/>';
-  /* top-right marker */
-  s+='<rect x="37" y="2" width="15" height="15" rx="1" fill="none" stroke="#222" stroke-width="1.5"/>';
-  s+='<rect x="40" y="5" width="9" height="9" rx="0.5" fill="#222"/>';
-  /* bottom-left marker */
-  s+='<rect x="2" y="37" width="15" height="15" rx="1" fill="none" stroke="#222" stroke-width="1.5"/>';
-  s+='<rect x="5" y="40" width="9" height="9" rx="0.5" fill="#222"/>';
-  /* data modules — patrón fijo decorativo */
-  var pts=[[20,4],[22,4],[24,4],[20,6],[24,6],[20,8],[22,8],[24,8],
-            [4,20],[8,20],[4,22],[8,22],[4,24],[6,24],[8,24],
-            [20,20],[24,20],[22,22],[20,24],[24,24],
-            [28,28],[32,28],[36,28],[30,30],[34,30],[28,32],[32,32],[36,32],
-            [28,36],[30,36],[34,36],[36,36],[22,32],[22,36],[40,20],[44,20],
-            [40,24],[42,24],[44,24],[40,28],[44,28]];
-  pts.forEach(function(p){
-    s+='<rect x="'+p[0]+'" y="'+p[1]+'" width="2" height="2" fill="#222"/>';
-  });
+  var s='<svg width="58" height="58" viewBox="0 0 58 58" xmlns="http://www.w3.org/2000/svg">';
+  s+='<rect width="58" height="58" fill="#f4f3f0"/>';
+  s+='<rect x="2" y="2" width="16" height="16" rx="1" fill="none" stroke="#222" stroke-width="1.8"/>';
+  s+='<rect x="5.5" y="5.5" width="9" height="9" rx=".5" fill="#222"/>';
+  s+='<rect x="40" y="2" width="16" height="16" rx="1" fill="none" stroke="#222" stroke-width="1.8"/>';
+  s+='<rect x="43.5" y="5.5" width="9" height="9" rx=".5" fill="#222"/>';
+  s+='<rect x="2" y="40" width="16" height="16" rx="1" fill="none" stroke="#222" stroke-width="1.8"/>';
+  s+='<rect x="5.5" y="43.5" width="9" height="9" rx=".5" fill="#222"/>';
+  var pts=[[21,3],[23,3],[25,3],[21,5],[25,5],[21,7],[23,7],[25,7],
+            [3,21],[7,21],[3,23],[7,23],[3,25],[5,25],[7,25],
+            [21,21],[25,21],[23,23],[21,25],[25,25],
+            [29,29],[33,29],[37,29],[31,31],[35,31],
+            [29,33],[33,33],[37,33],[29,37],[31,37],[35,37],[37,37],
+            [41,21],[45,21],[41,25],[43,25],[45,25],[41,29],[45,29],
+            [21,29],[21,33],[23,33],[21,37],[23,37]];
+  pts.forEach(function(p){s+='<rect x="'+p[0]+'" y="'+p[1]+'" width="2" height="2" fill="#333"/>';});
   s+='</svg>';
   return s;
 }
@@ -451,91 +492,67 @@ var kbIdx=-1;
 
 function hl(text,q){
   if(!q) return esc(text);
-  var nt=norm(text), nq=norm(q);
-  var i=nt.indexOf(nq);
+  var nt=norm(text),nq=norm(q),i=nt.indexOf(nq);
   if(i===-1) return esc(text);
   return esc(text.slice(0,i))+'<span class="hl">'+esc(text.slice(i,i+q.length))+'</span>'+esc(text.slice(i+q.length));
 }
-
 function showResults(items,q){
   if(!items.length){
     resultsEl.innerHTML='<div class="sr-item" style="color:var(--ink-muted);cursor:default">Sin resultados</div>';
   } else {
-    resultsEl.innerHTML=items.slice(0,25).map(function(d,i){
-      return '<div class="sr-item" data-i="'+i+'" data-c="'+d.c+'">'
+    resultsEl.innerHTML=items.slice(0,25).map(function(d){
+      return '<div class="sr-item" data-c="'+d.c+'">'
         +'<div>'+hl(d.n,q)+'</div>'
         +'<div class="sr-code">'+d.c+' · <span class="sr-sub">'+esc(d.s)+'</span></div>'
         +'</div>';
     }).join('');
   }
-  resultsEl.style.display='block';
-  kbIdx=-1;
+  resultsEl.style.display='block'; kbIdx=-1;
 }
-
 searchEl.addEventListener('input',function(){
-  var q=this.value.trim(), gr=grupoEl.value;
+  var q=this.value.trim(),gr=grupoEl.value;
   if(q.length<2){resultsEl.style.display='none';return;}
   var nq=norm(q);
-  var res=FONASA.filter(function(d){return(!gr||d.g===gr)&&d._n.indexOf(nq)>-1;});
-  showResults(res,q);
+  showResults(FONASA.filter(function(d){return(!gr||d.g===gr)&&d._n.indexOf(nq)>-1;}),q);
 });
-
 searchEl.addEventListener('keydown',function(e){
   var items=resultsEl.querySelectorAll('.sr-item[data-c]');
   if(!items.length) return;
-  if(e.key==='ArrowDown'){
-    e.preventDefault(); kbIdx=Math.min(kbIdx+1,items.length-1);
+  if(e.key==='ArrowDown'){e.preventDefault();kbIdx=Math.min(kbIdx+1,items.length-1);
     items.forEach(function(el,i){el.classList.toggle('kbactive',i===kbIdx);});
-    items[kbIdx].scrollIntoView({block:'nearest'});
-  } else if(e.key==='ArrowUp'){
-    e.preventDefault(); kbIdx=Math.max(kbIdx-1,0);
+    items[kbIdx].scrollIntoView({block:'nearest'});}
+  else if(e.key==='ArrowUp'){e.preventDefault();kbIdx=Math.max(kbIdx-1,0);
     items.forEach(function(el,i){el.classList.toggle('kbactive',i===kbIdx);});
-    items[kbIdx].scrollIntoView({block:'nearest'});
-  } else if(e.key==='Enter'&&kbIdx>=0){
-    e.preventDefault(); addExamen(items[kbIdx].getAttribute('data-c'));
-  } else if(e.key==='Escape'){
-    resultsEl.style.display='none';
-  }
+    items[kbIdx].scrollIntoView({block:'nearest'});}
+  else if(e.key==='Enter'&&kbIdx>=0){e.preventDefault();addExamen(items[kbIdx].getAttribute('data-c'));}
+  else if(e.key==='Escape'){resultsEl.style.display='none';}
 });
-
 resultsEl.addEventListener('mousedown',function(e){
   var it=e.target.closest('.sr-item[data-c]');
   if(it){e.preventDefault();addExamen(it.getAttribute('data-c'));}
 });
-
 document.addEventListener('click',function(e){
-  if(!searchEl.contains(e.target)&&!resultsEl.contains(e.target))
-    resultsEl.style.display='none';
+  if(!searchEl.contains(e.target)&&!resultsEl.contains(e.target)) resultsEl.style.display='none';
 });
+grupoEl.addEventListener('change',function(){searchEl.dispatchEvent(new Event('input'));});
 
-grupoEl.addEventListener('change',function(){
-  searchEl.dispatchEvent(new Event('input'));
-});
-
-/* ══ GESTIÓN EXÁMENES ══ */
+/* ══ EXÁMENES ══ */
 function addExamen(code){
   var exam=FONASA.find(function(d){return d.c===code;});
   if(!exam) return;
-  if(state.examenes.find(function(e){return e.c===code;})){
-    setStatus('⚠ Ya está en la lista','warn'); return;
-  }
+  if(state.examenes.find(function(e){return e.c===code;})){setStatus('⚠ Ya está en la lista','warn');return;}
   state.examenes.push({c:exam.c,n:exam.n,s:exam.s});
-  searchEl.value=''; resultsEl.style.display='none';
-  renderList(); renderSheet();
-  setStatus('✓ '+exam.n,'ok');
+  searchEl.value='';resultsEl.style.display='none';
+  renderList();renderSheet();setStatus('✓ '+exam.n,'ok');
 }
-
 function removeExamen(code){
   state.examenes=state.examenes.filter(function(e){return e.c!==code;});
-  renderList(); renderSheet();
+  renderList();renderSheet();
 }
-
 function renderList(){
   var el=document.getElementById('examsList');
   document.getElementById('examCount').textContent=state.examenes.length;
-  if(!state.examenes.length){
-    el.innerHTML='<div class="exams-empty">Sin exámenes</div>'; return;
-  }
+  if(!state.examenes.length){el.innerHTML='<div class="exams-empty">Sin exámenes</div>';return;}
   el.innerHTML=state.examenes.map(function(e){
     return '<div class="etag">'
       +'<span class="etag-code">'+esc(e.c)+'</span>'
@@ -551,69 +568,72 @@ function renderSheet(){
   var wrEl=document.getElementById('previewWrap');
   var shEl=document.getElementById('sheet');
 
-  if(!state.examenes.length){
-    emEl.style.display='flex'; wrEl.style.display='none'; return;
-  }
-  emEl.style.display='none'; wrEl.style.display='flex';
+  if(!state.examenes.length){emEl.style.display='flex';wrEl.style.display='none';return;}
+  emEl.style.display='none';wrEl.style.display='flex';
 
-  /* ── leer campos ── */
-  var medNombre   = document.getElementById('medNombre').value   || 'Nombre del médico';
-  var medEsp      = document.getElementById('medEspecialidad').value || 'Especialidad';
-  var medRun      = document.getElementById('medRun').value      || '';
-  var medRnpi     = document.getElementById('medRnpi').value     || '';
-  var medTel      = document.getElementById('medTel').value      || '';
-  var medEmail    = document.getElementById('medEmail').value    || '';
-  var patNombre   = document.getElementById('patNombre').value   || '—';
-  var patRun      = document.getElementById('patRun').value      || '—';
-  var patFnac     = document.getElementById('patFnac').value     || '—';
-  var patDir      = document.getElementById('patDir').value      || '—';
-  var fechaISO    = document.getElementById('docFecha').value    || '';
-  var indicRaw    = document.getElementById('indicaciones').value.trim();
-  var codigo      = genCodigo(patRun, fechaISO, state.examenes);
+  var medNombre = document.getElementById('medNombre').value||'Nombre del médico';
+  var medEsp    = document.getElementById('medEsp').value||'Especialidad';
+  var medRun    = document.getElementById('medRun').value||'';
+  var medRnpi   = document.getElementById('medRnpi').value||'';
+  var medTel    = document.getElementById('medTel').value||'';
+  var medEmail  = document.getElementById('medEmail').value||'';
+  var patNombre = document.getElementById('patNombre').value||'—';
+  var patRun    = document.getElementById('patRun').value||'—';
+  var patFnac   = document.getElementById('patFnac').value||'—';
+  var patDir    = document.getElementById('patDir').value||'—';
+  var fechaISO  = document.getElementById('docFecha').value||'';
+  var indicRaw  = document.getElementById('indicaciones').value.trim();
+  var codigo    = genCodigo(patRun,fechaISO,state.examenes);
 
-  /* ── doctor info líneas ── */
-  var doctorLines = [
-    '<p>'+esc(medNombre)+'</p>',
-    '<p>'+esc(medEsp.toUpperCase())+'</p>',
-    medRun   ? '<p>RUN: '+esc(medRun)+'</p>' : '',
-    medRnpi  ? '<p>RNPI: '+esc(medRnpi)+'</p>' : '',
-    medTel   ? '<p>Teléfono: '+esc(medTel)+'</p>' : '',
-    medEmail ? '<p>'+esc(medEmail)+'</p>' : '',
-  ].filter(Boolean).join('');
+  /* doctor — líneas */
+  var doctorLines =
+    '<span class="sh-doctor-name">'+esc(medNombre)+'</span>'
+    +'<span class="sh-doctor-esp">'+esc(medEsp.toUpperCase())+'</span>'
+    +(medRun   ? '<span>RUN: '+esc(medRun)+'</span>' : '')
+    +(medRnpi  ? '<span>RNPI: '+esc(medRnpi)+'</span>' : '')
+    +(medTel   ? '<span>Teléfono: '+esc(medTel)+'</span>' : '')
+    +(medEmail ? '<span>'+esc(medEmail)+'</span>' : '');
 
-  /* ── exámenes rows ── */
+  /* exámenes */
   var examRows = state.examenes.map(function(e){
-    return '<div class="sh-exam-row">• '+esc(e.c)+' '+esc(e.n)+'</div>';
+    return '<div class="sh-exam-item">'
+      +'<span class="sh-exam-bullet">•</span>'
+      +'<span class="sh-exam-code">'+esc(e.c)+'</span>'
+      +'<span class="sh-exam-name">'+esc(e.n)+'</span>'
+      +'</div>';
   }).join('');
 
-  /* ── indicaciones (párrafos separados por línea vacía → bloques) ── */
-  var indicHTML = '';
+  /* indicaciones */
+  var indicHTML='';
   if(indicRaw){
-    var bloques = indicRaw.split(/\n\n+/);
-    indicHTML = '<div class="sh-indic">'
-      + bloques.map(function(b){
-          return b.split('\n').map(function(l){
-            return '<span class="sh-indic-block">'+esc(l)+'</span>';
-          }).join('');
-        }).join('<br>')
-      + '</div>';
+    indicHTML='<div class="sh-indic-wrap">'
+      +'<div class="sh-rule-thin" style="margin:12px 0 10px"></div>'
+      +'<div class="sh-indic-text">'
+      +indicRaw.split('\n').map(function(l){return '<span class="sh-indic-block">'+esc(l)+'</span>';}).join('')
+      +'</div></div>';
   }
 
-  /* ── firma ── */
-  var signHTML =
+  /* firma */
+  var signHTML=
     '<div class="sh-sign">'
-    + '<img src="img/firma.png" alt="Firma" onerror="this.outerHTML=\'<div class=\\\"sh-sign-placeholder\\\">firma</div>\'">'
-    + '<p>Firma</p>'
-    + '</div>';
+    +'<img src="img/firma.png" alt="Firma"'
+    +' onerror="this.outerHTML=\'<div class=\\\"sh-sign-ph\\\"></div>\'">'
+    +'<p>Firma</p>'
+    +'</div>';
 
-  /* ── ensamblar ── */
   shEl.innerHTML =
     /* cabecera */
     '<div class="sh-head">'
-      +'<img class="sh-logo" src="img/logo.png" alt="Logo"'
-      +' onerror="this.outerHTML=\'<div class=\\\"sh-logo-placeholder\\\">logo</div>\'">'
+      +'<div class="sh-logo-wrap">'
+        +'<img class="sh-logo" src="img/logo.png" alt="Logo"'
+        +' onerror="this.outerHTML=\'<div class=\\\"sh-logo-ph\\\">logo</div>\'">'
+      +'</div>'
       +'<div class="sh-doctor">'+doctorLines+'</div>'
     +'</div>'
+
+    /* separador rojo grueso */
+    +'<div class="sh-rule-red"></div>'
+
     /* paciente */
     +'<div class="sh-patient">'
       +'<p>Fecha: '+fmtFecha(fechaISO)+'</p>'
@@ -622,17 +642,19 @@ function renderSheet(){
       +'<p>Fecha de nacimiento: '+esc(patFnac)+'</p>'
       +'<p>Dirección: '+esc(patDir)+'</p>'
     +'</div>'
-    /* separador */
-    +'<div class="sh-sep"></div>'
+
+    /* separador fino */
+    +'<div class="sh-rule-thin"></div>'
+
     /* cuerpo */
     +'<div class="sh-body">'
-      +'<div class="sh-body-label">Orden de exámenes:</div>'
-      +'<br>'
+      +'<div style="margin-bottom:10px"></div>'
+      +'<div class="sh-section-title">Orden de exámenes:</div>'
       +examRows
-      +'<br>'
       +indicHTML
       +signHTML
     +'</div>'
+
     /* pie */
     +'<div class="sh-foot">'
       +qrSVG()
@@ -641,22 +663,19 @@ function renderSheet(){
         +'<a href="https://camilonacho-md.github.io/herramientascosam/verificar" target="_blank">'
         +'camilonacho-md.github.io/herramientascosam/verificar</a>'
         +' con código: <strong>'+codigo+'</strong><br>'
-        +'<span style="color:#888">No válido como receta médica</span>'
+        +'<span style="color:#aaa">No válido como receta médica</span>'
       +'</div>'
     +'</div>';
 }
 
 /* ══ EVENTOS ══ */
-document.getElementById('btnGenerar').addEventListener('click', renderSheet);
-['medNombre','medEspecialidad','medRun','medRnpi','medTel','medEmail',
+document.getElementById('btnGenerar').addEventListener('click',renderSheet);
+['medNombre','medEsp','medRun','medRnpi','medTel','medEmail',
  'patNombre','patRun','patFnac','patDir','docFecha','indicaciones'
 ].forEach(function(id){
   var el=document.getElementById(id);
-  if(el) el.addEventListener('change', function(){
-    if(state.examenes.length) renderSheet();
-  });
+  if(el) el.addEventListener('change',function(){ if(state.examenes.length) renderSheet(); });
 });
 </script>
-
 </body>
 </html>
