@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visor Agenda — COSAM Rahue</title>
+
+<!-- [S1] LZSTRING 1.4.4 INLINE -->
+<script>
+var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();"function"==typeof define&&define.amd?define(function(){return LZString}):"undefined"!=typeof module&&null!=module?module.exports=LZString:"undefined"!=typeof angular&&null!=angular&&angular.module("LZString",[]).factory("LZString",function(){return LZString});
+</script>
+
+<style>
+/* [S2] CSS TOKENS */
+:root {
+  --bg:#1e1c18;--surface:#252220;--surface2:#201e1a;--surface3:#2a2825;
+  --border:#36322c;--border2:#42403a;
+  --ink:#e8e3db;--ink2:#c0bab0;--ink3:#8a847c;--ink-muted:#5a5650;--ink-label:#6a6560;
+  --accent:#2d5fd4;--accent-soft:#0e1a3a;--accent-hover:#4070e8;
+  --ok-bg:#0f2018;--ok-ink:#5abf80;
+  --err-bg:#201010;--err-ink:#f08080;
+  --warn-bg:#201800;--warn-ink:#d4a060;
+  --ns-bg:#1a0e0e;--ns-ink:#e07070;
+  --hdr-bg:#141210;--hdr-ink:#e8e3db;--hdr-dim:#6a7898;
+  --mono:'IBM Plex Mono','Consolas',monospace;
+  --sans:'IBM Plex Sans',system-ui,sans-serif;
+  --r:6px;
+}
+[data-theme="light"] {
+  --bg:#f5f4f0;--surface:#fff;--surface2:#f0ede8;--surface3:#e8e4de;
+  --border:#dedad4;--border2:#ccc8c0;
+  --ink:#1a1814;--ink2:#3d3a34;--ink3:#6b6560;--ink-muted:#9a9590;--ink-label:#7a7570;
+  --accent:#1a4fff;--accent-soft:#e8eeff;--accent-hover:#0f35cc;
+  --ok-bg:#e8f5ee;--ok-ink:#1a5c30;
+  --err-bg:#fde8e8;--err-ink:#8a0010;
+  --warn-bg:#fff3e0;--warn-ink:#7a4000;
+  --ns-bg:#fde8e8;--ns-ink:#8a0010;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{font-family:var(--sans);font-size:13px;line-height:1.6;background:var(--bg);color:var(--ink);transition:background .2s,color .2s}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+
+/* [S3] HEADER */
+.site-header{background:var(--hdr-bg);color:var(--hdr-ink);padding:12px 24px;display:flex;align-items:center;gap:14px;border-bottom:2px solid var(--accent);position:sticky;top:0;z-index:100}
+.logo{font-family:var(--mono);font-size:13px;font-weight:600;letter-spacing:.08em;line-height:1.3}
+.logo span{display:block;color:var(--hdr-dim);font-weight:400;font-size:11px}
+.hdr-badge{font-family:var(--mono);font-size:10px;font-weight:600;background:var(--accent);color:#fff;padding:3px 9px;border-radius:3px;letter-spacing:.1em}
+.theme-switch{margin-left:auto;display:flex;align-items:center;gap:8px}
+.switch-track{position:relative;width:44px;height:24px;background:#2a2825;border:1px solid #3a3830;border-radius:999px;cursor:pointer;transition:background .2s,border-color .2s;flex-shrink:0}
+.switch-track:hover{border-color:#5a5650}
+.switch-thumb{position:absolute;top:3px;left:3px;width:16px;height:16px;background:#6a6a7a;border-radius:50%;transition:transform .2s,background .2s;pointer-events:none}
+[data-theme="light"] .switch-track{background:#e0ddd8;border-color:#c8c4bc}
+[data-theme="light"] .switch-thumb{background:var(--accent);transform:translateX(20px)}
+.switch-label{font-family:var(--mono);font-size:11px;color:var(--hdr-dim);min-width:36px;letter-spacing:.04em}
+
+/* [S4] LAYOUT */
+.layout{display:grid;grid-template-columns:260px 1fr;min-height:calc(100vh - 50px)}
+.sidebar{background:var(--surface2);border-right:1px solid var(--border);padding:20px 16px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;max-height:calc(100vh - 50px);position:sticky;top:50px;transition:background .2s}
+.s-label{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.12em;color:var(--ink-label);text-transform:uppercase;padding-bottom:5px;border-bottom:1px solid var(--border);margin-bottom:4px}
+.main-area{display:flex;flex-direction:column;background:var(--bg);transition:background .2s;min-height:calc(100vh - 50px)}
+
+/* Botones */
+.btn-primary{background:var(--accent);color:#fff;border:1px solid var(--accent);padding:8px 14px;border-radius:var(--r);font-family:var(--mono);font-size:12px;font-weight:600;width:100%;transition:background .15s}
+.btn-primary:hover{background:var(--accent-hover)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+.btn-sec{background:var(--surface);color:var(--ink3);border:1px solid var(--border2);padding:7px 12px;border-radius:var(--r);font-family:var(--mono);font-size:11px;width:100%;transition:background .15s,border-color .15s,color .15s}
+.btn-sec:hover{border-color:var(--accent);color:var(--accent)}
+.btn-clipboard{background:linear-gradient(135deg,var(--accent),#0b2db0);color:#fff;border:none;border-radius:var(--r);padding:11px 16px;font-family:var(--mono);font-size:13px;font-weight:600;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;transition:filter .15s,transform .1s}
+.btn-clipboard:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn-clipboard:disabled{opacity:.35;cursor:not-allowed;transform:none}
+.ui-textarea{background:var(--surface);border:1px solid var(--border2);color:var(--ink);border-radius:var(--r);padding:7px 9px;font-size:11px;font-family:var(--mono);width:100%;outline:none;resize:vertical;min-height:70px;line-height:1.5}
+.ui-textarea:focus{border-color:var(--accent)}
+.ui-select{background:var(--surface);border:1px solid var(--border2);color:var(--ink);border-radius:var(--r);padding:7px 9px;font-size:12px;width:100%;outline:none}
+.ui-select:focus{border-color:var(--accent)}
+.status-bar{font-family:var(--mono);font-size:11px;padding:7px 10px;border-radius:var(--r);display:none;line-height:1.4}
+.status-bar.ok{background:var(--ok-bg);color:var(--ok-ink);display:block}
+.status-bar.err{background:var(--err-bg);color:var(--err-ink);display:block}
+.status-bar.warn{background:var(--warn-bg);color:var(--warn-ink);display:block}
+@keyframes spin{to{transform:rotate(360deg)}}
+.spinner{width:13px;height:13px;border:2px solid rgba(255,255,255,.3);border-top-color:#fff;border-radius:50%;animation:spin .7s linear infinite;flex-shrink:0}
+
+/* Welcome */
+.welcome{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 40px;text-align:center;gap:14px;color:var(--ink3)}
+.welcome-icon{font-size:44px;opacity:.15;line-height:1}
+.welcome h2{font-size:17px;font-weight:600;color:var(--ink2)}
+.welcome p{max-width:380px;font-size:13px;line-height:1.7}
+.welcome code{font-family:var(--mono);background:var(--surface2);border:1px solid var(--border);padding:2px 5px;border-radius:3px;font-size:11px}
+
+/* [S9] Estilos propios del visor agenda */
+.agenda-wrap{flex:1;overflow:auto;padding:0}
+
+/* Resumen estadístico */
+.resumen{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-bottom:1px solid var(--border)}
+.resumen-card{background:var(--surface2);padding:12px 16px}
+.resumen-card .val{font-family:var(--mono);font-size:22px;font-weight:600;line-height:1}
+.resumen-card .lbl{font-size:11px;color:var(--ink3);margin-top:3px;font-family:var(--mono);letter-spacing:.04em}
+.resumen-card.ok .val{color:var(--ok-ink)}
+.resumen-card.ns .val{color:var(--ns-ink)}
+
+/* Grupo de día */
+.dia-grupo{border-bottom:1px solid var(--border)}
+.dia-header{background:var(--surface3);padding:8px 20px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:10;border-bottom:1px solid var(--border)}
+.dia-fecha{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--accent);letter-spacing:.06em}
+.dia-stats{font-family:var(--mono);font-size:11px;color:var(--ink3);display:flex;gap:12px;margin-left:auto}
+.dia-stat-ok{color:var(--ok-ink)}
+.dia-stat-ns{color:var(--ns-ink)}
+
+/* Tabla */
+.agenda-table{width:100%;border-collapse:collapse;table-layout:fixed}
+.agenda-table th{background:var(--surface);font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-label);padding:7px 12px;text-align:left;border-bottom:1px solid var(--border);white-space:nowrap;position:sticky;top:37px;z-index:9}
+.agenda-table td{padding:9px 12px;border-bottom:1px solid var(--border);vertical-align:top;font-size:12px}
+.agenda-table tr:last-child td{border-bottom:none}
+.agenda-table tr.row-ns td{background:var(--ns-bg)}
+.agenda-table tr.row-ok td{background:var(--bg)}
+.agenda-table tr.row-ok:hover td,.agenda-table tr.row-ns:hover td{filter:brightness(1.08)}
+
+/* Columnas fijas */
+.col-hora{width:60px}
+.col-estado{width:120px}
+.col-paciente{width:auto}
+.col-rut{width:90px}
+.col-cupo{width:110px}
+.col-llegada{width:65px}
+.col-obs{width:180px}
+
+/* Badges */
+.badge{display:inline-block;font-family:var(--mono);font-size:10px;font-weight:600;padding:2px 7px;border-radius:3px;white-space:nowrap}
+.badge-ok{background:var(--ok-bg);color:var(--ok-ink)}
+.badge-ns{background:var(--ns-bg);color:var(--ns-ink)}
+.badge-other{background:var(--surface3);color:var(--ink3)}
+.badge-cupo-normal{background:var(--accent-soft);color:var(--accent)}
+.badge-cupo-lib{background:var(--ns-bg);color:var(--ns-ink)}
+.badge-cupo-sob{background:var(--warn-bg);color:var(--warn-ink)}
+
+.hora-cell{font-family:var(--mono);font-size:12px;color:var(--ink2);white-space:nowrap}
+.rut-cell{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.llegada-cell{font-family:var(--mono);font-size:12px;color:var(--ok-ink)}
+.paciente-nombre{font-weight:500;color:var(--ink)}
+.paciente-social{font-size:11px;color:var(--ink3);font-style:italic}
+.act-codigo{font-family:var(--mono);font-size:10px;color:var(--ink-muted);display:block}
+.act-desc{font-size:11px;color:var(--ink2);line-height:1.4}
+.obs-cell{font-size:11px;color:var(--ink3);line-height:1.4;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+/* Botón exportar CSV */
+.btn-export{background:var(--surface);color:var(--ink3);border:1px solid var(--border2);padding:7px 12px;border-radius:var(--r);font-family:var(--mono);font-size:11px;width:100%;cursor:pointer;transition:border-color .15s,color .15s}
+.btn-export:hover{border-color:var(--accent);color:var(--accent)}
+.btn-export:disabled{opacity:.35;cursor:not-allowed}
+
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border2);border-radius:3px}
+::-webkit-scrollbar-thumb:hover{background:var(--ink-muted)}
+
+@media print{
+  .site-header,.sidebar{display:none}
+  .layout{grid-template-columns:1fr}
+  .dia-header{position:static}
+  .agenda-table th{position:static}
+}
+</style>
+</head>
+
+<script>
+(function(){
+  var t=localStorage.getItem('rayen_theme')||'dark';
+  document.documentElement.setAttribute('data-theme',t);
+})();
+</script>
+
+<body>
+
+<header class="site-header">
+  <div class="logo">
+    Visor Agenda
+    <span>COSAM Rahue · Rayen</span>
+  </div>
+  <div class="theme-switch">
+    <span class="switch-label" id="themeLabel">oscuro</span>
+    <div class="switch-track" id="themeToggle" role="button" tabindex="0" title="Cambiar tema">
+      <div class="switch-thumb"></div>
+    </div>
+  </div>
+  <div class="hdr-badge">SSO · COSAM</div>
+</header>
+
+<div class="layout">
+  <aside class="sidebar">
+
+    <div>
+      <div class="s-label">Cargar datos</div>
+      <div id="statusBar" class="status-bar"></div>
+      <button class="btn-clipboard" id="btnClipboard">
+        <span id="clipIcon">📋</span>
+        <span id="clipText">Leer desde portapapeles</span>
+      </button>
+      <div style="margin-top:10px">
+        <div class="s-label" style="margin-bottom:5px">Pegado manual</div>
+        <textarea class="ui-textarea" id="pasteArea" placeholder="Pegar JSON o LZString..."></textarea>
+        <button class="btn-sec" style="margin-top:6px" id="btnPaste">Procesar texto pegado</button>
+      </div>
+    </div>
+
+    <div>
+      <div class="s-label">Filtros</div>
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <div>
+          <div style="font-size:11px;color:var(--ink-label);margin-bottom:4px">Estado</div>
+          <select class="ui-select" id="filtroEstado">
+            <option value="">Todos</option>
+            <option value="Completado">Completado</option>
+            <option value="No se Presentó">No se Presentó</option>
+            <option value="Agendado">Agendado</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--ink-label);margin-bottom:4px">Fecha</div>
+          <select class="ui-select" id="filtroFecha">
+            <option value="">Todas</option>
+          </select>
+        </div>
+        <div>
+          <div style="font-size:11px;color:var(--ink-label);margin-bottom:4px">Instrumento</div>
+          <select class="ui-select" id="filtroInstrumento">
+            <option value="">Todos</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div>
+      <div class="s-label">Exportar</div>
+      <button class="btn-export" id="btnCSV" disabled>⬇ Descargar CSV</button>
+    </div>
+
+  </aside>
+
+  <main class="main-area" id="mainArea">
+    <div class="welcome" id="welcome">
+      <div class="welcome-icon">📅</div>
+      <h2>Sin datos cargados</h2>
+      <p>Captura con el bookmarklet Agenda v1 o v2 en Rayen,<br>
+         exporta con <code>Copiar JSON</code> o <code>Copiar LZString</code>,<br>
+         luego presiona <code>Leer desde portapapeles</code>.</p>
+    </div>
+    <div id="agendaWrap" class="agenda-wrap" style="display:none"></div>
+  </main>
+</div>
+
+<script>
+/* [S3] THEME TOGGLE */
+(function(){
+  function getTheme(){return document.documentElement.getAttribute('data-theme')||'dark'}
+  function setTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    localStorage.setItem('rayen_theme',t);
+    document.getElementById('themeLabel').textContent=t==='dark'?'oscuro':'claro';
+  }
+  setTheme(getTheme());
+  var toggle=document.getElementById('themeToggle');
+  toggle.addEventListener('click',function(){setTheme(getTheme()==='dark'?'light':'dark')});
+  toggle.addEventListener('keydown',function(e){if(e.key===' '||e.key==='Enter'){e.preventDefault();toggle.click()}});
+})();
+
+/* [S5] PARSEAR PAYLOAD — acepta array de citas (formato agenda) o LZString */
+function parsearAgenda(texto) {
+  if (!texto||!texto.trim()) throw new Error('Contenido vacío');
+  texto=texto.trim();
+  var raw=null;
+  if (texto[0]==='{'||texto[0]==='[') {
+    try{raw=JSON.parse(texto)}catch(e){}
+  }
+  if (raw===null) {
+    try{
+      var dec=LZString.decompressFromBase64(texto);
+      if (dec&&(dec[0]==='{'||dec[0]==='[')) raw=JSON.parse(dec);
+    }catch(e){}
+  }
+  if (raw===null) throw new Error('Formato no reconocido');
+
+  // Normalizar: si es array de citas con campo "fecha" (formato agenda)
+  if (Array.isArray(raw) && raw.length>0 && raw[0].fecha) return raw;
+  // Si es objeto con historial (formato dual) — no aplica aquí
+  throw new Error('No parece ser un payload de agenda');
+}
+
+/* [S7] STATUS */
+function setStatus(msg,tipo){
+  var el=document.getElementById('statusBar');
+  if (!el) return;
+  el.textContent=msg;
+  el.className='status-bar '+(tipo||'');
+}
+
+/* [S9] VISOR AGENDA */
+var _citas=[];
+
+
+
+function badgeEstado(estado) {
+  if (estado==='Completado')    return '<span class="badge badge-ok">Completado</span>';
+  if (estado==='No se Presentó') return '<span class="badge badge-ns">No se Presentó</span>';
+  return '<span class="badge badge-other">'+estado+'</span>';
+}
+
+function badgeCupo(cupo) {
+  if (!cupo) return '';
+  if (cupo==='Normal')              return '<span class="badge badge-cupo-normal">Normal</span>';
+  if (/liberado/i.test(cupo))       return '<span class="badge badge-cupo-lib">Liberado</span>';
+  if (/sobrecupo/i.test(cupo))      return '<span class="badge badge-cupo-sob">Sobrecupo</span>';
+  return '<span class="badge badge-other">'+cupo+'</span>';
+}
+
+function esc(s){ return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function renderTabla(citas) {
+  if (!citas||citas.length===0) return '<p style="padding:24px;color:var(--ink3)">Sin resultados para los filtros seleccionados.</p>';
+
+  // Agrupar por fecha
+  var grupos={};
+  var diasOrd=[];
+  citas.forEach(function(c){
+    if (!grupos[c.fecha]){grupos[c.fecha]=[];diasOrd.push(c.fecha);}
+    grupos[c.fecha].push(c);
+  });
+  // Deduplicar días (puede haber duplicados por el push)
+  diasOrd=diasOrd.filter(function(v,i,a){return a.indexOf(v)===i;});
+  // Ordenar días cronológicamente DD-MM-YYYY → YYYYMMDD
+  diasOrd.sort(function(a,b){
+    var ka=a.split('-').reverse().join('');
+    var kb=b.split('-').reverse().join('');
+    return ka<kb?-1:ka>kb?1:0;
+  });
+
+  var html='';
+
+  // Resumen global
+  var total=citas.length;
+  var ok=citas.filter(function(c){return c.es_completado}).length;
+  var ns=citas.filter(function(c){return c.es_noshow}).length;
+  var pctOk=total?Math.round(ok/total*100):0;
+
+  html+='<div class="resumen">';
+  html+='<div class="resumen-card"><div class="val">'+total+'</div><div class="lbl">Citas</div></div>';
+  html+='<div class="resumen-card ok"><div class="val">'+ok+'</div><div class="lbl">Completadas</div></div>';
+  html+='<div class="resumen-card ns"><div class="val">'+ns+'</div><div class="lbl">No se Presentó</div></div>';
+  html+='<div class="resumen-card"><div class="val">'+pctOk+'%</div><div class="lbl">Asistencia</div></div>';
+  html+='</div>';
+
+  diasOrd.forEach(function(fecha){
+    var grupo=grupos[fecha];
+    var gOk=grupo.filter(function(c){return c.es_completado}).length;
+    var gNs=grupo.filter(function(c){return c.es_noshow}).length;
+
+    html+='<div class="dia-grupo">';
+    html+='<div class="dia-header">';
+    html+='<span class="dia-fecha">'+esc(fecha)+'</span>';
+    html+='<span class="dia-stats">';
+    html+='<span class="dia-stat-ok">'+gOk+' ok</span>';
+    html+='<span class="dia-stat-ns">'+gNs+' NSP</span>';
+    html+='<span>'+grupo.length+' total</span>';
+    html+='</span></div>';
+
+    html+='<table class="agenda-table"><colgroup>';
+    html+='<col class="col-hora"><col class="col-estado"><col class="col-paciente">';
+    html+='<col class="col-rut"><col class="col-cupo"><col class="col-llegada">';
+    html+='<col class="col-obs">';
+    html+='</colgroup><thead><tr>';
+    html+='<th>Hora</th><th>Estado</th><th>Paciente</th><th>RUT</th>';
+    html+='<th>Cupo</th><th>Llegada</th><th>Observación</th>';
+    html+='</tr></thead><tbody>';
+
+    grupo.forEach(function(c){
+      var rowClass=c.es_noshow?'row-ns':'row-ok';
+  
+      html+='<tr class="'+rowClass+'">';
+      html+='<td class="hora-cell">'+esc(c.hora_inicio)+'<br><span style="font-size:10px;color:var(--ink-muted)">→'+esc(c.hora_termino)+'</span></td>';
+      html+='<td>'+badgeEstado(c.estado)+'</td>';
+      html+='<td><span class="paciente-nombre">'+esc(c.paciente)+'</span>';
+      if (c.nombre_social&&c.nombre_social!==c.paciente.split(' ')[0]){
+        html+='<br><span class="paciente-social">'+esc(c.nombre_social)+'</span>';
+      }
+      html+='</td>';
+      html+='<td class="rut-cell">'+esc(c.rut)+'</td>';
+      html+='<td>'+badgeCupo(c.tipo_cupo)+'</td>';
+      html+='<td class="llegada-cell">'+(c.llegada?esc(c.llegada):'—')+'</td>';
+
+      html+='<td class="obs-cell" title="'+esc(c.observacion||'')+'">'+esc(c.observacion||'')+'</td>';
+      html+='</tr>';
+    });
+
+    html+='</tbody></table></div>';
+  });
+
+  return html;
+}
+
+function poblarFiltros(citas) {
+  var fechas=[...new Set(citas.map(function(c){return c.fecha}))].sort(function(a,b){
+    return a.split('-').reverse().join('')<b.split('-').reverse().join('')?-1:1;
+  });
+  var instrumentos=[...new Set(citas.map(function(c){return c.instrumento}).filter(Boolean))].sort();
+
+  var selFecha=document.getElementById('filtroFecha');
+  var selInstr=document.getElementById('filtroInstrumento');
+  selFecha.innerHTML='<option value="">Todas</option>';
+  fechas.forEach(function(f){selFecha.innerHTML+='<option value="'+f+'">'+f+'</option>'});
+  selInstr.innerHTML='<option value="">Todos</option>';
+  instrumentos.forEach(function(i){selInstr.innerHTML+='<option value="'+i+'">'+i+'</option>'});
+}
+
+function citasFiltradas() {
+  var estado=document.getElementById('filtroEstado').value;
+  var fecha=document.getElementById('filtroFecha').value;
+  var instr=document.getElementById('filtroInstrumento').value;
+  return _citas.filter(function(c){
+    if (estado&&c.estado!==estado) return false;
+    if (fecha&&c.fecha!==fecha) return false;
+    if (instr&&c.instrumento!==instr) return false;
+    return true;
+  });
+}
+
+function renderizar() {
+  var filtradas=citasFiltradas();
+  var wrap=document.getElementById('agendaWrap');
+  wrap.innerHTML=renderTabla(filtradas);
+}
+
+function procesar(citas) {
+  _citas=citas;
+  document.getElementById('welcome').style.display='none';
+  document.getElementById('agendaWrap').style.display='block';
+  document.getElementById('btnCSV').disabled=false;
+  poblarFiltros(citas);
+  renderizar();
+  setStatus('✅ '+citas.length+' citas · '+([...new Set(citas.map(function(c){return c.fecha}))].length)+' días','ok');
+}
+
+function exportarCSV() {
+  var citas=citasFiltradas();
+  var cols=['fecha','hora_inicio','hora_termino','estado','paciente','nombre_social','rut','sexo','fecha_nac','prevision','razon','tipo_atencion','tipo_cupo','llegada','observacion','instrumento','nodo'];
+  var lines=[cols.join(',')];
+  citas.forEach(function(c){
+
+    var row=cols.map(function(k){
+      var v;
+      v=c[k]===null||c[k]===undefined?'':c[k];
+      v=(v+'').replace(/"/g,'""');
+      return /[,"\n]/.test(v)?'"'+v+'"':v;
+    });
+    lines.push(row.join(','));
+  });
+  var blob=new Blob(['\uFEFF'+lines.join('\n')],{type:'text/csv;charset=utf-8'});
+  var a=document.createElement('a');
+  a.href=URL.createObjectURL(blob);
+  a.download='agenda_cosam_'+new Date().toISOString().slice(0,10)+'.csv';
+  a.click();
+}
+
+/* [S8] INPUT */
+document.addEventListener('DOMContentLoaded',function(){
+  var btnClip=document.getElementById('btnClipboard');
+  var btnPaste=document.getElementById('btnPaste');
+  var pasteArea=document.getElementById('pasteArea');
+  var btnCSV=document.getElementById('btnCSV');
+
+  btnClip.addEventListener('click',function(){
+    var icon=document.getElementById('clipIcon');
+    var txt=document.getElementById('clipText');
+    icon.className='spinner';icon.textContent='';
+    txt.textContent='Leyendo...';
+    btnClip.disabled=true;
+    navigator.clipboard.readText()
+      .then(function(raw){
+        if (!raw||!raw.trim()) throw new Error('Portapapeles vacío');
+        var citas=parsearAgenda(raw);
+        icon.className='';icon.textContent='✅';
+        txt.textContent='Datos cargados';
+        setTimeout(function(){icon.textContent='📋';txt.textContent='Leer desde portapapeles';btnClip.disabled=false},2500);
+        procesar(citas);
+      })
+      .catch(function(e){
+        var msg=e.name==='NotAllowedError'?'Permiso denegado — usa pegado manual':e.message;
+        setStatus('⚠️ '+msg,'warn');
+        icon.className='';icon.textContent='📋';
+        txt.textContent='Leer desde portapapeles';
+        btnClip.disabled=false;
+      });
+  });
+
+  btnPaste.addEventListener('click',function(){
+    var txt=pasteArea.value.trim();
+    if (!txt){setStatus('⚠️ Sin contenido','warn');return}
+    try{
+      var citas=parsearAgenda(txt);
+      pasteArea.value='';
+      procesar(citas);
+    }catch(e){setStatus('❌ '+e.message,'err')}
+  });
+
+  btnCSV.addEventListener('click',exportarCSV);
+
+  ['filtroEstado','filtroFecha','filtroInstrumento'].forEach(function(id){
+    document.getElementById(id).addEventListener('change',renderizar);
+  });
+});
+</script>
+
+</body>
+</html>
