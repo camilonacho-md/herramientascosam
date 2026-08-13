@@ -402,6 +402,481 @@ $('parsePaste').addEventListener('click',()=>{const t=$('pasteArea').value.trim(
 $('generar').addEventListener('click',generar);
 $('copyBtn').addEventListener('click',()=>{const tab=document.querySelector('.tab-btn.active').dataset.tab;copiar(tab==='md'?$('outputMD').value:$('outputJSON').value,$('copyBtn'));});
 document.querySelectorAll('.tab-btn').forEach(btn=>btn.addEventListener('click',()=>{document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');if($('welcome').style.display==='none'){document.querySelectorAll('.tab-content').forEach(c=>c.style.display='none');$('tab-'+btn.dataset.tab).style.display='flex';}}));
+/* ==============================================================
+   [S9-PRE] MÓDULO DE PREPROCESO ADC
+   --------------------------------------------------------------
+   Consume el payload dual de Rayen ({paciente, historial}) y emite
+   Markdown estructurado para el agente de resumen longitudinal.
+
+   Salida alternativa: no reemplaza el render de S9, convive con él.
+
+   Dependencias: ninguna. ES5 plano. Funciona desde file://.
+   Reutiliza de S6 si están disponibles: formatFecha, getPath.
+   Si no lo están, define sus propias versiones locales.
+
+   API:
+     ADCPre.generar(payload)  ->  { md: string, stats: object }
+   ============================================================== */
+
+var ADCPre = (function () {
+  'use strict';
+
+  /* ---------- LÉXICO DE RIESGO ---------------------------------
+     Doctrina invertida respecto del detector de marcadores:
+     aquí se prefiere el falso positivo. Marcar de más cuesta una
+     línea; marcar de menos es el fallo observado en los tests.   */
+  var LEX_RIESGO = [
+    'suicid', 'autolitic', 'autolític', 'autolesi', 'autoinfligid',
+    'ideas de muerte', 'idea de muerte', 'planificacion', 'planificación',
+    'sobreingesta', 'sobredosis', 'ingesta medicamentosa', 'intoxicacion',
+    'intoxicación', 'envenenamiento', 'x84',
+    'heteroagres', 'agresion', 'agresión', 'riña', 'rina', 'violencia',
+    'contencion', 'contención', 'hospitalizac', 'urgencia', 'traslado',
+    'involuntaria', 'hai', '4141', 'arma de fuego', 'arma blanca'
+  ];
+
+  /* ---------- HELPERS ------------------------------------------ */
+
+  function fFecha(v) {
+    if (!v) return '';
+    var s = (v + '').replace(/\s.*/, '');
+    if (/^\d{8}$/.test(s)) return s.slice(0, 4) + '-' + s.slice(4, 6) + '-' + s.slice(6, 8);
+    return v + '';
+  }
+
+  function fHora(v) {
+    var m = (v + '').match(/\d{8}\s(\d{2})(\d{2})/);
+    return m ? m[1] + ':' + m[2] : '';
+  }
+
+  function esFechaNula(v) {
+    return !v || (v + '').indexOf('00010101') === 0;
+  }
+
+  function aDate(v) {
+    var s = (v + '').replace(/\s.*/, '');
+    if (!/^\d{8}$/.test(s)) return null;
+    return new Date(+s.slice(0, 4), +s.slice(4, 6) - 1, +s.slice(6, 8));
+  }
+
+  function edadEn(dobRaw, refRaw) {
+    var dob = aDate(dobRaw), ref = aDate(refRaw) || new Date();
+    if (!dob) return '';
+    var a = ref.getFullYear() - dob.getFullYear();
+    var m = ref.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && ref.getDate() < dob.getDate())) a--;
+    return a;
+  }
+
+  /* FNV-1a de 32 bits. Síncrono, sin crypto.subtle, sin contexto
+     seguro. Suficiente para dedup exacto de párrafo.             */
+  function hash(s) {
+    var h = 0x811c9dc5;
+    for (var i = 0; i < s.length; i++) {
+      h ^= s.charCodeAt(i);
+      h = (h + ((h << 1) + (h << 4) + (h << 7) + (h << 8) + (h << 24))) >>> 0;
+    }
+    return h.toString(16);
+  }
+
+  function norm(s) {
+    return (s || '').toLowerCase()
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/\s+/g, ' ')
+      .trim();
+  }
+
+  function uniq(a) {
+    return a.filter(function (v, i, s) { return s.indexOf(v) === i; });
+  }
+
+  function marcarRiesgo(txt) {
+    var n = norm(txt), hits = [];
+    for (var i = 0; i < LEX_RIESGO.length; i++) {
+      if (n.indexOf(LEX_RIESGO[i]) > -1) hits.push(LEX_RIESGO[i]);
+    }
+    return hits;
+  }
+
+  /* ---------- PARSER DE PRESCRIPCIONES -------------------------
+     Rayen emite un string generado por máquina, con formato fijo:
+       "<producto> : <cant> <unidad> cada <frec> por <dur> de la Receta Nº <n>"
+     Es parsing de formato conocido, no de prosa clínica.
+     Observacion trae la posología real ("1/2-0-1", "1 cc IM c/28d"). */
+  var RE_PRESC = /^(.+?)\s*:\s*([\d.,]+)\s+(\S+)\s+cada\s+(.+?)\s+por\s+(.+?)\s+de\s+la\s+Receta\s+N[º°]?\s*(\d+)/i;
+
+  function parsePresc(p) {
+    var d = (p.Descripcion || '').replace(/\s+/g, ' ').trim();
+    var m = d.match(RE_PRESC);
+    if (!m) return { producto: d, crudo: true, obs: p.Observacion || '', suspendido: !!p.Suspendido };
+    return {
+      producto: m[1].trim(),
+      cantidad: m[2],
+      unidad: m[3],
+      frecuencia: m[4].trim(),
+      duracion: m[5].trim(),
+      receta: m[6],
+      obs: (p.Observacion || '').trim(),
+      suspendido: !!p.Suspendido,
+      crudo: false
+    };
+  }
+
+  /* Clave de agrupación: el producto completo, para no fusionar
+     "Haloperidol 5 mg Comprimidos" con "Haloperidol 50 mg/1 ml
+     Solucion Inyectable", que son fármacos distintos en la práctica. */
+  function claveFarmaco(producto) {
+    return norm(producto).replace(/[,.]/g, '');
+  }
+
+  /* ---------- NORMALIZACIÓN DE REGISTROS ----------------------- */
+
+  function normalizarRegistro(reg) {
+    var anam = reg.Anamnesis || [];
+    var motivo = anam.map(function (a) { return (a.MotivoConsulta || '').trim(); })
+      .filter(Boolean).join(' / ');
+    var texto = anam.map(function (a) { return (a.HistoriaEnfermedadActual || '').trim(); })
+      .filter(Boolean).join('\n\n');
+    var post = (reg.ObservacionPostCierre || '').trim();
+    if (post) texto += (texto ? '\n\n' : '') + '[Observación post cierre] ' + post;
+
+    var dxs = uniq((reg.Diagnosticos || [])
+      .map(function (d) { return (d.DescripcionClasificacion || '').trim(); })
+      .filter(function (s) { return s && s.indexOf('No Informado') !== 0; }));
+
+    var profs = uniq((reg.FuncionariosPrestadores || [])
+      .map(function (f) {
+        var n = (f.NombreCompleto || '').replace(/\s+/g, ' ').trim();
+        var i = (f.NombreInstrumento || '').trim();
+        return n ? (n + (i ? ' (' + i + ')' : '')) : '';
+      }).filter(Boolean));
+
+    var acts = uniq((reg.Actividades || [])
+      .map(function (a) { return (a.Descripcion || '').replace(/^\d+\s+/, '').trim(); })
+      .filter(function (s) { return s && s.indexOf('No Infomado') < 0 && s.indexOf('No Informado') < 0; }));
+
+    var presc = (reg.Prescripciones || []).map(parsePresc);
+
+    var recetas = (reg.Recetas || []).map(function (r) {
+      return {
+        id: r.Id,
+        estado: (r.EstadoReceta || '').trim(),
+        generada: fFecha(r.FechaGeneracion),
+        despachada: esFechaNula(r.FechaDespacho) ? '' : fFecha(r.FechaDespacho)
+      };
+    });
+
+    return {
+      id: reg.Id,
+      fecha: fFecha(reg.Fecha),
+      hora: fHora(reg.Fecha),
+      nodo: (reg._NombreNodo || ('Nodo #' + (reg.IdNodo || '?'))).trim(),
+      tipo: (reg.TipoDeAtencion || '').trim(),
+      estadoAtencion: reg.EstadoAtencion,
+      esUrgencia: !!reg.EsUrgencia,
+      motivo: motivo,
+      texto: texto,
+      dxs: dxs,
+      profs: profs,
+      acts: acts,
+      presc: presc,
+      recetas: recetas,
+      _raw: reg
+    };
+  }
+
+  /* ---------- CLASIFICACIÓN Y PODA -----------------------------
+     Poda conservadora. Sin economía de contexto que la justifique,
+     solo se descarta lo que demostrablemente no porta contenido.  */
+
+  function clasificar(r) {
+    r.riesgo = marcarRiesgo([r.motivo, r.texto, r.dxs.join(' ')].join(' '));
+    r.tieneNarrativa = r.texto.length > 40;
+    r.tienePresc = r.presc.length > 0;
+
+    if (r.riesgo.length) { r.clase = 'riesgo'; return; }        // nunca se poda
+    if (r.estadoAtencion === 4 && !r.tieneNarrativa) { r.clase = 'no_realizada'; return; }
+    if (!r.tieneNarrativa && !r.tienePresc && !r.acts.length) { r.clase = 'vacia'; return; }
+    if (!r.tieneNarrativa && r.tienePresc) { r.clase = 'solo_receta'; return; }
+    r.clase = 'clinica';
+  }
+
+  /* Dedup de párrafos por hash exacto. No shingling: un párrafo
+     casi idéntico con una palabra distinta es el delta clínico.   */
+  function dedupParrafos(regs) {
+    var visto = {}, quitados = 0;
+    regs.forEach(function (r) {
+      if (r.clase === 'riesgo' || !r.texto) return;              // riesgo íntegro
+      var ps = r.texto.split(/\n{2,}/);
+      var out = [];
+      ps.forEach(function (p) {
+        var k = norm(p);
+        if (k.length < 60) { out.push(p); return; }              // párrafo corto: se conserva
+        var h = hash(k);
+        if (visto[h]) { quitados++; return; }
+        visto[h] = true;
+        out.push(p);
+      });
+      r.texto = out.join('\n\n');
+    });
+    return quitados;
+  }
+
+  /* ---------- CONSTRUCTORES DE BLOQUE -------------------------- */
+
+  function blqIdentidad(p, regs) {
+    if (!p) return '';
+    var nombre = p.NombreFormateado || p.Nombre ||
+      ((p.Nombres || '') + ' ' + (p.ApellidoPaterno || '') + ' ' + (p.ApellidoMaterno || '')).trim();
+    var hoy = new Date();
+    var refHoy = '' + hoy.getFullYear() +
+      ('0' + (hoy.getMonth() + 1)).slice(-2) + ('0' + hoy.getDate()).slice(-2);
+    var L = [];
+    L.push('## Identificación');
+    L.push('');
+    L.push('- Nombre: ' + nombre);
+    if (p.Rut) L.push('- RUN: ' + p.Rut);
+    if (p.FechaDeNacimiento) {
+      L.push('- Nacimiento: ' + fFecha(p.FechaDeNacimiento) +
+        ' · Edad calculada a la fecha: ' + edadEn(p.FechaDeNacimiento, refHoy) + ' años');
+    }
+    var sexo = p.Sexo && p.Sexo.Nombre ? p.Sexo.Nombre : '';
+    if (sexo) L.push('- Sexo registrado: ' + sexo);
+    if (p.Escolaridad && p.Escolaridad.Nombre) L.push('- Escolaridad: ' + p.Escolaridad.Nombre);
+    if (p.Ocupacion && p.Ocupacion.Nombre) L.push('- Ocupación registrada: ' + p.Ocupacion.Nombre);
+    if (p.GrupoEtnico && p.GrupoEtnico.Nombre) L.push('- Grupo étnico: ' + p.GrupoEtnico.Nombre);
+    if (p.ConvenioPrevisional && p.ConvenioPrevisional.Nombre) L.push('- Previsión: ' + p.ConvenioPrevisional.Nombre);
+    var geo = (p.Georeferencias || [])[0];
+    if (geo && geo.DireccionFormateada) L.push('- Domicilio: ' + geo.DireccionFormateada);
+    L.push('');
+    L.push('> La edad está calculada desde la fecha de nacimiento del registro. Las edades que aparezcan en el texto narrativo pueden diferir y no deben preferirse.');
+    L.push('');
+    return L.join('\n');
+  }
+
+  function blqDiagnosticos(regs) {
+    var mapa = {};
+    regs.forEach(function (r) {
+      r.dxs.forEach(function (d) {
+        if (!mapa[d]) mapa[d] = { n: 0, primera: r.fecha, ultima: r.fecha };
+        mapa[d].n++;
+        if (r.fecha < mapa[d].primera) mapa[d].primera = r.fecha;
+        if (r.fecha > mapa[d].ultima) mapa[d].ultima = r.fecha;
+      });
+    });
+    var ks = Object.keys(mapa);
+    if (!ks.length) return '';
+    ks.sort(function (a, b) { return mapa[b].n - mapa[a].n; });
+    var L = ['## Diagnósticos registrados en ficha', ''];
+    L.push('| Diagnóstico | Registros | Primero | Último |');
+    L.push('|---|---|---|---|');
+    ks.forEach(function (k) {
+      L.push('| ' + k + ' | ' + mapa[k].n + ' | ' + mapa[k].primera + ' | ' + mapa[k].ultima + ' |');
+    });
+    L.push('');
+    L.push('> Frecuencia de aparición del código en la ficha, no jerarquía clínica.');
+    L.push('');
+    return L.join('\n');
+  }
+
+  function blqFarmacos(regs) {
+    var hist = {};
+    regs.forEach(function (r) {
+      r.presc.forEach(function (p) {
+        var k = claveFarmaco(p.producto);
+        if (!hist[k]) hist[k] = { producto: p.producto, items: [] };
+        hist[k].items.push({
+          fecha: r.fecha, cantidad: p.cantidad || '', unidad: p.unidad || '',
+          frecuencia: p.frecuencia || '', duracion: p.duracion || '',
+          obs: p.obs, suspendido: p.suspendido, prof: r.profs[0] || '', nodo: r.nodo
+        });
+      });
+    });
+    var ks = Object.keys(hist);
+    if (!ks.length) return '';
+
+    ks.forEach(function (k) {
+      hist[k].items.sort(function (a, b) { return a.fecha < b.fecha ? 1 : -1; });
+    });
+    ks.sort(function (a, b) { return hist[a].items[0].fecha < hist[b].items[0].fecha ? 1 : -1; });
+
+    var L = ['## Esquema farmacológico', '', '### Última prescripción por producto', ''];
+    L.push('| Producto | Cantidad | Frecuencia | Posología consignada | Duración | Fecha | Prescriptor |');
+    L.push('|---|---|---|---|---|---|---|');
+    ks.forEach(function (k) {
+      var it = hist[k].items[0];
+      L.push('| ' + hist[k].producto + ' | ' + it.cantidad + ' ' + it.unidad +
+        ' | ' + it.frecuencia + ' | ' + (it.obs || '(sin observación)') +
+        ' | ' + it.duracion + ' | ' + it.fecha + ' | ' + (it.prof || '') + ' |');
+    });
+    L.push('');
+
+    // Cambios de dosis detectados
+    var cambios = [];
+    ks.forEach(function (k) {
+      var its = hist[k].items, prev = null;
+      for (var i = its.length - 1; i >= 0; i--) {
+        var firma = its[i].cantidad + '|' + its[i].obs;
+        if (prev !== null && firma !== prev.firma) {
+          cambios.push('- ' + hist[k].producto + ': ' + prev.fecha + ' (' +
+            (prev.obs || prev.cantidad) + ') → ' + its[i].fecha + ' (' +
+            (its[i].obs || its[i].cantidad) + ')');
+        }
+        prev = { firma: firma, fecha: its[i].fecha, obs: its[i].obs, cantidad: its[i].cantidad };
+      }
+    });
+    if (cambios.length) {
+      L.push('### Cambios de dosis o posología detectados');
+      L.push('');
+      L = L.concat(cambios);
+      L.push('');
+    }
+    return L.join('\n');
+  }
+
+  function blqDespacho(regs) {
+    var filas = [];
+    regs.forEach(function (r) {
+      r.recetas.forEach(function (rc) {
+        if (!rc.estado) return;
+        filas.push('| ' + rc.generada + ' | ' + rc.estado + ' | ' + (rc.despachada || 'sin despacho') + ' |');
+      });
+    });
+    if (!filas.length) return '';
+    var L = ['## Recetas y despacho', ''];
+    L.push('| Generada | Estado | Despachada |');
+    L.push('|---|---|---|');
+    L = L.concat(filas);
+    L.push('');
+    L.push('> Diferencia entre fecha de generación y de despacho, o estado sin despachar, es evidencia de adherencia. No equivale a dosis administrada.');
+    L.push('');
+    return L.join('\n');
+  }
+
+  function blqRiesgo(regs) {
+    var rs = regs.filter(function (r) { return r.clase === 'riesgo'; });
+    if (!rs.length) {
+      return '## Registros con bandera de riesgo\n\nNinguno. El barrido léxico no encontró coincidencias.\n\n';
+    }
+    var L = ['## Registros con bandera de riesgo', ''];
+    L.push('Inclusión obligatoria. ' + rs.length + ' registros, íntegros y sin poda.');
+    L.push('');
+    rs.forEach(function (r) {
+      L.push('### ' + r.fecha + (r.hora ? ' ' + r.hora : '') + ' · ' + (r.tipo || 's/tipo') + ' · ' + r.nodo);
+      if (r.profs.length) L.push('Profesional: ' + r.profs.join('; '));
+      if (r.dxs.length) L.push('Diagnósticos: ' + r.dxs.join('; '));
+      L.push('Términos detectados: ' + r.riesgo.join(', '));
+      if (r.motivo) L.push('Motivo: ' + r.motivo);
+      L.push('');
+      L.push(r.texto || '(sin narrativa)');
+      L.push('');
+    });
+    return L.join('\n');
+  }
+
+  function blqHitos(regs) {
+    var L = ['## Hitos cronológicos', ''];
+    L.push('| Fecha | Tipo de atención | Nodo | Profesional | Diagnósticos | Riesgo |');
+    L.push('|---|---|---|---|---|---|');
+    regs.slice().sort(function (a, b) { return a.fecha < b.fecha ? -1 : 1; }).forEach(function (r) {
+      L.push('| ' + r.fecha + ' | ' + (r.tipo || '') + ' | ' + r.nodo +
+        ' | ' + (r.profs.join('; ') || '') + ' | ' + (r.dxs.join('; ') || '') +
+        ' | ' + (r.riesgo.length ? 'sí' : '') + ' |');
+    });
+    L.push('');
+    return L.join('\n');
+  }
+
+  function blqNarrativa(regs) {
+    var rs = regs.filter(function (r) { return r.clase === 'clinica'; });
+    var L = ['## Narrativa clínica', ''];
+    if (!rs.length) { L.push('(sin registros narrativos fuera de los marcados por riesgo)'); L.push(''); return L.join('\n'); }
+    rs.slice().sort(function (a, b) { return a.fecha < b.fecha ? -1 : 1; }).forEach(function (r) {
+      L.push('### ' + r.fecha + (r.hora ? ' ' + r.hora : '') + ' · ' + (r.tipo || 's/tipo') + ' · ' + r.nodo);
+      if (r.profs.length) L.push('Profesional: ' + r.profs.join('; '));
+      if (r.dxs.length) L.push('Diagnósticos: ' + r.dxs.join('; '));
+      if (r.motivo) L.push('Motivo: ' + r.motivo);
+      L.push('');
+      L.push(r.texto);
+      L.push('');
+    });
+    return L.join('\n');
+  }
+
+  function blqManifiesto(regs, stats) {
+    var L = ['## Manifiesto de exclusiones', ''];
+    L.push('- Registros recibidos: ' + stats.total);
+    L.push('- Con bandera de riesgo, íntegros: ' + stats.riesgo);
+    L.push('- Narrativos incluidos: ' + stats.clinica);
+    L.push('- Solo receta, sin narrativa: ' + stats.solo_receta);
+    L.push('- Atención no realizada o sin registro: ' + stats.no_realizada);
+    L.push('- Sin contenido: ' + stats.vacia);
+    L.push('- Párrafos duplicados exactos removidos: ' + stats.dedup);
+    L.push('');
+    if (stats.excluidos.length) {
+      L.push('### Registros excluidos de la narrativa');
+      L.push('');
+      L.push('| Fecha | Tipo | Nodo | Motivo de exclusión |');
+      L.push('|---|---|---|---|');
+      stats.excluidos.forEach(function (e) {
+        L.push('| ' + e.fecha + ' | ' + (e.tipo || '') + ' | ' + e.nodo + ' | ' + e.clase + ' |');
+      });
+      L.push('');
+    }
+    L.push('> Nada de lo excluido contenía términos del léxico de riesgo. Las prescripciones de los registros excluidos sí están en el esquema farmacológico.');
+    L.push('');
+    return L.join('\n');
+  }
+
+  /* ---------- ORQUESTADOR -------------------------------------- */
+
+  function generar(payload) {
+    if (!payload) throw new Error('Payload vacío');
+    var hx = payload.historial || [];
+    if (!hx.length) throw new Error('Historial vacío');
+
+    var regs = hx.map(normalizarRegistro);
+    regs.forEach(clasificar);
+    var dedup = dedupParrafos(regs);
+
+    var stats = {
+      total: regs.length, riesgo: 0, clinica: 0,
+      solo_receta: 0, no_realizada: 0, vacia: 0,
+      dedup: dedup, excluidos: []
+    };
+    regs.forEach(function (r) {
+      stats[r.clase] = (stats[r.clase] || 0) + 1;
+      if (r.clase !== 'clinica' && r.clase !== 'riesgo') {
+        stats.excluidos.push({ fecha: r.fecha, tipo: r.tipo, nodo: r.nodo, clase: r.clase });
+      }
+    });
+
+    var fechas = regs.map(function (r) { return r.fecha; }).sort();
+
+    var md = [];
+    md.push('# Ficha preprocesada para resumen longitudinal');
+    md.push('');
+    md.push('Ventana: ' + fechas[0] + ' a ' + fechas[fechas.length - 1] +
+      ' · ' + regs.length + ' registros · ' + stats.riesgo + ' con bandera de riesgo');
+    md.push('');
+    md.push('> Material fuente estructurado. Las tablas son extracción directa de campos de Rayen, no interpretación. La narrativa es texto original sin modificar.');
+    md.push('');
+    md.push(blqIdentidad(payload.paciente, regs));
+    md.push(blqDiagnosticos(regs));
+    md.push(blqFarmacos(regs));
+    md.push(blqDespacho(regs));
+    md.push(blqRiesgo(regs));
+    md.push(blqHitos(regs));
+    md.push(blqNarrativa(regs));
+    md.push(blqManifiesto(regs, stats));
+
+    return { md: md.filter(Boolean).join('\n'), stats: stats, registros: regs };
+  }
+
+  return { generar: generar, _hash: hash, _parsePresc: parsePresc, LEX_RIESGO: LEX_RIESGO };
+})();
+
+if (typeof module !== 'undefined' && module.exports) module.exports = ADCPre;
 </script>
 </body>
 </html>
