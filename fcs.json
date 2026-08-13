@@ -1,0 +1,166 @@
+{
+  "firma_clinica_silenciosa": {
+    "fenomenologia": [
+      {
+        "frase": "Delirio de perjuicio con estructuración temática estable, juicio clínico comprometido y ruptura pragmática.",
+        "marco_teorico": "Jaspers – Schneider"
+      },
+      {
+        "frase": "Alucinaciones auditivas con ajenidad, dialogadas, sin organización interna alternativa; cumple criterios formales.",
+        "marco_teorico": "Schneider"
+      },
+      {
+        "frase": "Conducta desorganizada persistente no explicable por reactividad afectiva ni por entorno; se confirma psicosis activa.",
+        "marco_teorico": "Clínica Osleriana"
+      },
+      {
+        "frase": "Pararrespuestas con deterioro pragmático progresivo; se objetiva ruptura de vínculo compartido de realidad.",
+        "marco_teorico": "Jaspers"
+      },
+      {
+        "frase": "Ideación autorreferente no interpretable como ansiedad; se sostiene como fenómeno psicótico persistente.",
+        "marco_teorico": "Schneider"
+      },
+      {
+        "frase": "Síntomas positivos y negativos coexistentes; curso deteriorante sin episodios afectivos mayores.",
+        "marco_teorico": "Clínica Osleriana"
+      }
+    ],
+    "cuadros_afectivos": [
+      {
+        "frase": "Episodio hipomaníaco con aumento de energía, verborrea, irritabilidad sostenida y patrón de disminución de sueño sin fatiga; cumple 5 de 7 criterios DSM-5.",
+        "marco_teorico": "DSM-5, Akiskal"
+      },
+      {
+        "frase": "Historia de depresión mayor episódica intercalada con períodos de hiperactividad y desregulación emocional positiva.",
+        "marco_teorico": "Ghaemi"
+      },
+      {
+        "frase": "Respuesta clínica positiva a estabilizadores con patrón de recaídas afectivas; curso típicamente bifásico.",
+        "marco_teorico": "Vieta"
+      },
+      {
+        "frase": "Evidencia longitudinal de ciclotimia funcional; no hay deterioro pragmático sostenido ni clivaje vincular.",
+        "marco_teorico": "Akiskal"
+      },
+      {
+        "frase": "Estado de ánimo organiza la clínica; el síntoma estructural se modula con el afecto, no al revés.",
+        "marco_teorico": "Ghaemi"
+      }
+    ],
+    "estructura_personalidad": [
+      {
+        "frase": "Identidad estable, sin disociación de roles ni confusión persistente del self; se descarta diagnóstico categorial de personalidad limítrofe.",
+        "marco_teorico": "Fonagy"
+      },
+      {
+        "frase": "Defensas primitivas presentes pero integradas al yo; no hay fragmentación ni colapso transferencial.",
+        "marco_teorico": "Kernberg"
+      },
+      {
+        "frase": "Oscilación afectiva y vincular dentro de límites esperables para organización limítrofe integrada.",
+        "marco_teorico": "Kernberg"
+      },
+      {
+        "frase": "Relación terapéutica operativa, sin sabotaje activo ni acting desbordado; se sostiene pacto con mínima confrontación.",
+        "marco_teorico": "Klein"
+      },
+      {
+        "frase": "No se objetivan fallas persistentes en mentalización ni rupturas del encuadre técnico.",
+        "marco_teorico": "Fonagy"
+      }
+    ],
+    "peso_psicosocial": [
+      {
+        "frase": "Síntoma emerge en contexto adverso sostenido, pero persiste fuera del evento; curso autónomo justifica lectura psicopatológica.",
+        "marco_teorico": "Modelo Comunitario OMS"
+      },
+      {
+        "frase": "Ambiente gatillante más no causal; clínica no se resuelve con intervención ambiental únicamente.",
+        "marco_teorico": "Modelo Comunitario"
+      },
+      {
+        "frase": "La red familiar colabora pero no contiene; no se deriva disfunción del soporte como causa primaria del cuadro.",
+        "marco_teorico": "Clínica Comunitaria Chilena"
+      },
+      {
+        "frase": "Presión adaptativa detectada, pero no suficiente para explicar delirio ni desorganización.",
+        "marco_teorico": "OMS"
+      }
+    ],
+    "dsm_estrategico": [
+      {
+        "frase": "Se cumplen criterios formales para diagnóstico de trastorno depresivo mayor (5 de 9 por más de 2 semanas, con disfunción significativa).",
+        "marco_teorico": "DSM-5"
+      },
+      {
+        "frase": "No se asigna comorbilidad adicional innecesaria; se documenta diagnóstico único por economía nosológica y claridad operativa.",
+        "marco_teorico": "DSM como defensa"
+      },
+      {
+        "frase": "Diagnóstico se emite según requerimientos normativos (GES, SIGGES), sin renunciar a lectura dimensional subyacente.",
+        "marco_teorico": "DSM-5 estratégico"
+      },
+      {
+        "frase": "El DSM se usa como escudo clínico ante revisión externa, no como explicación totalizante.",
+        "marco_teorico": "DSM táctico"
+      }
+    ],
+    "sistemicas_terapia_familia": [
+      {
+        "frase": "El síntoma no es del paciente, es del sistema que lo contiene.",
+        "marco_teorico": "Teoría General de Sistemas"
+      },
+      {
+        "frase": "No se puede sacar una pieza del engranaje sin recalibrar el resto.",
+        "marco_teorico": "Intervención Sistémica"
+      },
+      {
+        "frase": "Está mejor, pero eso desordena a todos los demás.",
+        "marco_teorico": "Homeostasis familiar / síntoma estabilizador"
+      },
+      {
+        "frase": "La familia colabora, pero no cambia el guión.",
+        "marco_teorico": "Narrativa familiar / cambio de segundo orden"
+      },
+      {
+        "frase": "El síntoma es funcional: preserva algo que no se puede nombrar.",
+        "marco_teorico": "Comunicación paradójica / síntoma protector"
+      },
+      {
+        "frase": "No hay un paciente: hay un patrón que se repite en distintos cuerpos.",
+        "marco_teorico": "Transmisión transgeneracional"
+      }
+    ],
+    "q_and_a": [
+      {
+        "pregunta": "¿Por qué no diagnosticaron TLP si hay impulsividad y relaciones inestables?",
+        "respuesta": "Porque hay impulsividad episódica en un curso afectivo claro, con identidad preservada y sin clivaje clínico. El vínculo terapéutico ha sido operativo, sin sabotaje. No hay justificación estructural para agregar TLP como segunda hipótesis."
+      },
+      {
+        "pregunta": "¿Y si es esquizofrenia encubierta?",
+        "respuesta": "El cuadro cumple criterios de episodio psicótico agudo con recuperación funcional, sin deterioro progresivo, sin embotamiento afectivo ni aplanamiento sostenido. El afecto organiza. El juicio clínico se recupera. Evolución y respuesta confirman psicosis afectiva."
+      },
+      {
+        "pregunta": "¿No será todo reactivo?",
+        "respuesta": "El síntoma emerge en contexto adverso, pero persiste fuera de él. Hay descontextualización clínica, desborde funcional y estructura psicopatológica independiente del entorno. Lo reactivo no anula lo clínico."
+      },
+      {
+        "pregunta": "¿Y si tiene un poco de todo?",
+        "respuesta": "Esa lectura no ayuda al paciente ni al equipo. Se prioriza una hipótesis estructurada, operativa, y con impacto terapéutico. La dispersión diagnóstica es una renuncia, no una precaución."
+      },
+      {
+        "pregunta": "¿No faltó agregar ansiedad o depresión?",
+        "respuesta": "Ambos ejes están presentes como dimensiones, pero no cumplen criterios formales para ser codificados como entidades. Se reconocen, se trabajan, pero no se sobredocumentan. El plan de tratamiento ya los contempla."
+      },
+      {
+        "pregunta": "El diagnóstico no es concluyente…",
+        "respuesta": "La clínica es dinámica. El diagnóstico se hace desde el curso, no desde la foto. Se formula para actuar, no para definir al sujeto. No se persigue certeza absoluta, sino coherencia funcional."
+      },
+      {
+        "pregunta": "Pero el DSM dice que…",
+        "respuesta": "Y aquí lo cumple: 4 de 7 criterios para hipomanía, más historia de episodio depresivo mayor. El diagnóstico está dentro del marco DSM-5. La interpretación es más amplia, pero la codificación está cubierta."
+      }
+    ]
+  }
+}
