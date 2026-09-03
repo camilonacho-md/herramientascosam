@@ -1,0 +1,3124 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REGISTRO CHECKBOX ADC</title>
+<!--
+  ══════════════════════════════════════════════════════════════
+  REGISTRO CHECKBOX ADC
+  
+  ══════════════════════════════════════════════════════════════
+
+  QUÉ HACE
+  Registro clínico psiquiátrico por casillas, con calificador corto
+  adosado a cada eje, que produce texto plano pegable directamente
+  en la ficha. Cubre ingreso y control con estructura SOAP, eje
+  sindromático de Vidal en dos niveles, examen mental desglosado,
+  minicolumbia (C-SSRS) con estratificación derivada, y esquema
+  farmacológico en mañana-tarde-noche.
+
+  Corre en un archivo único, sin instalación, sin conexión y sin
+  almacenar nada. El texto que genera es completo y clínicamente
+  denso tal como sale: la herramienta no depende de nada posterior
+  para que el registro sirva.
+
+  ARQUITECTURA
+  Standalone, file://, sin CDN. LZString 1.4.4 inline. Catálogo en
+  bloque JSON embebido (id="catalogo"): para cambiar una lista se
+  edita ese bloque, no el motor. Sin identificación de paciente,
+  por diseño. Sin almacenamiento: el estado viaja en el texto o en
+  el payload LZ.
+
+  REFERENCIAS
+  · Vidal C., Mario. Psiquiatría clínica en la unidad de corta
+    estadía. Eje sindromático, los diez síndromes, curso del
+    pensamiento.
+  · Capponi M., Ricardo. Psicopatología y semiología psiquiátrica.
+    Editorial Universitaria, Santiago. Nomenclatura chilena,
+    examen mental, discriminación fenomenológica.
+  · Posner K, et al. The Columbia-Suicide Severity Rating Scale.
+    Am J Psychiatry. 2011;168(12):1266-1277. Estructura de la
+    minicolumbia. Las etiquetas del módulo son descriptores de
+    categoría, NO el enunciado literal del instrumento.
+  · Andreasen NC. Thought, language, and communication disorders.
+    Arch Gen Psychiatry. 1979;36(12):1315-1330. Curso del
+    pensamiento.
+  · Stetson PD, et al. PDQI-9. Appl Clin Inform. 2012;3(2):164-174.
+    Base del PDSQI-9 adaptado, usado como capa de verificación.
+  · Jaspers, Karl. Allgemeine Psychopathologie, 1913. Criterio de
+    ajenidad; partición entre lo vivenciado y lo objetivable, que
+    es la que separa S de O en este registro.
+  · Schneider, Kurt. Klinische Psychopathologie, 1950. Síntomas de
+    primer rango, base del eje del yo.
+  · CIE-10 capítulo V y tramos F del REM MINSAL.
+  · Baja Cota v1, sistema de diseño del ADC.
+
+  DOCUMENTOS ASOCIADOS
+  Modelo_Registro_Checkbox_ADC.md · especificación
+  bitacora-registro-checkbox.md · decisiones de diseño
+  agente-precarga-checkbox.md · conversión de material a crudo
+  ══════════════════════════════════════════════════════════════
+-->
+<script>
+var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600&family=Inter:wght@400;500;600&family=Source+Serif+4:ital,wght@0,400;1,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════════════════════════
+   BAJA COTA v1 — capa visual del Registro Checkbox ADC
+   Reskin: solo tokens y componentes. Nombres de clase, IDs y JS
+   intactos.
+   Principios: tipografía con roles · elevación por tono (sin
+   sombras en dark) · escala de 4 · radios proporcionales ·
+   acento restringido a un elemento por pantalla.
+   ══════════════════════════════════════════════════════════════ */
+
+:root, [data-theme="dark"] {
+  color-scheme: dark;
+  /* Superficies · elevación por tono */
+  --s0:#141210; --s1:#1a1815; --s2:#211f1c; --s3:#2a2825; --s4:#34302b;
+  /* Bordes */
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+  /* Texto */
+  --ink:#e8e3db; --ink2:#c0bab0; --ink3:#8a847c; --mut:#5a5650; --lab:#6a6560;
+  /* Acento único */
+  --acc:#5b8aff; --acc-hov:#7aa0ff;
+  --acc-soft:rgba(91,138,255,.15); --acc-line:rgba(91,138,255,.30);
+  /* Semántica */
+  --ok:#5abf80;   --ok-bg:rgba(90,191,128,.12);   --ok-line:rgba(90,191,128,.22);
+  --warn:#d4a060; --warn-bg:rgba(212,160,96,.12); --warn-line:rgba(212,160,96,.22);
+  --err:#f08080;  --err-bg:rgba(240,128,128,.12); --err-line:rgba(240,128,128,.22);
+  /* Tipografía · roles */
+  --f-display:'Playfair Display',Georgia,serif;
+  --f-ui:'Inter',system-ui,sans-serif;
+  --f-read:'Source Serif 4',Georgia,serif;
+  --f-mono:'IBM Plex Mono',Consolas,monospace;
+  /* Espaciado · base 4 */
+  --sp1:4px; --sp2:8px; --sp3:12px; --sp4:16px; --sp6:24px; --sp8:32px;
+  /* Radios */
+  --r-sm:4px; --r-md:8px; --r-lg:12px; --r-xl:16px;
+}
+[data-theme="light"] {
+  color-scheme: light;
+  --s0:#fff; --s1:#faf9f6; --s2:#f3f1ec; --s3:#fff; --s4:#eceae4;
+  --line:rgba(0,0,0,.08); --line2:rgba(0,0,0,.14);
+  --ink:#1a1814; --ink2:#3d3a34; --ink3:#6b6560; --mut:#9a9590; --lab:#7a7570;
+  --acc:#1a4fff; --acc-hov:#0f35cc;
+  --acc-soft:rgba(26,79,255,.10); --acc-line:rgba(26,79,255,.25);
+  --ok:#1a5c30; --ok-bg:#e8f5ee; --ok-line:#bfe2cd;
+  --warn:#7a4000; --warn-bg:#fff3e0; --warn-line:#f0d9b8;
+  --err:#8a0010; --err-bg:#fde8e8; --err-line:#f3c9c9;
+}
+
+/* Alias de compatibilidad: el JS no los usa, pero quedan por si
+   alguna regla heredada los referencia. */
+:root{ --err-ink:var(--err); --ok-ink:var(--ok); --warn-ink:var(--warn); --r:var(--r-md); }
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:var(--f-ui); font-size:14px; line-height:1.6;
+  background:var(--s1); color:var(--ink);
+  transition:background .2s,color .2s;
+  -webkit-font-smoothing:antialiased;
+}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+input,select,textarea{-webkit-text-fill-color:currentColor;opacity:1}
+input[readonly],textarea[readonly]{-webkit-text-fill-color:currentColor;opacity:1}
+
+/* ── Header · superficie s0 ──────────────────────────────────── */
+.site-header{
+  background:var(--s0); color:var(--ink);
+  padding:var(--sp3) var(--sp6);
+  display:flex; align-items:center; gap:var(--sp4);
+  border-bottom:1px solid var(--line);
+  position:sticky; top:0; z-index:100;
+}
+.logo{
+  font-family:var(--f-display); font-size:18px; font-weight:600;
+  letter-spacing:0; line-height:1.25;
+}
+.logo span{
+  display:block; font-family:var(--f-ui); font-size:11px; font-weight:400;
+  letter-spacing:.06em; color:var(--lab); margin-top:2px;
+}
+/* Badge: estado fijo, radio pequeño */
+.hdr-badge{
+  font-family:var(--f-mono); font-size:10px; font-weight:500;
+  background:var(--s3); color:var(--ink3);
+  border:1px solid var(--line2);
+  padding:var(--sp1) var(--sp2); border-radius:var(--r-sm);
+  letter-spacing:.08em;
+}
+.theme-switch{margin-left:auto;display:flex;align-items:center;gap:var(--sp2)}
+.switch-track{
+  position:relative; width:40px; height:24px;
+  background:var(--s3); border:1px solid var(--line2);
+  border-radius:999px; cursor:pointer; flex-shrink:0;
+  transition:background .2s,border-color .2s;
+}
+.switch-track:hover{border-color:var(--acc-line)}
+.switch-thumb{
+  position:absolute; top:3px; left:3px; width:16px; height:16px;
+  background:var(--mut); border-radius:50%;
+  transition:transform .2s,background .2s; pointer-events:none;
+}
+[data-theme="light"] .switch-thumb{background:var(--acc);transform:translateX(16px)}
+.switch-label{font-family:var(--f-mono);font-size:11px;color:var(--lab);min-width:36px}
+
+/* ── Layout ──────────────────────────────────────────────────── */
+.wrap{max-width:1400px;margin:0 auto;padding:var(--sp6) var(--sp4) var(--sp8)}
+
+.top-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp3);margin-bottom:var(--sp3)}
+.field label{
+  display:block; font-family:var(--f-ui); font-size:11px; font-weight:600;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--lab);
+  margin-bottom:var(--sp1);
+}
+.field input,.field select,.field textarea{
+  width:100%; background:var(--s3); border:1px solid var(--line2);
+  color:var(--ink); border-radius:var(--r-md);
+  padding:var(--sp2) var(--sp3); font-size:14px; font-family:var(--f-ui);
+  outline:none; transition:border-color .12s,box-shadow .12s;
+}
+.field textarea{resize:vertical}
+.field input:focus,.field select:focus,.field textarea:focus,
+.bl-in:focus,.kv-in:focus,.rCal:focus,select:focus{
+  border-color:var(--acc); box-shadow:0 0 0 3px var(--acc-soft);
+}
+
+/* Progreso: neutro, no marca error */
+.progress{
+  font-family:var(--f-mono); font-size:11px; color:var(--ink3);
+  margin:var(--sp4) 0 var(--sp1); display:flex; justify-content:space-between;
+}
+.progress-bar{height:2px;background:var(--s3);border-radius:999px;margin-bottom:var(--sp4);overflow:hidden}
+.progress-fill{height:100%;background:var(--ink3);transition:width .2s}
+
+/* ── Cuadrantes · superficie s2 ──────────────────────────────── */
+.quadrants{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--sp4);align-items:start}
+.quad{
+  background:var(--s2); border:1px solid var(--line);
+  border-radius:var(--r-xl);
+  display:flex; flex-direction:column; min-width:0; overflow:hidden;
+}
+.quad-head{
+  display:flex; align-items:center; gap:var(--sp3);
+  padding:var(--sp3) var(--sp4); border-bottom:1px solid var(--line);
+}
+/* Letra del cuadrante: badge de estado, no acción */
+.quad-letter{
+  width:24px; height:24px; border-radius:var(--r-sm);
+  background:var(--s4); color:var(--ink2);
+  font-family:var(--f-display); font-size:14px; font-weight:600;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.quad-name{
+  font-family:var(--f-ui); font-size:11px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--lab); flex:1;
+}
+.quad-count{font-family:var(--f-mono);font-size:11px;color:var(--mut)}
+.quad-body{padding:var(--sp2);display:flex;flex-direction:column;gap:var(--sp2)}
+
+/* ── Pasos · tarjetas s3 ─────────────────────────────────────── */
+.step{
+  background:var(--s3); border:1px solid var(--line);
+  border-radius:var(--r-lg); overflow:hidden;
+  transition:border-color .15s;
+}
+.step:hover{border-color:var(--line2)}
+.step-head{
+  display:flex; align-items:center; gap:var(--sp3);
+  padding:var(--sp3); cursor:pointer; user-select:none;
+}
+.step-num{
+  width:22px; height:22px; border-radius:50%;
+  background:var(--s4); color:var(--ink3);
+  font-family:var(--f-mono); font-size:11px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.step.done .step-num{background:var(--ok-bg);color:var(--ok);border:1px solid var(--ok-line)}
+/* ACENTO ÚNICO: el paso activo es el ancla de la pantalla */
+.step.active{border-color:var(--acc-line);background:var(--s3)}
+.step.active .step-num{background:var(--acc);color:#fff}
+.step-title{font-family:var(--f-ui);font-size:14px;font-weight:500;flex:1;min-width:0}
+.step-body{display:none;padding:0 var(--sp4) var(--sp4)}
+.step.active .step-body{display:block}
+
+/* ── Pills: filtros que el usuario activa · radio 999 ────────── */
+.chip{
+  display:inline-block; padding:var(--sp1) var(--sp3);
+  margin:var(--sp1) var(--sp1) var(--sp1) 0;
+  border-radius:999px; border:1px solid var(--line2); background:var(--s4);
+  font-family:var(--f-ui); font-size:13px; color:var(--ink2);
+  cursor:pointer; line-height:1.4;
+  transition:background .12s,border-color .12s,color .12s;
+}
+.chip:hover{border-color:var(--acc-line);color:var(--ink)}
+.chip.on{background:var(--acc-soft);border-color:var(--acc-line);color:var(--ink)}
+.chip.mini{font-size:12px;padding:3px var(--sp2)}
+.chip.sind{font-weight:500}
+
+/* Segundo nivel del eje sindromático */
+.s-lvl1{padding-bottom:var(--sp1);border-bottom:1px solid var(--line);margin-bottom:var(--sp2)}
+.s-lvl2{
+  background:var(--s2); border:1px solid var(--line);
+  border-left:2px solid var(--acc-line);
+  border-radius:var(--r-md); padding:var(--sp2) var(--sp3); margin-bottom:var(--sp2);
+}
+.s-lvl2-h{
+  font-family:var(--f-ui); font-size:10px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--lab);
+  margin-bottom:var(--sp1);
+}
+.tax{font-style:normal;color:var(--acc-hov);text-transform:none;letter-spacing:0;font-weight:400}
+.grp{margin-bottom:var(--sp2)}
+.grp-l{
+  font-family:var(--f-ui); font-size:10px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--lab);
+  margin-bottom:var(--sp1);
+}
+
+/* Calificador */
+.cal-wrap{margin-top:var(--sp2)}
+.cal-toggle{
+  font-family:var(--f-mono); font-size:11px; color:var(--mut);
+  cursor:pointer; background:none; border:none; padding:0;
+}
+.cal-toggle:hover{color:var(--ink3)}
+.cal-input{display:none;margin-top:var(--sp2);min-height:40px}
+.cal-input.open{display:block}
+
+/* Entradas de captura */
+.bl-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--sp2);align-items:start;margin-bottom:var(--sp2)}
+.bl-in,.kv-in,.rCal,select{
+  background:var(--s4); border:1px solid var(--line2); color:var(--ink);
+  border-radius:var(--r-md); padding:var(--sp2) var(--sp3);
+  font-family:var(--f-ui); font-size:14px; width:100%;
+  outline:none; transition:border-color .12s,box-shadow .12s;
+}
+.bl-in{resize:vertical}
+.chip-cita{font-family:var(--f-mono);letter-spacing:.05em}
+.kv-form{display:flex;flex-wrap:wrap;gap:var(--sp2);margin-bottom:var(--sp2)}
+.kv-in{flex:1 1 120px;min-width:0}
+.riesgo-row{display:grid;grid-template-columns:136px 112px minmax(0,1fr);gap:var(--sp2);align-items:center;margin-bottom:var(--sp2)}
+
+/* Sustancias */
+.sus-grid{display:flex;flex-direction:column;gap:var(--sp1)}
+.sus-row{display:grid;grid-template-columns:100px repeat(3,minmax(0,1fr));gap:var(--sp1);align-items:center}
+.sus-row.act{background:var(--s4);border-radius:var(--r-md);padding:2px var(--sp1);margin:0 calc(var(--sp1) * -1)}
+.sus-n{font-family:var(--f-ui);font-size:13px;color:var(--ink2)}
+.sus-row select,.sus-row input{
+  background:var(--s3);border:1px solid var(--line2);color:var(--ink);
+  border-radius:var(--r-sm);padding:var(--sp1) var(--sp2);font-size:12px;width:100%;min-width:0;
+}
+.sus-off{min-width:0}
+
+/* Ranura obligatoria: visible vacía, sin marcar error */
+.oblig{margin-top:var(--sp2)}
+.ob-l{
+  font-family:var(--f-ui); font-size:10px; font-weight:600;
+  letter-spacing:.06em; text-transform:uppercase; color:var(--lab);
+  margin-bottom:var(--sp1);
+}
+.ob-l em{font-style:normal;color:var(--ink3);letter-spacing:0;font-weight:400;text-transform:none}
+.oblig.req{border-left:1px solid var(--line2);padding-left:var(--sp2)}
+.ants{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--sp2)}
+.ant-f{min-width:0}
+
+/* ── minicolumbia: escalera ──────────────────────────────────── */
+.mc-vent{
+  font-family:var(--f-mono); font-size:11px; letter-spacing:.04em; color:var(--lab);
+  background:var(--s2); border-radius:var(--r-md);
+  padding:var(--sp2) var(--sp3); margin-bottom:var(--sp2);
+}
+.mc-p{
+  background:var(--s4); border:1px solid var(--line2);
+  border-radius:var(--r-md); padding:var(--sp2) var(--sp3);
+  margin-bottom:var(--sp1); font-family:var(--f-ui); font-size:13px;
+  cursor:pointer; line-height:1.45; transition:background .12s,border-color .12s;
+}
+.mc-p:hover{border-color:var(--acc-line)}
+.mc-p.on{background:var(--acc-soft);border-color:var(--acc-line);color:var(--ink)}
+.mc-p b{font-family:var(--f-mono);font-size:11px;color:var(--mut);margin-right:var(--sp2);font-weight:500}
+.mc-p.on b{color:var(--acc-hov)}
+.mc-est{
+  display:flex; align-items:center; gap:var(--sp2); flex-wrap:wrap;
+  margin-top:var(--sp3); padding:var(--sp2) var(--sp3);
+  border:1px dashed var(--line2); border-radius:var(--r-md);
+}
+.mc-est.on{border-style:solid;border-color:var(--ok-line);background:var(--ok-bg)}
+.mc-est-l{font-family:var(--f-ui);font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--lab)}
+/* Métrica display: número grande en Playfair */
+.mc-est-v{font-family:var(--f-display);font-size:18px;font-weight:600;color:var(--ink);flex:1}
+.mc-asum{margin:0;font-size:12px;padding:3px var(--sp3)}
+.nota-min{font-family:var(--f-ui);font-size:12px;color:var(--mut);line-height:1.55;margin:var(--sp2) 0}
+.nota-min.warn{
+  color:var(--warn); background:var(--warn-bg);
+  border:1px solid var(--warn-line); border-left-width:2px;
+  border-radius:var(--r-sm); padding:var(--sp2) var(--sp3);
+}
+.req-in{border-color:var(--warn-line) !important}
+
+/* ── Receta ──────────────────────────────────────────────────── */
+.rx-import{margin-bottom:var(--sp3)}
+.rx-import-body{display:none;margin-top:var(--sp2)}
+.rx-import-body.open{display:block}
+.rx-form{display:flex;flex-direction:column;gap:var(--sp2);margin-bottom:var(--sp2)}
+.rx-top{display:grid;grid-template-columns:minmax(0,1fr) 72px 120px;gap:var(--sp2)}
+.rx-top input,.rx-pauta,.rx-bottom input{
+  background:var(--s4);border:1px solid var(--line2);color:var(--ink);
+  border-radius:var(--r-md);padding:var(--sp2) var(--sp3);
+  font-family:var(--f-ui);font-size:14px;width:100%;outline:none;
+}
+.rx-top input:focus,.rx-pauta:focus,.rx-bottom input:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.rx-modo{display:flex;gap:var(--sp1);flex-wrap:wrap}
+.rx-mode{font-size:12px;padding:3px var(--sp3);margin:0}
+.rx-sliders{
+  display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp3);
+  background:var(--s2);border:1px solid var(--line);
+  border-radius:var(--r-md);padding:var(--sp3);
+}
+.rx-slide{display:flex;flex-direction:column;gap:var(--sp1);min-width:0}
+.rx-slide label{font-family:var(--f-ui);font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--lab)}
+.rx-slide input[type=range]{width:100%;accent-color:var(--acc)}
+/* Dosis: rol mono */
+.rx-val{font-family:var(--f-mono);font-size:16px;font-weight:600;color:var(--ink);text-align:center}
+.rx-bottom{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--sp2);align-items:center}
+
+/* ── Botones · tres niveles ──────────────────────────────────── */
+.btn{
+  background:var(--s4); border:1px solid var(--line2); color:var(--ink2);
+  padding:var(--sp2) var(--sp3); border-radius:var(--r-md);
+  font-family:var(--f-ui); font-size:13px; font-weight:500;
+  transition:background .12s,border-color .12s,color .12s;
+}
+.btn:hover{border-color:var(--acc-line);color:var(--ink)}
+.btn.primary{background:var(--acc);color:#fff;border-color:var(--acc)}
+.btn.primary:hover{background:var(--acc-hov);border-color:var(--acc-hov)}
+.btn.small{padding:var(--sp1) var(--sp2);font-size:12px}
+.step-nav{display:flex;gap:var(--sp2);margin-top:var(--sp3);justify-content:flex-end}
+
+/* ── Nota clínica: Source Serif 4 italic, firma del sistema ──── */
+.list-min{
+  font-family:var(--f-read); font-style:italic;
+  font-size:14px; color:var(--ink2);
+  margin:var(--sp1) 0; line-height:1.55;
+}
+.list-min.sup{color:var(--warn)}
+.list-min .del{
+  font-family:var(--f-ui); font-style:normal; font-size:11px;
+  color:var(--mut); cursor:pointer; margin-left:var(--sp2);
+  transition:color .12s;
+}
+.list-min .del:hover{color:var(--err)}
+
+/* ── Panel de salida y de restauración ───────────────────────── */
+.preview{
+  margin-top:var(--sp4); background:var(--s2);
+  border:1px solid var(--line); border-radius:var(--r-xl); overflow:hidden;
+}
+.preview-head{display:flex;align-items:center;justify-content:space-between;padding:var(--sp3) var(--sp4);cursor:pointer}
+.preview-head span{
+  font-family:var(--f-ui); font-size:11px; font-weight:600;
+  letter-spacing:.08em; text-transform:uppercase; color:var(--lab);
+}
+.preview-body{display:none;padding:0 var(--sp4) var(--sp3)}
+.preview.open .preview-body{display:block}
+/* El crudo es dato de transporte: rol mono */
+.raw-box{
+  width:100%; min-height:280px;
+  background:var(--s0) !important; color:var(--ink) !important;
+  -webkit-text-fill-color:var(--ink);
+  border:1px solid var(--line2); border-radius:var(--r-md);
+  font-family:var(--f-mono); font-size:13px; line-height:1.7;
+  padding:var(--sp3) var(--sp4); resize:vertical;
+  white-space:pre; overflow:auto; outline:none;
+}
+.raw-box:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.copy-note{font-family:var(--f-mono);font-size:11px;color:var(--ok);align-self:center}
+.copy-note.err{color:var(--err)}
+.preview-actions{display:flex;gap:var(--sp2);padding:0 var(--sp4) var(--sp4)}
+#restaurar{margin-top:var(--sp4)}
+#restaurar .preview-body{padding-bottom:var(--sp2)}
+
+/* Scrollbar fino */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:999px}
+::-webkit-scrollbar-thumb:hover{background:var(--mut)}
+
+/* ── Responsive · punto de quiebre único 680px ───────────────── */
+@media (max-width:1080px){
+  .quadrants{grid-template-columns:minmax(0,1fr)}
+}
+@media (max-width:680px){
+  .wrap{padding:var(--sp4) var(--sp3) var(--sp8)}
+  .site-header{padding:var(--sp3) var(--sp4)}
+  .top-row{grid-template-columns:minmax(0,1fr)}
+  .riesgo-row{grid-template-columns:minmax(0,1fr);gap:var(--sp1)}
+  .rx-top{grid-template-columns:minmax(0,1fr)}
+  .rx-sliders{grid-template-columns:repeat(3,minmax(0,1fr));gap:var(--sp2);padding:var(--sp2)}
+  .sus-row{grid-template-columns:88px minmax(0,1fr)}
+  .sus-off{display:none}
+  .ants{grid-template-columns:minmax(0,1fr)}
+  .quad{border-radius:var(--r-lg)}
+}
+
+</style>
+</head>
+<body>
+
+<script>
+(function(){
+  var t = 'dark';
+  try { t = localStorage.getItem('rayen_theme') || 'dark'; } catch(e){}
+  document.documentElement.setAttribute('data-theme', t);
+})();
+</script>
+
+<header class="site-header">
+  <div class="logo">REGISTRO CHECKBOX ADC<span>C Registro clínico psiquiátrico por casillas, con calificador corto
+  adosado a cada eje, que produce texto plano pegable directamente
+  en la ficha./span></div>
+  <div class="theme-switch">
+    <span class="switch-label" id="themeLabel">oscuro</span>
+    <div class="switch-track" id="themeToggle" role="button" tabindex="0" title="Cambiar tema"><div class="switch-thumb"></div></div>
+  </div>
+  <div class="hdr-badge">SSO · COSAM</div>
+</header>
+
+<div class="wrap">
+  <div class="top-row">
+    <div class="field"><label>Tipo de atención</label>
+      <select id="tipoAtencion"><option value="ingreso">Ingreso / primera evaluación</option><option value="control">Control</option></select>
+    </div>
+    <div class="field"><label>Fecha</label><input type="date" id="fecha"></div>
+    <div class="field"><label>Profesional</label><input id="profesional" placeholder="Dr./Dra. ..."></div>
+  </div>
+  <div class="field"><label>Motivo de control</label><input id="motivoControl" placeholder="obligatorio, corto"></div>
+  <div class="field" style="margin-top:10px"><label>Eje del caso <span style="text-transform:none;letter-spacing:0;color:var(--ink-muted)">(opcional, una línea, se reescribe o se pega del encuentro anterior)</span></label><input id="ejeCaso" placeholder="de qué se trata este caso, en una línea"></div>
+
+  <div class="progress"><span id="progLabel">Paso 1</span><span id="progPct">0%</span></div>
+  <div class="progress-bar"><div class="progress-fill" id="progFill" style="width:0%"></div></div>
+
+  <div id="steps" class="quadrants"></div>
+
+  <div class="preview" id="restaurar">
+    <div class="preview-head" id="restaurarHead"><span>Continuar registro guardado</span><span id="restaurarToggle">▸</span></div>
+    <div class="preview-body">
+      <p class="nota-min">Pega acá el LZ Base64 o el texto crudo de una sesión anterior para retomar el registro donde quedó. Reemplaza todo lo que haya en pantalla. Desde texto crudo la recuperación es aproximada: el crudo no guarda los campos vacíos ni las posiciones de las filas clave-valor.</p>
+      <textarea id="restaurarBox" class="raw-box" style="min-height:90px;white-space:pre-wrap" spellcheck="false" placeholder="pegar el LZ Base64 o el texto crudo del registro anterior"></textarea>
+    </div>
+    <div class="preview-actions">
+      <button class="btn small" id="btnRestaurar">Restaurar</button>
+      <span class="copy-note" id="restaurarNota"></span>
+    </div>
+  </div>
+
+  <div class="preview open" id="preview">
+    <div class="preview-head" id="previewHead"><span>Registro crudo, sin generador</span><span id="previewToggle">▾</span></div>
+    <div class="preview-body"><textarea id="rawBox" class="raw-box" spellcheck="false" readonly>sin datos aún.</textarea></div>
+    <div class="preview-actions">
+      <button class="btn small primary" id="btnCopyRaw">Copiar crudo</button>
+      <button class="btn small" id="btnCopyLZ">Copiar LZ Base64</button>
+      <span class="copy-note" id="copyNote"></span>
+    </div>
+  </div>
+</div>
+
+<script type="application/json" id="catalogo">
+{
+ "version": "2026-08-31b",
+ "nota": "Catálogo del Registro Checkbox ADC. Editar solo este bloque para cambiar listas; el motor no lo conoce, solo lo recorre.",
+ "fuentes": {
+  "Vidal": "Mario Vidal C., Psiquiatría clínica en la unidad de corta estadía",
+  "operativo CIE-10": "adaptación operativa del proyecto, no Vidal",
+  "operativo": "listas administrativas y de agenda del proyecto",
+  "C-SSRS": "estructura del Columbia Suicide Severity Rating Scale (Posner). Etiquetas = descriptores de categoría, NUNCA el enunciado literal de los ítems; el módulo registra el resultado, no reemplaza la pregunta al paciente."
+ },
+ "sindromes": [
+  {
+   "id": "depresivo",
+   "n": "Depresivo",
+   "tax": "Vidal",
+   "m": [
+    "cambio afectivo displacentero (\"no era así antes\")",
+    "anhedonia, aislamiento improductivo",
+    "inhibición psíquica, cuesta decidir",
+    "baja autoestima, sentimiento de inutilidad",
+    "rumiación perseverativa (no egodistónica)",
+    "ideas de culpa / ruina / hipocondríacas",
+    "ideación suicida",
+    "futuro cerrado, pesimismo fatalista",
+    "vivencia de tiempo detenido",
+    "angustia enmascarada",
+    "somatización: cefalea en cintillo",
+    "somatización: constricción faríngea",
+    "somatización: opresión precordial",
+    "somatización: aleteo epigástrico",
+    "insomnio de conciliación",
+    "despertar precoz",
+    "anorexia, baja de peso",
+    "hipersomnia / hiperfagia (atípico)",
+    "disminución de libido"
+   ]
+  },
+  {
+   "id": "ansioso",
+   "n": "Ansioso",
+   "tax": "operativo CIE-10",
+   "m": [
+    "crisis de pánico",
+    "ansiedad anticipatoria",
+    "ansiedad generalizada",
+    "fobia social",
+    "fobia específica",
+    "agorafobia",
+    "somatización de la angustia (Vidal)"
+   ]
+  },
+  {
+   "id": "maniaco",
+   "n": "Maníaco",
+   "tax": "Vidal",
+   "m": [
+    "cambio afectivo expansivo (\"mejor que nunca\")",
+    "euforia, alegría ruidosa",
+    "irritabilidad",
+    "hedonismo, busca experiencias excitantes",
+    "facilitación, locuacidad excesiva",
+    "autoestima elevada, aires de superioridad",
+    "ideas deliroides de grandeza",
+    "ideas místico-religiosas (mesiánicas)",
+    "pasado recordado embellecido",
+    "hiperactividad / hipercinesia",
+    "transgresión de normas y pudor",
+    "insomnio sin fatigabilidad",
+    "derroche, regalos desmedidos"
+   ]
+  },
+  {
+   "id": "obsesivo",
+   "n": "Obsesivo-compulsivo",
+   "tax": "Vidal",
+   "m": [
+    "rumiación obsesiva (escrúpulos, dudas)",
+    "obsesión de validez",
+    "ideación obsesiva (impulsos no deseados)",
+    "fantasías obsesivas",
+    "recuerdos obsesivos torturantes",
+    "rituales (lavado, penitencia)",
+    "orden y simetría desproporcionados",
+    "aritmomanía",
+    "actos de verificación y comprobación",
+    "actos por contraste",
+    "egodistonía",
+    "resistencia interior"
+   ]
+  },
+  {
+   "id": "delirante",
+   "n": "Delirante",
+   "tax": "Vidal",
+   "m": [
+    "percepción delirante (primaria)",
+    "recuerdo delirante (primaria)",
+    "ocurrencia delirante (primaria)",
+    "idea deliroide (comprensible)",
+    "idea sobrevalorada",
+    "temática: persecución",
+    "temática: perjuicio",
+    "temática: pleitista / querulante",
+    "temática: autorreferencia sensitiva",
+    "temática: hipocondríaca",
+    "temática: celotipia",
+    "temática: erotomanía",
+    "congruente con el ánimo",
+    "incongruente con el ánimo"
+   ]
+  },
+  {
+   "id": "desorganizado",
+   "n": "Pensamiento desorganizado",
+   "tax": "Vidal",
+   "m": [
+    "refiere no poder pensar como antes",
+    "refiere bloqueos del pensamiento",
+    "refiere pérdida del hilo",
+    "soliloquios referidos por terceros",
+    "lenguaje incomprensible para el entorno"
+   ]
+  },
+  {
+   "id": "catatonico",
+   "n": "Catatónico",
+   "tax": "Vidal",
+   "m": [
+    "refiere no poder moverse",
+    "refiere actos que se interrumpen solos",
+    "entorno reporta mutismo",
+    "entorno reporta posturas sostenidas"
+   ]
+  },
+  {
+   "id": "influencia",
+   "n": "De influencia",
+   "tax": "Vidal",
+   "m": [
+    "actos psíquicos vividos como ajenos",
+    "robo del pensamiento",
+    "inserción del pensamiento",
+    "difusión del pensamiento",
+    "influencia corporal",
+    "actos impuestos",
+    "vivencia de escisión del yo",
+    "hiato en la continuidad vital"
+   ]
+  },
+  {
+   "id": "exoagudo",
+   "n": "Exógeno agudo",
+   "tax": "Vidal",
+   "m": [
+    "obnubilatorio (confusión mental simple)",
+    "delirioso (alucinaciones visuales, onírico)",
+    "amencial (fragmentación psíquica)",
+    "alucinósico (alucinaciones auditivas, conciencia lúcida)",
+    "asténico-hiperestésico (cansancio + irritabilidad explosiva)",
+    "fluctuación del nivel de alerta"
+   ]
+  },
+  {
+   "id": "exocronico",
+   "n": "Exógeno crónico",
+   "tax": "Vidal",
+   "m": [
+    "demencial (fallas mnésicas + otras cognitivas)",
+    "Korsakov",
+    "lóbulo frontal",
+    "lóbulo temporal",
+    "cambio de personalidad orgánico",
+    "curso de deterioro progresivo"
+   ]
+  },
+  {
+   "id": "misc",
+   "n": "Misceláneas",
+   "tax": "Vidal",
+   "nominal": true,
+   "m": [
+    "disociativo",
+    "conversivo (crisis pseudoepilépticas)",
+    "estado crepuscular patógeno",
+    "amnesia psicógena",
+    "fuga patógena",
+    "dromomanía",
+    "Ganser (respuestas aproximadas)",
+    "Cotard (ideas de negación)",
+    "Capgras (impostor)",
+    "Fregoli",
+    "Klüver-Bucy"
+   ]
+  }
+ ],
+ "examen": [
+  {
+   "id": "ex_conciencia",
+   "title": "Conciencia y orientación",
+   "groups": [
+    {
+     "k": "conciencia",
+     "l": "Conciencia",
+     "o": [
+      "lúcido",
+      "sopor leve (somnolencia)",
+      "sopor moderado (obtusión)",
+      "sopor intenso (precoma)",
+      "coma",
+      "fluctuante"
+     ]
+    },
+    {
+     "k": "orientacion",
+     "l": "Orientación",
+     "o": [
+      "orientado en las tres esferas",
+      "desorientación temporal",
+      "desorientación espacial",
+      "desorientación alopsíquica",
+      "desorientación autopsíquica"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex_present",
+   "title": "Presentación, actitud y psicomotricidad",
+   "groups": [
+    {
+     "k": "presentacion",
+     "l": "Presentación",
+     "o": [
+      "acorde",
+      "desaliñada",
+      "peculiar / extravagante",
+      "facies depresiva (omega, comisuras descendidas)",
+      "mirada viva, picaresca"
+     ]
+    },
+    {
+     "k": "actitud",
+     "l": "Actitud",
+     "o": [
+      "colaboradora",
+      "reticente",
+      "hostil",
+      "suspicaz",
+      "pueril",
+      "querellante"
+     ]
+    },
+    {
+     "k": "psicomot",
+     "l": "Psicomotricidad",
+     "o": [
+      "conservada",
+      "enlentecida",
+      "agitada",
+      "hipocinesia",
+      "acinesia",
+      "flexibilidad cérea",
+      "pseudoflexibilidad cérea",
+      "obediencia automática",
+      "ecopraxia",
+      "ecolalia",
+      "negativismo pasivo",
+      "negativismo activo",
+      "ambitendencia",
+      "estereotipias",
+      "extravagancias",
+      "intercepciones",
+      "mutismo",
+      "respuestas aproximadas"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex_animo",
+   "title": "Ánimo y afecto",
+   "groups": [
+    {
+     "k": "animo",
+     "l": "Ánimo",
+     "o": [
+      "eutímico",
+      "displacentero",
+      "expansivo",
+      "irritable",
+      "disfórico",
+      "angustiado",
+      "deprimido-expansivo (mixto)"
+     ]
+    },
+    {
+     "k": "afecto",
+     "l": "Afecto",
+     "o": [
+      "modulado",
+      "restringido",
+      "embotado",
+      "aplanado",
+      "lábil",
+      "incongruente",
+      "discordante"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex_pensamiento",
+   "title": "Pensamiento",
+   "groups": [
+    {
+     "k": "curso",
+     "l": "Curso (Andreasen)",
+     "o": [
+      "coherente",
+      "pobreza del discurso",
+      "pobreza del contenido",
+      "discurso a presión",
+      "discurso distraíble",
+      "tangencialidad",
+      "descarrilamiento",
+      "incoherencia",
+      "ilogicidad",
+      "clanging",
+      "neologismos",
+      "palabras aproximadas",
+      "circunstancialidad",
+      "pérdida de la meta",
+      "perseveración",
+      "ecolalia",
+      "bloqueo",
+      "discurso pesante",
+      "autorreferencia"
+     ]
+    },
+    {
+     "k": "contenido",
+     "l": "Contenido",
+     "o": [
+      "sin alteraciones",
+      "percepción delirante",
+      "recuerdo delirante",
+      "ocurrencia delirante",
+      "idea deliroide",
+      "idea sobrevalorada",
+      "idea obsesiva",
+      "rumiación perseverativa",
+      "ideación suicida"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex_senso",
+   "title": "Sensopercepción y yo",
+   "groups": [
+    {
+     "k": "senso",
+     "l": "Sensopercepción",
+     "o": [
+      "sin alteraciones",
+      "alucinación auditiva 2ª persona",
+      "alucinación auditiva 3ª persona",
+      "alucinación visual",
+      "alucinación cenestésica",
+      "ilusión",
+      "dismorfopsia",
+      "alucinosis"
+     ]
+    },
+    {
+     "k": "yo",
+     "l": "Yo (Vidal)",
+     "o": [
+      "sin alteraciones",
+      "conciencia del existir",
+      "unidad del yo (escisión)",
+      "mismidad (hiato vital)",
+      "límites yo/ambiente",
+      "actividad propia del yo",
+      "robo del pensamiento",
+      "inserción del pensamiento",
+      "difusión del pensamiento",
+      "influencia corporal",
+      "actos impuestos"
+     ]
+    }
+   ]
+  },
+  {
+   "id": "ex_cog",
+   "title": "Cognición, juicio y conciencia de enfermedad",
+   "groups": [
+    {
+     "k": "cognicion",
+     "l": "Cognición",
+     "o": [
+      "sin déficit aparente",
+      "atención comprometida",
+      "memoria corto plazo comprometida",
+      "memoria remota comprometida",
+      "fallas mnésicas"
+     ]
+    },
+    {
+     "k": "juicio",
+     "l": "Juicio de realidad",
+     "o": [
+      "conservado",
+      "comprometido"
+     ]
+    },
+    {
+     "k": "insight",
+     "l": "Conciencia de enfermedad",
+     "o": [
+      "conservada",
+      "parcial",
+      "ausente"
+     ]
+    }
+   ]
+  }
+ ],
+ "examenes_lab": {
+  "fuente": "operativo",
+  "items": [
+   "perfil bioquímico",
+   "hemograma",
+   "TSH",
+   "T4 libre",
+   "litemia",
+   "nivel plasmático",
+   "perfil lipídico",
+   "glicemia",
+   "HbA1c",
+   "VDRL",
+   "VIH",
+   "orina completa",
+   "ECG",
+   "TAC de cerebro",
+   "RM de cerebro",
+   "EEG"
+  ]
+ },
+ "derivaciones": {
+  "fuente": "operativo",
+  "items": [
+   "psicoterapia",
+   "terapia ocupacional",
+   "EDT",
+   "gestión de caso (social)",
+   "visita domiciliaria",
+   "derivación médica",
+   "psicodiagnóstico / neuropsicología",
+   "nutrición",
+   "hospital de día",
+   "UHCE",
+   "hospitalización clínica",
+   "contrarreferencia a APS"
+  ]
+ },
+ "tramos_seguimiento": {
+  "fuente": "operativo",
+  "items": [
+   "semanal",
+   "quincenal",
+   "15 días",
+   "21 días",
+   "30 días",
+   "mensual",
+   "60 días",
+   "90 días",
+   "otro"
+  ]
+ },
+ "sustancias": {
+  "fuente": "operativo",
+  "items": [
+   "alcohol",
+   "cannabis",
+   "cocaína",
+   "pasta base",
+   "benzodiacepinas",
+   "tabaco",
+   "inhalantes",
+   "otra"
+  ]
+ },
+ "patron_sustancia": {
+  "fuente": "operativo",
+  "items": [
+   "sin consumo",
+   "experimental",
+   "ocasional",
+   "fin de semana",
+   "diario",
+   "en abstinencia",
+   "suspendido"
+  ]
+ },
+ "problematizacion": {
+  "fuente": "operativo",
+  "items": [
+   "no problemático",
+   "problemático",
+   "en evaluación"
+  ]
+ },
+ "plan_seguridad": {
+  "fuente": "operativo",
+  "items": [
+   "no existe",
+   "vigente",
+   "requiere actualización"
+  ]
+ },
+ "delta": {
+  "fuente": "operativo",
+  "items": [
+   "mejoría",
+   "sin cambio",
+   "deterioro",
+   "fluctuante"
+  ]
+ },
+ "reposo": {
+  "fuente": "operativo",
+  "items": [
+   "no procede",
+   "inicio",
+   "prórroga",
+   "alta laboral"
+  ]
+ },
+ "plan_seguridad_acciones": {
+  "fuente": "operativo",
+  "items": [
+   "no procede",
+   "se elabora en sesión",
+   "se actualiza",
+   "se refuerza con acompañante",
+   "restricción de acceso a medios",
+   "contacto de urgencia entregado"
+  ]
+ },
+ "tramos_cie10": {
+  "fuente": "operativo",
+  "items": [
+   "F00-F09",
+   "F10-F19",
+   "F20-F29",
+   "F30-F39",
+   "F40-F48",
+   "F60-F69",
+   "F70-F79",
+   "F90-F98"
+  ]
+ },
+ "estructura": {
+  "fuente": "operativo",
+  "items": [
+   "neurótica",
+   "limítrofe alta",
+   "limítrofe baja",
+   "psicótica",
+   "no evaluada"
+  ]
+ },
+ "ganancia": {
+  "fuente": "operativo",
+  "items": [
+   "sí",
+   "no",
+   "no evaluada"
+  ]
+ },
+ "hallazgos": {
+  "fuente": "operativo",
+  "items": [
+   "adherente",
+   "parcial",
+   "abandono",
+   "rechazo",
+   "RAM extrapiramidal",
+   "RAM metabólica",
+   "RAM otra",
+   "sin RAM"
+  ]
+ },
+ "campos_datos_generales": {
+  "fuente": "operativo",
+  "items": [
+   "edad",
+   "ocupación",
+   "escolaridad",
+   "hogar",
+   "antec. médicos",
+   "alergias"
+  ]
+ },
+ "campos_vinculos": {
+  "fuente": "operativo",
+  "items": [
+   "nombre",
+   "edad",
+   "rol",
+   "vínculo"
+  ]
+ },
+ "ejes_riesgo": {
+  "fuente": "operativo",
+  "items": [
+   "suicida",
+   "heteroagresivo",
+   "abandono terapéutico"
+  ]
+ },
+ "modos_rx": {
+  "fuente": "operativo",
+  "items": [
+   {
+    "id": "mtn",
+    "label": "esquema M-T-N"
+   },
+   {
+    "id": "deposito",
+    "label": "depósito"
+   },
+   {
+    "id": "sos",
+    "label": "SOS"
+   }
+  ]
+ },
+ "acciones_rx": {
+  "fuente": "operativo",
+  "items": [
+   "inicio",
+   "mantención",
+   "ajuste",
+   "suspensión"
+  ]
+ },
+ "tramos_rx": {
+  "fuente": "operativo",
+  "items": [
+   "mañana",
+   "tarde",
+   "noche"
+  ]
+ },
+ "minicolumbia": {
+  "fuente": "C-SSRS",
+  "nombre_salida": "minicolumbia (C-SSRS)",
+  "restriccion": "Las etiquetas no se reemplazan por el texto literal del instrumento aunque se disponga de la versión validada.",
+  "ventana_ideacion": {
+   "ingreso": "últimos 30 días",
+   "control": "desde el control previo"
+  },
+  "ventana_conducta": "vida entera, con corte de tres meses preguntado al paciente",
+  "escalera": [
+   {
+    "n": 0,
+    "label": "ausente"
+   },
+   {
+    "n": 1,
+    "label": "deseo de muerte o de no despertar, sin ideación de matarse"
+   },
+   {
+    "n": 2,
+    "label": "ideación activa inespecífica, sin método considerado"
+   },
+   {
+    "n": 3,
+    "label": "método considerado, sin intención"
+   },
+   {
+    "n": 4,
+    "label": "ideación con intención de actuar, sin plan elaborado"
+   },
+   {
+    "n": 5,
+    "label": "plan elaborado, con intención de llevarlo a cabo"
+   }
+  ],
+  "gate": 2,
+  "calificador_obligatorio_desde": 3,
+  "conducta": {
+   "label": "conducta suicida (intento, interrumpido, abortado o actos preparatorios)",
+   "opciones": [
+    "no",
+    "sí"
+   ],
+   "corte": {
+    "pregunta": "¿dentro de los últimos tres meses?",
+    "opciones": [
+     "sí",
+     "no"
+    ]
+   }
+  },
+  "plan_seguridad": [
+   "no existe",
+   "vigente",
+   "requiere actualización"
+  ],
+  "estratificacion": {
+   "nota": "Campo derivado propuesto. Se calcula y se muestra; el clínico decide si lo asume. No asumida no se imprime.",
+   "reglas": [
+    {
+     "si": "conducta_si y corte_3m_si",
+     "nivel": "alto"
+    },
+    {
+     "si": "peldano>=4",
+     "nivel": "alto"
+    },
+    {
+     "si": "conducta_si y corte_3m_no",
+     "nivel": "moderado"
+    },
+    {
+     "si": "peldano==3",
+     "nivel": "moderado"
+    },
+    {
+     "si": "conducta_si y corte_sin_responder",
+     "nivel": "indeterminada"
+    },
+    {
+     "si": "peldano<=2 y conducta_no",
+     "nivel": "bajo"
+    },
+    {
+     "si": "peldano==0 y conducta_no",
+     "nivel": "sin ideación ni conducta pesquisada"
+    }
+   ]
+  }
+ },
+ "antecedentes_suicidales": {
+  "fuente": "operativo",
+  "campos": [
+   {
+    "k": "ultimo_acto",
+    "l": "año último acto suicida",
+    "tipo": "anio"
+   },
+   {
+    "k": "ultima_autolesion",
+    "l": "año última autolesión no suicida",
+    "tipo": "anio"
+   },
+   {
+    "k": "n_intentos",
+    "l": "número de intentos",
+    "tipo": "texto"
+   },
+   {
+    "k": "metodo",
+    "l": "método de mayor letalidad",
+    "tipo": "texto"
+   },
+   {
+    "k": "hosp",
+    "l": "hospitalizaciones por causa suicida",
+    "tipo": "texto"
+   }
+  ]
+ }
+}
+</script>
+
+<script>
+/* ══════════════════════════════════════════════════════════════
+   CATÁLOGO — se lee del bloque JSON embebido más arriba
+   (id="catalogo"). No usa fetch: bajo file:// el navegador
+   bloquea la carga de JSON externo por CORS, igual que bloquea
+   el CDN de LZString. Embebido funciona en file:// y en Pages.
+   Para cambiar una lista se edita ese bloque, no este archivo.
+   ══════════════════════════════════════════════════════════════ */
+var CAT = (function(){
+  try {
+    return JSON.parse(document.getElementById('catalogo').textContent);
+  } catch(e) {
+    alert('Catálogo inválido: ' + e.message);
+    throw e;
+  }
+})();
+
+var SINDROMES     = CAT.sindromes;
+var EXAMEN        = CAT.examen;
+var EXAMENES_LAB  = CAT.examenes_lab.items;
+var DERIVACIONES  = CAT.derivaciones.items;
+var TRAMOS_SEG    = CAT.tramos_seguimiento.items;
+var SUSTANCIAS    = CAT.sustancias.items;
+var PATRON_SUS    = CAT.patron_sustancia.items;
+var PROBLEMATIZA  = CAT.problematizacion.items;
+var PLAN_SEG      = CAT.plan_seguridad.items;
+var DELTA         = CAT.delta.items;
+var REPOSO        = CAT.reposo.items;var MC   = CAT.minicolumbia;
+var ANTS = CAT.antecedentes_suicidales;
+
+</script>
+<script>
+var state = { S:{}, O:{}, A:{}, P:{} };
+var rxImportAbierto = false;
+var rxPropuesta = null;
+var stepIndex = 0;
+
+/* ── S ramificado ────────────────────────────────────────────── */
+function stepsIngreso(){
+  return [
+    {id:'datos', title:'Datos generales', type:'kv', fields:CAT.campos_datos_generales.items},
+    {id:'motivo', title:'Motivo de consulta (relato)', type:'bullets', block:'motivo', cita:true, largo:true},
+    {id:'manif', title:'Manifestaciones / vivencias', type:'bullets', block:'manif', cita:true, largo:true},
+    {id:'sindrom', title:'Sindromático (Vidal)', type:'sindrom', block:'sindrom'},
+    {id:'sustancias', title:'Uso de sustancias', type:'sustancias', block:'sustancias'},
+    {id:'antsuic', title:'Antecedentes suicidales', type:'antsuic', block:'antsuic'},
+    {id:'columbia', title:'minicolumbia (C-SSRS)', type:'columbia', block:'columbia'},
+    {id:'vinculos', title:'Relaciones vinculares', type:'kv', fields:CAT.campos_vinculos.items},
+    {id:'remotos', title:'Eventos remotos significativos', type:'anio-evento', block:'remotos'}
+  ];
+}
+function stepsControl(){
+  return [
+    {id:'delta', title:'Delta del período', type:'delta', block:'delta'},
+    {id:'hitosperiodo', title:'Hitos del período', type:'bullets', block:'hitosperiodo'},
+    {id:'hallazgos', title:'Hallazgos puntuales (adherencia, RAM)', type:'chips', block:'hallazgos', opts:CAT.hallazgos.items},
+    {id:'crisis', title:'Cambio sindromático / crisis', type:'sindrom', block:'crisis', libre:true},
+    {id:'vinculoscontrol', title:'Cambios vinculares', type:'bullets', block:'vinculoscontrol'},
+    {id:'sustanciascontrol', title:'Consumo de sustancias', type:'sustancias', block:'sustanciascontrol'},
+    {id:'antsuiccontrol', title:'Antecedentes suicidales', type:'antsuic', block:'antsuiccontrol'},
+    {id:'columbiacontrol', title:'minicolumbia (C-SSRS)', type:'columbia', block:'columbiacontrol'},
+    {id:'notas', title:'Notas extra', type:'texto', block:'notas'}
+  ];
+}
+
+/* ── O: examen mental agrupado + exámenes ────────────────────── */
+function stepsO(){
+  var s = EXAMEN.map(function(e){ return {id:e.id, title:e.title, type:'groups', groups:e.groups, block:e.id}; });
+  s.push({id:'labs', title:'Exámenes', type:'lab', block:'labs'});
+  return s;
+}
+
+var stepsA = [
+  {id:'diagnostico', title:'Diagnóstico CIE-10 (tramo REM)', type:'chips', block:'diagnostico', opts:CAT.tramos_cie10.items},
+  {id:'estructura', title:'Hipótesis estructural', type:'chips', block:'estructura', opts:CAT.estructura.items},
+  {id:'ganancia', title:'Ganancia secundaria', type:'chips', block:'ganancia', opts:CAT.ganancia.items},
+  {id:'riesgo', title:'Riesgo, tres ejes', type:'riesgo'}
+];
+
+var stepsP = [
+  {id:'farmaco', title:'Farmacológico', type:'frag-plan', block:'farmaco'},
+  {id:'derivacion', title:'Derivaciones e ingresos', type:'chips', block:'derivacion', opts:DERIVACIONES},
+  {id:'seguridad', title:'Plan de seguridad', type:'chips', block:'seguridad', opts:CAT.plan_seguridad_acciones.items},
+  {id:'reposo', title:'Reposo laboral', type:'reposo', block:'reposo'},
+  {id:'seguimiento', title:'Seguimiento', type:'tramo', block:'seguimiento'}
+];
+
+function quadrants(){
+  var s = state.tipoAtencion === 'control' ? stepsControl() : stepsIngreso();
+  return [
+    {letter:'S', name:'Subjetivo', steps:s},
+    {letter:'O', name:'Objetivo', steps:stepsO()},
+    {letter:'A', name:'Análisis', steps:stepsA},
+    {letter:'P', name:'Plan', steps:stepsP}
+  ];
+}
+function allSteps(){
+  return quadrants().reduce(function(acc,q){ return acc.concat(q.steps); }, []);
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   minicolumbia — puntuación de instrumento.
+   EXCEPCIÓN nominada a "ningún campo se infiere": esto es
+   puntuación determinista y auditable de un instrumento, no
+   inferencia clínica. Además es PROPUESTA: se muestra y el
+   clínico decide si la asume. No asumida no se imprime.
+   ══════════════════════════════════════════════════════════════ */
+function hayPositivo(cb){
+  if(!cb) return false;
+  return (cb.peldano > 0) || cb.conducta === 'sí';
+}
+function mcAplicada(cb){
+  return !!cb && (cb.peldano !== undefined || cb.conducta !== undefined);
+}
+function estratificar(cb){
+  if(!mcAplicada(cb)) return '';
+  var p = (cb.peldano === undefined) ? null : cb.peldano;
+  if(cb.conducta === 'sí'){
+    if(cb.corte === 'sí') return 'alto';
+    if(cb.corte === 'no') return 'moderado';
+    return 'indeterminada';
+  }
+  if(p === null) return '';
+  if(p >= 4) return 'alto';
+  if(p === 3) return 'moderado';
+  if(p === 0 && cb.conducta === 'no') return 'sin ideación ni conducta pesquisada';
+  if(p <= 2) return 'bajo';
+  return '';
+}
+/* Bloque de minicolumbia del encuentro actual, según tipo de atención */
+function mcActual(){
+  return state[state.tipoAtencion === 'control' ? 'columbiacontrol' : 'columbia'];
+}
+function antsActuales(){
+  return state[state.tipoAtencion === 'control' ? 'antsuiccontrol' : 'antsuic'];
+}
+/* Orden de niveles para comparar juicio de A contra instrumento */
+var NIVEL_ORD = {'bajo':1,'moderado':2,'alto':3};
+
+/* Regla de divergencia: A puede elevar sobre el instrumento sin justificar;
+   situarlo por debajo exige nombrar el factor modulador. La herramienta no
+   bloquea la divergencia silenciosa, la hace audible. */
+function divergencia(nivelA){
+  var est = estratificar(mcActual());
+  if(!nivelA || !NIVEL_ORD[est] || !NIVEL_ORD[nivelA]) return '';
+  if(NIVEL_ORD[nivelA] < NIVEL_ORD[est]) return 'abajo';
+  if(NIVEL_ORD[nivelA] > NIVEL_ORD[est]) return 'arriba';
+  return '';
+}
+
+function isDone(st){
+  var d = state[st.block] || (st.fields && state[st.id]);
+  if(!d) return false;
+  if(Array.isArray(d)) return d.length > 0;
+  if(st.type === 'chips') return d.valor && d.valor.length > 0;
+  if(st.type === 'sindrom') return d.sind && d.sind.length > 0;
+  if(st.type === 'groups') return Object.keys(d).some(function(k){ return d[k] && d[k].length; });
+  if(st.type === 'tramo') return !!d.plazo;
+  if(st.type === 'sustancias') return Object.keys(d).length > 0;
+  if(st.type === 'columbia') return mcAplicada(d);
+  if(st.type === 'antsuic') return Object.keys(d).some(function(k){ return d[k]; });
+  if(st.type === 'delta' || st.type === 'reposo') return !!d.v;
+  return Object.keys(d).length > 0;
+}
+
+/* ── Render ──────────────────────────────────────────────────── */
+function render(){
+  var quads = quadrants();
+  var steps = allSteps();
+  var cont = document.getElementById('steps');
+  cont.innerHTML = '';
+  var gi = 0;
+
+  quads.forEach(function(q){
+    var qEl = document.createElement('section');
+    qEl.className = 'quad';
+    var done = q.steps.filter(isDone).length;
+    qEl.innerHTML =
+      '<div class="quad-head"><span class="quad-letter">'+q.letter+'</span>'+
+      '<span class="quad-name">'+q.name+'</span>'+
+      '<span class="quad-count">'+done+'/'+q.steps.length+'</span></div>'+
+      '<div class="quad-body"></div>';
+    var qb = qEl.querySelector('.quad-body');
+
+    q.steps.forEach(function(st){
+      var i = gi++;
+      var el = document.createElement('div');
+      el.className = 'step' + (i === stepIndex ? ' active' : (isDone(st) ? ' done' : ''));
+      el.innerHTML =
+        '<div class="step-head"><span class="step-num">'+(i+1)+'</span>'+
+        '<span class="step-title">'+st.title+'</span></div><div class="step-body"></div>';
+      el.querySelector('.step-head').addEventListener('click', function(){ stepIndex = i; render(); });
+      qb.appendChild(el);
+      if(i === stepIndex) renderBody(el.querySelector('.step-body'), st, i, steps.length);
+    });
+    cont.appendChild(qEl);
+  });
+
+  var pct = Math.round(((stepIndex+1)/steps.length)*100);
+  document.getElementById('progLabel').textContent = 'Paso '+(stepIndex+1)+' de '+steps.length;
+  document.getElementById('progPct').textContent = pct+'%';
+  document.getElementById('progFill').style.width = pct+'%';
+  renderPreview();
+}
+
+function chipsHTML(opts, sel){
+  return opts.map(function(o){
+    return '<span class="chip'+(sel.indexOf(o)>-1?' on':'')+'" data-opt="'+o+'">'+o+'</span>';
+  }).join('');
+}
+function calHTML(val){
+  return '<div class="cal-wrap"><button class="cal-toggle" id="calT">+ calificador</button>'+
+    '<textarea class="field cal-input'+(val?' open':'')+'" id="calI" placeholder="matiz fenomenológico">'+(val||'')+'</textarea></div>';
+}
+
+function renderBody(body, st, i, total){
+  var h = '';
+
+  if(st.type === 'chips'){
+    var d = state[st.block] || {valor:[], calificador:''};
+    h += '<div>'+chipsHTML(st.opts, d.valor)+'</div>'+calHTML(d.calificador);
+
+  } else if(st.type === 'sindrom'){
+    var sd = state[st.block] || {sind:[], manif:{}, calificador:'', libre:[]};
+    h += '<div class="s-lvl1">'+SINDROMES.map(function(s){
+      return '<span class="chip sind'+(sd.sind.indexOf(s.id)>-1?' on':'')+'" data-sind="'+s.id+'">'+s.n+'</span>';
+    }).join('')+'</div>';
+    sd.sind.forEach(function(id){
+      var s = SINDROMES.filter(function(x){return x.id===id;})[0];
+      var sel = sd.manif[id] || [];
+      h += '<div class="s-lvl2"><div class="s-lvl2-h">'+s.n+
+        (s.tax !== 'Vidal' ? ' <em class="tax">'+s.tax+'</em>' : '')+'</div>'+
+        '<div data-mfor="'+id+'">'+sel.map(function(){return '';}).join('')+
+        s.m.map(function(m){
+          return '<span class="chip mini'+(sel.indexOf(m)>-1?' on':'')+'" data-m="'+m+'" data-sid="'+id+'">'+m+'</span>';
+        }).join('')+'</div></div>';
+    });
+    if(st.libre){
+      h += '<div class="bl-row"><textarea id="blI" class="bl-in" rows="1" placeholder="descripción libre del viraje"></textarea>'+
+        '<button class="btn small" id="blAdd">+</button></div><div id="blList"></div>';
+    }
+    h += calHTML(sd.calificador);
+
+  } else if(st.type === 'groups'){
+    var g = state[st.block] || {};
+    st.groups.forEach(function(gr){
+      h += '<div class="grp"><div class="grp-l">'+gr.l+'</div><div data-gk="'+gr.k+'">'+
+        chipsHTML(gr.o, g[gr.k] || [])+'</div></div>';
+    });
+    h += calHTML(state[st.block+'_cal']);
+
+  } else if(st.type === 'bullets'){
+    h += '<div class="bl-row"><textarea id="blI" class="bl-in" rows="'+(st.largo?2:1)+'" placeholder="'+
+      (st.largo?'una línea por hecho del relato':'línea corta')+'"></textarea>'+
+      (st.cita?'<button class="btn small chip-cita" id="blCita" title="marcar como cita textual">" "</button>':'')+
+      '<button class="btn small primary" id="blAdd">+</button></div><div id="blList"></div>';
+
+  } else if(st.type === 'anio-evento'){
+    h += '<div class="bl-row" style="grid-template-columns:80px 1fr auto"><input id="aeY" class="bl-in" inputmode="numeric" maxlength="4" placeholder="año">'+
+      '<input id="aeE" class="bl-in" placeholder="evento"><button class="btn small primary" id="aeAdd">+</button></div><div id="aeList"></div>';
+
+  } else if(st.type === 'kv'){
+    h += '<div class="kv-form">'+st.fields.map(function(f){
+      return '<input class="kv-in" data-f="'+f+'" placeholder="'+f+'">';
+    }).join('')+'<button class="btn small primary" id="kvAdd">+</button></div><div id="kvList"></div>';
+
+  } else if(st.type === 'lab'){
+    h += '<div class="bl-row" style="grid-template-columns:1fr 110px auto">'+
+      '<select id="labN"><option value="">examen…</option>'+
+      EXAMENES_LAB.map(function(e){return '<option>'+e+'</option>';}).join('')+
+      '<option>otro</option></select>'+
+      '<input id="labV" class="bl-in" placeholder="valor"><button class="btn small primary" id="labAdd">+</button></div>'+
+      '<div id="labList"></div>'+
+      '<div style="margin-top:6px"><span class="chip'+(state.labsNormal?' on':'')+'" id="labOk">exámenes en rango normal</span></div>';
+
+  } else if(st.type === 'sustancias'){
+    var su = state[st.block] || {};
+    h += '<div class="sus-grid">'+SUSTANCIAS.map(function(s){
+      var r = su[s] || {};
+      var act = r.patron && r.patron !== 'sin consumo';
+      return '<div class="sus-row'+(act?' act':'')+'">'+
+        '<span class="sus-n">'+s+'</span>'+
+        '<select class="susP" data-s="'+s+'"><option value="">sin registro</option>'+
+          PATRON_SUS.map(function(p){return '<option'+(r.patron===p?' selected':'')+'>'+p+'</option>';}).join('')+
+        '</select>'+
+        (act ? '<input class="susF" data-s="'+s+'" placeholder="fecha de cambio" value="'+(r.fecha||'')+'">'+
+               '<select class="susX" data-s="'+s+'">'+
+                 PROBLEMATIZA.map(function(p){return '<option'+(r.problem===p?' selected':'')+'>'+p+'</option>';}).join('')+
+               '</select>'
+             : '<span class="sus-off"></span><span class="sus-off"></span>')+
+      '</div>';
+    }).join('')+'</div>'+calHTML(state[st.block+'_cal']);
+
+  } else if(st.type === 'antsuic'){
+    var an = state[st.block] || {};
+    h += '<div class="ants">'+ANTS.campos.map(function(f){
+      return '<div class="ant-f"><div class="ob-l">'+f.l+'</div>'+
+        '<input class="antI bl-in" data-k="'+f.k+'"'+(f.tipo==='anio'?' inputmode="numeric" maxlength="4"':'')+
+        ' placeholder="'+(f.tipo==='anio'?'año':'—')+'" value="'+(an[f.k]||'')+'"></div>';
+    }).join('')+'</div>'+
+    '<div class="nota-min">Vida entera, factual. Se llena en ingreso; en control solo si hubo evento nuevo. No condiciona la aplicación de la minicolumbia.</div>'+
+    calHTML(an.calificador);
+
+  } else if(st.type === 'columbia'){
+    var cb = state[st.block] || {};
+    var vent = (state.tipoAtencion === 'control') ? MC.ventana_ideacion.control : MC.ventana_ideacion.ingreso;
+    var est = estratificar(cb);
+
+    h += '<div class="mc-vent">ventana ideación: '+vent+' · conducta: vida entera</div>';
+
+    // Bloque 1 — escalera, selección única, con gating en el peldaño MC.gate
+    h += '<div class="grp"><div class="grp-l">ideación · peldaño más alto positivo</div>';
+    MC.escalera.forEach(function(p){
+      if(p.n > MC.gate && !(cb.peldano >= MC.gate)) return; // gating: 3-5 ocultos hasta que 2 sea positivo
+      h += '<div class="mc-p'+(cb.peldano===p.n?' on':'')+'" data-p="'+p.n+'"><b>'+p.n+'</b> '+p.label+'</div>';
+    });
+    h += '</div>';
+    if(cb.peldano !== undefined && cb.peldano < MC.gate)
+      h += '<div class="nota-min">Peldaño '+MC.gate+' negativo: bloque de ideación cerrado.</div>';
+
+    if(cb.peldano !== undefined && cb.peldano > 0){
+      var oblig = cb.peldano >= MC.calificador_obligatorio_desde;
+      h += '<div class="oblig'+(oblig?' req':'')+'"><div class="ob-l">contenido que estratifica'+
+        (oblig?' <em>obligatorio</em>':'')+'</div>'+
+        '<input id="mcCal" class="bl-in" placeholder="'+
+        (oblig?'método nombrado, disponibilidad de medios, temporalidad':'contenido de la ideación, opcional')+
+        '" value="'+(cb.cal||'')+'"></div>';
+    }
+
+    // Bloque 2 — conducta, eje separado, con el corte de tres meses preguntado
+    h += '<div class="grp"><div class="grp-l">'+MC.conducta.label+'</div><div>'+
+      MC.conducta.opciones.map(function(o){
+        return '<span class="chip'+(cb.conducta===o?' on':'')+'" data-cond="'+o+'">'+o+'</span>';
+      }).join('')+'</div></div>';
+    if(cb.conducta === 'sí'){
+      h += '<div class="oblig req"><div class="ob-l">'+MC.conducta.corte.pregunta+' <em>obligatorio</em></div><div>'+
+        MC.conducta.corte.opciones.map(function(o){
+          return '<span class="chip'+(cb.corte===o?' on':'')+'" data-corte="'+o+'">'+o+'</span>';
+        }).join('')+'</div></div>'+
+        '<div class="oblig"><div class="ob-l">subtipo y contexto</div>'+
+        '<input id="mcCond" class="bl-in" placeholder="intento / interrumpido / abortado / preparatorios" value="'+(cb.condCal||'')+'"></div>';
+    }
+
+    // Bloque 4 — plan de seguridad, obligatorio si hay cualquier positivo
+    if(hayPositivo(cb))
+      h += '<div class="oblig req"><div class="ob-l">plan de seguridad <em>obligatorio</em></div><div>'+
+        MC.plan_seguridad.map(function(p){
+          return '<span class="chip'+(cb.plan===p?' on':'')+'" data-plan="'+p+'">'+p+'</span>';
+        }).join('')+'</div></div>';
+
+    // Estratificación: derivada, propuesta, el clínico decide si la asume
+    if(est){
+      h += '<div class="mc-est'+(cb.asumida?' on':'')+'">'+
+        '<span class="mc-est-l">estratificación instrumento</span>'+
+        '<span class="mc-est-v">'+est+'</span>'+
+        '<span class="chip mc-asum'+(cb.asumida?' on':'')+'" id="mcAsum">'+(cb.asumida?'✓ asumida':'asumir')+'</span></div>'+
+        '<div class="nota-min">Campo derivado del instrumento. Si no se asume, no se imprime en el registro.</div>';
+    }
+
+  } else if(st.type === 'delta'){
+    var dl = state[st.block] || {};
+    h += '<div>'+DELTA.map(function(x){
+      return '<span class="chip'+(dl.v===x?' on':'')+'" data-delta="'+x+'">'+x+'</span>';
+    }).join('')+'</div>'+
+    '<div class="oblig req"><div class="ob-l">respecto de qué <em>obligatorio</em></div>'+
+    '<input id="dlCal" class="bl-in" placeholder="veredicto en una línea; los hechos van en hitos" value="'+(dl.cal||'')+'"></div>';
+
+  } else if(st.type === 'reposo'){
+    var rp = state[st.block] || {};
+    h += '<div>'+REPOSO.map(function(x){
+      return '<span class="chip'+(rp.v===x?' on':'')+'" data-reposo="'+x+'">'+x+'</span>';
+    }).join('')+'</div>'+
+    (rp.v && rp.v !== 'no procede'
+      ? '<div class="oblig req"><div class="ob-l">días e indicación <em>obligatorio</em></div>'+
+        '<input id="rpDias" class="bl-in" placeholder="ej. 15 días, reposo total" value="'+(rp.dias||'')+'"></div>'
+      : '');
+
+  } else if(st.type === 'texto'){
+    h += '<textarea class="field" id="txtI" rows="3" placeholder="texto libre corto">'+(state[st.block]||'')+'</textarea>';
+
+  } else if(st.type === 'riesgo'){
+    var estMC = estratificar(mcActual());
+    CAT.ejes_riesgo.items.forEach(function(eje){
+      var d = (state.riesgo && state.riesgo[eje]) || {};
+      var div = (eje === 'suicida') ? divergencia(d.nivel) : '';
+      h += '<div class="riesgo-row"><span>'+eje+'</span>'+
+        '<select data-eje="'+eje+'" class="rNivel"><option value="">nivel</option>'+
+        ['bajo','moderado','alto'].map(function(n){return '<option'+(d.nivel===n?' selected':'')+'>'+n+'</option>';}).join('')+
+        '</select><input data-eje="'+eje+'" class="rCal'+(div==='abajo'?' req-in':'')+
+        '" placeholder="'+(div==='abajo'?'factor modulador, obligatorio':'calificador, obligatorio')+
+        '" value="'+(d.calificador||'')+'"></div>';
+      if(eje === 'suicida' && div === 'abajo')
+        h += '<div class="nota-min warn">Riesgo bajo la estratificación del instrumento ('+estMC+'). '+
+             'Bajar exige nombrar el factor modulador en la misma línea; subir no requiere justificación.</div>';
+    });
+
+  } else if(st.type === 'tramo'){
+    var t = state[st.block] || {};
+    h += '<div>'+TRAMOS_SEG.map(function(x){
+      return '<span class="chip'+(t.plazo===x?' on':'')+'" data-tramo="'+x+'">'+x+'</span>';
+    }).join('')+'</div>'+
+    '<input id="segOtro" class="bl-in" style="margin-top:8px;display:'+(t.plazo==='otro'?'block':'none')+'" placeholder="especificar plazo" value="'+(t.otro||'')+'">'+
+    '<div class="cal-wrap"><button class="cal-toggle" id="calT">+ criterio de anticipación</button>'+
+    '<textarea class="field cal-input'+(t.calificador?' open':'')+'" id="calI" placeholder="ej. consultar antes si reaparece ideación">'+(t.calificador||'')+'</textarea></div>';
+
+  } else if(st.type === 'frag-plan'){
+    h += '<div class="rx-import">'+
+      '<button class="cal-toggle" id="rxImpT">+ pegar esquema de Rayen</button>'+
+      '<div class="rx-import-body'+(rxImportAbierto?' open':'')+'" id="rxImpBody">'+
+        '<textarea id="rxImpIn" class="bl-in" rows="3" placeholder="pegar el esquema tal como viene de Rayen, receta o interconsulta"></textarea>'+
+        '<button class="btn small" id="rxImpBtn" style="margin-top:6px">Interpretar</button>'+
+        '<div id="rxImpPrev"></div>'+
+      '</div></div>'+
+      '<div class="rx-form">'+
+      '<div class="rx-top"><input id="pFarm" placeholder="fármaco"><input id="pConc" placeholder="mg">'+
+      '<select id="pAccion">'+CAT.acciones_rx.items.map(function(x){return '<option>'+x+'</option>';}).join('')+'</select></div>'+
+      '<div class="rx-modo">'+CAT.modos_rx.items.map(function(m,mi){
+        return '<span class="chip rx-mode'+(mi===0?' on':'')+'" data-modo="'+m.id+'">'+m.label+'</span>';
+      }).join('')+'</div>'+
+      '<div class="rx-sliders" id="rxSliders">'+
+      CAT.tramos_rx.items.map(function(m,ix){
+        return '<div class="rx-slide"><label>'+m+'</label><input type="range" min="0" max="4" step="0.5" value="0" data-t="'+ix+'" class="rxR"><output class="rx-val" data-t="'+ix+'">0</output></div>';
+      }).join('')+'</div>'+
+      '<input id="pPauta" class="rx-pauta" placeholder="pauta" style="display:none">'+
+      '<div class="rx-bottom"><input id="pMotivo" placeholder="motivo, obligatorio"><button class="btn small primary" id="pAdd">+ agregar</button></div>'+
+    '</div><div id="planList"></div>';
+  }
+
+  h += '<div class="step-nav">'+
+    (i>0?'<button class="btn small" id="prevBtn">← anterior</button>':'')+
+    (i<total-1?'<button class="btn primary small" id="nextBtn">siguiente →</button>':'')+'</div>';
+  body.innerHTML = h;
+  wireBody(body, st);
+}
+
+/* ── Wiring ──────────────────────────────────────────────────── */
+function wireCal(body, setter){
+  var t = body.querySelector('#calT'), inp = body.querySelector('#calI');
+  if(t) t.addEventListener('click', function(){ inp.classList.toggle('open'); if(inp.classList.contains('open')) inp.focus(); });
+  if(inp) inp.addEventListener('input', function(){ setter(inp.value); renderPreview(); });
+}
+
+function listaHTML(arr, fmt){
+  return arr.map(function(x,ix){
+    return '<p class="list-min">'+fmt(x)+'<span class="del" data-idx="'+ix+'">quitar</span></p>';
+  }).join('');
+}
+function wireDel(cont, arr, redraw){
+  cont.querySelectorAll('.del').forEach(function(d){
+    d.addEventListener('click', function(){ arr.splice(+d.dataset.idx,1); redraw(); renderPreview(); });
+  });
+}
+
+function wireBody(body, st){
+  if(st.type === 'chips'){
+    body.querySelectorAll('.chip').forEach(function(c){
+      c.addEventListener('click', function(){
+        state[st.block] = state[st.block] || {valor:[], calificador:''};
+        var v = state[st.block].valor, ix = v.indexOf(c.dataset.opt);
+        if(ix>-1) v.splice(ix,1); else v.push(c.dataset.opt);
+        render();
+      });
+    });
+    wireCal(body, function(val){
+      state[st.block] = state[st.block] || {valor:[], calificador:''};
+      state[st.block].calificador = val;
+    });
+
+  } else if(st.type === 'sindrom'){
+    state[st.block] = state[st.block] || {sind:[], manif:{}, calificador:'', libre:[]};
+    var sd = state[st.block];
+    body.querySelectorAll('.chip.sind').forEach(function(c){
+      c.addEventListener('click', function(){
+        var id = c.dataset.sind, ix = sd.sind.indexOf(id);
+        if(ix>-1){ sd.sind.splice(ix,1); delete sd.manif[id]; }
+        else sd.sind.push(id);
+        render();
+      });
+    });
+    body.querySelectorAll('.chip.mini').forEach(function(c){
+      c.addEventListener('click', function(){
+        var sid = c.dataset.sid;
+        sd.manif[sid] = sd.manif[sid] || [];
+        var v = sd.manif[sid], ix = v.indexOf(c.dataset.m);
+        if(ix>-1) v.splice(ix,1); else v.push(c.dataset.m);
+        render();
+      });
+    });
+    if(st.libre){
+      var bl = body.querySelector('#blList');
+      function rdL(){ bl.innerHTML = listaHTML(sd.libre, function(x){return '· '+x;}); wireDel(bl, sd.libre, rdL); }
+      rdL();
+      function addL(){
+        var v = body.querySelector('#blI').value.trim();
+        if(!v) return;
+        sd.libre.push(v); body.querySelector('#blI').value=''; rdL(); renderPreview();
+      }
+      body.querySelector('#blAdd').addEventListener('click', addL);
+      body.querySelector('#blI').addEventListener('keydown', function(e){
+        if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); addL(); }
+      });
+    }
+    wireCal(body, function(val){ sd.calificador = val; });
+
+  } else if(st.type === 'groups'){
+    state[st.block] = state[st.block] || {};
+    body.querySelectorAll('[data-gk]').forEach(function(cont){
+      var k = cont.dataset.gk;
+      cont.querySelectorAll('.chip').forEach(function(c){
+        c.addEventListener('click', function(){
+          state[st.block][k] = state[st.block][k] || [];
+          var v = state[st.block][k], ix = v.indexOf(c.dataset.opt);
+          if(ix>-1) v.splice(ix,1); else v.push(c.dataset.opt);
+          render();
+        });
+      });
+    });
+    wireCal(body, function(val){ state[st.block+'_cal'] = val; });
+
+  } else if(st.type === 'bullets'){
+    state[st.block] = state[st.block] || [];
+    var arr = state[st.block];
+    var esCita = false;
+    var lst = body.querySelector('#blList');
+    function rd(){
+      lst.innerHTML = listaHTML(arr, function(x){
+        return (x.cita ? '· <em>"'+x.t+'"</em>' : '· '+x.t);
+      });
+      wireDel(lst, arr, rd);
+    }
+    rd();
+    var btnCita = body.querySelector('#blCita');
+    if(btnCita) btnCita.addEventListener('click', function(){
+      esCita = !esCita; btnCita.classList.toggle('on', esCita);
+    });
+    function add(){
+      var inp = body.querySelector('#blI'), v = inp.value.trim();
+      if(!v) return;
+      arr.push({t:v, cita:esCita});
+      inp.value=''; esCita=false;
+      if(btnCita) btnCita.classList.remove('on');
+      rd(); renderPreview(); inp.focus();
+    }
+    body.querySelector('#blAdd').addEventListener('click', add);
+    body.querySelector('#blI').addEventListener('keydown', function(e){
+      if(e.key==='Enter' && !e.shiftKey){ e.preventDefault(); add(); }
+    });
+
+  } else if(st.type === 'anio-evento'){
+    state[st.block] = state[st.block] || [];
+    var ar = state[st.block], lt = body.querySelector('#aeList');
+    function rdA(){ lt.innerHTML = listaHTML(ar, function(x){return '· '+x.anio+'  '+x.evento;}); wireDel(lt, ar, rdA); }
+    rdA();
+    function addA(){
+      var y = body.querySelector('#aeY').value.trim(), e = body.querySelector('#aeE').value.trim();
+      if(!e) return;
+      ar.push({anio:y||'s/a', evento:e});
+      body.querySelector('#aeY').value=''; body.querySelector('#aeE').value='';
+      rdA(); renderPreview(); body.querySelector('#aeY').focus();
+    }
+    body.querySelector('#aeAdd').addEventListener('click', addA);
+    body.querySelector('#aeE').addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); addA(); } });
+
+  } else if(st.type === 'kv'){
+    state[st.id] = state[st.id] || [];
+    var rows = state[st.id], kl = body.querySelector('#kvList');
+    function rdK(){
+      kl.innerHTML = listaHTML(rows, function(r){
+        return '· '+st.fields.map(function(f){return r[f];}).filter(Boolean).join(' · ');
+      });
+      wireDel(kl, rows, rdK);
+    }
+    rdK();
+    function addK(){
+      var row = {}, any = false;
+      body.querySelectorAll('.kv-in').forEach(function(inp){
+        row[inp.dataset.f] = inp.value.trim();
+        if(inp.value.trim()) any = true;
+      });
+      if(!any) return;
+      rows.push(row);
+      body.querySelectorAll('.kv-in').forEach(function(inp){ inp.value=''; });
+      rdK(); renderPreview();
+      body.querySelector('.kv-in').focus();
+    }
+    body.querySelector('#kvAdd').addEventListener('click', addK);
+    body.querySelectorAll('.kv-in').forEach(function(inp){
+      inp.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); addK(); } });
+    });
+
+  } else if(st.type === 'lab'){
+    state[st.block] = state[st.block] || [];
+    var labs = state[st.block], ll = body.querySelector('#labList');
+    function rdLab(){ ll.innerHTML = listaHTML(labs, function(x){return '· '+x.n+': '+x.v;}); wireDel(ll, labs, rdLab); }
+    rdLab();
+    body.querySelector('#labAdd').addEventListener('click', function(){
+      var n = body.querySelector('#labN').value, v = body.querySelector('#labV').value.trim();
+      if(!n || !v) return;
+      labs.push({n:n, v:v});
+      body.querySelector('#labV').value=''; body.querySelector('#labN').value='';
+      rdLab(); renderPreview();
+    });
+    body.querySelector('#labOk').addEventListener('click', function(){
+      state.labsNormal = !state.labsNormal; render();
+    });
+
+  } else if(st.type === 'sustancias'){
+    state[st.block] = state[st.block] || {};
+    var su = state[st.block];
+    body.querySelectorAll('.susP').forEach(function(sel){
+      sel.addEventListener('change', function(){
+        var s = sel.dataset.s;
+        su[s] = su[s] || {};
+        su[s].patron = sel.value;
+        if(!sel.value) delete su[s];
+        else if(sel.value !== 'sin consumo' && !su[s].problem) su[s].problem = 'en evaluación';
+        render();
+      });
+    });
+    body.querySelectorAll('.susF').forEach(function(inp){
+      inp.addEventListener('input', function(){ su[inp.dataset.s].fecha = inp.value; renderPreview(); });
+    });
+    body.querySelectorAll('.susX').forEach(function(sel){
+      sel.addEventListener('change', function(){ su[sel.dataset.s].problem = sel.value; renderPreview(); });
+    });
+    wireCal(body, function(v){ state[st.block+'_cal'] = v; });
+
+  } else if(st.type === 'antsuic'){
+    state[st.block] = state[st.block] || {};
+    var an = state[st.block];
+    body.querySelectorAll('.antI').forEach(function(inp){
+      inp.addEventListener('input', function(){ an[inp.dataset.k] = inp.value.trim(); renderPreview(); });
+    });
+    wireCal(body, function(v){ an.calificador = v; });
+
+  } else if(st.type === 'columbia'){
+    state[st.block] = state[st.block] || {};
+    var cb = state[st.block];
+    body.querySelectorAll('[data-p]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var n = +el.dataset.p;
+        if(cb.peldano === n) delete cb.peldano; else cb.peldano = n;
+        if(cb.peldano === undefined || cb.peldano === 0) delete cb.cal;
+        delete cb.asumida;
+        render();
+      });
+    });
+    body.querySelectorAll('[data-cond]').forEach(function(c){
+      c.addEventListener('click', function(){
+        cb.conducta = (cb.conducta === c.dataset.cond) ? undefined : c.dataset.cond;
+        if(cb.conducta !== 'sí'){ delete cb.corte; delete cb.condCal; }
+        delete cb.asumida;
+        render();
+      });
+    });
+    body.querySelectorAll('[data-corte]').forEach(function(c){
+      c.addEventListener('click', function(){
+        cb.corte = (cb.corte === c.dataset.corte) ? undefined : c.dataset.corte;
+        delete cb.asumida;
+        render();
+      });
+    });
+    body.querySelectorAll('[data-plan]').forEach(function(c){
+      c.addEventListener('click', function(){
+        cb.plan = (cb.plan === c.dataset.plan) ? '' : c.dataset.plan;
+        render();
+      });
+    });
+    var mcc = body.querySelector('#mcCal');
+    if(mcc) mcc.addEventListener('input', function(e){ cb.cal = e.target.value; renderPreview(); });
+    var mcd = body.querySelector('#mcCond');
+    if(mcd) mcd.addEventListener('input', function(e){ cb.condCal = e.target.value; renderPreview(); });
+    var asum = body.querySelector('#mcAsum');
+    if(asum) asum.addEventListener('click', function(){ cb.asumida = !cb.asumida; render(); });
+
+  } else if(st.type === 'delta'){
+    state[st.block] = state[st.block] || {};
+    var dl = state[st.block];
+    body.querySelectorAll('[data-delta]').forEach(function(c){
+      c.addEventListener('click', function(){
+        dl.v = (dl.v === c.dataset.delta) ? '' : c.dataset.delta;
+        render();
+      });
+    });
+    body.querySelector('#dlCal').addEventListener('input', function(e){ dl.cal = e.target.value; renderPreview(); });
+
+  } else if(st.type === 'reposo'){
+    state[st.block] = state[st.block] || {};
+    var rp = state[st.block];
+    body.querySelectorAll('[data-reposo]').forEach(function(c){
+      c.addEventListener('click', function(){
+        rp.v = (rp.v === c.dataset.reposo) ? '' : c.dataset.reposo;
+        render();
+      });
+    });
+    var rd = body.querySelector('#rpDias');
+    if(rd) rd.addEventListener('input', function(e){ rp.dias = e.target.value; renderPreview(); });
+
+  } else if(st.type === 'texto'){
+    body.querySelector('#txtI').addEventListener('input', function(e){ state[st.block] = e.target.value; renderPreview(); });
+
+  } else if(st.type === 'riesgo'){
+    state.riesgo = state.riesgo || {};
+    body.querySelectorAll('.rNivel, .rCal').forEach(function(el){
+      el.addEventListener('input', function(){
+        var eje = el.dataset.eje;
+        state.riesgo[eje] = state.riesgo[eje] || {};
+        if(el.classList.contains('rNivel')){
+          state.riesgo[eje].nivel = el.value;
+          render(); // redibuja: el aviso de divergencia depende del nivel elegido
+        } else {
+          state.riesgo[eje].calificador = el.value;
+          renderPreview();
+        }
+      });
+    });
+
+  } else if(st.type === 'tramo'){
+    state[st.block] = state[st.block] || {};
+    var t = state[st.block];
+    body.querySelectorAll('[data-tramo]').forEach(function(c){
+      c.addEventListener('click', function(){
+        t.plazo = (t.plazo === c.dataset.tramo) ? '' : c.dataset.tramo;
+        render();
+      });
+    });
+    var otro = body.querySelector('#segOtro');
+    if(otro) otro.addEventListener('input', function(){ t.otro = otro.value; renderPreview(); });
+    wireCal(body, function(val){ t.calificador = val; });
+
+  } else if(st.type === 'frag-plan'){
+    state[st.block] = state[st.block] || [];
+    var rx = state[st.block], pl = body.querySelector('#planList');
+    var modo = 'mtn';
+    function rdP(){ pl.innerHTML = listaHTML(rx, function(p){return '· '+fmtRx(p);}); wireDel(pl, rx, rdP); }
+    rdP();
+    body.querySelectorAll('.rxR').forEach(function(r){
+      r.addEventListener('input', function(){
+        body.querySelector('.rx-val[data-t="'+r.dataset.t+'"]').textContent = fmtNum(r.value);
+      });
+    });
+    body.querySelectorAll('.rx-mode').forEach(function(c){
+      c.addEventListener('click', function(){
+        body.querySelectorAll('.rx-mode').forEach(function(x){ x.classList.remove('on'); });
+        c.classList.add('on');
+        modo = c.dataset.modo;
+        var esMtn = modo === 'mtn';
+        body.querySelector('#rxSliders').style.display = esMtn ? '' : 'none';
+        var p = body.querySelector('#pPauta');
+        p.style.display = esMtn ? 'none' : '';
+        p.placeholder = modo === 'deposito' ? 'intervalo (ej. cada 28 días)' : 'condición y tope (ej. si angustia, máx 3 al día)';
+      });
+    });
+    // Importar esquema: propone filas, no las aplica solo
+    var impT = body.querySelector('#rxImpT');
+    if(impT) impT.addEventListener('click', function(){
+      rxImportAbierto = !rxImportAbierto;
+      body.querySelector('#rxImpBody').classList.toggle('open', rxImportAbierto);
+    });
+    var impBtn = body.querySelector('#rxImpBtn');
+    if(impBtn) impBtn.addEventListener('click', function(){
+      var prev = body.querySelector('#rxImpPrev');
+      var res = parseEsquema(body.querySelector('#rxImpIn').value);
+      rxPropuesta = res;
+      if(!res.filas.length){
+        prev.innerHTML = '<p class="nota-min warn">No se reconoció ningún fármaco en ese texto.</p>';
+        return;
+      }
+      prev.innerHTML = '<div class="ob-l" style="margin-top:8px">propuesta, revisar antes de aplicar</div>'+
+        res.filas.map(function(p){
+          return '<p class="list-min'+(p.supuesto?' sup':'')+'">· '+fmtPropuesta(p)+'</p>';
+        }).join('')+
+        (res.avisos.length ? res.avisos.map(function(x){ return '<p class="nota-min warn">'+x+'</p>'; }).join('') : '')+
+        '<button class="btn small primary" id="rxImpOk">Aplicar '+res.filas.length+' fila(s)</button>';
+      prev.querySelector('#rxImpOk').addEventListener('click', function(){
+        rxPropuesta.filas.forEach(function(p){
+          var mot = p.motivo || 'esquema vigente al ingreso';
+          if(p.supuesto) mot += ' [horario supuesto, verificar]';
+          rx.push({ farm:p.farm, conc:p.conc||'', accion:p.accion, modo:p.modo,
+                    mtn:p.mtn, pauta:p.pauta||'', motivo:mot });
+        });
+        body.querySelector('#rxImpIn').value = '';
+        rxImportAbierto = false;
+        rxPropuesta = null;
+        render();
+      });
+    });
+
+    body.querySelector('#pAdd').addEventListener('click', function(){
+      var farm = body.querySelector('#pFarm').value.trim();
+      var conc = body.querySelector('#pConc').value.trim();
+      var accion = body.querySelector('#pAccion').value;
+      var motivo = body.querySelector('#pMotivo').value.trim();
+      if(!farm || !motivo) return;
+      var reg = {farm:farm, conc:conc, accion:accion, motivo:motivo, modo:modo};
+      if(modo === 'mtn'){
+        var v = [];
+        body.querySelectorAll('.rxR').forEach(function(r){ v.push(parseFloat(r.value)); });
+        if(v.every(function(x){return x===0;}) && accion !== 'suspensión') return;
+        reg.mtn = v;
+      } else reg.pauta = body.querySelector('#pPauta').value.trim();
+      rx.push(reg);
+      ['#pFarm','#pConc','#pMotivo','#pPauta'].forEach(function(s){ body.querySelector(s).value=''; });
+      body.querySelectorAll('.rxR').forEach(function(r){ r.value=0; });
+      body.querySelectorAll('.rx-val').forEach(function(o){ o.textContent='0'; });
+      rdP(); renderPreview();
+    });
+  }
+
+  var pv = body.querySelector('#prevBtn'), nx = body.querySelector('#nextBtn');
+  if(pv) pv.addEventListener('click', function(){ stepIndex--; render(); });
+  if(nx) nx.addEventListener('click', function(){ stepIndex++; render(); });
+}
+
+/* ── Salida cruda ────────────────────────────────────────────── */
+/* ══════════════════════════════════════════════════════════════
+   IMPORTAR ESQUEMA FARMACOLÓGICO (Rayen / receta / derivación)
+   Tolerante a los formatos habituales. Mapear una frecuencia
+   ("cada 24 horas") a un horario concreto ES INFERENCIA, así que
+   el import PROPONE y no aplica solo: las filas se muestran para
+   revisión, con marca en las que hubo que suponer el horario.
+   Mismo criterio que la estratificación de la minicolumbia.
+   ══════════════════════════════════════════════════════════════ */
+
+var RX_RUIDO = /\b(v[ií]a\s+oral|v\.?o\.?|por\s+\d+\s*d[ií]as?|uso\s+\w+|comprimido\s+recubierto|comprimidos?|c[oó]mp\.?|caps?\.?|c[aá]psulas?|tabletas?|grageas?|frasco|ampolla)\b/gi;
+
+/* Fracciones habituales en receta chilena: "1/2-0-1/2" debe leerse
+   como 0,5-0-0,5 y no como 1, 2, 0. Se normalizan antes de parsear,
+   porque la barra también se usa como separador de esquema. */
+function normalizarFracciones(s){
+  return s.replace(/(\d+)\s*\/\s*(\d+)/g, function(m, n, d){
+    var v = parseInt(n,10) / parseInt(d,10);
+    return (v < 1 && v > 0) ? String(v).replace('.', ',') : m;
+  });
+}
+/* Ruido de receta: folio, vía, duración */
+function limpiarReceta(s){
+  return s.replace(/de la receta\s*n?[º°o]?\s*\d+/gi, ' ')
+          .replace(/receta\s*n?[º°o]?\s*\d+/gi, ' ');
+}
+
+function numEs(s){ return parseFloat(String(s).replace(',', '.')); }
+
+/* Una línea de prosa puede traer varios fármacos ("escitalopram 15 mg al día
+   y quetiapina 100 mg por la noche"). Se corta justo antes del nombre que
+   precede a cada concentración a partir de la segunda. */
+function segmentarProsa(linea){
+  var re = /(\d+(?:[.,]\d+)?)\s*(mg|mcg|g|ml|ui)\b/gi, m, pos = [];
+  while((m = re.exec(linea)) !== null) pos.push(m.index);
+  if(pos.length < 2) return [linea];
+  var cortes = [0];
+  for(var i = 1; i < pos.length; i++){
+    // retroceder hasta el inicio del nombre del fármaco
+    var j = pos[i] - 1;
+    while(j > 0 && /[\s,;.]/.test(linea[j])) j--;      // saltar espacio previo
+    while(j > 0 && !/[\s,;.]/.test(linea[j])) j--;     // saltar el nombre
+    while(j > 0 && /[\s,;.]/.test(linea[j-1])) j--;
+    if(j > cortes[cortes.length-1]) cortes.push(j);
+  }
+  var out = [];
+  for(var k = 0; k < cortes.length; k++)
+    out.push(linea.slice(cortes[k], cortes[k+1] === undefined ? linea.length : cortes[k+1]));
+  return out;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FORMATO NATIVO RAYEN — dos líneas por fármaco:
+     * Nombre CONC forma farmacéutica
+     CANT unidad cada N Horas por M Días | indicación libre
+   REGLA CENTRAL: la indicación libre (derecha de la barra) es la
+   autoridad; la posología estructurada (izquierda) es aritmética
+   de despacho y no describe el esquema real. Ejemplos observados:
+     "0.75 Comprimido cada 24 Horas | 1 x 7d luego 1/2 x 7 dias"
+        → 0,75 es el promedio de una titulación, nadie lo toma.
+     "1 Gota cada 24 Horas | 5 gotas sos maximo cada 12h"
+        → izquierda y derecha se contradicen de plano.
+   La izquierda se usa solo como contraste: la discrepancia se
+   marca, nunca se resuelve en silencio.
+   ══════════════════════════════════════════════════════════════ */
+
+function esFormatoRayen(texto){
+  return /^\s*\*\s+.+\n\s*[\d.,]+\s+\w+\s+cada\s+\d+/im.test(texto);
+}
+
+function parseRayen(texto){
+  var filas = [], avisos = [];
+  var lineas = limpiarReceta(normalizarFracciones(texto)).replace(/\r/g,'').split('\n');
+
+  for(var i = 0; i < lineas.length; i++){
+    var enc = lineas[i].trim();
+    if(!/^\*\s*/.test(enc)) continue;
+    enc = enc.replace(/^\*\s*/, '');
+
+    // Nombre y concentración: primera unidad de masa/volumen de la línea
+    var mC = enc.match(/(\d+(?:[.,]\d+)?)\s*(mg|mcg|g|ui)\b/i);
+    var nombre = (mC ? enc.slice(0, enc.indexOf(mC[0])) : enc).trim().toLowerCase();
+    nombre = nombre.replace(/[^\wáéíóúüñ\s]/gi,' ').replace(/\s+/g,' ').trim();
+    if(!nombre) continue;
+
+    var reg = { farm: nombre, conc: mC ? mC[1].replace('.', ',') : '',
+                accion: 'mantención', modo: 'mtn', mtn: [0,0,0],
+                motivo: 'esquema vigente al ingreso', supuesto: false };
+
+    // Línea de posología
+    var pos = (lineas[i+1] || '').trim();
+    if(!/cada\s+\d+/i.test(pos) && !/\|/.test(pos)){ filas.push(reg); continue; }
+    i++;
+
+    var partes = pos.split('|');
+    var izq = partes[0].trim();
+    var der = (partes[1] || '').trim();
+    var d = der.toLowerCase();
+
+    // Contraste con la izquierda (solo para detectar discrepancia)
+    var mIzq = izq.match(/([\d.,]+)\s+(\w+)/);
+    var cantIzq = mIzq ? numEs(mIzq[1]) : null;
+    var unidadIzq = mIzq ? mIzq[2].toLowerCase() : '';
+    var mDur = izq.match(/por\s+(\d+)\s*d[ií]as?/i);
+    if(mDur) reg.motivo = 'esquema vigente, ' + mDur[1] + ' días';
+
+    // Depósito: intervalo en días o semanas, o vía parenteral, en cualquiera de los dos lados
+    var mDepI = (izq + ' ' + der).match(/cada\s+(\d+)\s*(d[ií]as?|semanas?|meses?)/i);
+    var esParenteral = /\b(jeringa|ampolla|im\b|intramuscular|gl[uú]teo|depot|dep[oó]sito)\b/i.test(enc + ' ' + izq + ' ' + der);
+    if(mDepI && (mDepI[2][0].toLowerCase() !== 'd' || +mDepI[1] >= 7)){
+      reg.modo = 'deposito';
+      reg.pauta = 'cada ' + mDepI[1] + ' ' + mDepI[2].toLowerCase();
+      filas.push(reg); continue;
+    }
+    if(esParenteral){
+      reg.modo = 'deposito';
+      reg.pauta = der || izq;
+      filas.push(reg); continue;
+    }
+
+    if(!der){
+      // Sin indicación libre: solo queda la izquierda. Reparte según la frecuencia.
+      var mFI = izq.match(/cada\s+(\d+)\s*(?:h|hrs?|horas?)/i);
+      var nI = mFI ? Math.round(24 / +mFI[1]) : 1;
+      var cI = cantIzq === null ? 1 : cantIzq;
+      if(nI <= 1) reg.mtn = [cI,0,0];
+      else if(nI === 2) reg.mtn = [cI,0,cI];
+      else if(nI === 3) reg.mtn = [cI,cI,cI];
+      else { reg.modo = 'sos'; reg.pauta = nI + ' tomas diarias, no representable en M-T-N'; filas.push(reg); continue; }
+      reg.supuesto = true;
+      avisos.push(nombre + ': sin indicación libre, horario supuesto desde la frecuencia');
+      filas.push(reg); continue;
+    }
+
+    // 1. Esquema explícito M-T-N en la indicación
+    var mMtn = d.match(/(\d+(?:[.,]\d+)?)\s*[-–]\s*(\d+(?:[.,]\d+)?)\s*[-–]\s*(\d+(?:[.,]\d+)?)/);
+    if(mMtn){
+      reg.mtn = [numEs(mMtn[1]), numEs(mMtn[2]), numEs(mMtn[3])];
+      var totalD = reg.mtn.reduce(function(x,y){return x+y;}, 0);
+      if(cantIzq !== null && Math.abs(totalD - cantIzq) > 0.01)
+        avisos.push(nombre + ': la posología de despacho dice ' + fmtNum(cantIzq) +
+                    ' y la indicación ' + fmtNum(totalD) + ', se usa la indicación');
+      filas.push(reg); continue;
+    }
+
+    // 2. SOS o condicional
+    if(/\b(sos|prn|en caso de|condicional|si\s)/.test(d)){
+      reg.modo = 'sos';
+      reg.pauta = der;
+      if(cantIzq !== null)
+        avisos.push(nombre + ': despacho registra ' + fmtNum(cantIzq) + ' ' + unidadIzq +
+                    ' fija y la indicación es a demanda, se usa la indicación');
+      filas.push(reg); continue;
+    }
+
+    // 3. Titulación o esquema variable en el tiempo
+    if(/\bluego\b|\bdespu[eé]s\b|\bx\s*\d+\s*d\b|\bpor\s*\d+\s*d[ií]as?\s+.*luego/.test(d)){
+      var mPrim = d.match(/(\d+(?:[.,]\d+)?|1\/2|medi[ao])/);
+      var prim = mPrim ? (/1\/2|medi/.test(mPrim[1]) ? 0.5 : numEs(mPrim[1])) : 1;
+      reg.mtn = [prim, 0, 0];
+      reg.supuesto = true;
+      reg.motivo = 'titulación: ' + der;
+      avisos.push(nombre + ': esquema con titulación, se registra la fase actual y el resto va al motivo');
+      filas.push(reg); continue;
+    }
+
+    // 4. Horario en palabras dentro de la indicación
+    var horas = [], cant = null;
+    var mCant = d.match(/(\d+(?:[.,]\d+)?)\s*(gotas?|comprimidos?|comp|c[aá]psulas?|caps|ml)/);
+    if(mCant) cant = numEs(mCant[1]);
+    if(cant === null) cant = cantIzq !== null ? cantIzq : 1;
+    if(/\b(ma[ñn]ana|matinal|desayuno|am\b)\b/.test(d)) horas.push(0);
+    if(/\b(tarde|almuerzo|mediod[ií]a)\b/.test(d)) horas.push(1);
+    if(/\b(noche|nocturn[ao]|acostarse|cena|antes de dormir)\b/.test(d)) horas.push(2);
+    if(horas.length){
+      horas.forEach(function(hh){ reg.mtn[hh] = cant; });
+      filas.push(reg); continue;
+    }
+
+    // 5. Nada interpretable en la indicación: queda como pauta libre
+    reg.modo = 'sos';
+    reg.pauta = der;
+    avisos.push(nombre + ': indicación no interpretable como esquema fijo, queda como pauta libre');
+    filas.push(reg);
+  }
+  return { filas: filas, avisos: avisos };
+}
+
+function parseEsquema(texto){
+  texto = limpiarReceta(normalizarFracciones(texto));
+  if(esFormatoRayen(texto)) return parseRayen(texto);
+  var filas = [], avisos = [];
+  var lineas = [];
+  texto.replace(/\r/g,'').split(/\n|(?:\s+·\s+)/).forEach(function(l){
+    segmentarProsa(l).forEach(function(x){ lineas.push(x); });
+  });
+  lineas.forEach(function(linea){
+    var L = linea.trim().replace(/^[-–•*·>\s]+/, '').trim();
+    if(!L || L.length < 3) return;
+
+    var reg = { modo:'mtn', mtn:[0,0,0], accion:'mantención', motivo:'', supuesto:false };
+    var trabajo = ' ' + L + ' ';
+
+    // 1. Concentración: primer número seguido de unidad
+    var mConc = trabajo.match(/(\d+(?:[.,]\d+)?)\s*(mg|mcg|g|ml|ui)\b/i);
+    if(mConc){ reg.conc = mConc[1].replace('.', ','); reg.unidad = mConc[2].toLowerCase(); }
+
+    // 2. Fármaco: lo que precede a la concentración, o las primeras palabras
+    var izq = mConc ? trabajo.slice(0, trabajo.indexOf(mConc[0])) : trabajo;
+    izq = izq.replace(RX_RUIDO, ' ').replace(/[^\wáéíóúüñ\s]/gi, ' ');
+    var pal = izq.trim().split(/\s+/).filter(function(w){ return w.length > 2; });
+    // Preámbulo de prosa: el nombre del fármaco es lo último antes de la dosis
+    var PREAMBULO = /^(actualmente|tratamiento|indica|indicado|indicada|recibe|toma|tomando|usa|usando|con|más|además|agrega|agregó|agregado|inicia|inició|mantiene|continúa|paciente|refiere|esquema|control|luego|posteriormente|desde|hace|dos|tres|semanas|meses|una|del|los|las|por|para|que|sus|sin)$/i;
+    while(pal.length > 1 && PREAMBULO.test(pal[0])) pal.shift();
+    reg.farm = pal.slice(-2).filter(function(w,i,arr){
+      return arr.length === 1 || i === arr.length-1 || /^(ácido|acido|sulfato|valproato|carbonato|clorhidrato)$/i.test(w);
+    }).join(' ').toLowerCase();
+    if(!reg.farm) reg.farm = pal.slice(0,1).join(' ').toLowerCase();
+    if(!reg.farm) return;
+
+    var resto = mConc ? trabajo.slice(trabajo.indexOf(mConc[0]) + mConc[0].length) : trabajo;
+    var r = resto.toLowerCase();
+
+    // Sin concentración y sin esquema explícito no hay fármaco: es prosa suelta
+    var hayEsquema = /(\d+(?:[.,]\d+)?)\s*[-–]\s*(\d+(?:[.,]\d+)?)\s*[-–]/.test(r) ||
+                     /cada\s+\d+\s*(h|hrs?|horas?|d[ií]as?|semanas?)/.test(r) ||
+                     /(comprimidos?|comp\.?|c[aá]psulas?|tabletas?)/.test(r) ||
+                     /\b(sos|prn|dep[oó]sito|depot)\b/.test(r);
+    if(!mConc && !hayEsquema) return;
+
+    // 3. Esquema explícito M-T-N  (1-0-2, 0,5-0-1)
+    var mMtn = r.match(/(\d+(?:[.,]\d+)?)\s*[-–]\s*(\d+(?:[.,]\d+)?)\s*[-–]\s*(\d+(?:[.,]\d+)?)/);
+    if(mMtn){
+      reg.mtn = [numEs(mMtn[1]), numEs(mMtn[2]), numEs(mMtn[3])];
+      filas.push(reg); return;
+    }
+
+    // 4. Depósito: intervalo en días o semanas
+    var mDep = r.match(/cada\s+(\d+)\s*(d[ií]as?|semanas?|meses?)/);
+    if(mDep && (mDep[2][0] !== 'd' || +mDep[1] >= 7)){
+      reg.modo = 'deposito';
+      reg.pauta = 'cada ' + mDep[1] + ' ' + mDep[2];
+      filas.push(reg); return;
+    }
+    if(/\b(depot|dep[oó]sito|intramuscular|\bim\b)\b/.test(r)){
+      reg.modo = 'deposito';
+      reg.pauta = (r.match(/cada[^,.;]*/) || ['intervalo por definir'])[0].trim();
+      filas.push(reg); return;
+    }
+
+    // 5. SOS / condicional
+    if(/\b(sos|prn|en caso de|si\s+(?:presenta|angustia|insomnio|dolor|crisis)|condicional|s\.?o\.?s\.?)\b/.test(r)){
+      reg.modo = 'sos';
+      reg.pauta = L.replace(/^.*?(mg|mcg|g)\b/i, '')
+        .replace(RX_RUIDO,' ')
+        .replace(/^[\s,;.:]+/, '')
+        .replace(/^\d+(?:[.,]\d+)?\s*/, '')   // cantidad, ya va implícita en el SOS
+        .replace(/\s+/g,' ').trim();
+      filas.push(reg); return;
+    }
+
+    // 6. Cantidad por toma
+    var mCant = r.match(/(\d+(?:[.,]\d+)?)\s*(?:\/?\d)?\s*(?:comprimidos?|comp\.?|c[aá]psulas?|caps?\.?|tabletas?|unidades?)/);
+    if(!mCant) mCant = r.match(/(?:tomar|administrar)\s+(\d+(?:[.,]\d+)?)/);
+    if(!mCant) mCant = r.match(/^\s*[,:]?\s*(\d+(?:[.,]\d+)?)\b/);
+    var cant = mCant ? numEs(mCant[1]) : 1;
+    if(/media\s+(tableta|comprimido|comp)/.test(r)) cant = 0.5;
+
+    // 7. Horario explícito por palabras
+    var horas = [];
+    if(/\b(ma[ñn]ana|matinal|desayuno|am\b|8:00|08:00)\b/.test(r)) horas.push(0);
+    if(/\b(tarde|almuerzo|mediod[ií]a|14:00|pm\b)\b/.test(r)) horas.push(1);
+    if(/\b(noche|nocturn[ao]|acostarse|cena|antes de dormir|22:00|20:00)\b/.test(r)) horas.push(2);
+
+    if(horas.length){
+      horas.forEach(function(h){ reg.mtn[h] = cant; });
+      filas.push(reg); return;
+    }
+
+    // 8. Frecuencia sin horario: hay que suponer, se marca como supuesto
+    var mFrec = r.match(/cada\s+(\d+)\s*(?:h|hrs?|horas?)\b/);
+    var vecesDia = r.match(/(\d+)\s*(?:veces?|vez)\s*(?:al|por)\s*d[ií]a/);
+    var n = mFrec ? Math.round(24 / +mFrec[1]) : (vecesDia ? +vecesDia[1] : 1);
+
+    if(n <= 1){ reg.mtn = [cant,0,0]; }
+    else if(n === 2){ reg.mtn = [cant,0,cant]; }
+    else if(n === 3){ reg.mtn = [cant,cant,cant]; }
+    else {
+      reg.modo = 'sos';
+      reg.pauta = n + ' tomas diarias, no representable en mañana-tarde-noche';
+      avisos.push(reg.farm + ': ' + n + ' tomas al día no caben en M-T-N, queda como pauta libre');
+      filas.push(reg); return;
+    }
+    reg.supuesto = true;
+    avisos.push(reg.farm + ': horario supuesto desde la frecuencia, verificar');
+    filas.push(reg);
+  });
+  return { filas: filas, avisos: avisos };
+}
+
+function fmtPropuesta(p){
+  var s = p.farm + (p.conc ? ' ' + p.conc + ' ' + (p.unidad || 'mg') : '');
+  if(p.modo === 'mtn') s += ', ' + p.mtn.map(fmtNum).join('-');
+  else if(p.modo === 'deposito') s += ', depósito, ' + (p.pauta || '');
+  else s += ', SOS, ' + (p.pauta || '');
+  return s + (p.supuesto ? '  ⚠ horario supuesto' : '');
+}
+
+function fmtNum(n){
+  n = parseFloat(n);
+  return Number.isInteger(n) ? String(n) : String(n).replace('.', ',');
+}
+function fmtRx(p){
+  var s = p.farm + (p.conc ? ' ' + p.conc + ' mg' : '');
+  if(p.modo === 'mtn' && p.mtn) s += ', ' + p.mtn.map(fmtNum).join('-');
+  else if(p.pauta) s += ', ' + (p.modo === 'deposito' ? 'depósito, ' : 'SOS, ') + p.pauta;
+  else if(p.modo === 'deposito') s += ', depósito';
+  else if(p.modo === 'sos') s += ', SOS';
+  return s + ' (' + p.accion + '): ' + p.motivo;
+}
+
+function lineaDe(st){
+  var d = state[st.block];
+
+  if(st.type === 'chips' && d && d.valor.length)
+    return st.title+': '+d.valor.join(', ')+(d.calificador?', '+d.calificador:'')+'.';
+
+  if(st.type === 'sindrom' && d && (d.sind.length || (d.libre && d.libre.length))){
+    var ls = [];
+    d.sind.forEach(function(id){
+      var s = SINDROMES.filter(function(x){return x.id===id;})[0];
+      var m = d.manif[id] || [];
+      ls.push('  · Sd. '+s.n.toLowerCase()+(m.length ? ': '+m.join('; ') : ''));
+    });
+    (d.libre||[]).forEach(function(x){ ls.push('  · '+x); });
+    if(d.calificador) ls.push('  · '+d.calificador);
+    return st.title+':\n'+ls.join('\n');
+  }
+
+  if(st.type === 'groups'){
+    var g = state[st.block] || {}, out = [];
+    st.groups.forEach(function(gr){
+      if(g[gr.k] && g[gr.k].length) out.push(gr.l+': '+g[gr.k].join(', ')+'.');
+    });
+    var c = state[st.block+'_cal'];
+    if(c) out.push(c);
+    return out.join('\n');
+  }
+
+  if(st.type === 'bullets' && d && d.length)
+    return st.title+':\n'+d.map(function(x){ return '  · '+(x.cita ? '"'+x.t+'"' : x.t); }).join('\n');
+
+  if(st.type === 'anio-evento' && d && d.length)
+    return st.title+':\n'+d.map(function(x){return '  · '+x.anio+'  '+x.evento;}).join('\n');
+
+  if(st.type === 'kv' && state[st.id] && state[st.id].length)
+    return st.title+':\n'+state[st.id].map(function(r){
+      return '  · '+st.fields.map(function(f){return r[f];}).filter(Boolean).join(' · ');
+    }).join('\n');
+
+  if(st.type === 'lab'){
+    var out2 = [];
+    if(d && d.length) out2.push('Exámenes alterados: '+d.map(function(x){return x.n+' '+x.v;}).join('; ')+'.');
+    else if(state.labsNormal) out2.push('Exámenes en rango normal.');
+    return out2.join('\n');
+  }
+
+  if(st.type === 'sustancias'){
+    var su = state[st.block] || {}, ss = [];
+    Object.keys(su).forEach(function(s){
+      var r = su[s];
+      if(!r.patron) return;
+      var l = '  · '+s+': '+r.patron;
+      if(r.fecha) l += ' (desde '+r.fecha+')';
+      if(r.patron !== 'sin consumo' && r.problem) l += ', consumo '+r.problem;
+      ss.push(l);
+    });
+    if(state[st.block+'_cal']) ss.push('  · '+state[st.block+'_cal']);
+    return ss.length ? st.title+':\n'+ss.join('\n') : '';
+  }
+
+  if(st.type === 'antsuic'){
+    var an = state[st.block];
+    if(!an) return '';
+    var as = [];
+    ANTS.campos.forEach(function(f){ if(an[f.k]) as.push('  · '+f.l+': '+an[f.k]); });
+    if(an.calificador) as.push('  · '+an.calificador);
+    return as.length ? st.title+':\n'+as.join('\n') : '';
+  }
+
+  if(st.type === 'columbia'){
+    var cb = state[st.block];
+    if(!mcAplicada(cb)) return '';
+    var vent = (state.tipoAtencion === 'control') ? MC.ventana_ideacion.control : MC.ventana_ideacion.ingreso;
+    var cs = ['minicolumbia (C-SSRS) — ventana ideación: '+vent];
+
+    if(cb.peldano !== undefined){
+      var p = MC.escalera.filter(function(x){return x.n===cb.peldano;})[0];
+      var extra = cb.cal ? ', '+cb.cal
+        : (cb.peldano >= MC.calificador_obligatorio_desde ? ' [falta contenido que estratifica]' : '');
+      cs.push('  · ideación: '+p.label+extra);
+    }
+
+    if(cb.conducta){
+      var l = '  · conducta suicida: '+cb.conducta;
+      if(cb.conducta === 'sí'){
+        l += cb.corte ? (cb.corte === 'sí' ? ', dentro de tres meses' : ', previa a tres meses')
+                      : ' [falta corte de tres meses]';
+        if(cb.condCal) l += ', '+cb.condCal;
+      }
+      cs.push(l);
+    }
+
+    if(hayPositivo(cb)) cs.push('  · plan de seguridad: '+(cb.plan || '[sin definir]'));
+
+    // Estratificación solo si el clínico la asumió
+    var est = estratificar(cb);
+    if(est && cb.asumida) cs.push('  · estratificación instrumento: '+est);
+
+    // Cruce con antecedentes: conducta reciente sin antecedente registrado
+    var an2 = antsActuales();
+    if(cb.conducta === 'sí' && cb.corte === 'sí' && (!an2 || !an2.ultimo_acto))
+      cs.push('  · [evento nuevo: actualizar antecedentes]');
+
+    return cs.join('\n');
+  }
+
+  if(st.type === 'delta' && d && d.v)
+    return 'Delta del período: '+d.v+(d.cal ? ', '+d.cal : ' [falta respecto de qué]')+'.';
+
+  if(st.type === 'reposo' && d && d.v)
+    return 'Reposo laboral: '+d.v+(d.v !== 'no procede' ? (d.dias ? ', '+d.dias : ' [faltan días]') : '')+'.';
+
+  if(st.type === 'texto' && d) return d;
+
+  if(st.type === 'riesgo' && state.riesgo){
+    var rs = [];
+    Object.keys(state.riesgo).forEach(function(eje){
+      var x = state.riesgo[eje];
+      if(!x.nivel) return;
+      var l = 'Riesgo '+eje+': '+x.nivel;
+      if(x.calificador) l += ', '+x.calificador;
+      else l += ' [falta calificador]';
+      if(eje === 'suicida' && divergencia(x.nivel) === 'abajo' && !x.calificador)
+        l = 'Riesgo suicida: '+x.nivel+' [instrumento: '+estratificar(mcActual())+', sin modulador nombrado]';
+      rs.push(l+'.');
+    });
+    return rs.join('\n');
+  }
+
+  if(st.type === 'tramo' && d && d.plazo)
+    return 'Seguimiento: '+(d.plazo==='otro' ? (d.otro||'a definir') : d.plazo)+
+      (d.calificador ? '. Anticipar si: '+d.calificador : '')+'.';
+
+  if(st.type === 'frag-plan' && d && d.length)
+    return d.map(function(p){return '  · '+fmtRx(p);}).join('\n');
+
+  return '';
+}
+
+function buildRaw(){
+  var bl = [];
+  var ec = document.getElementById('ejeCaso').value.trim();
+  var mc = document.getElementById('motivoControl').value.trim();
+  if(ec) bl.push('EJE DEL CASO: '+ec);
+  if(mc) bl.push('MOTIVO DE CONTROL: '+mc);
+  quadrants().forEach(function(q){
+    var ls = q.steps.map(lineaDe).filter(Boolean);
+    if(ls.length) bl.push(q.letter+' — '+q.name.toUpperCase()+'\n'+ls.join('\n'));
+  });
+  return bl.length ? bl.join('\n\n') : 'sin datos aún.';
+}
+
+function renderPreview(){
+  var box = document.getElementById('rawBox');
+  var t = buildRaw();
+  if(box.value !== t) box.value = t;
+}
+
+
+/* ══════════════════════════════════════════════════════════════
+   CONTINUAR REGISTRO — pegar el payload LZ de una sesión previa.
+   Acepta LZ Base64 o JSON plano, mismo criterio que parsearPayload()
+   del template: si empieza con { es JSON, si no se descomprime.
+   Nunca JSON.parse sobre el string comprimido.
+   ══════════════════════════════════════════════════════════════ */
+function parsarRegistro(texto){
+  if(!texto || !texto.trim()) throw new Error('Nada que pegar');
+  texto = texto.trim();
+  var raw = null;
+  if(texto[0] === '{'){
+    try { raw = JSON.parse(texto); } catch(e){}
+  }
+  if(raw === null){
+    var dec = null;
+    try { dec = LZString.decompressFromBase64(texto); } catch(e){}
+    if(dec && dec[0] === '{'){
+      try { raw = JSON.parse(dec); } catch(e){}
+    }
+  }
+  if(raw === null) throw new Error('Formato no reconocido: ¿es el LZ Base64 de esta herramienta?');
+  if(!raw.estado || typeof raw.estado !== 'object')
+    throw new Error('El texto es válido pero no contiene un registro de esta herramienta');
+  return raw;
+}
+
+function esCrudo(texto){
+  return /^(EJE DEL CASO:|MOTIVO DE CONTROL:)/m.test(texto) || /^[SOAP]\s+[—-]\s+/m.test(texto);
+}
+
+function restaurarRegistro(texto){
+  if(esCrudo(texto)) return restaurarDesdeCrudo(texto);
+  var raw = parsarRegistro(texto);
+  state = raw.estado;
+  if(!state.tipoAtencion) state.tipoAtencion = raw.tipo_atencion || 'ingreso';
+  document.getElementById('tipoAtencion').value = state.tipoAtencion;
+  document.getElementById('motivoControl').value = raw.motivo_control || '';
+  document.getElementById('ejeCaso').value      = raw.eje_del_caso || '';
+  document.getElementById('fecha').value        = raw.fecha || '';
+  document.getElementById('profesional').value  = raw.profesional || '';
+  stepIndex = 0;
+  render();
+  // Contar qué se recuperó, para que el usuario vea que sirvió
+  var n = allSteps().filter(isDone).length;
+  return n + ' de ' + allSteps().length + ' pasos recuperados';
+}
+
+/* ══════════════════════════════════════════════════════════════
+   PARSER INVERSO — reconstruye el estado desde el texto crudo.
+   Best-effort, no round-trip exacto: el crudo omite campos vacíos
+   y no distingue posiciones en las filas clave-valor, así que
+   algunas cosas se recuperan aproximadas. Lo que no se entiende
+   se reporta, nunca se descarta en silencio.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Solo los marcadores exactos que imprime la salida. No cualquier
+   corchete: el clínico usa corchetes para acotaciones propias
+   ("[sin cambios en la composición del hogar]") y esas son contenido. */
+var MARCADORES = [
+  /\s*\[falta contenido que estratifica\]/gi,
+  /\s*\[falta corte de tres meses\]/gi,
+  /\s*\[falta respecto de qu[ée]\]/gi,
+  /\s*\[falta calificador\]/gi,
+  /\s*\[faltan d[ií]as\]/gi,
+  /\s*\[sin definir\]/gi,
+  /\s*\[horario supuesto,?\s*verificar\]/gi,
+  /\s*\[instrumento:[^\]]*\]/gi,
+  /\s*\[evento nuevo:[^\]]*\]/gi
+];
+function limpiaMarcador(s){
+  MARCADORES.forEach(function(re){ s = s.replace(re, ''); });
+  return s.trim();
+}
+
+/* Separa una lista "a, b, c, texto libre" en items del catálogo + resto */
+function partirPorCatalogo(txt, opts){
+  var sel = [], resto = [];
+  txt.split(/,\s*/).forEach(function(t){
+    t = t.trim();
+    if(!t) return;
+    var hit = opts.filter(function(o){ return o.toLowerCase() === t.toLowerCase(); })[0];
+    if(hit) sel.push(hit); else resto.push(t);
+  });
+  return { sel: sel, cal: resto.join(', ') };
+}
+
+function parsearCrudo(texto){
+  var lineas = texto.replace(/\r/g,'').split('\n');
+  var st = { S:{}, O:{}, A:{}, P:{} };
+  var cabecera = { eje:'', motivo:'' };
+  var noEntendidas = [];
+
+  // Detectar tipo de atención por los títulos presentes
+  var esControl = /^(Delta del período|Hitos del período)/m.test(texto);
+  st.tipoAtencion = esControl ? 'control' : 'ingreso';
+
+  // Índices de pasos por título, y de grupos del examen por etiqueta
+  var pasos = (function(){
+    var previo = state, prevIdx = stepIndex;
+    state = st;
+    var r = allSteps();
+    state = previo; stepIndex = prevIdx;
+    return r;
+  })();
+  var porTitulo = {};
+  pasos.forEach(function(p){ porTitulo[p.title] = p; });
+  var porGrupo = {};
+  pasos.forEach(function(p){
+    if(p.type === 'groups') p.groups.forEach(function(g){ porGrupo[g.l] = {paso:p, g:g}; });
+  });
+
+  var cur = null;        // paso activo para las líneas con viñeta
+  var quad = '';         // S / O / A / P
+  var i;
+
+  function ini(block, def){ if(!st[block]) st[block] = def; return st[block]; }
+
+  for(i = 0; i < lineas.length; i++){
+    var L = lineas[i];
+    var t = L.trim();
+    if(!t) continue;
+
+    // Encabezados de cuadrante
+    var mq = t.match(/^([SOAP])\s+[—-]\s+/);
+    if(mq){ quad = mq[1]; cur = null; continue; }
+
+    // Cabecera
+    if(/^EJE DEL CASO:/i.test(t)){ cabecera.eje = t.replace(/^EJE DEL CASO:\s*/i,''); continue; }
+    if(/^MOTIVO DE CONTROL:/i.test(t)){ cabecera.motivo = t.replace(/^MOTIVO DE CONTROL:\s*/i,''); continue; }
+
+    // Viñetas: pertenecen al paso activo
+    if(/^·/.test(t) || /^\s*·/.test(L)){
+      var v = limpiaMarcador(t.replace(/^·\s*/,''));
+      if(!v) continue;
+      if(!cur){
+        // Bullets sin título previo dentro de P = farmacológico
+        if(quad === 'P' && porTitulo['Farmacológico']) cur = porTitulo['Farmacológico'];
+        else { noEntendidas.push(t); continue; }
+      }
+      absorberVineta(st, cur, v, noEntendidas);
+      continue;
+    }
+
+    // minicolumbia: encabezado propio
+    if(/^minicolumbia/i.test(t)){
+      cur = porTitulo['minicolumbia (C-SSRS)'];
+      ini(cur.block, {});
+      continue;
+    }
+
+    // Línea "Etiqueta: contenido"
+    // Línea libre: va al calificador del paso activo. Devuelve true si la absorbió.
+    function aCalificador(linea){
+      if(!cur) return false;
+      if(cur.type === 'chips'){
+        st[cur.block] = st[cur.block] || {valor:[], calificador:''};
+        st[cur.block].calificador = ((st[cur.block].calificador||'')+' '+linea).trim();
+        return true;
+      }
+      if(cur.type === 'texto'){
+        st[cur.block] = ((st[cur.block] || '') + '\n' + linea).trim();
+        return true;
+      }
+      if(cur.type === 'groups' || cur.type === 'sustancias' || cur.type === 'antsuic'){
+        var kcal = cur.block + '_cal';
+        if(cur.type === 'antsuic'){
+          st[cur.block] = st[cur.block] || {};
+          st[cur.block].calificador = ((st[cur.block].calificador||'')+' '+linea).trim();
+        } else {
+          st[kcal] = ((st[kcal]||'')+' '+linea).trim();
+        }
+        return true;
+      }
+      return false;
+    }
+
+    if(/^ex[áa]menes en rango normal\.?$/i.test(t)){ st.labsNormal = true; continue; }
+
+    var m = t.match(/^([^:]+):\s*(.*)$/);
+    if(!m){
+      if(aCalificador(t)) continue;
+      noEntendidas.push(t); continue;
+    }
+    var etiqueta = m[1].trim();
+    var cuerpo = limpiaMarcador(m[2].replace(/\.$/,''));
+
+    // ¿Es un título de paso?
+    if(porTitulo[etiqueta]){
+      cur = porTitulo[etiqueta];
+      if(cuerpo) absorberLinea(st, cur, cuerpo, noEntendidas);
+      continue;
+    }
+    // ¿Es una etiqueta de grupo del examen mental?
+    if(porGrupo[etiqueta]){
+      var pg = porGrupo[etiqueta];
+      var g = ini(pg.paso.block, {});
+      var r = partirPorCatalogo(cuerpo, pg.g.o);
+      g[pg.g.k] = r.sel;
+      if(r.cal) st[pg.paso.block+'_cal'] = ((st[pg.paso.block+'_cal']||'')+' '+r.cal).trim();
+      cur = pg.paso;
+      continue;
+    }
+    // Riesgo
+    var mr = etiqueta.match(/^Riesgo\s+(.+)$/i);
+    if(mr){
+      var eje = mr[1].trim();
+      st.riesgo = st.riesgo || {};
+      var pr = cuerpo.split(/,\s*/);
+      st.riesgo[eje] = { nivel: pr.shift().trim(), calificador: pr.join(', ').trim() };
+      continue;
+    }
+    // Exámenes alterados / en rango normal
+    if(/^Ex[áa]menes alterados$/i.test(etiqueta)){
+      var pl = porTitulo['Exámenes'];
+      var arr = ini(pl.block, []);
+      cuerpo.split(/;\s*/).forEach(function(e){
+        var p = e.trim().split(/\s+/);
+        var val = p.pop();
+        arr.push({ n: p.join(' '), v: val });
+      });
+      cur = pl; continue;
+    }
+    if(/^Ex[áa]menes en rango normal$/i.test(etiqueta) || /^Ex[áa]menes en rango normal$/i.test(t.replace(/\.$/,''))){
+      st.labsNormal = true; continue;
+    }
+    // Delta / Seguimiento / Reposo, que imprimen su propio rótulo
+    if(/^Delta del per[íi]odo$/i.test(etiqueta)){
+      var pd = porTitulo['Delta del período'];
+      var pp = cuerpo.split(/,\s*/);
+      st[pd.block] = { v: pp.shift().trim(), cal: pp.join(', ').trim() };
+      continue;
+    }
+    if(/^Seguimiento$/i.test(etiqueta)){
+      var ps = porTitulo['Seguimiento'];
+      var partes = cuerpo.split(/\.\s*Anticipar si:\s*/);
+      var plazo = partes[0].trim();
+      var ok = TRAMOS_SEG.indexOf(plazo) > -1;
+      st[ps.block] = ok ? { plazo: plazo } : { plazo: 'otro', otro: plazo };
+      if(partes[1]) st[ps.block].calificador = partes[1].trim();
+      continue;
+    }
+    if(/^Reposo laboral$/i.test(etiqueta)){
+      var prp = porTitulo['Reposo laboral'];
+      var pz = cuerpo.split(/,\s*/);
+      st[prp.block] = { v: pz.shift().trim(), dias: pz.join(', ').trim() };
+      continue;
+    }
+
+    // Rótulo desconocido: prosa libre con dos puntos internos, al calificador
+    if(aCalificador(t)) continue;
+    noEntendidas.push(t);
+  }
+
+  return { estado: st, cabecera: cabecera, noEntendidas: noEntendidas };
+}
+
+/* Línea con contenido en la misma fila del título */
+function absorberLinea(st, p, cuerpo, err){
+  if(p.type === 'chips'){
+    var r = partirPorCatalogo(cuerpo, p.opts);
+    st[p.block] = { valor: r.sel, calificador: r.cal };
+
+  } else if(p.type === 'texto'){
+    st[p.block] = cuerpo;
+
+  } else if(p.type === 'delta'){
+    var pd = cuerpo.split(/,\s*/);
+    st[p.block] = { v: pd.shift().trim(), cal: pd.join(', ').trim() };
+
+  } else if(p.type === 'reposo'){
+    var pz = cuerpo.split(/,\s*/);
+    st[p.block] = { v: pz.shift().trim(), dias: pz.join(', ').trim() };
+
+  } else if(p.type === 'tramo'){
+    var partes = cuerpo.split(/\.\s*Anticipar si:\s*/);
+    var plazo = partes[0].trim();
+    st[p.block] = (TRAMOS_SEG.indexOf(plazo) > -1) ? { plazo: plazo } : { plazo: 'otro', otro: plazo };
+    if(partes[1]) st[p.block].calificador = partes[1].trim();
+
+  } else {
+    err.push(p.title + ': ' + cuerpo);
+  }
+}
+
+/* Línea con viñeta, perteneciente al paso activo */
+function absorberVineta(st, p, v, err){
+  if(p.type === 'bullets'){
+    st[p.block] = st[p.block] || [];
+    var cita = /^["“](.*)["”]$/.test(v);
+    st[p.block].push({ t: cita ? v.replace(/^["“]|["”]$/g,'') : v, cita: cita });
+
+  } else if(p.type === 'anio-evento'){
+    st[p.block] = st[p.block] || [];
+    var ma = v.match(/^(\d{4}|s\/a)\s+(.*)$/);
+    if(ma) st[p.block].push({ anio: ma[1], evento: ma[2] });
+    else st[p.block].push({ anio: 's/a', evento: v });
+
+  } else if(p.type === 'kv'){
+    st[p.id] = st[p.id] || [];
+    var toks = v.split(/\s+·\s+/);
+    var row = {}, fi = 0;
+    toks.forEach(function(tk){
+      // Heurística: si el campo esperado es "edad" y el token no es numérico, se salta
+      while(fi < p.fields.length && p.fields[fi] === 'edad' && !/^\d+$/.test(tk)) fi++;
+      if(fi < p.fields.length) row[p.fields[fi++]] = tk;
+    });
+    st[p.id].push(row);
+
+  } else if(p.type === 'sindrom'){
+    var sd = st[p.block] = st[p.block] || { sind:[], manif:{}, calificador:'', libre:[] };
+    var ms = v.match(/^Sd\.\s+([^:]+)(?::\s*(.*))?$/i);
+    if(ms){
+      var nom = ms[1].trim().toLowerCase();
+      var s = SINDROMES.filter(function(x){ return x.n.toLowerCase() === nom; })[0];
+      if(!s) s = SINDROMES.filter(function(x){
+        var xn = x.n.toLowerCase();
+        return xn.indexOf(nom) > -1 || nom.indexOf(xn) > -1;
+      })[0];
+      if(!s){ err.push(v); return; }
+      if(sd.sind.indexOf(s.id) < 0) sd.sind.push(s.id);
+      sd.manif[s.id] = sd.manif[s.id] || [];
+      (ms[2] || '').split(/;\s*/).forEach(function(mm){
+        mm = mm.trim(); if(!mm) return;
+        var hit = s.m.filter(function(x){ return x.toLowerCase() === mm.toLowerCase(); })[0];
+        if(hit) sd.manif[s.id].push(hit); else sd.libre.push(mm);
+      });
+    } else {
+      sd.libre.push(v);
+    }
+
+  } else if(p.type === 'sustancias'){
+    var su = st[p.block] = st[p.block] || {};
+    var msu = v.match(/^([^:]+):\s*(.*)$/);
+    if(!msu){ st[p.block+'_cal'] = ((st[p.block+'_cal']||'')+' '+v).trim(); return; }
+    var nom2 = msu[1].trim();
+    if(SUSTANCIAS.indexOf(nom2) < 0){ st[p.block+'_cal'] = ((st[p.block+'_cal']||'')+' '+v).trim(); return; }
+    var resto = msu[2];
+    var reg = {};
+    var mf = resto.match(/\(desde ([^)]+)\)/);
+    if(mf){ reg.fecha = mf[1]; resto = resto.replace(mf[0],''); }
+    var mp = resto.match(/consumo\s+(no problemático|problemático|en evaluación)/);
+    if(mp){ reg.problem = mp[1]; resto = resto.replace(mp[0],''); }
+    reg.patron = resto.replace(/,\s*$/,'').replace(/^\s*,/,'').trim();
+    su[nom2] = reg;
+
+  } else if(p.type === 'antsuic'){
+    var an = st[p.block] = st[p.block] || {};
+    var man = v.match(/^([^:]+):\s*(.*)$/);
+    if(!man){ an.calificador = ((an.calificador||'')+' '+v).trim(); return; }
+    var f = ANTS.campos.filter(function(x){ return x.l.toLowerCase() === man[1].trim().toLowerCase(); })[0];
+    if(f) an[f.k] = man[2].trim();
+    else an.calificador = ((an.calificador||'')+' '+v).trim();
+
+  } else if(p.type === 'columbia'){
+    var cb = st[p.block] = st[p.block] || {};
+    var mc = v.match(/^([^:]+):\s*(.*)$/);
+    if(!mc) return;
+    var k = mc[1].trim().toLowerCase(), val = mc[2].trim();
+    if(k === 'ideación'){
+      var pel = MC.escalera.filter(function(x){ return val.toLowerCase().indexOf(x.label.toLowerCase()) === 0; })[0];
+      if(pel){
+        cb.peldano = pel.n;
+        var extra = val.slice(pel.label.length).replace(/^,\s*/,'').trim();
+        if(extra) cb.cal = extra;
+      } else err.push(v);
+    } else if(k === 'conducta suicida'){
+      cb.conducta = /^sí/i.test(val) ? 'sí' : 'no';
+      if(cb.conducta === 'sí'){
+        if(/dentro de tres meses/i.test(val)) cb.corte = 'sí';
+        else if(/previa a tres meses/i.test(val)) cb.corte = 'no';
+        var sub = val.replace(/^sí,?\s*/i,'').replace(/(dentro de|previa a) tres meses,?\s*/i,'').trim();
+        if(sub) cb.condCal = sub;
+      }
+    } else if(k === 'plan de seguridad'){
+      if(MC.plan_seguridad.indexOf(val) > -1) cb.plan = val;
+    } else if(k === 'estratificación instrumento'){
+      cb.asumida = true;
+    }
+
+  } else if(p.type === 'frag-plan'){
+    var rx = st[p.block] = st[p.block] || [];
+    var mrx = v.match(/^(.+?)\s*\(([^)]+)\):\s*(.*)$/);
+    if(!mrx){ err.push(v); return; }
+    var izq = mrx[1].trim(), reg2 = { accion: mrx[2].trim(), motivo: mrx[3].trim() };
+    var mmg = izq.match(/^(.+?)\s+([\d,\.]+)\s*mg\s*(?:,\s*(.*))?$/);
+    var cola = '';
+    if(mmg){ reg2.farm = mmg[1].trim(); reg2.conc = mmg[2]; cola = (mmg[3]||'').trim(); }
+    else {
+      var pz2 = izq.split(/,\s*/);
+      reg2.farm = pz2.shift().trim(); reg2.conc = '';
+      cola = pz2.join(', ').trim();
+    }
+    if(/^depósito/i.test(cola)){ reg2.modo = 'deposito'; reg2.pauta = cola.replace(/^depósito,?\s*/i,''); }
+    else if(/^SOS/i.test(cola)){ reg2.modo = 'sos'; reg2.pauta = cola.replace(/^SOS,?\s*/i,''); }
+    else if(/^[\d,]+-[\d,]+-[\d,]+$/.test(cola)){
+      reg2.modo = 'mtn';
+      reg2.mtn = cola.split('-').map(function(x){ return parseFloat(x.replace(',','.')); });
+    } else { reg2.modo = 'mtn'; reg2.mtn = [0,0,0]; if(cola) reg2.motivo = cola + '. ' + reg2.motivo; }
+    rx.push(reg2);
+
+  } else if(p.type === 'chips'){
+    var ch = st[p.block] = st[p.block] || { valor:[], calificador:'' };
+    var rc = partirPorCatalogo(v, p.opts);
+    ch.valor = ch.valor.concat(rc.sel);
+    if(rc.cal) ch.calificador = (ch.calificador ? ch.calificador+', ' : '') + rc.cal;
+
+  } else if(p.type === 'texto'){
+    st[p.block] = ((st[p.block]||'') + '\n' + v).trim();
+
+  } else {
+    err.push(v);
+  }
+}
+
+function restaurarDesdeCrudo(texto){
+  var r = parsearCrudo(texto);
+  state = r.estado;
+  document.getElementById('tipoAtencion').value = state.tipoAtencion;
+  document.getElementById('motivoControl').value = r.cabecera.motivo || '';
+  document.getElementById('ejeCaso').value = r.cabecera.eje || '';
+  stepIndex = 0;
+  render();
+  var n = allSteps().filter(isDone).length;
+  var msg = n + ' de ' + allSteps().length + ' pasos recuperados desde texto crudo';
+  if(r.noEntendidas.length) msg += ' · ' + r.noEntendidas.length + ' línea(s) sin reconocer';
+  ultimoImporte = r;
+  return msg;
+}
+
+var ultimoImporte = null;
+
+function notaCopia(m){
+  var n = document.getElementById('copyNote');
+  n.textContent = m;
+  setTimeout(function(){ n.textContent=''; }, 2200);
+}
+function copiarTexto(txt, et){
+  var box = document.getElementById('rawBox');
+  navigator.clipboard.writeText(txt).then(function(){ notaCopia('✓ '+et+' copiado'); })
+  .catch(function(){
+    var prev = box.value;
+    box.value = txt; box.removeAttribute('readonly');
+    box.focus(); box.select();
+    try { document.execCommand('copy'); notaCopia('✓ '+et+' copiado'); }
+    catch(e){ notaCopia('usa Ctrl+C'); }
+    box.setAttribute('readonly','readonly');
+    if(et !== 'crudo') setTimeout(function(){ box.value = prev; }, 3000);
+  });
+}
+
+/* ── Theme ───────────────────────────────────────────────────── */
+(function(){
+  function get(){ return document.documentElement.getAttribute('data-theme') || 'dark'; }
+  function set(t){
+    document.documentElement.setAttribute('data-theme', t);
+    try { localStorage.setItem('rayen_theme', t); } catch(e){}
+    document.getElementById('themeLabel').textContent = t==='dark' ? 'oscuro' : 'claro';
+  }
+  set(get());
+  var tg = document.getElementById('themeToggle');
+  tg.addEventListener('click', function(){ set(get()==='dark' ? 'light' : 'dark'); });
+  tg.addEventListener('keydown', function(e){
+    if(e.key===' '||e.key==='Enter'){ e.preventDefault(); tg.click(); }
+  });
+})();
+
+document.getElementById('tipoAtencion').addEventListener('change', function(e){
+  state.tipoAtencion = e.target.value;
+  stepIndex = 0;
+  render();
+});
+document.getElementById('motivoControl').addEventListener('input', renderPreview);
+document.getElementById('ejeCaso').addEventListener('input', renderPreview);
+document.getElementById('previewHead').addEventListener('click', function(){
+  var p = document.getElementById('preview');
+  p.classList.toggle('open');
+  document.getElementById('previewToggle').textContent = p.classList.contains('open') ? '▾' : '▸';
+});
+document.getElementById('btnCopyRaw').addEventListener('click', function(){ copiarTexto(buildRaw(),'crudo'); });
+document.getElementById('btnCopyLZ').addEventListener('click', function(){
+  var payload = LZString.compressToBase64(JSON.stringify({
+    motivo_control: document.getElementById('motivoControl').value,
+    eje_del_caso: document.getElementById('ejeCaso').value,
+    tipo_atencion: state.tipoAtencion,
+    fecha: document.getElementById('fecha').value,
+    profesional: document.getElementById('profesional').value,
+    estado: state
+  }));
+  copiarTexto(payload,'LZ');
+});
+
+document.getElementById('restaurarHead').addEventListener('click', function(){
+  var r = document.getElementById('restaurar');
+  r.classList.toggle('open');
+  document.getElementById('restaurarToggle').textContent = r.classList.contains('open') ? '▾' : '▸';
+});
+document.getElementById('btnRestaurar').addEventListener('click', function(){
+  var ta = document.getElementById('restaurarBox');
+  var nota = document.getElementById('restaurarNota');
+  try {
+    var msg = restaurarRegistro(ta.value);
+    ta.value = '';
+    nota.className = 'copy-note';
+    nota.textContent = '✓ ' + msg;
+    document.getElementById('restaurar').classList.remove('open');
+    document.getElementById('restaurarToggle').textContent = '▸';
+  } catch(e){
+    nota.className = 'copy-note err';
+    nota.textContent = '✕ ' + e.message;
+  }
+  setTimeout(function(){ nota.textContent = ''; }, 6000);
+});
+
+state.tipoAtencion = 'ingreso';
+render();
+</script>
+</body>
+</html>
