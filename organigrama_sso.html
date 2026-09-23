@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organigrama SSO</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font: 'IBM Plex Sans', system-ui, sans-serif;
+  --mono: 'IBM Plex Mono', monospace;
+
+  /* dark */
+  --bg:       #0d0f0e;
+  --bg2:      #141716;
+  --bg3:      #1a1d1b;
+  --bg4:      #202422;
+  --surface:  #252928;
+  --surface2: #2d3230;
+  --border:   rgba(255,255,255,0.07);
+  --border2:  rgba(255,255,255,0.13);
+  --border3:  rgba(255,255,255,0.22);
+  --text:     #e2e8e4;
+  --text2:    #8fa89a;
+  --text3:    #566660;
+  --accent:   #3d9970;
+  --accent-bg:#0e2a1e;
+  --accent2:  #6dbf99;
+  --blue:     #4a9fd4;
+  --blue-bg:  #0a1e2e;
+  --blue2:    #7dbfe8;
+  --amber:    #d4914a;
+  --amber-bg: #201408;
+  --red:      #d46a6a;
+  --red-bg:   #200d0d;
+}
+
+[data-theme="light"] {
+  --bg:       #f5f4f0;
+  --bg2:      #eeede8;
+  --bg3:      #e8e7e2;
+  --bg4:      #e0dfda;
+  --surface:  #ffffff;
+  --surface2: #f0efe9;
+  --border:   rgba(0,0,0,0.08);
+  --border2:  rgba(0,0,0,0.14);
+  --border3:  rgba(0,0,0,0.24);
+  --text:     #1a1d1b;
+  --text2:    #4a5e55;
+  --text3:    #8fa89a;
+  --accent:   #1a7a50;
+  --accent-bg:#e8f5ef;
+  --accent2:  #0f5e3c;
+  --blue:     #1a5a8a;
+  --blue-bg:  #e4f0f8;
+  --blue2:    #2878b4;
+  --amber:    #9a5a18;
+  --amber-bg: #fdf3e8;
+  --red:      #9a3030;
+  --red-bg:   #fdeaea;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  font-size: 13px;
+  line-height: 1.5;
+  min-height: 100vh;
+}
+
+/* ── HEADER ─────────────────────────────────────────── */
+header {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border2);
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: stretch;
+  gap: 0;
+  height: 56px;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding-right: 1.5rem;
+  border-right: 1px solid var(--border2);
+  margin-right: 1.5rem;
+}
+.logo-mark {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.logo-mark svg { width: 18px; height: 18px; }
+.brand-text h1 {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: 0.02em;
+}
+.brand-text span {
+  font-size: 11px;
+  color: var(--text3);
+  font-family: var(--mono);
+}
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex: 1;
+}
+.meta-pill {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 2px 8px;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.meta-pill.accent { color: var(--accent2); border-color: var(--accent-bg); background: var(--accent-bg); }
+.header-actions { display: flex; align-items: center; gap: 8px; margin-left: auto; }
+
+/* theme toggle */
+.theme-btn {
+  width: 32px; height: 32px;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  background: var(--bg3);
+  color: var(--text2);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.theme-btn:hover { background: var(--surface); color: var(--text); }
+.icon-sun, .icon-moon { width: 15px; height: 15px; }
+[data-theme="dark"]  .icon-sun  { display: block; }
+[data-theme="dark"]  .icon-moon { display: none; }
+[data-theme="light"] .icon-sun  { display: none; }
+[data-theme="light"] .icon-moon { display: block; }
+
+/* ── TOOLBAR ─────────────────────────────────────────── */
+.toolbar {
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 8px 1.5rem;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.search-wrap {
+  flex: 1;
+  min-width: 200px;
+  position: relative;
+}
+.search-wrap svg {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 13px; height: 13px;
+  color: var(--text3);
+  pointer-events: none;
+}
+.toolbar input {
+  width: 100%;
+  padding: 6px 10px 6px 30px;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  font-size: 12px;
+  font-family: var(--font);
+  background: var(--bg3);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.15s;
+}
+.toolbar input:focus { border-color: var(--accent); }
+.toolbar input::placeholder { color: var(--text3); }
+
+.tbtn {
+  padding: 5px 11px;
+  border: 1px solid var(--border2);
+  border-radius: 6px;
+  background: var(--bg3);
+  color: var(--text2);
+  font-size: 11px;
+  font-family: var(--mono);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+  letter-spacing: 0.02em;
+}
+.tbtn:hover { background: var(--surface); color: var(--text); border-color: var(--border3); }
+
+.count-badge {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  margin-left: auto;
+  white-space: nowrap;
+}
+
+/* ── MAIN TREE ───────────────────────────────────────── */
+main {
+  padding: 1.25rem 1.5rem 4rem;
+  max-width: 860px;
+}
+
+.nd { border-radius: 7px; margin-bottom: 2px; }
+
+.nh {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: 7px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.1s;
+}
+.nh:hover { background: var(--surface2); }
+
+.chv {
+  width: 14px; height: 14px;
+  flex-shrink: 0;
+  color: var(--text3);
+  transition: transform 0.15s;
+  display: flex; align-items: center; justify-content: center;
+}
+.chv svg { width: 10px; height: 10px; }
+.chv.o svg { transform: rotate(90deg); }
+
+.lbl { flex: 1; min-width: 0; }
+.lbl .t { font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lbl .s { font-size: 11px; color: var(--text3); margin-top: 1px; font-family: var(--mono); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.cnt {
+  font-size: 10px;
+  font-family: var(--mono);
+  padding: 2px 7px;
+  border-radius: 20px;
+  white-space: nowrap;
+  flex-shrink: 0;
+  background: var(--bg3);
+  color: var(--text3);
+  border: 1px solid var(--border);
+}
+
+.res-tag {
+  font-size: 9px;
+  font-family: var(--mono);
+  color: var(--text3);
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  padding: 1px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+.ch {
+  padding-left: 18px;
+  border-left: 1px solid var(--border);
+  margin-left: 11px;
+  margin-top: 2px;
+  margin-bottom: 3px;
+}
+.hid { display: none; }
+
+/* level colors */
+.l-dir > .nh {
+  background: var(--accent-bg);
+  border: 1px solid rgba(61,153,112,0.25);
+}
+.l-dir > .nh .t { color: var(--accent2); font-size: 14px; }
+.l-dir > .nh .s { color: var(--accent); }
+.l-dir > .nh .chv { color: var(--accent); }
+.l-dir > .nh .cnt { background: rgba(61,153,112,0.12); color: var(--accent2); border-color: rgba(61,153,112,0.2); }
+
+.l-gab > .nh {
+  background: var(--blue-bg);
+  border: 1px solid rgba(74,159,212,0.2);
+}
+.l-gab > .nh .t { color: var(--blue2); font-size: 13px; }
+.l-gab > .nh .s { color: var(--blue); }
+.l-gab > .nh .chv { color: var(--blue); }
+.l-gab > .nh .cnt { background: rgba(74,159,212,0.1); color: var(--blue2); border-color: rgba(74,159,212,0.2); }
+
+.l-sd > .nh {
+  background: var(--surface);
+  border: 1px solid var(--border2);
+}
+.l-sd > .nh .t { color: var(--text); font-size: 13px; }
+.l-sd > .nh .cnt { background: var(--bg3); }
+
+.l-d > .nh {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+}
+.l-d > .nh .t { color: var(--text); font-size: 12px; font-weight: 400; }
+
+.l-u > .nh {
+  background: transparent;
+  border: none;
+}
+.l-u > .nh:hover { background: var(--bg3); }
+.l-u > .nh .t { color: var(--text2); font-size: 12px; font-weight: 400; font-style: italic; }
+
+.section-label {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  text-transform: uppercase;
+  padding: 10px 10px 4px;
+}
+
+/* personas — desktop: 4 cols inline, móvil: 2 líneas */
+.pr {
+  display: grid;
+  grid-template-columns: minmax(0,2fr) minmax(0,3fr) auto auto;
+  gap: 4px 8px;
+  align-items: baseline;
+  padding: 4px 10px 4px 26px;
+  border-radius: 5px;
+  font-size: 11px;
+}
+.pr:hover { background: var(--bg3); }
+.pn { color: var(--text); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pc { color: var(--text2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pt { color: var(--accent); font-family: var(--mono); font-size: 10px; white-space: nowrap; }
+.pe a { color: var(--text3); font-family: var(--mono); font-size: 10px; text-decoration: none; white-space: nowrap; }
+.pe a:hover { color: var(--blue); }
+
+@media (max-width: 600px) {
+  .pr {
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    padding: 7px 8px 7px 18px;
+    gap: 2px 8px;
+    align-items: start;
+  }
+  .pn { grid-column: 1; grid-row: 1; font-size: 12px; white-space: normal; overflow: visible; }
+  .pc { grid-column: 1; grid-row: 2; font-size: 11px; color: var(--text3); white-space: normal; overflow: visible; }
+  .pt { grid-column: 2; grid-row: 1; font-size: 11px; text-align: right; align-self: start; }
+  .pe { grid-column: 2; grid-row: 2; text-align: right; align-self: start; }
+  .pe a { font-size: 10px; }
+
+  .header-meta { display: none; }
+  .header-brand { border-right: none; padding-right: 0; }
+  .tbtn { display: none; }
+  .toolbar { padding: 6px 0.75rem; }
+  .count-badge { font-size: 10px; }
+  main { padding: 0.5rem 0.75rem 3rem; }
+  .ch { padding-left: 10px; margin-left: 7px; }
+  .nh { padding: 6px 8px; }
+  .lbl .t { font-size: 12px; }
+  .lbl .s { font-size: 10px; }
+  .cnt { font-size: 10px; padding: 1px 5px; }
+  .res-tag { display: none; }
+  .section-label { padding: 8px 8px 3px; }
+}
+
+mark.hl { background: var(--amber-bg); color: var(--amber); border-radius: 2px; padding: 0 1px; }
+
+.sr-hide { display: none !important; }
+
+.loading { padding: 3rem; text-align: center; color: var(--text3); font-family: var(--mono); font-size: 12px; }
+.err {
+  padding: 1rem 1.25rem;
+  background: var(--red-bg);
+  border: 1px solid rgba(212,106,106,0.25);
+  border-radius: 8px;
+  color: var(--red);
+  font-size: 12px;
+  font-family: var(--mono);
+  line-height: 1.8;
+  margin: 1rem 0;
+}
+
+/* scrollbar */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border3); border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-brand">
+    <div class="logo-mark" style="background:none; border-radius:6px; overflow:hidden;">
+      <svg viewBox="0 0 9 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect x="0" y="0" width="4" height="10" fill="#D0202A"/>
+        <rect x="4" y="0" width="5" height="10" fill="#1A5494"/>
+      </svg>
+    </div>
+    <div class="brand-text">
+      <h1>Servicio de Salud Osorno</h1>
+      <span>Estructura Orgánica</span>
+    </div>
+  </div>
+  <div class="header-meta">
+    <span class="meta-pill accent" id="meta-res">Res. Ex. N°2657/2022</span>
+    <span class="meta-pill" id="meta-fecha">—</span>
+    <span class="meta-pill" id="meta-fuente">dirtel.ssosorno.cl</span>
+  </div>
+  <div class="header-actions">
+    <button class="theme-btn" onclick="toggleTheme()" title="Cambiar tema">
+      <svg class="icon-sun" viewBox="0 0 15 15" fill="none">
+        <circle cx="7.5" cy="7.5" r="2.5" stroke="currentColor" stroke-width="1.2"/>
+        <path d="M7.5 1v1.5M7.5 12.5V14M1 7.5h1.5M12.5 7.5H14M2.93 2.93l1.06 1.06M10.01 10.01l1.06 1.06M2.93 12.07l1.06-1.06M10.01 4.99l1.06-1.06" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      <svg class="icon-moon" viewBox="0 0 15 15" fill="none">
+        <path d="M6 2C3.79 2 2 3.79 2 6c0 3.31 2.69 6 6 6 2.21 0 4-1.79 4-4 0-3.31-2.69-6-6-6z" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="search-wrap">
+    <svg viewBox="0 0 15 15" fill="none" stroke="currentColor" stroke-width="1.5">
+      <circle cx="6.5" cy="6.5" r="4"/><path d="M11 11l2.5 2.5" stroke-linecap="round"/>
+    </svg>
+    <input type="text" id="q" placeholder="Buscar nombre, cargo, departamento, teléfono..." oninput="flt()">
+  </div>
+  <button class="tbtn" onclick="setAll(true)">+ expandir</button>
+  <button class="tbtn" onclick="setAll(false)">− colapsar</button>
+  <span class="count-badge" id="meta-count"></span>
+</div>
+
+<main id="org"><div class="loading">cargando datos...</div></main>
+
+<script>
+const JSON_URL = 'sso_organigrama.json';
+let DATA = null;
+
+function toggleTheme() {
+  const t = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', t);
+  localStorage.setItem('sso-theme', t);
+}
+
+(function() {
+  const saved = localStorage.getItem('sso-theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+})();
+
+async function init() {
+  try {
+    const r = await fetch(JSON_URL);
+    if (!r.ok) throw new Error('HTTP ' + r.status + ' — asegúrate de que sso_organigrama.json está en el mismo directorio.');
+    DATA = await r.json();
+    const m = DATA._meta;
+    document.getElementById('meta-fecha').textContent = 'extracción ' + (m.fecha_extraccion || '—');
+    document.getElementById('meta-fuente').textContent = m.fuente?.split('—')[0].trim() || '';
+    build();
+  } catch(e) {
+    document.getElementById('org').innerHTML =
+      `<div class="err">error: ${e.message}\n\nen local: servir con python3 -m http.server 8080\nen producción: subir ambos archivos a GitHub Pages</div>`;
+  }
+}
+
+const mk = (t, c) => { const e = document.createElement(t); if(c) e.className = c; return e; };
+
+// ── SEARCH ENGINE ────────────────────────────────────────────
+// DOM is built once. Search operates on existing nodes via
+// data-search attribute + CSS visibility. No rebuild on keypress.
+
+function escRe(s) { return s.replace(/[.*+?^${}()|[\]\\]/g,'\\$&'); }
+
+// Apply highlight marks to a single text node's parent element.
+// Stores original text in data-orig so we can restore it cleanly.
+function applyHl(el, q) {
+  if (!el) return;
+  if (!el.dataset.orig) el.dataset.orig = el.textContent;
+  const orig = el.dataset.orig;
+  if (!q) { el.innerHTML = orig; return; }
+  el.innerHTML = orig.replace(
+    new RegExp('(' + escRe(q) + ')', 'gi'),
+    '<mark class="hl">$1</mark>'
+  );
+}
+
+function clearHl(el) {
+  if (el && el.dataset.orig) { el.innerHTML = el.dataset.orig; }
+}
+
+function chvIcon() {
+  const s = mk('span','chv');
+  s.innerHTML = `<svg viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 2l4 3-4 3"/></svg>`;
+  return s;
+}
+
+function node(lvl, titleText, subText, cntText, resText, fn) {
+  const d = mk('div', 'nd ' + lvl);
+  const h = mk('div', 'nh');
+  const chv = chvIcon();
+  const lbl = mk('div', 'lbl');
+  const t = mk('div', 't'); t.textContent = titleText || '';
+  lbl.appendChild(t);
+  if (subText) { const s = mk('div','s'); s.textContent = subText; lbl.appendChild(s); }
+  h.appendChild(chv);
+  h.appendChild(lbl);
+  if (resText) { const rb = mk('span','res-tag'); rb.textContent = resText; h.appendChild(rb); }
+  if (cntText != null) { const c = mk('span','cnt'); c.textContent = cntText; h.appendChild(c); }
+  d.appendChild(h);
+  const ch = mk('div', 'ch hid');
+  fn(ch);
+  d.appendChild(ch);
+  h.onclick = () => { ch.classList.toggle('hid'); chv.classList.toggle('o'); };
+  // Store searchable text on the node itself (all descendant text will be scanned separately)
+  d.dataset.nodeText = (titleText + ' ' + (subText||'')).toLowerCase();
+  return d;
+}
+
+function sectionLabel(text) {
+  const l = mk('div','section-label'); l.textContent = text; return l;
+}
+
+function persona(p) {
+  const r = mk('div','pr');
+  // store raw values for search
+  r.dataset.search = [p.nombre, p.cargo, p.telefono, p.email].join(' ').toLowerCase();
+  const n = mk('span','pn'); n.textContent = p.nombre||'—';
+  const c = mk('span','pc'); c.textContent = p.cargo||'';
+  const t = mk('span','pt'); t.textContent = p.telefono||'';
+  const e = mk('span','pe');
+  if (p.email) { const a = mk('a'); a.href='mailto:'+p.email; a.textContent = p.email; e.appendChild(a); }
+  r.appendChild(n); r.appendChild(c); r.appendChild(t); r.appendChild(e);
+  return r;
+}
+
+function unidadNode(u) {
+  const px = (u.personas||[]).filter(p => p.nombre);
+  const label = u.unidad && u.unidad !== '(sin unidad)' ? u.unidad : '';
+  if (!label && !px.length) return null;
+  return node('l-u', label || '—', null, px.length ? px.length+'p' : null, null, ch => {
+    px.forEach(p => ch.appendChild(persona(p)));
+  });
+}
+
+function deptoNode(dep) {
+  const total = (dep.unidades||[]).reduce((a,u) => a + (u.personas||[]).filter(p=>p.nombre).length, 0);
+  const jefe = (dep.unidades||[]).flatMap(u=>u.personas||[])
+    .find(p => /jef|direct|subdirect/i.test(p.cargo||''));
+  return node('l-d', dep.nombre, jefe?.nombre||null, total+'p', null, ch => {
+    (dep.unidades||[]).forEach(u => { const n = unidadNode(u); if(n) ch.appendChild(n); });
+  });
+}
+
+function sdNode(sd) {
+  const jefe = (sd.personas||[]).find(p => /subdirector/i.test(p.cargo||''));
+  return node('l-sd', sd.nombre, jefe?.nombre||null,
+    (sd.departamentos||[]).length + ' depts', sd.resolucion, ch => {
+    if ((sd.personas||[]).length) {
+      ch.appendChild(sectionLabel('subdirección'));
+      sd.personas.forEach(p => ch.appendChild(persona(p)));
+    }
+    (sd.unidades_propias||[]).forEach(u => ch.appendChild(deptoNode(u)));
+    if ((sd.departamentos||[]).length) {
+      ch.appendChild(sectionLabel('departamentos'));
+      sd.departamentos.forEach(dep => ch.appendChild(deptoNode(dep)));
+    }
+  });
+}
+
+// ── BUILD (called once) ───────────────────────────────────────
+function build() {
+  const org = document.getElementById('org');
+  org.innerHTML = '';
+
+  const dir = DATA.direccion;
+  const dirJefe = (dir.personas||[]).find(p => p.cargo?.toLowerCase() === 'director');
+
+  const root = node('l-dir', 'Servicio de Salud Osorno', dirJefe?.nombre||null, null, null, ch => {
+    if ((dir.personas||[]).length) {
+      ch.appendChild(sectionLabel('dirección'));
+      dir.personas.forEach(p => ch.appendChild(persona(p)));
+    }
+    const dd = DATA.dependencias_directas_direccion || [];
+    if (dd.length) {
+      ch.appendChild(sectionLabel('dependencias directas'));
+      dd.forEach(d => ch.appendChild(deptoNode(d)));
+    }
+    const gab = DATA.gabinete;
+    if (gab) {
+      const gabNode = node('l-gab', gab.nombre||'Gabinete', null,
+        (gab.subdepartamentos||[]).length + ' subdeptos', gab.resolucion, ch2 => {
+        (gab.subdepartamentos||[]).forEach(s => {
+          const total = (s.unidades||[]).reduce((a,u) => a+(u.personas||[]).filter(p=>p.nombre).length, 0);
+          const sj = (s.unidades||[]).flatMap(u=>u.personas||[]).find(p => /jef|encarg/i.test(p.cargo||''));
+          ch2.appendChild(node('l-d', s.nombre, sj?.nombre||null, total+'p', null, ch3 => {
+            (s.unidades||[]).forEach(u => { const n = unidadNode(u); if(n) ch3.appendChild(n); });
+          }));
+        });
+      });
+      ch.appendChild(gabNode);
+    }
+    ch.appendChild(sectionLabel('subdirecciones'));
+    (DATA.subdirecciones||[]).forEach(sd => ch.appendChild(sdNode(sd)));
+    const otros = DATA.otros || [];
+    if (otros.length) {
+      ch.appendChild(sectionLabel('otros organismos'));
+      otros.forEach(o => ch.appendChild(deptoNode(o)));
+    }
+  });
+
+  root.querySelector('.ch').classList.remove('hid');
+  root.querySelector('.chv').classList.add('o');
+  org.appendChild(root);
+
+  // stats
+  let total = 0;
+  function countNode(n) {
+    if (n.personas) total += n.personas.filter(p=>p.nombre).length;
+    if (n.unidades) n.unidades.forEach(u => total += (u.personas||[]).filter(p=>p.nombre).length);
+    if (n.departamentos) n.departamentos.forEach(d => countNode(d));
+    if (n.subdepartamentos) n.subdepartamentos.forEach(s => countNode(s));
+    if (n.unidades_propias) n.unidades_propias.forEach(u => countNode(u));
+  }
+  countNode(DATA.direccion);
+  (DATA.dependencias_directas_direccion||[]).forEach(countNode);
+  (DATA.gabinete?.subdepartamentos||[]).forEach(countNode);
+  (DATA.subdirecciones||[]).forEach(sd => {
+    if (sd.personas) total += sd.personas.filter(p=>p.nombre).length;
+    countNode(sd);
+  });
+  (DATA.otros||[]).forEach(countNode);
+
+  document.getElementById('meta-count').textContent =
+    total + ' personas · ' + (DATA.subdirecciones?.length||0) + ' subdirecciones · ' +
+    ((DATA.subdirecciones||[]).reduce((a,s) => a + (s.departamentos||[]).length, 0)) + ' departamentos';
+}
+
+// ── SEARCH (operates on existing DOM) ────────────────────────
+let lastQ = '';
+
+function flt() {
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  if (q === lastQ) return;
+  lastQ = q;
+
+  if (!q) {
+    // restore: remove all search-state classes, clear highlights
+    document.querySelectorAll('.pr').forEach(r => {
+      r.classList.remove('sr-hide');
+      clearHl(r.querySelector('.pn'));
+      clearHl(r.querySelector('.pc'));
+    });
+    document.querySelectorAll('.nd').forEach(nd => {
+      nd.classList.remove('sr-hide','sr-dim');
+    });
+    document.getElementById('meta-count').style.color = '';
+    return;
+  }
+
+  // Step 1: mark each persona row as match or hide
+  let matchCount = 0;
+  document.querySelectorAll('.pr').forEach(r => {
+    const hit = r.dataset.search && r.dataset.search.includes(q);
+    r.classList.toggle('sr-hide', !hit);
+    if (hit) {
+      matchCount++;
+      applyHl(r.querySelector('.pn'), q);
+      applyHl(r.querySelector('.pc'), q);
+    } else {
+      clearHl(r.querySelector('.pn'));
+      clearHl(r.querySelector('.pc'));
+    }
+  });
+
+  // Step 2: walk .nd nodes bottom-up
+  // A node is visible if:
+  //   a) its own nodeText matches, OR
+  //   b) any descendant .pr is visible, OR
+  //   c) any descendant .nd is visible
+  // Use querySelectorAll which returns in document order (top-down),
+  // so we reverse for bottom-up propagation.
+  const allNd = Array.from(document.querySelectorAll('.nd'));
+
+  // Reset all nodes
+  allNd.forEach(nd => nd.classList.remove('sr-hide','sr-dim'));
+
+  // Bottom-up: hide nodes with no visible content
+  for (let i = allNd.length - 1; i >= 0; i--) {
+    const nd = allNd[i];
+    const nodeMatch = nd.dataset.nodeText && nd.dataset.nodeText.includes(q);
+    const hasVisiblePr = Array.from(nd.querySelectorAll(':scope > .ch .pr'))
+      .some(r => !r.classList.contains('sr-hide'));
+    const hasVisibleChild = Array.from(nd.querySelectorAll(':scope > .ch > .nd'))
+      .some(c => !c.classList.contains('sr-hide'));
+
+    if (!nodeMatch && !hasVisiblePr && !hasVisibleChild) {
+      nd.classList.add('sr-hide');
+    }
+  }
+
+  // Step 3: highlight node labels that match directly
+  allNd.forEach(nd => {
+    if (nd.classList.contains('sr-hide')) return;
+    const tEl = nd.querySelector(':scope > .nh .t');
+    const sEl = nd.querySelector(':scope > .nh .s');
+    if (nd.dataset.nodeText && nd.dataset.nodeText.includes(q)) {
+      applyHl(tEl, q);
+      applyHl(sEl, q);
+    } else {
+      clearHl(tEl);
+      clearHl(sEl);
+    }
+  });
+
+  // Step 4: expand ancestors of visible nodes, collapse empty ones
+  allNd.forEach(nd => {
+    const ch = nd.querySelector(':scope > .ch');
+    const chv = nd.querySelector(':scope > .nh > .chv');
+    if (!ch) return;
+    if (!nd.classList.contains('sr-hide')) {
+      ch.classList.remove('hid');
+      chv && chv.classList.add('o');
+    }
+  });
+
+  // Update count
+  const countEl = document.getElementById('meta-count');
+  countEl.textContent = matchCount + ' resultados';
+  countEl.style.color = matchCount > 0 ? 'var(--accent2)' : 'var(--red)';
+}
+
+function setAll(open) {
+  document.querySelectorAll('.ch').forEach(c => open ? c.classList.remove('hid') : c.classList.add('hid'));
+  document.querySelectorAll('.chv').forEach(c => open ? c.classList.add('o') : c.classList.remove('o'));
+}
+
+init();
+</script>
+</body>
+</html>

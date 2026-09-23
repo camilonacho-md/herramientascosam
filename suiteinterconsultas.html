@@ -1,0 +1,2230 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Suite SIC — COSAM Rahue</title>
+    <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Playfair+Display:wght@400;500&family=Source+Serif+4:ital,wght@0,400;1,400&display=swap" rel="stylesheet">
+    <script>
+var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",n="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-$",e={};function t(r,o){if(!e[r]){e[r]={};for(var n=0;n<r.length;n++)e[r][r.charAt(n)]=n}return e[r][o]}var i={compressToBase64:function(r){if(null==r)return"";var n=i._compress(r,6,function(r){return o.charAt(r)});switch(n.length%4){default:case 0:return n;case 1:return n+"===";case 2:return n+"==";case 3:return n+"="}},decompressFromBase64:function(r){return null==r?"":""==r?null:i._decompress(r.length,32,function(n){return t(o,r.charAt(n))})},compressToUTF16:function(o){return null==o?"":i._compress(o,15,function(o){return r(o+32)})+" "},decompressFromUTF16:function(r){return null==r?"":""==r?null:i._decompress(r.length,16384,function(o){return r.charCodeAt(o)-32})},compressToUint8Array:function(r){for(var o=i.compress(r),n=new Uint8Array(2*o.length),e=0,t=o.length;e<t;e++){var s=o.charCodeAt(e);n[2*e]=s>>>8,n[2*e+1]=s%256}return n},decompressFromUint8Array:function(o){if(null==o)return i.decompress(o);for(var n=new Array(o.length/2),e=0,t=n.length;e<t;e++)n[e]=256*o[2*e]+o[2*e+1];var s=[];return n.forEach(function(o){s.push(r(o))}),i.decompress(s.join(""))},compressToEncodedURIComponent:function(r){return null==r?"":i._compress(r,6,function(r){return n.charAt(r)})},decompressFromEncodedURIComponent:function(r){return null==r?"":""==r?null:(r=r.replace(/ /g,"+"),i._decompress(r.length,32,function(o){return t(n,r.charAt(o))}))},compress:function(o){return i._compress(o,16,function(o){return r(o)})},_compress:function(r,o,n){if(null==r)return"";var e,t,i,s={},u={},a="",p="",c="",l=2,f=3,h=2,d=[],m=0,v=0;for(i=0;i<r.length;i+=1)if(a=r.charAt(i),Object.prototype.hasOwnProperty.call(s,a)||(s[a]=f++,u[a]=!0),p=c+a,Object.prototype.hasOwnProperty.call(s,p))c=p;else{if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++),s[p]=f++,c=String(a)}if(""!==c){if(Object.prototype.hasOwnProperty.call(u,c)){if(c.charCodeAt(0)<256){for(e=0;e<h;e++)m<<=1,v==o-1?(v=0,d.push(n(m)),m=0):v++;for(t=c.charCodeAt(0),e=0;e<8;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}else{for(t=1,e=0;e<h;e++)m=m<<1|t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t=0;for(t=c.charCodeAt(0),e=0;e<16;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1}0==--l&&(l=Math.pow(2,h),h++),delete u[c]}else for(t=s[c],e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;0==--l&&(l=Math.pow(2,h),h++)}for(t=2,e=0;e<h;e++)m=m<<1|1&t,v==o-1?(v=0,d.push(n(m)),m=0):v++,t>>=1;for(;;){if(m<<=1,v==o-1){d.push(n(m));break}v++}return d.join("")},decompress:function(r){return null==r?"":""==r?null:i._decompress(r.length,32768,function(o){return r.charCodeAt(o)})},_decompress:function(o,n,e){var t,i,s,u,a,p,c,l=[],f=4,h=4,d=3,m="",v=[],g={val:e(0),position:n,index:1};for(t=0;t<3;t+=1)l[t]=t;for(s=0,a=Math.pow(2,2),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;c=r(s);break;case 2:return""}for(l[3]=c,i=c,v.push(c);;){if(g.index>o)return"";for(s=0,a=Math.pow(2,d),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;switch(c=s){case 0:for(s=0,a=Math.pow(2,8),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 1:for(s=0,a=Math.pow(2,16),p=1;p!=a;)u=g.val&g.position,g.position>>=1,0==g.position&&(g.position=n,g.val=e(g.index++)),s|=(u>0?1:0)*p,p<<=1;l[h++]=r(s),c=h-1,f--;break;case 2:return v.join("")}if(0==f&&(f=Math.pow(2,d),d++),l[c])m=l[c];else{if(c!==h)return null;m=i+i.charAt(0)}v.push(m),l[h++]=i+m.charAt(0),i=m,0==--f&&(f=Math.pow(2,d),d++)}}};return i}();
+</script>
+    <style>
+/* ═══════════════════════════════════════════════════════════════════
+   BAJA COTA v2 · Régimen HERRAMIENTA
+   Cuerpo 13px · UI sans · tablas densas permitidas · 1 acento accionable
+   Rediseño: se preservan clases, IDs y JS. Solo cambia la piel.
+   ═══════════════════════════════════════════════════════════════════ */
+
+:root{
+  /* Superficies · elevación por tono */
+  --s0:#141210; --s1:#1a1815; --s2:#211f1c; --s3:#2a2825; --s4:#34302b;
+  --line:rgba(255,255,255,.07); --line2:rgba(255,255,255,.12);
+  /* Texto · rol fijo */
+  --ink:#e8e3db; --ink2:#c0bab0; --ink3:#8a847c; --mut:#5a5650; --lab:#6a6560;
+  /* Acento único */
+  --acc:#3d63e8; --acc-hov:#5b7ff0; --on-acc:#fff;
+  --acc-soft:rgba(61,99,232,.15); --acc-line:rgba(61,99,232,.30);
+  /* Semántica */
+  --ok:#5abf80; --ok-bg:rgba(90,191,128,.12); --ok-line:rgba(90,191,128,.22);
+  --warn:#d4a060; --warn-bg:rgba(212,160,96,.12); --warn-line:rgba(212,160,96,.22);
+  --err:#f08080; --err-bg:rgba(240,128,128,.12); --err-line:rgba(240,128,128,.22);
+  /* Tipografía */
+  --f-display:'Playfair Display',Georgia,serif;
+  --f-ui:'IBM Plex Sans',system-ui,sans-serif;
+  --f-read:'Source Serif 4',Georgia,serif;
+  --f-mono:'IBM Plex Mono',Consolas,monospace;
+  /* Espaciado base 4 · radios proporcionales */
+  --sp1:4px; --sp2:8px; --sp3:12px; --sp4:16px; --sp6:24px; --sp8:32px;
+  --r-sm:4px; --r-md:8px; --r-lg:12px; --r-xl:16px;
+}
+[data-theme="light"]{
+  --s0:#fff; --s1:#faf9f6; --s2:#f3f1ec; --s3:#fff; --s4:#eceae4;
+  --line:rgba(0,0,0,.08); --line2:rgba(0,0,0,.14);
+  --ink:#1a1814; --ink2:#3d3a34; --ink3:#6b6560; --mut:#9a9590; --lab:#7a7570;
+  --acc:#1a4fff; --acc-hov:#0f35cc;
+  --acc-soft:rgba(26,79,255,.10); --acc-line:rgba(26,79,255,.25);
+  --ok:#1a5c30; --ok-bg:#e8f5ee; --ok-line:#bfe2cd;
+  --warn:#7a4000; --warn-bg:#fff3e0; --warn-line:#f0d9b8;
+  --err:#8a0010; --err-bg:#fde8e8; --err-line:#f3c9c9;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%}
+body{
+  font-family:var(--f-ui);
+  font-size:13px;
+  line-height:1.6;
+  background:var(--s1);
+  color:var(--ink);
+  transition:background .2s,color .2s;
+}
+button,input,textarea,select{font:inherit;color:inherit}
+button{cursor:pointer}
+.mono,code{font-family:var(--f-mono)}
+
+/* ── Header · s0 ─────────────────────────────────────────────────── */
+.header{
+  background:var(--s0);
+  color:var(--ink);
+  padding:var(--sp4) var(--sp6);
+  display:flex;align-items:center;justify-content:space-between;gap:var(--sp4);
+  border-bottom:1px solid var(--line);
+}
+.header-title{font-family:var(--f-display);font-size:20px;font-weight:400;line-height:1.2}
+.header-sub{font-size:12px;color:var(--ink3);margin-top:2px}
+.header-badge{
+  font-family:var(--f-mono);font-size:12px;
+  background:var(--s3);color:var(--ink3);
+  padding:2px var(--sp2);border-radius:var(--r-sm);letter-spacing:.04em;
+}
+
+/* Theme toggle */
+.theme-switch{display:flex;align-items:center;gap:var(--sp2);margin-left:auto}
+.switch-label{font-family:var(--f-mono);font-size:12px;color:var(--ink3);min-width:44px}
+.switch-track{
+  position:relative;width:44px;height:24px;
+  background:var(--s3);border:1px solid var(--line2);border-radius:999px;
+  cursor:pointer;transition:background .2s,border-color .2s;flex-shrink:0;
+}
+.switch-track:hover{border-color:var(--acc-line)}
+.switch-thumb{
+  position:absolute;top:3px;left:3px;width:16px;height:16px;
+  background:var(--ink3);border-radius:50%;
+  transition:transform .2s,background .2s;pointer-events:none;
+}
+[data-theme="light"] .switch-thumb{background:var(--acc);transform:translateX(20px)}
+
+/* ── Barra de captura (paso 1) · s2, filete inferior ─────────────── */
+.capture-bar{
+  background:var(--s2);
+  padding:var(--sp3) var(--sp6);
+  display:flex;align-items:center;gap:var(--sp4);flex-wrap:wrap;
+  border-bottom:1px solid var(--line);
+}
+.capture-step{font-family:var(--f-mono);font-size:12px;color:var(--lab);white-space:nowrap;letter-spacing:.04em}
+.capture-note{font-size:13px;color:var(--ink3);max-width:460px}
+.capture-note strong{color:var(--ink2);font-weight:500}
+.bm-link{
+  display:inline-block;
+  background:var(--s4);color:var(--ink);border:1px solid var(--line2);
+  font-family:var(--f-mono);font-size:12px;font-weight:500;
+  padding:var(--sp2) var(--sp4);
+  border-radius:var(--r-sm);
+  text-decoration:none;white-space:nowrap;
+}
+.bm-link:hover{border-color:var(--acc-line);color:var(--acc)}
+
+/* ── Layout ──────────────────────────────────────────────────────── */
+.main{max-width:1280px;margin:0 auto;padding:var(--sp6)}
+
+/* ── Zona de entrada · s2 ────────────────────────────────────────── */
+.input-zone{
+  background:var(--s2);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  padding:var(--sp4);
+  margin-bottom:var(--sp4);
+}
+.zone-note{
+  font-family:var(--f-ui);font-size:12px;font-weight:400;
+  color:var(--mut);text-transform:none;letter-spacing:0;margin-left:var(--sp2);
+}
+.zone-label{
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  color:var(--lab);text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:var(--sp2);
+}
+.input-row{display:flex;gap:var(--sp2)}
+textarea{
+  flex:1;height:76px;
+  font-family:var(--f-mono);font-size:12px;line-height:1.5;
+  background:var(--s3);border:1px solid var(--line2);
+  border-radius:var(--r-sm);
+  padding:var(--sp2);color:var(--ink);resize:vertical;outline:none;
+  transition:border-color .12s,box-shadow .12s;
+}
+textarea:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.btn-col{display:flex;flex-direction:column;gap:var(--sp1)}
+
+/* ── Botones · primario acc, secundario s4, destructivo err ──────── */
+.btn-primary{
+  background:var(--acc);color:var(--on-acc);border:1px solid var(--acc);
+  padding:var(--sp2) var(--sp4);border-radius:var(--r-sm);
+  font-family:var(--f-ui);font-size:13px;font-weight:500;
+  transition:background .15s,border-color .15s;
+}
+.btn-primary:hover{background:var(--acc-hov);border-color:var(--acc-hov)}
+.btn-primary:disabled{opacity:.35;cursor:not-allowed}
+.btn-secondary{
+  background:var(--s4);color:var(--ink2);border:1px solid var(--line2);
+  padding:var(--sp2) var(--sp3);border-radius:var(--r-sm);
+  font-family:var(--f-ui);font-size:13px;
+  transition:border-color .15s,color .15s;
+}
+.btn-secondary:hover{border-color:var(--acc-line);color:var(--ink)}
+.btn-secondary:disabled{opacity:.35;cursor:not-allowed}
+.btn-sm{font-size:12px;padding:var(--sp1) var(--sp2)}
+.btn-danger{
+  background:var(--s4);color:var(--err);border:1px solid var(--err-line);
+  padding:var(--sp2) var(--sp3);border-radius:var(--r-sm);font-size:13px;
+}
+.btn-danger:hover{border-color:var(--err)}
+
+/* ── Barra de estado · fondo semántico tenue ─────────────────────── */
+.status-bar{
+  margin-top:var(--sp2);
+  font-family:var(--f-mono);font-size:12px;
+  color:var(--ink3);min-height:18px;
+  padding:var(--sp1) 0;
+}
+.status-bar.ok{color:var(--ok)}
+.status-bar.err{color:var(--err)}
+
+/* ── Tabs · filete, sin caja ─────────────────────────────────────── */
+.tabs{display:flex;border-bottom:1px solid var(--line);margin-bottom:var(--sp4)}
+.tab{
+  padding:var(--sp2) var(--sp4);
+  font-family:var(--f-ui);font-size:13px;font-weight:500;
+  border:none;background:none;color:var(--ink3);
+  border-bottom:2px solid transparent;margin-bottom:-1px;
+}
+.tab.active{color:var(--ink);border-bottom-color:var(--acc)}
+.tab:hover:not(.active){color:var(--ink2)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
+/* ── Tarjetas · objeto acotado y repetible ───────────────────────── */
+.card{
+  background:var(--s3);
+  border:1px solid var(--line);
+  border-radius:var(--r-md);
+  padding:var(--sp4);
+  margin-bottom:var(--sp3);
+}
+.card-title{
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  color:var(--lab);text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:var(--sp3);padding-bottom:var(--sp2);
+  border-bottom:1px solid var(--line);
+}
+
+/* ── Métricas · fila separada por filete, ancho por contenido ─────
+   (§2.2: la retícula de N celdas idénticas no es estructura principal) */
+.metrics{
+  display:flex;flex-wrap:wrap;
+  margin-bottom:var(--sp4);
+  border-top:1px solid var(--line);
+  border-bottom:1px solid var(--line);
+  padding:var(--sp3) 0;
+}
+.mc{
+  flex:1 1 auto;min-width:150px;
+  padding:0 var(--sp4);
+  border-left:1px solid var(--line);
+}
+.mc:first-child{border-left:none;padding-left:0}
+.mc-label{
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  color:var(--lab);text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:var(--sp1);
+}
+.mc-val{font-family:var(--f-display);font-size:32px;font-weight:400;line-height:1;color:var(--ink)}
+.mc-sub{font-family:var(--f-mono);font-size:12px;color:var(--ink3);margin-top:var(--sp1)}
+
+/* ── Barras ──────────────────────────────────────────────────────── */
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp3);margin-bottom:var(--sp3)}
+.bar-row{display:flex;align-items:center;gap:var(--sp2);margin-bottom:var(--sp1)}
+.bar-label{font-size:13px;width:190px;flex-shrink:0;color:var(--ink2)}
+.bar-label.sm{width:130px}
+.bar-track{flex:1;height:6px;background:var(--s4);border-radius:var(--r-sm)}
+.bar-fill{height:100%;border-radius:var(--r-sm);background:var(--ink3)}
+.bar-n{font-family:var(--f-mono);font-size:12px;color:var(--ink3);min-width:64px;text-align:right}
+.cooc{
+  font-family:var(--f-mono);font-size:12px;color:var(--ink3);
+  margin-top:var(--sp3);padding-top:var(--sp2);border-top:1px solid var(--line);
+}
+.cooc span{display:inline-block;margin-right:var(--sp4);margin-top:var(--sp1)}
+.cooc strong{color:var(--ink);font-weight:500}
+
+/* ── Badge (estado fijo, r-sm) · Pill (filtro accionable, 999px) ──
+   §5: la forma dice si es informativo o tocable.
+   Los marcadores clínicos son estado → badge de esquina recta. */
+.pill{
+  display:inline-block;
+  font-family:var(--f-mono);font-size:12px;font-weight:400;
+  padding:1px var(--sp2);border-radius:var(--r-sm);
+  white-space:nowrap;margin:1px 1px 1px 0;
+  background:var(--s4);color:var(--ink2);border:1px solid var(--line2);
+}
+.p-red{background:var(--err-bg);color:var(--err);border-color:var(--err-line)}
+.p-amber{background:var(--warn-bg);color:var(--warn);border-color:var(--warn-line)}
+.p-green{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+.p-blue{background:var(--acc-soft);color:var(--acc);border-color:var(--acc-line)}
+.p-purple{background:var(--s4);color:var(--ink2);border-color:var(--line2)}
+.p-teal{background:var(--ok-bg);color:var(--ok);border-color:var(--ok-line)}
+.p-gray{background:var(--s4);color:var(--mut);border-color:var(--line)}
+.flags{display:flex;flex-wrap:wrap;gap:2px}
+
+/* Inconsistencia: peso y color, sin ícono (§2.4) */
+.pill.p-incon{background:var(--err-bg);color:var(--err);border:1px solid var(--err);font-weight:500}
+/* Marcador histórico: filete discontinuo, sin color propio */
+.pill.p-hist{background:transparent;color:var(--ink3);border:1px dashed var(--line2)}
+/* Antecedente familiar: rótulo textual, neutro */
+.pill.p-fam{background:transparent;color:var(--ink3);border:1px solid var(--line2)}
+.pill.p-fam::before{content:'fam ';color:var(--mut)}
+
+/* ── Controles de tabla ──────────────────────────────────────────── */
+.tbl-controls{display:flex;gap:var(--sp2);margin-bottom:var(--sp2);flex-wrap:wrap;align-items:center}
+.tbl-controls input,.tbl-controls select{
+  font-family:var(--f-ui);font-size:13px;
+  padding:var(--sp1) var(--sp2);
+  border:1px solid var(--line2);border-radius:var(--r-sm);
+  background:var(--s3);color:var(--ink);outline:none;
+  transition:border-color .12s,box-shadow .12s;
+}
+.tbl-controls input{flex:1;min-width:180px}
+.tbl-controls input:focus,.tbl-controls select:focus{border-color:var(--acc);box-shadow:0 0 0 3px var(--acc-soft)}
+.tbl-count{font-family:var(--f-mono);font-size:12px;color:var(--ink3);margin-left:auto}
+
+/* ── Tablas densas · permitidas en Herramienta ───────────────────── */
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--r-md)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{
+  text-align:left;padding:var(--sp2) var(--sp3);
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  color:var(--lab);text-transform:uppercase;letter-spacing:.06em;
+  background:var(--s2);border-bottom:1px solid var(--line);
+  white-space:nowrap;cursor:pointer;user-select:none;
+}
+th:hover{color:var(--ink2)}
+td{padding:var(--sp2) var(--sp3);border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink2)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:var(--s4)}
+.detail-btn{
+  background:none;border:none;color:var(--acc);
+  font-family:var(--f-ui);font-size:12px;padding:0;text-decoration:underline;
+}
+.detail-btn:hover{color:var(--acc-hov)}
+
+/* ── Tarjeta clínica (firma Baja Cota) ───────────────────────────── */
+.sic-card{
+  background:var(--s3);
+  border:1px solid var(--line);
+  border-radius:var(--r-lg);
+  margin-bottom:var(--sp3);
+  overflow:hidden;
+}
+.sic-card-hdr{
+  padding:var(--sp3) var(--sp4);
+  background:var(--s2);
+  border-bottom:1px solid var(--line);
+  display:flex;gap:var(--sp2);align-items:center;flex-wrap:wrap;
+}
+.sic-num{font-family:var(--f-mono);font-size:13px;font-weight:500;color:var(--acc)}
+.sic-fecha{font-family:var(--f-mono);font-size:12px;color:var(--ink3)}
+.sic-card-body{padding:var(--sp4);display:grid;grid-template-columns:1fr 1fr;gap:var(--sp4)}
+.sic-sec-title{
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--lab);
+  margin-bottom:var(--sp1);
+}
+.sic-field{font-size:13px;margin-bottom:2px;color:var(--ink2)}
+.sic-field strong{color:var(--lab);font-weight:500;font-size:12px}
+.sic-glosa{grid-column:1/-1}
+/* Nota clínica: serif de lectura en italic (§4) */
+.glosa-text{
+  font-family:var(--f-read);font-style:italic;font-size:14px;line-height:1.6;
+  background:var(--s2);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:var(--sp3);white-space:pre-wrap;color:var(--ink2);
+  max-height:220px;overflow-y:auto;
+}
+.dg-list{display:flex;flex-direction:column;gap:2px}
+.dg-item{font-family:var(--f-mono);font-size:12px;color:var(--ink3)}
+.dg-item.principal{color:var(--acc);font-weight:500}
+.dg-item.secundario{color:var(--ink3)}
+.obs-ct{
+  font-family:var(--f-mono);font-size:12px;color:var(--ink3);
+  border-left:2px solid var(--acc-line);padding-left:var(--sp2);margin-top:var(--sp1);
+}
+
+/* ── Checklist de columnas · ancho por contenido (§2.2) ──────────── */
+.cols-grid{display:flex;flex-wrap:wrap;gap:var(--sp1);margin-bottom:var(--sp4)}
+.col-item{
+  display:flex;align-items:center;gap:var(--sp2);
+  padding:var(--sp1) var(--sp3);
+  background:var(--s3);border:1px solid var(--line);border-radius:var(--r-sm);
+  cursor:pointer;
+}
+.col-item:hover{border-color:var(--acc-line)}
+.col-item.checked{background:var(--acc-soft);border-color:var(--acc-line)}
+.col-item input[type=checkbox]{accent-color:var(--acc);width:14px;height:14px;cursor:pointer}
+.col-item label{font-size:13px;cursor:pointer;white-space:nowrap;color:var(--ink2)}
+.col-item.checked label{color:var(--ink)}
+.sel-row{display:flex;gap:var(--sp2);margin-bottom:var(--sp3)}
+.sep-row{display:flex;gap:var(--sp2);align-items:center;flex-wrap:wrap;margin-top:var(--sp3)}
+.sep-row select{
+  font-family:var(--f-ui);font-size:13px;
+  padding:var(--sp2) var(--sp3);
+  border:1px solid var(--line2);border-radius:var(--r-sm);
+  background:var(--s3);color:var(--ink);
+}
+
+/* ── Planilla contraloría ────────────────────────────────────────── */
+.planilla-out{border:1px solid var(--line);border-radius:var(--r-md);margin-top:var(--sp3);overflow:hidden}
+.planilla-out-hdr{
+  background:var(--s2);padding:var(--sp2) var(--sp3);
+  font-family:var(--f-mono);font-size:12px;color:var(--ink3);
+  border-bottom:1px solid var(--line);
+  display:flex;justify-content:space-between;align-items:center;gap:var(--sp3);
+}
+.planilla-table-wrap{overflow-x:auto;max-height:340px;overflow-y:auto}
+.planilla-table th{background:var(--s2);color:var(--lab);position:sticky;top:0}
+.planilla-table td{font-family:var(--f-mono);font-size:12px;white-space:nowrap}
+
+/* ── Modal ───────────────────────────────────────────────────────── */
+.modal-bg{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.6);z-index:1000;
+  align-items:center;justify-content:center;padding:var(--sp4);
+}
+.modal-bg.open{display:flex}
+.modal{
+  background:var(--s2);border:1px solid var(--line2);border-radius:var(--r-lg);
+  max-width:760px;width:100%;max-height:86vh;overflow-y:auto;padding:var(--sp6);
+}
+.modal-hdr{
+  display:flex;justify-content:space-between;align-items:flex-start;
+  margin-bottom:var(--sp4);border-bottom:1px solid var(--line);padding-bottom:var(--sp3);
+}
+.modal-title{font-family:var(--f-display);font-size:20px;font-weight:400;color:var(--ink)}
+.modal-close{background:none;border:none;font-size:20px;color:var(--ink3);line-height:1}
+.modal-close:hover{color:var(--ink)}
+.modal-label{
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  color:var(--lab);text-transform:uppercase;letter-spacing:.06em;
+  margin-bottom:var(--sp1);margin-top:var(--sp3);
+}
+.modal-glosa{
+  font-family:var(--f-read);font-style:italic;font-size:14px;line-height:1.6;
+  background:var(--s3);border:1px solid var(--line);border-radius:var(--r-sm);
+  padding:var(--sp3);white-space:pre-wrap;color:var(--ink2);
+  max-height:320px;overflow-y:auto;margin-top:var(--sp1);
+}
+.modal-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--sp3)}
+
+/* ── Barra de filtros vista clínica ──────────────────────────────── */
+.fmt-bar{display:flex;gap:var(--sp2);margin-bottom:var(--sp3);flex-wrap:wrap;align-items:center}
+.fmt-bar select{
+  font-family:var(--f-ui);font-size:13px;
+  padding:var(--sp1) var(--sp2);
+  border:1px solid var(--line2);border-radius:var(--r-sm);
+  background:var(--s3);color:var(--ink);
+}
+.fmt-count{font-family:var(--f-mono);font-size:12px;color:var(--ink3);margin-left:auto}
+
+/* ── Vacío ───────────────────────────────────────────────────────── */
+.empty{
+  text-align:center;padding:var(--sp8) var(--sp6);
+  color:var(--mut);font-family:var(--f-mono);font-size:12px;
+}
+.action-row{display:flex;gap:var(--sp2);margin-bottom:var(--sp3);flex-wrap:wrap}
+.section-hdr{
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;color:var(--lab);
+  border-bottom:1px solid var(--line);padding-bottom:var(--sp2);
+  margin:var(--sp6) 0 var(--sp3);
+}
+.section-note{font-size:13px;color:var(--ink3);margin-bottom:var(--sp3)}
+
+/* ── Tooltip de evidencia ────────────────────────────────────────── */
+.evid-tooltip{
+  position:absolute;
+  background:var(--s0);color:var(--ink);
+  border:1px solid var(--line2);border-radius:var(--r-sm);
+  padding:var(--sp2) var(--sp3);
+  font-family:var(--f-mono);font-size:12px;line-height:1.5;
+  max-width:440px;z-index:1000;white-space:normal;pointer-events:none;
+}
+.evid-tooltip strong{color:var(--warn);font-weight:500}
+
+/* ── Evidencia en modal ──────────────────────────────────────────── */
+.modal-evid h4{
+  font-family:var(--f-ui);font-size:12px;font-weight:600;
+  color:var(--lab);text-transform:uppercase;letter-spacing:.06em;
+  margin:var(--sp3) 0 var(--sp1);
+}
+.modal-evid .ev-block{
+  background:var(--s3);border-left:2px solid var(--acc-line);
+  padding:var(--sp2) var(--sp3);
+  font-family:var(--f-mono);font-size:12px;
+  color:var(--ink2);margin-bottom:var(--sp1);
+}
+.modal-evid .ev-incon{border-left-color:var(--err);background:var(--err-bg)}
+.modal-evid .ev-incon strong{color:var(--err)}
+
+/* ── Scrollbar ───────────────────────────────────────────────────── */
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--line2);border-radius:var(--r-sm)}
+::-webkit-scrollbar-thumb:hover{background:var(--mut)}
+
+/* ── Responsive · §6 ─────────────────────────────────────────────── */
+@media (max-width:680px){
+  .main{padding:var(--sp3)}
+  .sic-card-body,.modal-grid,.grid2{grid-template-columns:1fr}
+  .input-row{flex-direction:column}
+  .metrics{flex-direction:column;gap:var(--sp3)}
+  .mc{border-left:none;padding-left:0}
+  .tbl,.tbl tbody,.tbl tr,.tbl td{display:block}
+  .tbl thead,.tbl colgroup{display:none}
+  .tbl tr{
+    background:var(--s3);border:1px solid var(--line);border-radius:var(--r-lg);
+    padding:16px;margin:12px 0;display:flex;flex-direction:column;
+  }
+  .tbl td{
+    padding:4px 0;border:none;display:flex;
+    justify-content:space-between;align-items:baseline;gap:16px;text-align:right;
+  }
+  .tbl td::before{
+    content:attr(data-label);font-family:var(--f-ui);
+    font-size:10px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;
+    color:var(--lab);text-align:left;flex-shrink:0;
+  }
+}
+    </style>
+</head>
+<script>
+(function(){var t=localStorage.getItem('rayen_theme')||'dark';
+document.documentElement.setAttribute('data-theme',t);})();
+</script>
+
+<body>
+
+    <div class="header">
+        <div>
+            <div class="header-title">Suite SIC — COSAM Rahue</div>
+            <div class="header-sub">Procesador · Vista formateada · Análisis de glosas · Planilla Contraloría</div>
+        </div>
+        <div class="theme-switch">
+            <span class="switch-label" id="themeLabel">oscuro</span>
+            <div class="switch-track" id="themeToggle" role="button" tabindex="0" title="Cambiar tema">
+                <div class="switch-thumb"></div>
+            </div>
+        </div>
+        <div class="header-badge">v2.1</div>
+    </div>
+
+    <div class="capture-bar">
+        <div class="capture-step">PASO 1 — CAPTURAR</div>
+        <a class="bm-link" href="javascript:(function()%7B%20function%20run()%7B%20if(window.__rayenSICActive)%7Bif(window.__rayenSICUI)window.__rayenSICUI.style.display%3D'flex'%3Breturn%3B%7D%20window.__rayenSIC%3Dwindow.__rayenSIC%7C%7C%7B%7D%3B%20var%20CLAVE_PRIOR%3D'rayen_priorizaciones'%3B%20var%20ESCALA%3D%7B1%3A'Baja'%2C2%3A'Media'%2C3%3A'Alta'%7D%3B%20function%20leerPrior()%7Btry%7Breturn%20JSON.parse(localStorage.getItem(CLAVE_PRIOR)%7C%7C'%5B%5D')%3B%7Dcatch(e)%7Breturn%5B%5D%3B%7D%7D%20function%20guardarPrior(a)%7Btry%7BlocalStorage.setItem(CLAVE_PRIOR%2CJSON.stringify(a))%3B%7Dcatch(e)%7B%7D%7D%20function%20persona(p)%7Bp%3Dp%7C%7C%7B%7D%3Breturn%7Bnombre%3Ap.NombreFormateado%7C%7C''%2Crut%3Ap.Rut%7C%7C''%7D%3B%7D%20function%20extraerSIC(item)%7B%20var%20si%3Ditem.SolicitudInterconsulta%7C%7C%7B%7D%3B%20var%20u%3Ditem.UsuarioApsDerivacion%7C%7C%7B%7D%3B%20var%20tels%3D(u.Telefonos%7C%7C%5B%5D).filter(function(t)%7Breturn%20!t.EsBorrado%26%26t.TelefonoDescripcion%3B%7D)%20.map(function(t)%7Bvar%20c%3Dt.CodigoPais%3F'%2B'%2Bt.CodigoPais%3A''%3Bvar%20a%3Dt.CodigoArea%3Ft.CodigoArea%3A''%3Breturn(c%2B(a%3F'%20'%2Ba%3A'')%2B'%20'%2Bt.TelefonoDescripcion).trim()%3B%7D)%20.filter(function(v%2Ci%2Ca)%7Breturn%20a.indexOf(v)%3D%3D%3Di%3B%7D)%3B%20var%20geo%3D(u.Georeferencias%7C%7C%5B%5D)%5B0%5D%3B%20var%20dgs%3D(item.ArrDiagnosticos%7C%7C%5B%5D).map(function(d)%7Breturn%7Bprincipal%3Ad.EsPrincipal%2Ccie10%3Ad.CodigoCIE10%2Cdescripcion%3Ad.ClasificacionDiagnostica%7C%7Cd.HipotesisDiagnostica%7D%3B%7D)%3B%20var%20obs%3D(si.ObservacionesInterconsultas%7C%7C%5B%5D).map(function(o)%7Breturn%7Bfecha%3Ao.FechaRegistroObservacion%2Cfuncionario%3Ao.NombreFuncionarioGenerador%2Ctexto%3Ao.Observacion%7D%3B%7D)%3B%20var%20resumen%3D%7B%7D%3B%20(item.ResumenAntecedentes%7C%7C%5B%5D).forEach(function(b)%7Bvar%20d%3D%7B%7D%3B(b.Detalle%7C%7C%5B%5D).forEach(function(x)%7Bd%5Bx.Descripcion%5D%3Dx.Valor%3B%7D)%3Bresumen%5Bb.Titulo%5D%3Dd%3B%7D)%3B%20var%20estado%3Ditem.Estado%7C%7Citem.DescripcionEstado%7C%7C''%3B%20var%20fe%3Ditem.FechaHoraEnvio%7C%7C''%3B%20var%20enviada%3Dfe!%3D%3D''%26%26fe!%3D%3D'00010101%20000000'%3B%20var%20contralor%3Dpersona(item.FuncionarioPrestadorContralor)%3B%20var%20origenEgreso%3Dnull%3B%20if(estado%3D%3D%3D'Egresada')%7BorigenEgreso%3D(!contralor.rut)%3F'origen'%3A'destino_contraloria'%3B%7D%20var%20contralorEsDeDestino%3D!!contralor.rut%26%26estado!%3D%3D'Enviada'%3B%20return%7B%20id%3Aitem.Id%2CnumeroSolicitud%3Aitem.NumeroSolicitud%2C%20fechaCreacion%3Aitem.FechaHoraCreacion%7C%7C''%2C%20fechaEnvio%3Afe%2CenviadaFormalmente%3Aenviada%2C%20fechaUltimaRevision%3Aitem.FechaHoraCita%7C%7C''%2C%20fechaCitaConfirmada%3Aitem.FechaHoraCitaAgendadaConfirmada%7C%7C''%2C%20fechaRevision%3Asi.FechaHoraRevision%7C%7C''%2C%20antiguedadDias%3A(typeof%20item.AntiguedadDias%3D%3D%3D'number')%3Fitem.AntiguedadDias%3Anull%2C%20prioridad%3Aitem.Prioridad%2C%20estado%3Aestado%2CorigenEgreso%3AorigenEgreso%2CcontralorEsDeDestino%3AcontralorEsDeDestino%2CesGES%3Aitem.EsAuge%2C%20especialidad%3Aitem.Especialidad%2C%20especialidadAgendada%3Aitem.EspecialidadAgendada%7C%7C''%2C%20especialidadCitaDestino%3Aitem.EspecialidadCitaDestino%7C%7C''%2C%20motivoInterconsulta%3Aitem.MotivoInterconsulta%2C%20problemaSalud%3A(item.ProblemaSalud%7C%7C'').trim()%2C%20diagnosticos%3Adgs%2C%20establecimientoOrigen%3Aitem.EstablecimientoOrigen%7C%7C''%2C%20establecimientoDestino%3Aitem.EstablecimientoDestinoSIC%7C%7C''%2C%20idNodoOrigen%3Asi.IdNodoOrigen%7C%7Cnull%2CidNodoDestino%3Asi.IdNodoDestino%7C%7Cnull%2C%20medicoDerivador%3Apersona(item.FuncionarioPrestadorEjecutor)%2C%20contralor%3Acontralor%2C%20registrador%3Apersona(item.FuncionarioPrestadorRegistrador)%2C%20canceladorSolicitud%3Apersona(item.FuncionarioPrestadorCancelador%7C%7Csi.FuncionarioPrestadorCancelador)%2C%20egresadorSolicitud%3Apersona(item.FuncionarioPrestadorEgresador)%2C%20contadorReevaluacion%3A(typeof%20item.ContadorReevaluacion%3D%3D%3D'number')%3Fitem.ContadorReevaluacion%3Anull%2C%20motivoCancelacion%3Aitem.MotivoCancelacionSolicitud%2C%20motivoCancelacionTexto%3Aitem.DescripcionOtroMotivo%7C%7Csi.DescripcionOtroMotivoCancelacionCita%7C%7C''%2C%20fechaCancelacion%3Aitem.FechaHoraCancelacionSolicitud%7C%7C''%2C%20resumenAntecedentes%3Aresumen%2C%20paciente%3A%7Bnombre%3Au.NombreFormateado%7C%7C''%2Crut%3Au.Rut%7C%7C''%2CfechaNacimiento%3Au.FechaNacimiento%7C%7C''%2C%20edad%3Au.Edad%7C%7C''%2Csexo%3Au.Sexo%3Fu.Sexo.Nombre%3A''%2Cprevision%3Au.ConvenioPrevisional%7C%7C''%2C%20telefonos%3Atels%2Cdireccion%3Ageo%3Fgeo.DireccionFormateada%3A''%2C%20estratificacion%3Au.Estratificacion%7C%7C''%2CesPRAIS%3A!!u.EsPRAIS%2CesSENAME%3A!!u.EsSENAME%7D%2C%20glosa%3A%7BfundamentosClinicos%3Aitem.FundamentosClinicos%7C%7C''%2CexamenesRealizados%3Aitem.ExamenesRealizados%7C%7C''%2Cobservaciones%3Aitem.Observaciones%7C%7C''%7D%2C%20observacionesContralor%3Aobs%2C%20capturaTimestamp%3Anew%20Date().toISOString()%7D%3B%20%7D%20function%20toTexto(arr)%7B%20var%20sep%3D'%3D'.repeat(70)%3B%20return%20arr.map(function(s)%7B%20var%20dgs%3D(s.diagnosticos%7C%7C%5B%5D).map(function(d)%7Breturn(d.principal%3F'%5BP%5D%20'%3A'%20')%2Bd.cie10%2B'%20-%20'%2Bd.descripcion%3B%7D).join('%5Cn')%3B%20var%20obs%3D(s.observacionesContralor%7C%7C%5B%5D).map(function(o)%7Breturn%20'%20%5B'%2Bo.fecha%2B'%5D%20'%2Bo.funcionario%2B'%3A%20'%2Bo.texto%3B%7D).join('%5Cn')%3B%20return%5Bsep%2C%20'N%5Cu00BA%3A%20'%2Bs.numeroSolicitud%2B'%20%7C%20Creada%3A%20'%2Bs.fechaCreacion%2B'%20%7C%20Enviada%3A%20'%2B(s.enviadaFormalmente%3Fs.fechaEnvio%3A'NO%20ENVIADA')%2C%20'GES%3A%20'%2Bs.esGES%2B'%20%7C%20Prioridad%20origen%3A%20'%2Bs.prioridad%2B'%20%7C%20Estado%3A%20'%2B(s.estado%7C%7C'%3F')%2B(s.origenEgreso%3F'%20('%2Bs.origenEgreso%2B')'%3A'')%2C%20'ESPECIALIDAD%3A%20'%2Bs.especialidad%2B'%20%7C%20MOTIVO%3A%20'%2Bs.motivoInterconsulta%2C%20'PROBLEMA%20SALUD%3A%20'%2Bs.problemaSalud%2Csep%2C%20'PACIENTE%3A%20'%2Bs.paciente.nombre%2B'%20%7C%20RUT%3A%20'%2Bs.paciente.rut%2B'%20%7C%20'%2Bs.paciente.edad%2B'%20%7C%20'%2Bs.paciente.sexo%2C%20'PREVISION%3A%20'%2Bs.paciente.prevision%2B'%20%7C%20ESTRAT%3A%20'%2Bs.paciente.estratificacion%2B'%20%7C%20TEL%3A%20'%2Bs.paciente.telefonos.join('%20%2F%20')%2C%20'DIRECCION%3A%20'%2Bs.paciente.direccion%2Csep%2C%20'ORIGEN%3A%20'%2Bs.establecimientoOrigen%2B'%20%7C%20MEDICO%3A%20'%2Bs.medicoDerivador.nombre%2B'%20%7C%20CONTRALOR%3A%20'%2B(s.contralor.nombre%3Fs.contralor.nombre%2B(s.contralorEsDeDestino%3F''%3A'%20(de%20origen)')%3A'-')%2C%20'CITA%20CONFIRMADA%3A%20'%2B((s.fechaCitaConfirmada%26%26s.fechaCitaConfirmada!%3D%3D'No%20Registrado')%3Fs.fechaCitaConfirmada%3A'sin%20cita%20agendada')%2B'%20%7C%20ultima%20revision%3A%20'%2B(s.fechaUltimaRevision%7C%7C'-')%2C%20(s.motivoCancelacionTexto%3F'MOTIVO%20EGRESO%3A%20'%2Bs.motivoCancelacionTexto%3A'')%2Csep%2C%20'DIAGNOSTICOS%3A'%2Cdgs%7C%7C'(sin%20datos)'%2Csep%2C%20'FUNDAMENTOS%20CLINICOS%3A'%2Cs.glosa.fundamentosClinicos%7C%7C'(vacio)'%2C''%2C%20'EXAMENES%3A'%2Cs.glosa.examenesRealizados%7C%7C'(vacio)'%2C''%2C%20'OBSERVACIONES%3A'%2Cs.glosa.observaciones%7C%7C'(vacio)'%2C%20obs%3F'%5CnOBS%20CONTRALOR%3A%5Cn'%2Bobs%3A''%20%5D.filter(function(x)%7Breturn%20x!%3D%3D''%3B%7D).join('%5Cn')%3B%20%7D).join('%5Cn%5Cn')%2B'%5Cn%5Cn'%2Bsep%3B%20%7D%20function%20copiar(texto%2Cbtn%2Clabel)%7B%20navigator.clipboard.writeText(texto).then(function()%7B%20btn.textContent%3D'%5Cu2713%20Copiado'%3BsetTimeout(function()%7Bbtn.textContent%3Dlabel%3B%7D%2C2500)%3B%20%7D).catch(function()%7Bwindow.prompt('Copia%20manualmente%20(Ctrl%2BA%2C%20Ctrl%2BC)%3A'%2Ctexto.substring(0%2C200)%2B'...')%3B%7D)%3B%20%7D%20var%20_f%3Dwindow.fetch%3B%20window.fetch%3Dfunction()%7B%20var%20a%3Darguments%3B%20var%20url%3D(a%5B0%5D%26%26a%5B0%5D.url)%3Fa%5B0%5D.url%3AString(a%5B0%5D%7C%7C'')%3B%20var%20opts%3Da%5B1%5D%7C%7C(a%5B0%5D%26%26a%5B0%5D.method%3Fa%5B0%5D%3A%7B%7D)%3B%20var%20metodo%3DString((opts%26%26opts.method)%7C%7C(a%5B0%5D%26%26a%5B0%5D.method)%7C%7C'GET').toUpperCase()%3B%20var%20p%3D_f.apply(this%2Ca)%3B%20if(metodo%3D%3D%3D'GET'%26%26url.indexOf('SolicitudInterconsultaDerivacionPorIds')%3E-1)%7B%20_f.apply(this%2Ca).then(function(r)%7B%20r.json().then(function(data)%7B%20if(!Array.isArray(data))return%3B%20var%20n%3D0%3B%20data.forEach(function(item)%7B%20if(item%26%26item.Id%26%26!window.__rayenSIC%5Bitem.Id%5D)%7Bwindow.__rayenSIC%5Bitem.Id%5D%3DextraerSIC(item)%3Bn%2B%2B%3B%7D%20%7D)%3B%20if(n%3E0)actualizarBadges()%3B%20%7D).catch(function()%7B%7D)%3B%20%7D).catch(function()%7B%7D)%3B%20%7D%20if(metodo%3D%3D%3D'PUT'%26%26url.indexOf('solicitudInterconsultaDerivacion')%3E-1)%7B%20try%7B%20var%20body%3D(opts%26%26opts.body)%7C%7Cnull%3B%20if(typeof%20body%3D%3D%3D'string')%7B%20var%20parsed%3DJSON.parse(body)%3B%20var%20items%3DArray.isArray(parsed)%3Fparsed%3A%5Bparsed%5D%3B%20items.forEach(function(it)%7B%20var%20si%3Dit.solicitudInterconsulta%7C%7Cit.SolicitudInterconsulta%7C%7C%7B%7D%3B%20var%20dp%3Dsi.DatosPriorizacion%3B%20if(!dp)return%3B%20var%20u%3Dit.usuarioApsDerivacion%7C%7Cit.UsuarioApsDerivacion%7C%7C%7B%7D%3B%20var%20arr%3DleerPrior()%3B%20if(arr.some(function(x)%7Breturn%20x.idSoin%3D%3D%3Ddp.idSoin%26%26x.fechaHora%3D%3D%3Ddp.FechaHora%3B%7D))return%3B%20arr.push(%7BidSoin%3Adp.idSoin%2C%20numeroSolicitud%3Ait.numeroSolicitud%7C%7Cit.NumeroSolicitud%7C%7CString(dp.idSoin)%2C%20prioridad%3Adp.Prioridad%2CprioridadTexto%3AESCALA%5Bdp.Prioridad%5D%7C%7CString(dp.Prioridad)%2C%20observacion%3Adp.PrioridadObservacion%7C%7C''%2CidFnp%3Adp.IdFnp%2CfechaHora%3Adp.FechaHora%2C%20paciente%3Au.NombreFormateado%7C%7C''%2CrutPaciente%3Au.Rut%7C%7C''%2C%20diagnostico%3Ait.diagnostico%7C%7Cit.Diagnostico%7C%7C''%2C%20prioridadOrigen%3A(typeof%20it.prioridad!%3D%3D'undefined')%3Fit.prioridad%3Ait.Prioridad%2C%20establecimientoOrigen%3Ait.establecimientoOrigen%7C%7Cit.EstablecimientoOrigen%7C%7C''%2C%20capturaTimestamp%3Anew%20Date().toISOString()%7D)%3B%20guardarPrior(arr)%3BactualizarBadges()%3B%20%7D)%3B%20%7D%20%7Dcatch(e)%7B%7D%20%7D%20return%20p%3B%20%7D%3B%20var%20ui%3Ddocument.createElement('div')%3B%20window.__rayenSICUI%3Dui%3B%20ui.style.cssText%3D'position%3Afixed%3Bbottom%3A20px%3Bright%3A20px%3Bz-index%3A2147483647%3Bbackground%3A%231a1815%3Bborder%3A2px%20solid%20%237b7bf5%3Bborder-radius%3A10px%3Bpadding%3A10px%2014px%3Bfont-family%3Amonospace%3Bfont-size%3A12px%3Bcolor%3A%23e8e3db%3Bdisplay%3Aflex%3Balign-items%3Acenter%3Bgap%3A8px%3Bbox-shadow%3A0%204px%2024px%20rgba(0%2C0%2C0%2C.7)%3Bflex-wrap%3Awrap%3Bmax-width%3A520px%3B'%3B%20var%20lbl%3Ddocument.createElement('span')%3Blbl.style.color%3D'%236a7898'%3Blbl.textContent%3D'%5CuD83D%5CuDCCB%20SIC'%3B%20var%20badge%3Ddocument.createElement('span')%3B%20badge.style.cssText%3D'background%3A%237b7bf5%3Bcolor%3A%23fff%3Bpadding%3A2px%209px%3Bborder-radius%3A999px%3Bfont-size%3A11px%3Bfont-weight%3A700%3B'%3B%20badge.textContent%3D'0%20SIC'%3B%20var%20badgeP%3Ddocument.createElement('span')%3B%20badgeP.style.cssText%3D'background%3A%23d48a3d%3Bcolor%3A%23fff%3Bpadding%3A2px%209px%3Bborder-radius%3A999px%3Bfont-size%3A11px%3Bfont-weight%3A700%3B'%3B%20badgeP.textContent%3D'0%20prior'%3B%20function%20actualizarBadges()%7B%20badge.textContent%3DObject.keys(window.__rayenSIC).length%2B'%20SIC'%3B%20badgeP.textContent%3DleerPrior().length%2B'%20prior'%3B%20%7D%20function%20mkBtn(label%2Cbg)%7B%20var%20b%3Ddocument.createElement('button')%3Bb.textContent%3Dlabel%3B%20b.style.cssText%3D'background%3A'%2Bbg%2B'%3Bborder%3Anone%3Bcolor%3A%23fff%3Bpadding%3A5px%2010px%3Bborder-radius%3A5px%3Bcursor%3Apointer%3Bfont-family%3Amonospace%3Bfont-size%3A11px%3Bfont-weight%3A700%3Bwhite-space%3Anowrap%3B'%3B%20return%20b%3B%7D%20var%20btnTxt%3DmkBtn('%5CuD83D%5CuDCCB%20TXT'%2C'%234a6fa5')%3B%20var%20btnJSON%3DmkBtn('%7B%20%7D%20JSON'%2C'%232a5a2a')%3B%20var%20btnLZ%3DmkBtn('%5CuD83D%5CuDDDC%20LZ'%2C'%235a3a7a')%3B%20var%20btnPrior%3DmkBtn('%5Cu2193%20Prior%20CSV'%2C'%23d48a3d')%3B%20var%20btnLimpiar%3DmkBtn('%5Cu2715%20Limpiar'%2C'%235a1a1a')%3B%20var%20cerrar%3Ddocument.createElement('button')%3Bcerrar.textContent%3D'%5Cu2715'%3B%20cerrar.style.cssText%3D'background%3Anone%3Bborder%3Anone%3Bcolor%3A%235a5650%3Bcursor%3Apointer%3Bfont-size%3A14px%3Bpadding%3A0%202px%3Bline-height%3A1%3Bmargin-left%3A2px%3B'%3B%20cerrar.onclick%3Dfunction()%7Bui.style.display%3D'none'%3B%7D%3B%20ui.appendChild(lbl)%3Bui.appendChild(badge)%3Bui.appendChild(badgeP)%3B%20ui.appendChild(btnTxt)%3Bui.appendChild(btnJSON)%3Bui.appendChild(btnLZ)%3Bui.appendChild(btnPrior)%3Bui.appendChild(btnLimpiar)%3Bui.appendChild(cerrar)%3B%20document.body.appendChild(ui)%3B%20setTimeout(actualizarBadges%2C0)%3B%20btnLimpiar.onclick%3Dfunction()%7B%20if(confirm('%5Cu00BFLimpiar%20SIC%20capturadas%3F%20(las%20priorizaciones%20NO%20se%20borran)'))%7B%20window.__rayenSIC%3D%7B%7D%3BactualizarBadges()%3B%7D%20%7D%3B%20btnTxt.onclick%3Dfunction()%7B%20var%20arr%3DObject.values(window.__rayenSIC)%3B%20if(!arr.length)%7Balert('Sin%20datos.%20Navega%20por%20el%20m%5Cu00f3dulo%20SIC%20primero.')%3Breturn%3B%7D%20copiar(toTexto(arr)%2CbtnTxt%2C'%5CuD83D%5CuDCCB%20TXT')%3B%7D%3B%20btnJSON.onclick%3Dfunction()%7B%20var%20arr%3DObject.values(window.__rayenSIC)%3B%20if(!arr.length)%7Balert('Sin%20datos.%20Navega%20por%20el%20m%5Cu00f3dulo%20SIC%20primero.')%3Breturn%3B%7D%20copiar(JSON.stringify(arr%2Cnull%2C2)%2CbtnJSON%2C'%7B%20%7D%20JSON')%3B%7D%3B%20btnLZ.onclick%3Dfunction()%7B%20var%20arr%3DObject.values(window.__rayenSIC)%3B%20if(!arr.length)%7Balert('Sin%20datos.%20Navega%20por%20el%20m%5Cu00f3dulo%20SIC%20primero.')%3Breturn%3B%7D%20if(!window.LZString)%7Balert('LZString%20no%20disponible.')%3Breturn%3B%7D%20copiar(LZString.compressToBase64(JSON.stringify(arr))%2CbtnLZ%2C'%5CuD83D%5CuDDDC%20LZ')%3B%7D%3B%20btnPrior.onclick%3Dfunction()%7B%20var%20arr%3DleerPrior()%3B%20if(!arr.length)%7Balert('Sin%20priorizaciones%20registradas.')%3Breturn%3B%7D%20var%20cols%3D%5B'numeroSolicitud'%2C'paciente'%2C'rutPaciente'%2C'diagnostico'%2C'prioridadOrigen'%2C'prioridad'%2C'prioridadTexto'%2C'observacion'%2C'fechaHora'%2C'establecimientoOrigen'%5D%3B%20var%20esc%3Dfunction(v)%7Breturn%20'%22'%2BString(v%3D%3D%3Dundefined%7C%7Cv%3D%3D%3Dnull%3F''%3Av).replace(%2F%22%2Fg%2C'%22%22')%2B'%22'%3B%7D%3B%20var%20csv%3D'%5CuFEFF'%2Bcols.join('%3B')%2B'%5Cn'%2Barr.map(function(r)%7Breturn%20cols.map(function(c)%7Breturn%20esc(r%5Bc%5D)%3B%7D).join('%3B')%3B%7D).join('%5Cn')%3B%20var%20blob%3Dnew%20Blob(%5Bcsv%5D%2C%7Btype%3A'text%2Fcsv%3Bcharset%3Dutf-8'%7D)%3B%20var%20a%3Ddocument.createElement('a')%3Ba.href%3DURL.createObjectURL(blob)%3B%20a.download%3D'priorizaciones_'%2Bnew%20Date().toISOString().slice(0%2C10)%2B'.csv'%3B%20document.body.appendChild(a)%3Ba.click()%3Bdocument.body.removeChild(a)%3B%7D%3B%20window.__rayenSICActive%3Dtrue%3B%20%7D%20if(window.LZString)%7Brun()%3B%7Delse%7B%20var%20s%3Ddocument.createElement('script')%3B%20s.src%3D'https%3A%2F%2Fcdnjs.cloudflare.com%2Fajax%2Flibs%2Flz-string%2F1.4.4%2Flz-string.min.js'%3B%20s.onload%3Drun%3Bdocument.head.appendChild(s)%3B%7D%20%7D)()%3B">Capturador SIC Rayen</a>
+        <div class="capture-note">
+            Arrastra este botón a la barra de marcadores. Úsalo en Rayen (Recepción/Derivación Contralor)
+            para capturar las interconsultas y copiar el JSON. Luego pégalo abajo y presiona
+            <strong>Cargar JSON</strong>.
+        </div>
+        <div class="capture-step" style="margin-left:auto">PASO 2 — PROCESAR</div>
+    </div>
+    <div class="main">
+
+        <!-- Entrada de datos -->
+        <div class="input-zone">
+            <div class="zone-label">1 — Interconsultas capturadas</div>
+            <div class="input-row">
+                <textarea id="jsonInput" placeholder="Pega aquí lo copiado con el bookmarklet: JSON crudo o LZString comprimido."></textarea>
+                <div class="btn-col">
+                    <button class="btn-primary" onclick="cargar()">Cargar</button>
+                    <button class="btn-secondary btn-sm" onclick="cargarLZ()">Descomprimir LZ</button>
+                    <button class="btn-danger btn-sm" onclick="limpiar()">Limpiar</button>
+                </div>
+            </div>
+            <div class="status-bar mono" id="statusBar">Sin datos cargados.</div>
+        </div>
+
+        <div class="input-zone">
+            <div class="zone-label">2 — Priorizaciones de destino <span class="zone-note">opcional · Rayen no las devuelve por consulta</span></div>
+            <div class="input-row">
+                <textarea id="priorInput" placeholder="Pega el CSV del botón «Prior CSV», o el JSON / LZString del registro de priorizaciones."></textarea>
+                <div class="btn-col">
+                    <button class="btn-secondary" onclick="cargarPrior()">Cruzar priorizaciones</button>
+                    <button class="btn-danger btn-sm" onclick="limpiarPrior()">Limpiar</button>
+                </div>
+            </div>
+            <div class="status-bar mono" id="priorStatus">Sin priorizaciones cargadas.</div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tabs">
+            <button class="tab active" onclick="switchTab('csv')">A — Tabla / CSV</button>
+            <button class="tab" onclick="switchTab('fmt')">B — Vista clínica</button>
+            <button class="tab" onclick="switchTab('glosas')">C — Análisis de glosas</button>
+        </div>
+
+        <!-- ═══ TAB A: CSV + Planilla Contraloría ═══ -->
+        <div id="tab-csv" class="tab-panel active">
+            <div class="section-hdr">Selección de columnas</div>
+            <div class="sel-row">
+                <button class="btn-secondary btn-sm" onclick="selAll(true)">Seleccionar todo</button>
+                <button class="btn-secondary btn-sm" onclick="selAll(false)">Deseleccionar todo</button>
+            </div>
+            <div class="cols-grid" id="colGrid"></div>
+            <div class="sep-row">
+                <select id="sepSelect">
+                    <option value=",">Separador: coma (,)</option>
+                    <option value=";">Separador: punto y coma (;)</option>
+                    <option value="	">Separador: tab</option>
+                </select>
+                <button class="btn-primary" onclick="exportarCSV()">Exportar CSV</button>
+                <button class="btn-secondary btn-sm" onclick="copiarCSV()">Copiar CSV</button>
+            </div>
+
+            <div class="section-hdr" style="margin-top:20px">Planilla Contraloría</div>
+            <p class="section-note">Genera la planilla en formato contraloría con las 22 columnas estándar. FECHA CONTRALORÍA se completa a mano. MÉDICO CONTRALOR queda vacío si la SIC aún está "Enviada" (en ese estado Rayen entrega el contralor de origen, no el de destino). FECHA 1°CITA solo se llena con cita confirmada real.</p>
+            <div class="action-row">
+                <button class="btn-primary" onclick="generarPlanilla()">Generar planilla contraloría</button>
+                <button class="btn-secondary btn-sm" id="btnDlPlanilla" disabled onclick="descargarPlanilla()">Descargar planilla</button>
+                <button class="btn-secondary btn-sm" id="btnCopiarPlanilla" disabled onclick="copiarPlanilla()">Copiar CSV planilla</button>
+            </div>
+            <div id="planillaContainer"></div>
+        </div>
+
+        <!-- ═══ TAB B: Vista clínica ═══ -->
+        <div id="tab-fmt" class="tab-panel">
+            <div class="fmt-bar">
+                <select id="filtroEsp" onchange="renderFmt()">
+                    <option value="">Toda especialidad</option>
+                    <option value="Psiquiatría Adulto">Psiq. Adulto</option>
+                    <option value="Psiquiatría Pediátrica y de la Adolescencia">Psiq. Pediátrica</option>
+                </select>
+                <select id="filtroGES" onchange="renderFmt()">
+                    <option value="">Todo GES</option>
+                    <option value="Si">GES</option>
+                    <option value="No">No GES</option>
+                </select>
+                <select id="filtroPrior" onchange="renderFmt()">
+                    <option value="">Toda prioridad</option>
+                    <option value="2">Prioridad 2</option>
+                    <option value="3">Prioridad 3</option>
+                </select>
+                <select id="filtroEstado" onchange="renderFmt()">
+                    <option value="">Todo estado</option>
+                    <option value="Enviada">Enviada</option>
+                    <option value="Aceptada">Aceptada</option>
+                    <option value="Recibida">Recibida</option>
+                    <option value="Rechazada">Rechazada</option>
+                    <option value="Egresada">Egresada</option>
+                    <option value="Anulada">Anulada</option>
+                </select>
+                <button class="btn-secondary btn-sm" onclick="exportarHTMLFmt()">Exportar HTML</button>
+                <button class="btn-secondary btn-sm" onclick="copiarMDFmt()">Copiar Markdown</button>
+                <span class="fmt-count" id="fmtCount"></span>
+            </div>
+            <div id="fmtContainer">
+                <div class="empty">Carga datos para ver la vista clínica.</div>
+            </div>
+        </div>
+
+        <!-- ═══ TAB C: Análisis de glosas ═══ -->
+        <div id="tab-glosas" class="tab-panel">
+            <div id="glosasEmpty" class="empty">Carga datos para ver el análisis de glosas.</div>
+            <div id="glosasContent" style="display:none">
+                <div class="section-hdr">Marcadores clínicos</div>
+                <div id="gMetricas" class="metrics"></div>
+                <div id="gMetricasExtra" class="metrics"></div>
+                <div class="grid2" id="gCharts"></div>
+                <div class="section-hdr">Reporte por SIC</div>
+                <div class="action-row">
+                    <button class="btn-secondary btn-sm" onclick="exportGlosasCSV()">Exportar CSV análisis</button>
+                    <button class="btn-secondary btn-sm" onclick="copiarGlosasMD()">Copiar Markdown</button>
+                </div>
+                <div class="tbl-controls">
+                    <input type="text" id="gSearch" placeholder="Buscar N° SIC, paciente, diagnóstico..." oninput="renderGlosasTabla()">
+                    <select id="gFiltroMarcador" onchange="renderGlosasTabla()">
+                        <option value="">Todos los marcadores</option>
+                        <option value="suicid">Suicidalidad</option>
+                        <option value="hosp">Hospitalización previa</option>
+                        <option value="vif">VIF / Trauma</option>
+                        <option value="refrac">Refractariedad</option>
+                        <option value="consumo">Consumo sustancias</option>
+                        <option value="incoherente">Dg. a revisar</option>
+                        <option value="incompleta">Anamnesis incompleta</option>
+                        <option value="alta">Alta complejidad (3+)</option>
+                        <option value="incons">Con inconsistencia interna</option>
+                        <option value="suicid_hist">Suicidalidad histórica</option>
+                        <option value="suicid_fam">Antec. familiar suicidalidad</option>
+                        <option value="vif_fam">Antec. familiar VIF</option>
+                        <option value="consumo_fam">Antec. familiar consumo</option>
+                    </select>
+                    <select id="gFiltroComp" onchange="renderGlosasTabla()">
+                        <option value="">Toda completitud</option>
+                        <option value="completa">Completa</option>
+                        <option value="parcial">Parcial</option>
+                        <option value="incompleta">Incompleta</option>
+                    </select>
+                    <span class="tbl-count" id="gCount"></span>
+                </div>
+                <div class="tbl-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th onclick="gSort('n')">N° SIC</th>
+                                <th onclick="gSort('pac')">Paciente</th>
+                                <th onclick="gSort('cie_code')">CIE-10</th>
+                                <th>Marcadores</th>
+                                <th onclick="gSort('coh')">Dg/glosa</th>
+                                <th onclick="gSort('comp')">Anamnesis</th>
+                                <th>Detalle</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gTbody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Modal detalle -->
+    <div class="modal-bg" id="modal" onclick="closeModal(event)">
+        <div class="modal">
+            <div class="modal-hdr">
+                <div class="modal-title" id="modalTitle"></div>
+                <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">×</button>
+            </div>
+            <div id="modalBody"></div>
+        </div>
+    </div>
+
+    <script>
+    // ─── Estado global ────────────────────────────────────────────────────────────
+    let datos = [];
+    let glosasRows = [];
+    let planillaData = [];
+    // Log de priorizaciones de destino, indexado por N° de solicitud.
+    // Rayen guarda la priorización pero NO la devuelve por ningún endpoint de
+    // lectura (verificado), por eso entra como segunda fuente.
+    let priorPorSIC = {};
+    let gSortKey = 'n',
+        gSortAsc = true;
+
+    // Acepta persona como string (capturas antiguas) u objeto {nombre,rut} (extractor v5+)
+    const nomDe = o => typeof o === 'string' ? o : ((o || {}).nombre || '');
+
+    // ─── Helpers UI ───────────────────────────────────────────────────────────────
+    function setStatus(msg, type) {
+        const el = document.getElementById('statusBar');
+        el.textContent = msg;
+        el.className = 'status-bar mono' + (type ? ' ' + type : '');
+    }
+    function switchTab(tab) {
+        document.querySelectorAll('.tab').forEach((t, i) => t.classList.toggle('active', ['csv', 'fmt', 'glosas'][i] === tab));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        document.getElementById('tab-' + tab).classList.add('active');
+    }
+    function closeModal(e) {
+        if (e.target === document.getElementById('modal'))
+            document.getElementById('modal').classList.remove('open');
+    }
+
+    // ─── Carga de datos ───────────────────────────────────────────────────────────
+    function parseDatos(txt) {
+        txt = txt.trim();
+        let d;
+        try {
+            d = JSON.parse(txt);
+        } catch (e) {
+            throw new Error('JSON inválido: ' + e.message);
+        }
+        if (!Array.isArray(d))
+            throw new Error('Se esperaba un array');
+        return d;
+    }
+    function cargar() {
+        try {
+            procesar(parseDatos(document.getElementById('jsonInput').value.trim()));
+        }
+        catch (e) {
+            setStatus('Error: ' + e.message, 'err');
+        }
+    }
+    function cargarLZ() {
+        const txt = document.getElementById('jsonInput').value.trim();
+        if (!txt) {
+            setStatus('Sin datos.', 'err');
+            return;
+        }
+        try {
+            const dec = LZString.decompressFromBase64(txt);
+            if (!dec)
+                throw new Error('No se pudo descomprimir');
+            procesar(parseDatos(dec));
+        } catch (e) {
+            try {
+                procesar(parseDatos(txt));
+            } catch (e2) {
+                setStatus('Error: ' + e.message, 'err');
+            }
+        }
+    }
+    function limpiar() {
+        document.getElementById('jsonInput').value = '';
+        datos = [];
+        glosasRows = [];
+        planillaData = [];
+        setStatus('Sin datos cargados.');
+        document.getElementById('fmtContainer').innerHTML = '<div class="empty">Carga datos para ver la vista clínica.</div>';
+        document.getElementById('glosasEmpty').style.display = '';
+        document.getElementById('glosasContent').style.display = 'none';
+        document.getElementById('planillaContainer').innerHTML = '';
+        document.getElementById('btnDlPlanilla').disabled = true;
+        document.getElementById('btnCopiarPlanilla').disabled = true;
+    }
+    function procesar(data) {
+        datos = data;
+        setStatus(data.length + ' interconsultas cargadas.', 'ok');
+        buildColGrid();
+        renderFmt();
+        procesarGlosas();
+    }
+
+    // ─── Priorizaciones de destino ────────────────────────────────────────────────
+    // Acepta tres formatos: CSV del bookmarklet (separador ';'), JSON crudo del
+    // registro, o LZString del mismo JSON.
+    function parsePriorizaciones(txt) {
+        txt = (txt || '').replace(/^\uFEFF/, '').trim();
+        if (!txt) throw new Error('Sin contenido');
+
+        let arr = null;
+
+        // JSON directo
+        if (txt[0] === '[' || txt[0] === '{') {
+            try {
+                const j = JSON.parse(txt);
+                arr = Array.isArray(j) ? j : [j];
+            } catch (e) {}
+        }
+        // LZString → JSON
+        if (!arr && typeof LZString !== 'undefined') {
+            try {
+                const dec = LZString.decompressFromBase64(txt);
+                if (dec && (dec[0] === '[' || dec[0] === '{')) {
+                    const j = JSON.parse(dec);
+                    arr = Array.isArray(j) ? j : [j];
+                }
+            } catch (e) {}
+        }
+        // CSV con cabecera
+        if (!arr) {
+            const lineas = txt.split(/\r?\n/).filter(l => l.trim());
+            if (lineas.length < 2) throw new Error('Formato no reconocido (¿CSV sin filas?)');
+            const sep = (lineas[0].match(/;/g) || []).length >= (lineas[0].match(/,/g) || []).length ? ';' : ',';
+            const parseLinea = l => {
+                const out = []; let cur = '', dentro = false;
+                for (let i = 0; i < l.length; i++) {
+                    const ch = l[i];
+                    if (ch === '"') {
+                        if (dentro && l[i + 1] === '"') { cur += '"'; i++; }
+                        else dentro = !dentro;
+                    } else if (ch === sep && !dentro) { out.push(cur); cur = ''; }
+                    else cur += ch;
+                }
+                out.push(cur);
+                return out;
+            };
+            const cab = parseLinea(lineas[0]).map(c => c.trim());
+            arr = lineas.slice(1).map(l => {
+                const v = parseLinea(l);
+                const o = {};
+                cab.forEach((c, i) => o[c] = (v[i] || '').trim());
+                return o;
+            });
+        }
+
+        if (!arr || !arr.length) throw new Error('Sin registros');
+
+        // El registro es un LOG histórico: puede haber varias entradas por SIC
+        // (re-priorizaciones). Nos quedamos con la más reciente de cada una.
+        const ESCALA = { 1: 'BAJA', 2: 'MEDIA', 3: 'ALTA' };
+        const idx = {};
+        let descartadas = 0;
+        arr.forEach(r => {
+            const sic = String(r.numeroSolicitud || r.idSoin || '').trim();
+            if (!sic) return;
+            const pr = parseInt(r.prioridad, 10);
+            const reg = {
+                numeroSolicitud: sic,
+                prioridad: isNaN(pr) ? null : pr,
+                prioridadTexto: (r.prioridadTexto || ESCALA[pr] || '').toUpperCase(),
+                observacion: r.observacion || '',
+                fechaHora: r.fechaHora || '',
+                paciente: r.paciente || ''
+            };
+            if (!idx[sic] || String(reg.fechaHora) > String(idx[sic].fechaHora)) {
+                if (idx[sic]) descartadas++;
+                idx[sic] = reg;
+            } else descartadas++;
+        });
+        return { idx, total: arr.length, unicas: Object.keys(idx).length, descartadas };
+    }
+
+    function cargarPrior() {
+        const txt = document.getElementById('priorInput').value;
+        const el = document.getElementById('priorStatus');
+        try {
+            const { idx, total, unicas, descartadas } = parsePriorizaciones(txt);
+            priorPorSIC = idx;
+            let msg = unicas + ' priorización(es) cargada(s)';
+            if (descartadas) msg += ' · ' + descartadas + ' entrada(s) antigua(s) descartada(s) de ' + total;
+            if (datos.length) {
+                const cruzadas = datos.filter(r => priorPorSIC[String(r.numeroSolicitud)]).length;
+                msg += ' · cruzan con ' + cruzadas + ' de ' + datos.length + ' SIC';
+            } else {
+                msg += ' · carga las interconsultas para cruzarlas';
+            }
+            el.textContent = msg;
+            el.className = 'status-bar mono ok';
+            if (datos.length) {
+                renderFmt();
+                procesarGlosas();
+                // Si la planilla ya estaba generada, rehacerla: la prioridad
+                // de destino cambia su contenido.
+                if (planillaData.length) generarPlanilla();
+            }
+        } catch (e) {
+            el.textContent = 'Error: ' + e.message;
+            el.className = 'status-bar mono err';
+        }
+    }
+
+    function limpiarPrior() {
+        document.getElementById('priorInput').value = '';
+        priorPorSIC = {};
+        const el = document.getElementById('priorStatus');
+        el.textContent = 'Sin priorizaciones cargadas.';
+        el.className = 'status-bar mono';
+        if (datos.length) {
+            renderFmt();
+            if (planillaData.length) generarPlanilla();
+        }
+    }
+
+    // Priorización de destino de una SIC, o null
+    function priorDe(r) {
+        return priorPorSIC[String((r || {}).numeroSolicitud)] || null;
+    }
+    // Prioridad de origen en la misma escala textual, para comparar
+    function prioridadOrigenTexto(r) {
+        return ({ 1: 'BAJA', 2: 'MEDIA', 3: 'ALTA' })[(r || {}).prioridad] || '';
+    }
+
+    // ─── TAB A: Columnas CSV ──────────────────────────────────────────────────────
+    const COLUMNAS = [
+    {
+        key: 'numeroSolicitud',
+        label: 'N° SIC',
+        get: r => r.numeroSolicitud
+    },
+    {
+        key: 'fechaCreacion',
+        label: 'Fecha creación',
+        get: r => r.fechaCreacion
+    },
+    {
+        key: 'fechaCitaConfirmada',
+        label: 'Fecha cita confirmada',
+        get: r => {
+            const v = r.fechaCitaConfirmada || '';
+            return (v && v !== 'No Registrado') ? v : '';
+        }
+    },
+    {
+        // OJO: FechaHoraCita de Rayen NO es una cita — espeja FechaHoraRevision
+        // (verificado 25/25, incluso en SIC con cita real). Nombre verdadero:
+        key: 'fechaUltimaRevision',
+        label: 'Última revisión',
+        get: r => r.fechaUltimaRevision || r.fechaCita || ''
+    },
+    {
+        key: 'estado',
+        label: 'Estado',
+        get: r => r.estado || ''
+    },
+    {
+        key: 'esGES',
+        label: 'GES',
+        get: r => r.esGES
+    },
+    {
+        key: 'prioridad',
+        label: 'Prioridad',
+        get: r => r.prioridad
+    },
+    {
+        key: 'prioridadDestino',
+        label: 'Prioridad destino',
+        get: r => (priorDe(r) || {}).prioridadTexto || ''
+    },
+    {
+        key: 'prioridadCambio',
+        label: 'Cambio de prioridad',
+        get: r => {
+            const p = priorDe(r);
+            if (!p || !p.prioridadTexto) return '';
+            const o = prioridadOrigenTexto(r);
+            return (o && o !== p.prioridadTexto) ? o + ' → ' + p.prioridadTexto : 'sin cambio';
+        }
+    },
+    {
+        key: 'prioridadObs',
+        label: 'Obs. priorización',
+        get: r => (priorDe(r) || {}).observacion || ''
+    },
+    {
+        key: 'prioridadFecha',
+        label: 'Fecha priorización',
+        get: r => (priorDe(r) || {}).fechaHora || ''
+    },
+    {
+        key: 'especialidad',
+        label: 'Especialidad',
+        get: r => r.especialidad
+    },
+    {
+        key: 'motivoInterconsulta',
+        label: 'Motivo',
+        get: r => r.motivoInterconsulta
+    },
+    {
+        key: 'problemaSalud',
+        label: 'Problema salud',
+        get: r => (r.problemaSalud || '').trim()
+    },
+    {
+        key: 'pacNombre',
+        label: 'Paciente nombre',
+        get: r => (r.paciente || {}).nombre || ''
+    },
+    {
+        key: 'pacRut',
+        label: 'RUT',
+        get: r => (r.paciente || {}).rut || ''
+    },
+    {
+        key: 'pacEdad',
+        label: 'Edad',
+        get: r => (r.paciente || {}).edad || ''
+    },
+    {
+        key: 'pacSexo',
+        label: 'Sexo',
+        get: r => (r.paciente || {}).sexo || ''
+    },
+    {
+        key: 'pacPrev',
+        label: 'Previsión',
+        get: r => (r.paciente || {}).prevision || ''
+    },
+    {
+        key: 'pacTel',
+        label: 'Teléfonos',
+        get: r => ((r.paciente || {}).telefonos || []).join(' / ')
+    },
+    {
+        key: 'pacDir',
+        label: 'Dirección',
+        get: r => (r.paciente || {}).direccion || ''
+    },
+    {
+        key: 'establecimientoOrigen',
+        label: 'Establecimiento origen',
+        get: r => r.establecimientoOrigen || ''
+    },
+    {
+        key: 'medicoDerivador',
+        label: 'Médico derivador',
+        get: r => typeof r.medicoDerivador === 'string' ? r.medicoDerivador : ((r.medicoDerivador || {}).nombre || '')
+    },
+    {
+        key: 'contralor',
+        label: 'Contralor',
+        get: r => typeof r.contralor === 'string' ? r.contralor : ((r.contralor || {}).nombre || '')
+    },
+    {
+        key: 'dg_principal',
+        label: 'Dg principal CIE-10',
+        get: r => {
+            const d = (r.diagnosticos || []).find(x => x.principal);
+            return d ? d.cie10 + ' ' + d.descripcion : '';
+        }
+    },
+    {
+        key: 'dg_todos',
+        label: 'Todos diagnósticos',
+        get: r => (r.diagnosticos || []).map(d => (d.principal ? '[P]' : '   ') + ' ' + d.cie10 + ' ' + d.descripcion).join(' | ')
+    },
+    {
+        key: 'fundamentosClinicos',
+        label: 'Fundamentos clínicos',
+        get: r => (r.glosa || {}).fundamentosClinicos || ''
+    },
+    {
+        key: 'examenesRealizados',
+        label: 'Exámenes realizados',
+        get: r => (r.glosa || {}).examenesRealizados || ''
+    },
+    {
+        key: 'observaciones',
+        label: 'Observaciones',
+        get: r => (r.glosa || {}).observaciones || ''
+    },
+    {
+        key: 'obsContralor',
+        label: 'Obs. contralor',
+        get: r => (r.observacionesContralor || []).map(o => '[' + o.fecha + '] ' + o.funcionario + ': ' + o.texto).join(' | ')
+    },
+    ];
+    const DEFAULT_COLS = ['numeroSolicitud', 'fechaCreacion', 'estado', 'esGES', 'prioridad', 'pacNombre', 'pacRut', 'pacEdad', 'pacSexo', 'especialidad', 'dg_principal', 'establecimientoOrigen', 'medicoDerivador'];
+
+    function buildColGrid() {
+        const grid = document.getElementById('colGrid');
+        grid.innerHTML = '';
+        COLUMNAS.forEach(col => {
+            const checked = DEFAULT_COLS.includes(col.key);
+            const div = document.createElement('div');
+            div.className = 'col-item' + (checked ? ' checked' : '');
+            div.innerHTML = `<input type="checkbox" id="col_${col.key}"${checked ? ' checked' : ''}><label for="col_${col.key}">${col.label}</label>`;
+            div.querySelector('input').addEventListener('change', function() {
+                div.classList.toggle('checked', this.checked);
+            });
+            grid.appendChild(div);
+        });
+    }
+    function selAll(v) {
+        document.querySelectorAll('#colGrid input[type=checkbox]').forEach(cb => {
+            cb.checked = v;
+            cb.closest('.col-item').classList.toggle('checked', v);
+        });
+    }
+
+    function getCSVContent(sep) {
+        const cols = COLUMNAS.filter(c => document.getElementById('col_' + c.key)?.checked);
+        if (!cols.length) {
+            alert('Selecciona al menos una columna.');
+            return null;
+        }
+        const esc = v => {
+            const s = String(v ?? '').replace(/\r?\n/g, ' ');
+            return (s.includes(sep) || s.includes('"')) ? '"' + s.replace(/"/g, '""') + '"' : s;
+        };
+        const rows = [cols.map(c => esc(c.label)).join(sep)];
+        datos.forEach(r => rows.push(cols.map(c => {
+            try {
+                return esc(c.get(r));
+            } catch {
+                return '';
+            }
+        }).join(sep)));
+        return rows.join('\r\n');
+    }
+    function getSep() {
+        const v = document.getElementById('sepSelect').value;
+        return v === '\t' ? '\t' : v;
+    }
+    function exportarCSV() {
+        if (!datos.length) {
+            alert('Sin datos.');
+            return;
+        }
+        const csv = getCSVContent(getSep());
+        if (!csv)
+            return;
+        const blob = new Blob(['\uFEFF' + csv], {
+            type: 'text/csv;charset=utf-8'
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'sic_cosam_' + new Date().toISOString().slice(0, 10) + '.csv';
+        a.click();
+    }
+    function copiarCSV() {
+        if (!datos.length) {
+            alert('Sin datos.');
+            return;
+        }
+        const csv = getCSVContent(getSep());
+        if (!csv)
+            return;
+        navigator.clipboard.writeText(csv).then(() => alert('CSV copiado (' + datos.length + ' filas)'));
+    }
+
+    // ─── TAB A: Planilla Contraloría ──────────────────────────────────────────────
+    function limpiarRut(rut) {
+        return (rut || '').replace(/[^0-9kK]/g, '');
+    }
+    function marcarEstado(estado) {
+        const s = String(estado || '').toLowerCase();
+        return {
+            aceptada: s.includes('aceptad') ? 'X' : '',
+            rechazada: s.includes('rechazad') ? 'X' : ''
+        };
+    }
+
+    function generarPlanilla() {
+        if (!datos.length) {
+            alert('Sin datos cargados.');
+            return;
+        }
+
+        // Acepta persona como string (capturas antiguas) u objeto {nombre,rut} (extractor v5+)
+        const nomDe = o => typeof o === 'string' ? o : ((o || {}).nombre || '');
+
+        // "20 años 1 mes 21 días" → 20 ; "" → null
+        const edadAnios = txt => {
+            const m = String(txt || '').match(/^\s*(\d+)/);
+            return m ? parseInt(m[1], 10) : null;
+        };
+
+        // "20260821 081047" → "21-08-2026" ; ya formateada → tal cual ; sentinel → ''
+        const fmtFecha = v => {
+            const s = String(v || '').trim();
+            if (!s || s.startsWith('00010101')) return '';
+            const m = s.match(/^(\d{4})(\d{2})(\d{2})/);
+            return m ? `${m[3]}-${m[2]}-${m[1]}` : s;
+        };
+
+        planillaData = datos.map(r => {
+            const pac = r.paciente || {};
+            const dg = (r.diagnosticos || []).find(d => d.principal);
+            const dgStr = dg ? dg.cie10 + ' ' + dg.descripcion : '';
+
+            // ACEPTADA/RECHAZADA según estado — VERDADERO/FALSO estilo Excel
+            const s = String(r.estado || '').toLowerCase();
+            const aceptada = s.includes('acept') || s.includes('enviad') || s.includes('recibid') ? 'VERDADERO' : 'FALSO';
+            const rechazada = s.includes('rechaz') ? 'VERDADERO' : 'FALSO';
+
+            // PRIORIDAD — escala ASCENDENTE confirmada contra la UI de Rayen
+            // (diálogo "Priorizar Solicitud": Baja / Media / Alta)
+            const priorMap = {
+                1: 'BAJA',  '1': 'BAJA',
+                2: 'MEDIA', '2': 'MEDIA',
+                3: 'ALTA',  '3': 'ALTA'
+            };
+            const priorOrigenStr = priorMap[r.prioridad] || '';
+            // La prioridad que la contraloría de COSAM resolvió manda sobre la
+            // que pidió el derivador. Si no se priorizó, cae a la de origen.
+            const pDest = priorDe(r);
+            const priorStr = (pDest && pDest.prioridadTexto)
+                ? pDest.prioridadTexto
+                : (priorOrigenStr || 'PRIORIDAD SEGÚN GES');
+
+            // UNIDAD — la edad manda sobre la especialidad.
+            // Rayen entrega "Psiquiatría Adulto" incluso para menores de edad
+            // (verificado en pacientes de 15, 15 y 11 años).
+            const esp = r.especialidad || '';
+            const anios = edadAnios(pac.edad);
+            let unidad;
+            if (anios !== null && anios < 18) {
+                unidad = 'INFANTO ADOLESCENTE';
+            } else if (esp.includes('Adulto')) {
+                unidad = 'Psiquiatría Adulto';
+            } else if (esp.includes('Pediátrica') || esp.includes('Infanto') || esp.includes('Adolescencia')) {
+                unidad = 'INFANTO ADOLESCENTE';
+            } else {
+                unidad = esp;
+            }
+
+            // FECHA 1°CITA — solo cita confirmada real. NO usar fechaCita como
+            // respaldo: ese campo espeja FechaHoraRevision, no es una cita.
+            const citaConf = String(r.fechaCitaConfirmada || '').trim();
+            const cita1 = (citaConf && citaConf !== 'No Registrado') ? citaConf : '';
+
+            // PROFESIONAL — del bloque de cita confirmada del resumen de Rayen.
+            // Es quien atenderá, no el contralor.
+            const esContralorDestino = (typeof r.contralorEsDeDestino === 'boolean')
+                ? r.contralorEsDeDestino
+                : (!!nomDe(r.contralor) && String(r.estado || '') !== 'Enviada');
+
+            const resumen = r.resumenAntecedentes || {};
+            const bloqueCita = resumen['Resumen solicitud cita confirmada'] || {};
+            const profesional = bloqueCita['Nombre profesional cita'] || '';
+
+            return {
+                'FECHA ENVIO': fmtFecha(r.fechaEnvio || r.fechaCreacion),
+                'FECHA CONTRALORIA': '',
+                // Para autocompletar con la última revisión del registro, descomentar:
+                // 'FECHA CONTRALORIA': fmtFecha(r.fechaRevision),
+                // Ojo: FechaHoraRevision es la última revisión por cualquier motivo,
+                // no necesariamente el momento de la contraloría.
+                // Mientras el estado es "Enviada" el campo trae al contralor de
+                // ORIGEN, no al de destino (verificado). En ese caso va vacío.
+                'MEDICO CONTRALOR (USAR MENÚ)': esContralorDestino ? nomDe(r.contralor) : '',
+                'TIPO SIC PAPEL/DIGITAL (USAR MENÚ)': 'Digital',
+                'CENTRO DERIVADOR': r.establecimientoOrigen || '',
+                'NOMBRE USUARIO': pac.nombre || '',
+                'RUT': pac.rut || '',
+                'RUT LIMPIO': limpiarRut(pac.rut || ''),
+                'GES': r.esGES === 'Si' ? 'SI' : r.esGES === 'No' ? 'NO' : r.esGES || '',
+                'ACEPTADA': aceptada,
+                'RECHAZADA': rechazada,
+                'OBSERVACIÓN': dgStr,
+                'UNIDAD (USAR MENÚ)': unidad,
+                'PRIORIDAD (USAR MENÚ)': priorStr,
+                'FECHA 1°CITA': cita1,
+                'PROFESIONAL (USAR MENÚ)': profesional,
+                'ESTADO (USAR MENÚ)': r.estado || '',
+                // Deja constancia de la reclasificación y su fundamento.
+                'OBSERVACION': (pDest && pDest.prioridadTexto && priorOrigenStr && priorOrigenStr !== pDest.prioridadTexto)
+                    ? ('Prioridad ' + priorOrigenStr + ' \u2192 ' + pDest.prioridadTexto + (pDest.observacion ? '. ' + pDest.observacion : ''))
+                    : ((pDest && pDest.observacion) ? pDest.observacion : ''),
+                'FECHA 2°CITA': '',
+                'PROFESIONAL': '',
+                'ESTADO': '',
+                'OBSERVACION ': '',
+            };
+        });
+        renderPlanilla();
+        document.getElementById('btnDlPlanilla').disabled = false;
+        document.getElementById('btnCopiarPlanilla').disabled = false;
+    }
+
+    function renderPlanilla() {
+        if (!planillaData.length)
+            return;
+        const headers = Object.keys(planillaData[0]);
+        const conPrior = planillaData.filter(r => String(r['OBSERVACION'] || '').startsWith('Prioridad ')).length;
+        const nPrior = Object.keys(priorPorSIC).length;
+        const notaPrior = nPrior
+            ? 'PRIORIDAD: la resuelta por contraloría de destino' + (conPrior ? ' · ' + conPrior + ' reclasificada(s)' : '')
+            : 'PRIORIDAD: la de origen — sin priorizaciones cargadas';
+        let html = '<div class="planilla-out"><div class="planilla-out-hdr"><span>Planilla Contraloría — ' + planillaData.length + ' registros</span><span>' + notaPrior + '</span></div>';
+        html += '<div class="planilla-table-wrap"><table class="planilla-table"><thead><tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr></thead><tbody>';
+        html += planillaData.map(row => '<tr>' + headers.map(h => `<td>${row[h] ?? ''}</td>`).join('') + '</tr>').join('');
+        html += '</tbody></table></div></div>';
+        document.getElementById('planillaContainer').innerHTML = html;
+    }
+
+    function planillaToCSV() {
+        if (!planillaData.length)
+            return '';
+        const headers = Object.keys(planillaData[0]);
+        const esc = v => {
+            const s = String(v ?? '');
+            return (s.includes(',') || s.includes('"')) ? '"' + s.replace(/"/g, '""') + '"' : s;
+        };
+        return [headers.join(','), ...planillaData.map(r => headers.map(h => esc(r[h])).join(','))].join('\r\n');
+    }
+    function descargarPlanilla() {
+        const csv = planillaToCSV();
+        if (!csv)
+            return;
+        const blob = new Blob(['\uFEFF' + csv], {
+            type: 'text/csv;charset=utf-8'
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'planilla_contraloria_' + new Date().toISOString().slice(0, 10) + '.csv';
+        a.click();
+    }
+    function copiarPlanilla() {
+        const csv = planillaToCSV();
+        if (!csv)
+            return;
+        navigator.clipboard.writeText(csv).then(() => alert('Planilla copiada (' + planillaData.length + ' filas)'));
+    }
+
+    // ─── TAB B: Vista clínica ─────────────────────────────────────────────────────
+    function filtrarFmt() {
+        const esp = document.getElementById('filtroEsp').value;
+        const ges = document.getElementById('filtroGES').value;
+        const pr = document.getElementById('filtroPrior').value;
+        const est = document.getElementById('filtroEstado').value;
+        return datos.filter(r => {
+            if (esp && r.especialidad !== esp)
+                return false;
+            if (ges && r.esGES !== ges)
+                return false;
+            if (pr && String(r.prioridad) !== pr)
+                return false;
+            if (est && r.estado !== est)
+                return false;
+            return true;
+        });
+    }
+
+    function renderFmt() {
+        const container = document.getElementById('fmtContainer');
+        if (!datos.length) {
+            container.innerHTML = '<div class="empty">Carga datos para ver la vista clínica.</div>';
+            return;
+        }
+        const filtered = filtrarFmt();
+        document.getElementById('fmtCount').textContent = filtered.length + ' / ' + datos.length;
+        if (!filtered.length) {
+            container.innerHTML = '<div class="empty">Sin resultados con los filtros seleccionados.</div>';
+            return;
+        }
+
+        const estadoMap = {
+            Enviada: 'p-blue',
+            Aceptada: 'p-green',
+            Recibida: 'p-green',
+            Rechazada: 'p-red',
+            Egresada: 'p-gray',
+            Anulada: 'p-red'
+        };
+
+        container.innerHTML = filtered.map(r => {
+            const pac = r.paciente || {};
+            const dgs = (r.diagnosticos || []);
+            const dgHtml = dgs.map(d => `<div class="dg-item ${d.principal ? 'principal' : 'secundario'}">${d.principal ? '[P]' : '   '} ${d.cie10} — ${d.descripcion}</div>`).join('');
+            const obsHtml = (r.observacionesContralor || []).map(o => `<div class="obs-ct">[${o.fecha}] ${o.funcionario}: ${o.texto}</div>`).join('');
+            const gesPill = r.esGES === 'Si' ? '<span class="pill p-purple">GES</span>' : '<span class="pill p-gray">No GES</span>';
+            const prPill = r.prioridad == 2 ? '<span class="pill p-amber">P2</span>' : '<span class="pill p-green">P3</span>';
+            const estPill = r.estado ? `<span class="pill ${estadoMap[r.estado] || 'p-gray'}">${r.estado}</span>` : '';
+            const pd = priorDe(r);
+            const po = prioridadOrigenTexto(r);
+            const pdPill = pd && pd.prioridadTexto
+                ? `<span class="pill ${(po && po !== pd.prioridadTexto) ? 'p-amber' : 'p-blue'}" title="${(pd.observacion || '').replace(/"/g, '&quot;')}">destino: ${pd.prioridadTexto}${(po && po !== pd.prioridadTexto) ? ' (era ' + po + ')' : ''}</span>`
+                : '';
+            const glosa = [
+            (r.glosa || {}).fundamentosClinicos,
+            (r.glosa || {}).examenesRealizados ? '--- EXÁMENES ---\n' + (r.glosa || {}).examenesRealizados : '',
+            (r.glosa || {}).observaciones ? '--- OBSERVACIONES ---\n' + (r.glosa || {}).observaciones : ''
+            ].filter(Boolean).join('\n\n');
+            return `<div class="sic-card">
+            <div class="sic-card-hdr">
+              <span class="sic-num">${r.numeroSolicitud}</span>
+              <span class="sic-fecha">${r.fechaCreacion}</span>
+              ${gesPill}${prPill}${pdPill}${estPill}
+              <span style="color:var(--ink3);margin-left:auto">${r.especialidad}</span>
+            </div>
+            <div class="sic-card-body">
+              <div>
+                <div class="sic-sec-title">Paciente</div>
+                <div class="sic-field"><strong>Nombre</strong> ${pac.nombre}</div>
+                <div class="sic-field"><strong>RUT</strong> <span class="mono">${pac.rut}</span></div>
+                <div class="sic-field"><strong>Edad</strong> ${pac.edad} · ${pac.sexo}</div>
+                <div class="sic-field"><strong>Previsión</strong> ${pac.prevision}</div>
+                <div class="sic-field"><strong>Tel.</strong> ${(pac.telefonos || []).join(' / ')}</div>
+                <div class="sic-field"><strong>Dirección</strong> ${pac.direccion || ''}</div>
+              </div>
+              <div>
+                <div class="sic-sec-title">Derivación</div>
+                <div class="sic-field"><strong>Origen</strong> ${r.establecimientoOrigen || ''}</div>
+                <div class="sic-field"><strong>Médico</strong> ${nomDe(r.medicoDerivador)}</div>
+                <div class="sic-field"><strong>Contralor</strong> ${nomDe(r.contralor) ? nomDe(r.contralor) + (r.contralorEsDeDestino === false ? ' (de origen)' : '') : '—'}</div>
+                <div class="sic-field"><strong>Motivo</strong> ${r.motivoInterconsulta || ''}</div>
+                ${pd && pd.observacion ? `<div class="sic-field"><strong>Obs. priorización</strong> ${pd.observacion}</div>` : ''}
+                <div class="sic-field"><strong>Cita</strong> ${(r.fechaCitaConfirmada && r.fechaCitaConfirmada !== 'No Registrado') ? r.fechaCitaConfirmada : 'Sin cita agendada'}</div>
+                <div class="sic-sec-title" style="margin-top:8px">Diagnósticos</div>
+                <div class="dg-list">${dgHtml}</div>
+                ${obsHtml ? '<div class="sic-sec-title" style="margin-top:6px">Obs. contralor</div>' + obsHtml : ''}
+              </div>
+              ${glosa ? `<div class="sic-glosa">
+                <div class="sic-sec-title">Glosa clínica</div>
+                <div class="glosa-text">${glosa.replace(/</g, '&lt;')}</div>
+              </div>` : ''}
+            </div></div>`;
+        }).join('');
+    }
+
+    function exportarHTMLFmt() {
+        if (!datos.length) {
+            alert('Sin datos.');
+            return;
+        }
+        const container = document.getElementById('fmtContainer');
+        const blob = new Blob([`<!DOCTYPE html><html lang="es"><head><meta charset="UTF-8"><title>SIC COSAM</title>
+        <style>
+        :root{--s1:#faf9f6;--s2:#f3f1ec;--s3:#fff;--line:rgba(0,0,0,.08);--line2:rgba(0,0,0,.14);
+        --ink:#1a1814;--ink2:#3d3a34;--ink3:#6b6560;--lab:#7a7570;
+        --f-display:'Playfair Display',Georgia,serif;--f-ui:'IBM Plex Sans',system-ui,sans-serif;
+        --f-read:'Source Serif 4',Georgia,serif;--f-mono:'IBM Plex Mono',Consolas,monospace}
+        body{font-family:var(--f-read);max-width:820px;margin:32px auto;padding:0 24px;
+        font-size:11pt;line-height:1.6;color:var(--ink);background:var(--s3)}
+        h2{font-family:var(--f-display);font-size:24pt;font-weight:400;margin-bottom:24px}
+        .sic-card{border:none;border-top:1px solid var(--line2);margin:0;padding:16px 0}
+        .sic-card-hdr{padding:0 0 8px;background:none;border:none;display:flex;gap:8px;flex-wrap:wrap;align-items:baseline}
+        .sic-card-body{padding:0;display:grid;grid-template-columns:1fr 1fr;gap:16px}
+        .sic-sec-title{font-family:var(--f-ui);font-size:9pt;font-weight:600;text-transform:uppercase;
+        letter-spacing:.06em;color:var(--lab);margin-bottom:4px}
+        .sic-field{font-family:var(--f-ui);font-size:10pt;margin-bottom:2px;color:var(--ink2)}
+        .sic-field strong{color:var(--lab);font-weight:500}
+        .sic-num{font-family:var(--f-mono);font-weight:500;color:var(--ink)}
+        .sic-fecha{font-family:var(--f-mono);font-size:9pt;color:var(--ink3)}
+        .pill{font-family:var(--f-mono);font-size:9pt;padding:1px 6px;border:1px solid var(--line2);color:var(--ink3)}
+        .dg-item{font-family:var(--f-mono);font-size:9pt;color:var(--ink3)}
+        .dg-item.principal,.principal{color:var(--ink);font-weight:500}
+        .glosa-text{font-family:var(--f-read);font-style:italic;font-size:10pt;line-height:1.6;
+        background:var(--s2);border:none;border-left:2px solid var(--line2);padding:8px 12px;white-space:pre-wrap;color:var(--ink2)}
+        .sic-glosa{grid-column:1/-1}
+        .obs-ct{font-family:var(--f-mono);font-size:9pt;border-left:2px solid var(--line2);
+        padding-left:8px;color:var(--ink3);margin-top:4px}
+        </style></head><body><h2>SIC COSAM Rahue — ${new Date().toLocaleDateString('es-CL')}</h2>
+        ${container.innerHTML}</body></html>`], {
+            type: 'text/html;charset=utf-8'
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'sic_vista_' + new Date().toISOString().slice(0, 10) + '.html';
+        a.click();
+    }
+
+    function copiarMDFmt() {
+        if (!datos.length) {
+            alert('Sin datos.');
+            return;
+        }
+        const filtered = filtrarFmt();
+        const md = filtered.map(r => {
+            const pac = r.paciente || {};
+            const dgs = (r.diagnosticos || []).map(d => (d.principal ? '**[P]**' : '   ') + ' `' + d.cie10 + '` ' + d.descripcion).join('\n');
+            return `## ${r.numeroSolicitud} · ${r.fechaCreacion} · ${r.esGES === 'Si' ? 'GES' : 'No GES'} · P${r.prioridad}\n\n**Paciente:** ${pac.nombre} · RUT \`${pac.rut}\` · ${pac.edad} · ${pac.sexo}\n**Tel:** ${(pac.telefonos || []).join(' / ')}\n**Origen:** ${r.establecimientoOrigen} · **Médico:** ${nomDe(r.medicoDerivador)}\n**Cita:** ${(r.fechaCitaConfirmada && r.fechaCitaConfirmada !== 'No Registrado') ? r.fechaCitaConfirmada : 'Sin cita agendada'}\n\n### Diagnósticos\n${dgs}\n\n### Glosa\n${(r.glosa || {}).fundamentosClinicos || '(vacío)'}`;
+        }).join('\n\n---\n\n');
+        navigator.clipboard.writeText(md).then(() => alert('Markdown copiado (' + filtered.length + ' SIC)'));
+    }
+
+    // ─── TAB C: Análisis de glosas ────────────────────────────────────────────────
+    // =============================================================================
+    // SUITE SIC — DETECTOR DE MARCADORES v2 (catete + inconsistencia)
+    // =============================================================================
+    // Reemplaza las funciones detectar() y coherencia() en suite_sic.html
+    //
+    // Cambios respecto a v1:
+    //   - Maneja negaciones tabulares: "Suicidalidad: ... (-)", "OH (-)", etc.
+    //   - Maneja negaciones narrativas: "niega ideación suicida", "sin VIF"
+    //   - Discrimina paciente vs familiar para suicid, vif, consumo
+    //   - Filtra TBQ aislado en consumo (no activa el flag)
+    //   - Desambigua "abuso sexual" vs "abuso de sustancias"
+    //   - Captura evidencia textual (snippets) para auditoría
+    //   - Añade flag de inconsistencia interna del relato
+    //   - Añade clasificación histórica para suicidalidad
+    //
+    // Caso de regresión cubierto:
+    //   "Suicidalidad: Ideación Suicida (-) Intento Suicida (-)" → suicid=false
+    // =============================================================================
+
+    // --- Normalización (sin tildes, lowercase, espacios colapsados) ---
+    function _norm(s) {
+        return (s || '').toLowerCase()
+        .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+        .replace(/\s+/g, ' ');
+    }
+
+    // --- Patrones auxiliares ---
+    const _NEG_RE = /\b(niega|sin |no presenta|no refiere|no tiene|no hay|descart[oa]|ausencia de|nego|negar|sin antecedent)/;
+    const _FAM_RE = /\b(madre|padre|papa|mama|hermano|hermana|tio|tia|abuelo|abuela|primo|prima|familiar|fliar|fliares|antecedent[e]? familiar|antec familiar|ant\.? familiar|ant fliares|antecedentes? fliar|familia)\b/;
+    const _HIST_RE = /\b(previo|previa|antes|pasado|hace \d+ (a[ñn]os?|meses?)|historico|antiguo|ex-?\s|abandono|suspendido|abstinencia|en remision|dej[oó] de|dejo el|antecedent[e]?s? de (intent|conduct|autolesi|consumo)|en \d{4}|\d{4} hospitaliza|hospitalizad[oa] en \d{4})/;
+
+    // --- ¿Está negado el match? ---
+    // Mira lookbehind por negadores verbales (mismo período, no cruza puntos)
+    // y lookahead por (-) tabular hasta el próximo punto o salto de línea,
+    // sin que haya un (+) antes.
+    function _esNegado(text, pos) {
+        const left = text.slice(Math.max(0, pos - 40), pos);
+        const negMatch = left.match(_NEG_RE);
+        if (negMatch) {
+            const negPos = left.search(_NEG_RE);
+            const intermedio = left.slice(negPos);
+            // Si hay un punto+espacio o salto de línea entre el negador y el match,
+            // la negación no aplica (frases distintas)
+            if (!/\.\s|\n/.test(intermedio))
+                return true;
+        }
+        const right = text.slice(pos, pos + 80);
+        let corte = right.length;
+        const np = right.indexOf('. '),
+            nl = right.indexOf('\n');
+        if (np >= 0)
+            corte = Math.min(corte, np);
+        if (nl >= 0)
+            corte = Math.min(corte, nl);
+        const seg = right.slice(0, corte);
+        if (/\(\s*-\s*\)/.test(seg) && !/\(\s*\+\s*\)/.test(seg))
+            return true;
+        return false;
+    }
+
+    function _esFamiliar(text, pos) {
+        // Mira tanto a la izquierda como a la derecha cercana
+        // (las glosas suelen escribir "OH crónico (+) PAPÁ" o "Madre con suicidalidad")
+        const left = text.slice(Math.max(0, pos - 60), pos);
+        const right = text.slice(pos, pos + 50);
+        // En lookahead solo cuenta si el familiar está ≤ 30 chars (mismo bloque tabular)
+        const rightCorto = right.slice(0, 30);
+        return _FAM_RE.test(left) || _FAM_RE.test(rightCorto);
+    }
+
+    function _esHistorico(text, pos) {
+        const left = text.slice(Math.max(0, pos - 50), pos);
+        const right = text.slice(pos, pos + 60);
+        return _HIST_RE.test(left) || _HIST_RE.test(right);
+    }
+
+    function _snippet(text, pos, len=100) {
+        const start = Math.max(0, pos - 30);
+        const end = Math.min(text.length, pos + len - 30);
+        return (start > 0 ? '…' : '') + text.slice(start, end).trim().replace(/\s+/g, ' ') + (end < text.length ? '…' : '');
+    }
+
+    // --- Escaneo de un patrón sobre un texto normalizado ---
+    function _scan(text, regexSrc, opts={}) {
+        const out = [];
+        const re = new RegExp(regexSrc, 'gi');
+        let m;
+        while ((m = re.exec(text)) !== null) {
+            const pos = m.index;
+            out.push({
+                pos,
+                texto: m[0],
+                negado: _esNegado(text, pos),
+                familiar: opts.familiar !== false ? _esFamiliar(text, pos) : false,
+                historico: _esHistorico(text, pos),
+                snippet: _snippet(text, pos)
+            });
+            if (re.lastIndex === pos)
+                re.lastIndex++; // evita loop en zero-width
+        }
+        return out;
+    }
+
+    // =============================================================================
+    // DETECTOR PRINCIPAL
+    // =============================================================================
+    function detectar(glosa) {
+        const g = _norm(glosa);
+
+        // --- SUICIDALIDAD ---
+        // Sufijos abiertos: suicida/suicidas/suicidalidad/suicidio/suicidarse/autolit*/etc.
+        const suicid_re = '\\b(suicid\\w*|autolit\\w*|autolis\\w*|autoles\\w*|autoinfli\\w*|ahorca\\w*|'
+        + 'intent[oa] de (quitarse|matar|ahorcar|suicid|autolit)|'
+        + 'lanzarse al rio|arrojarse al|quitarse la vida|cortarse|'
+        + 'ideacion suicid\\w*|idea[s]? suicid\\w*|'
+        + 'idea[s]? de muerte|pensamientos? de muerte|'
+        + 'conducta suicid\\w*|riesgo suicid\\w*|planificacion suicid\\w*)\\b';
+        const sM = _scan(g, suicid_re);
+
+        const suicid_pac = sM.filter(m => !m.negado && !m.familiar && !m.historico);
+        const suicid_hist = sM.filter(m => !m.negado && !m.familiar && m.historico);
+        const suicid_fam = sM.filter(m => !m.negado && m.familiar);
+
+        // --- HOSPITALIZACIÓN ---
+        const hosp_re = '\\b(hospitaliza|internaci|ingreso a|hospitalizad|dau\\b|'
+        + 'servicio de urgencia|unidad de corta|uce[p]?\\b|'
+        + 'hospitalizacion previa)\\b';
+        const hM = _scan(g, hosp_re, {
+            familiar: false
+        });
+        const hosp_pac = hM.filter(m => !m.negado);
+
+        // --- VIF (incluye ASI) ---
+        const vif_re = '\\b(vif\\b|violencia (intrafamiliar|familiar|domestica|de genero|de pareja|fisica|psicologica|sexual|por parte de)|'
+        + 'maltrato( infantil| familiar| fisico| psicologico)?|'
+        + 'abuso (sexual|fisico|psicologico|infantil|de poder)|'
+        + '\\basi\\b|'
+        + 'victima de (violencia|abuso|maltrato|agresion)|'
+        + 'negligencia parental|violacion|violada|abusador)\\b';
+        const vM = _scan(g, vif_re);
+
+        const vif_validos = vM.filter(m => {
+            if (m.negado)
+                return false;
+            // descartar "abuso de sustancia/droga/alcohol/oh/medicamento/cocaina/etc."
+            const around = g.slice(m.pos, m.pos + 50);
+            if (/^abuso\s+(de\s+)?(sustancia|droga|alcohol|\boh\b|medicamento|coca|tramad|bdz|benzodi|farmac|opioid)/.test(around))
+                return false;
+            // "asi" en minúsculas: solo válido si el original lo trae en mayúsculas
+            // o con contexto explícito (víctima de, antecedente de, por, historial de)
+            if (/^asi\b/i.test(m.texto)) {
+                const orig = glosa.slice(m.pos, m.pos + 5);
+                if (!/ASI\b/.test(orig)) {
+                    const left = g.slice(Math.max(0, m.pos - 50), m.pos).trim();
+                    if (!/(victima|antecedent[e]?|historial|por) de\s*$/.test(left))
+                        return false;
+                }
+            }
+            return true;
+        });
+        const vif_pac = vif_validos.filter(m => !m.familiar);
+        const vif_fam = vif_validos.filter(m => m.familiar);
+
+        // --- REFRACTARIEDAD ---
+        const refrac_re = '\\b(refractari\\w*|sin respuesta|mala respuesta|nula respuesta|respuesta parcial|'
+        + 'sin mejoria|no logra mejoria|abandono de tratamiento|'
+        + 'multiples (farmacos|esquemas|tratamientos|psicofarmacos)|'
+        + 'resistente al tratamiento)\\b';
+        const rM = _scan(g, refrac_re, {
+            familiar: false
+        });
+        const refrac_pac = rM.filter(m => !m.negado);
+
+        // --- CONSUMO (sustancias; TBQ aislado NO cuenta) ---
+        const consumo_re = '\\b(pasta base|cocaina|marihuana|cannabis|thc\\b|tussi|lsd|extasis|'
+        + 'anfetamin|mdma|ketamin|tramadol|alcohol(?:emia|ismo)?\\b|'
+        + '\\boh\\b|policonsumo|abuso de sustancia|abuso de droga|'
+        + 'consumo (activo|de sustancia|de alcohol|de droga|problemati|abusivo|cronico|de coca|de marihuana|de pasta|de thc)|'
+        + 'dependencia (a |de |al )?(alcohol|cocaina|sustancia|oh)|'
+        + 'abstinencia (de )?(alcohol|cocaina|sustancia|oh|droga)|'
+        + 'craving|sustancias psicoactivas|drogas)\\b';
+        const cM = _scan(g, consumo_re);
+        const consumo_validos = cM.filter(m => !m.negado);
+        const consumo_pac = consumo_validos.filter(m => !m.familiar);
+        const consumo_fam = consumo_validos.filter(m => m.familiar);
+
+        // Tabular positivo "OH (+)" / "Drogas: +" para sustancias (no TBQ aislado)
+        const tab_re = /\b(oh|alcohol|drogas?|sustancia[s]?|cocaina|marihuana|thc|pasta base)\b\s*:?\s*\(?\s*\+\s*\)?/gi;
+        const tab_pos = [];
+        let tm;
+        while ((tm = tab_re.exec(g)) !== null) {
+            if (!_esFamiliar(g, tm.index) && !_esNegado(g, tm.index)) {
+                tab_pos.push({
+                    pos: tm.index,
+                    texto: tm[0],
+                    snippet: _snippet(g, tm.index)
+                });
+            }
+        }
+
+        // --- INCONSISTENCIAS internas ---
+        const inc = _detectarInconsistencia(g, glosa, sM, cM, vM);
+
+        return {
+            // Booleanos del paciente
+            suicid: suicid_pac.length > 0,
+            suicid_historico: suicid_pac.length === 0 && suicid_hist.length > 0,
+            suicid_fam: suicid_fam.length > 0,
+            hosp: hosp_pac.length > 0,
+            vif: vif_pac.length > 0,
+            vif_fam: vif_fam.length > 0,
+            refrac: refrac_pac.length > 0,
+            consumo: consumo_pac.length > 0 || tab_pos.length > 0,
+            consumo_fam: consumo_fam.length > 0,
+
+            // Evidencia textual (para auditoría)
+            evidencia: {
+                suicid: [...suicid_pac, ...suicid_hist].map(m => m.snippet),
+                hosp: hosp_pac.map(m => m.snippet),
+                vif: vif_pac.map(m => m.snippet),
+                refrac: refrac_pac.map(m => m.snippet),
+                consumo: [...consumo_pac, ...tab_pos].map(m => m.snippet)
+            },
+
+            // Inconsistencia interna
+            inconsistencia: inc
+        };
+    }
+
+    // =============================================================================
+    // DETECTOR DE INCONSISTENCIA INTERNA
+    // =============================================================================
+    function _detectarInconsistencia(gNorm, gOrig, sM, cM, vM) {
+        const flags = [];
+
+        // 1. Suicidalidad: hay match positivo Y negado en la misma glosa
+        const sPos = sM.filter(m => !m.negado && !m.familiar);
+        const sNeg = sM.filter(m => m.negado);
+        if (sPos.length > 0 && sNeg.length > 0) {
+            flags.push({
+                tipo: 'suicidalidad',
+                detalle: 'Mención positiva y negación coexisten',
+                evidencia: [sPos[0].snippet, sNeg[0].snippet]
+            });
+        }
+
+        // 2. Suicidalidad: ideas/pensamientos relacionados con muerte/desaparecer +
+        //    desambiguación explícita (sin riesgo/objetivo suicida, etc.)
+        const reDesambig1 = /(idea|pensamiento|pens[oa])[s]?[^.]{0,30}(de|a la|con|relacionad[oa]s? (a|con) la)?[^.]{0,40}(muerte|desaparec)[^.]{0,120}(sin (riesgo|objetivo|intencion|planificacion) suicid|sin ideacion suicid|sin riesgo suicid|sin objetivo (suicid|de hacerse dano|autolit))/;
+        const reDesambig2 = /(desaparec\w*|morir|muerte)[^.]{0,80}(con el objetivo de descansar|sin querer hacerse|sin intencion|sin objetivo suicid|no de hacerse dano|sin planificaci)/;
+        if (reDesambig1.test(gNorm) || reDesambig2.test(gNorm)) {
+            const m = (gNorm.match(reDesambig1) || gNorm.match(reDesambig2));
+            flags.push({
+                tipo: 'suicidalidad',
+                detalle: 'Ideas de muerte/desaparición explícitamente desambiguadas (requiere relectura)',
+                evidencia: [_snippet(gNorm, gNorm.indexOf(m[0]), 150)]
+            });
+        }
+
+        // 3. Consumo: tabular (-) + mención narrativa positiva de la misma sustancia.
+        //    Mapeo semántico: oh↔alcohol, tbq↔tabaco, drogas↔(coca|marihuana|thc|...)
+        const sustEquiv = {
+            'oh': ['oh', 'alcohol', 'cerveza', 'vino', 'etilismo', 'etilico'],
+            'alcohol': ['oh', 'alcohol', 'cerveza', 'vino', 'etilismo', 'etilico'],
+            'tbq': ['tbq', 'tabaco', 'cigarrillo', 'fuma'],
+            'tabaco': ['tbq', 'tabaco', 'cigarrillo', 'fuma'],
+            'drogas': ['cocaina', 'pasta base', 'marihuana', 'thc', 'tussi', 'lsd', 'cannabis', 'extasis', 'mdma', 'consumo de droga', 'policonsumo'],
+            'droga': ['cocaina', 'pasta base', 'marihuana', 'thc', 'tussi', 'lsd', 'cannabis', 'consumo de droga', 'policonsumo'],
+            'cocaina': ['cocaina', 'coca '],
+            'marihuana': ['marihuana', 'thc', 'cannabis'],
+            'thc': ['thc', 'marihuana', 'cannabis'],
+            'pasta base': ['pasta base', 'pbc', 'paco']
+        };
+        const reTabNeg = /\b(oh|alcohol|drogas?|cocaina|marihuana|thc|pasta base|tbq|tabaco)\s*:?\s*\(\s*-\s*\)/gi;
+        let tn;
+        const yaReportadas = new Set();
+        while ((tn = reTabNeg.exec(gNorm)) !== null) {
+            const sustancia = tn[1].toLowerCase();
+            if (yaReportadas.has(sustancia))
+                continue;
+            const equivalentes = sustEquiv[sustancia] || [sustancia];
+            const resto = gNorm.slice(tn.index + tn[0].length);
+            for (const eq of equivalentes) {
+                const reSust = new RegExp('\\b' + eq.replace(/\s+/g, '\\s+') + '\\b', 'i');
+                const mRest = resto.match(reSust);
+                if (mRest) {
+                    const posAbs = tn.index + tn[0].length + resto.indexOf(mRest[0]);
+                    if (!_esNegado(gNorm, posAbs) && !_esFamiliar(gNorm, posAbs)) {
+                        flags.push({
+                            tipo: 'consumo',
+                            detalle: `Tabular negativo (${tn[0].trim()}) y mención narrativa positiva ("${eq}")`,
+                            evidencia: [_snippet(gNorm, tn.index, 80), _snippet(gNorm, posAbs)]
+                        });
+                        yaReportadas.add(sustancia);
+                        break;
+                    }
+                }
+            }
+        }
+
+        // 4. VIF: mención positiva y negación coexisten
+        const vPos = vM.filter(m => !m.negado);
+        const vNeg = vM.filter(m => m.negado);
+        if (vPos.length > 0 && vNeg.length > 0) {
+            flags.push({
+                tipo: 'vif',
+                detalle: 'Mención positiva y negación de violencia/abuso coexisten',
+                evidencia: [vPos[0].snippet, vNeg[0].snippet]
+            });
+        }
+
+        return {
+            presente: flags.length > 0,
+            flags
+        };
+    }
+
+    // =============================================================================
+    // COHERENCIA DIAGNÓSTICO ↔ GLOSA (sin cambios estructurales)
+    // =============================================================================
+    function coherencia(cie, glosa) {
+        const g = _norm(glosa);
+        const c = (cie || '').toUpperCase();
+        if (c.startsWith('F32') || c.startsWith('F33') || c.startsWith('F31'))
+            return /depresion|animo (bajo|depresivo)|anhedonia|tristeza|decaimiento|abulia|distimia/.test(g) ? 'ok' : 'revisar';
+        if (c.startsWith('F20') || c.startsWith('F23') || c.startsWith('F25'))
+            return /alucinacion|psicosis|psicotic|delirio|esquizofrenia|voces|paranoid/.test(g) ? 'ok' : 'revisar';
+        if (c.startsWith('F19') || c.startsWith('F14') || c.startsWith('F10'))
+            return /consumo|sustancia|droga|cocaina|pasta base|alcohol|marihuana|thc|dependencia|policonsumo/.test(g) ? 'ok' : 'revisar';
+        if (c.startsWith('F60') || c.startsWith('F61'))
+            return /personalidad|borderline|tlp|inestable|impulsividad|labilidad/.test(g) ? 'ok' : 'revisar';
+        return 'ok';
+    }
+
+
+    function completitud(item) {
+        const g = [(item.glosa || {}).fundamentosClinicos || '', (item.glosa || {}).examenesRealizados || '', (item.glosa || {}).observaciones || ''].join(' ').toLowerCase();
+        let s = 0;
+        if (/\bam\b|antecedente(s)? mórbido|mórbido/.test(g))
+            s++;
+        if (/fármaco|medicamento|tratamiento|tto\s/.test(g))
+            s++;
+        if (/\bsocial\b|vive con|red de apoyo|escolaridad|ocupaci[oó]n/.test(g))
+            s++;
+        if (/examen mental|\bem:\b|al examen|vigil|lenguaje/.test(g))
+            s++;
+        if (/ideaci[oó]n suicida|suicidalidad|niega ideaci[oó]n|sin ideaci[oó]n/.test(g))
+            s++;
+        if (/alergi|ram\b/.test(g))
+            s++;
+        return s >= 5 ? 'completa' : s >= 3 ? 'parcial' : 'incompleta';
+    }
+
+    function pillsMarcadores(r) {
+        const out = [];
+        const pill = (label, cls, evidArr) => {
+            const ev = (evidArr || []).join(' • ').replace(/"/g, '&quot;');
+            return `<span class="pill ${cls}" data-evid="${ev}">${label}</span>`;
+        };
+
+        if (r.suicid)
+            out.push(pill('suicid.', 'p-red', r.evidencia.suicid));
+        if (r.suicid_historico)
+            out.push(pill('suicid. hist.', 'p-hist', r.evidencia.suicid));
+        if (r.suicid_fam)
+            out.push(pill('suicid.', 'p-fam', []));
+
+        if (r.hosp)
+            out.push(pill('hosp.', 'p-blue', r.evidencia.hosp));
+
+        if (r.vif)
+            out.push(pill('vif', 'p-amber', r.evidencia.vif));
+        if (r.vif_fam)
+            out.push(pill('vif', 'p-fam', []));
+
+        if (r.refrac)
+            out.push(pill('refrac.', 'p-purple', r.evidencia.refrac));
+
+        if (r.consumo)
+            out.push(pill('consumo', 'p-green', r.evidencia.consumo));
+        if (r.consumo_fam)
+            out.push(pill('consumo', 'p-fam', []));
+
+        if (r.inconsistencia.presente) {
+            const det = r.inconsistencia.flags
+            .map(f => f.tipo + ': ' + f.detalle)
+            .join(' • ')
+            .replace(/"/g, '&quot;');
+            out.push(`<span class="pill p-incon" data-evid="${det}">inconsist.</span>`);
+        }
+
+        if (out.length === 0)
+            out.push('<span class="pill p-gray">ninguno</span>');
+        return out.join(' ');
+    }
+
+    // -----------------------------------------------------------------------------
+    // 3. TOOLTIP — pegar al final del <script> del Tab C
+    // -----------------------------------------------------------------------------
+
+    // Activa tooltips de evidencia al hacer hover sobre cualquier .pill[data-evid]
+
+    function activarTooltips() {
+        let tip = document.querySelector('.evid-tooltip');
+        if (!tip) {
+            tip = document.createElement('div');
+            tip.className = 'evid-tooltip';
+            tip.style.display = 'none';
+            document.body.appendChild(tip);
+        }
+        document.body.addEventListener('mouseover', e => {
+            const t = e.target.closest('.pill[data-evid]');
+            if (!t)
+                return;
+            const ev = t.getAttribute('data-evid');
+            if (!ev)
+                return;
+            tip.textContent = ev;
+            tip.style.display = 'block';
+            const r = t.getBoundingClientRect();
+            tip.style.left = (r.left + window.scrollX) + 'px';
+            tip.style.top = (r.bottom + window.scrollY + 4) + 'px';
+        });
+        document.body.addEventListener('mouseout', e => {
+            if (e.target.closest('.pill[data-evid]'))
+                tip.style.display = 'none';
+        });
+    }
+    // Llamar activarTooltips() después de buildColGrid() en la inicialización.
+
+    // -----------------------------------------------------------------------------
+    // 4. MODAL de detalle por SIC — reemplaza el contenido del modal existente
+    //    para incluir la sección de evidencia textual
+    // -----------------------------------------------------------------------------
+
+    function modalDetalleHTML(r) {
+        const ev = r.evidencia;
+        const blockEv = (titulo, arr) => arr && arr.length
+        ? `<h4>${titulo}</h4>${arr.map(e => `<div class="ev-block">${e}</div>`).join('')}`
+        : '';
+
+        let inconsHTML = '';
+        if (r.inconsistencia.presente) {
+            inconsHTML = '<h4 style="color:var(--err)">Inconsistencia interna del relato</h4>'
+            + r.inconsistencia.flags.map(f =>
+            `<div class="ev-block ev-incon">
+                                  <strong>${f.tipo}:</strong> ${f.detalle}
+                                  ${f.evidencia ? f.evidencia.map(e => `<div style="margin-top:var(--sp1);color:var(--ink3)">› ${e}</div>`).join('') : ''}
+                                </div>`
+            ).join('');
+        }
+
+        return `
+            <div class="modal-evid">
+              ${inconsHTML}
+              ${blockEv('Evidencia · suicidalidad', ev.suicid)}
+              ${blockEv('Evidencia · hospitalización', ev.hosp)}
+              ${blockEv('Evidencia · VIF', ev.vif)}
+              ${blockEv('Evidencia · refractariedad', ev.refrac)}
+              ${blockEv('Evidencia · consumo', ev.consumo)}
+            </div>
+          `;
+    }
+
+    function procesarGlosas() {
+        glosasRows = datos.map(item => {
+            const dgs = item.diagnosticos || [];
+            const dg = dgs.find(d => d.principal) || dgs[0] || {};
+            const cie_code = dg.cie10 || '';
+            const cie = cie_code + ' ' + (dg.descripcion || '');
+            const glosaTxt = [
+            (item.glosa || {}).fundamentosClinicos || '',
+            (item.glosa || {}).examenesRealizados || '',
+            (item.glosa || {}).observaciones || '',
+            (item.observacionesContralor || []).map(o => o.texto).join(' ')
+            ].join(' ');
+            const m = detectar(glosaTxt);
+            const coh = coherencia(cie_code, glosaTxt);
+            const comp = completitud(item);
+            const nMarcadores = [m.suicid, m.hosp, m.vif, m.refrac, m.consumo].filter(Boolean).length;
+            return {
+                n: String(item.numeroSolicitud || item.id),
+                pac: (item.paciente || {}).nombre || '',
+                cie,
+                cie_code,
+                ...m,
+                coh,
+                comp,
+                nMarcadores,
+                evidencia: m.evidencia || {},
+                inconsistencia: m.inconsistencia || {
+                    presente: false,
+                    flags: []
+                },
+                _item: item
+            };
+        });
+        document.getElementById('glosasEmpty').style.display = 'none';
+        document.getElementById('glosasContent').style.display = '';
+        renderGMetricas();
+        renderGCharts();
+        renderGlosasTabla();
+    }
+
+    function renderGMetricas() {
+        const tot = glosasRows.length;
+        const cnt = k => glosasRows.filter(r => r[k]).length;
+        const pct = k => Math.round(cnt(k) / tot * 100);
+        const conIncons = glosasRows.filter(r => r.inconsistencia && r.inconsistencia.presente).length;
+        const conSuicHist = glosasRows.filter(r => r.suicid_historico).length;
+        const conSuicFam = glosasRows.filter(r => r.suicid_fam).length;
+        const conVifFam = glosasRows.filter(r => r.vif_fam).length;
+        const mExtra = document.getElementById('gMetricasExtra');
+        if (mExtra)
+            mExtra.innerHTML =
+            '<div class="mc"><div class="mc-label">Inconsistencias</div><div class="mc-val" style="color:var(--err)">' + conIncons + '</div><div class="mc-sub">' + Math.round(conIncons / tot * 100) + '%</div></div>' +
+            '<div class="mc"><div class="mc-label">Suicid. histórica</div><div class="mc-val" style="color:var(--ink3)">' + conSuicHist + '</div><div class="mc-sub">' + Math.round(conSuicHist / tot * 100) + '%</div></div>' +
+            '<div class="mc"><div class="mc-label">Fam. suicidalidad</div><div class="mc-val" style="color:var(--ink2)">' + conSuicFam + '</div><div class="mc-sub">' + Math.round(conSuicFam / tot * 100) + '%</div></div>' +
+            '<div class="mc"><div class="mc-label">Fam. VIF</div><div class="mc-val" style="color:var(--warn)">' + conVifFam + '</div><div class="mc-sub">' + Math.round(conVifFam / tot * 100) + '%</div></div>';
+        document.getElementById('gMetricas').innerHTML = `
+            <div class="mc"><div class="mc-label">Suicidalidad</div><div class="mc-val" style="color:var(--err)">${cnt('suicid')}</div><div class="mc-sub">${pct('suicid')}% del total</div></div>
+            <div class="mc"><div class="mc-label">Hosp. previa</div><div class="mc-val" style="color:var(--acc)">${cnt('hosp')}</div><div class="mc-sub">${pct('hosp')}%</div></div>
+            <div class="mc"><div class="mc-label">VIF / Trauma</div><div class="mc-val" style="color:var(--warn)">${cnt('vif')}</div><div class="mc-sub">${pct('vif')}%</div></div>
+            <div class="mc"><div class="mc-label">Refractariedad</div><div class="mc-val" style="color:var(--ink2)">${cnt('refrac')}</div><div class="mc-sub">${pct('refrac')}%</div></div>
+            <div class="mc"><div class="mc-label">Consumo activo</div><div class="mc-val" style="color:var(--ok)">${cnt('consumo')}</div><div class="mc-sub">${pct('consumo')}%</div></div>`;
+    }
+
+    function bar(v, max, color) {
+        return `<div class="bar-track"><div class="bar-fill" style="width:${Math.round(v / max * 100)}%;background:${color}"></div></div>`;
+    }
+
+    function renderGCharts() {
+        const tot = glosasRows.length;
+        const cnt = k => glosasRows.filter(r => r[k]).length;
+        const pct = (v, t) => Math.round(v / t * 100);
+        const cohOk = glosasRows.filter(r => r.coh === 'ok').length;
+        const compC = glosasRows.filter(r => r.comp === 'completa').length;
+        const compP = glosasRows.filter(r => r.comp === 'parcial').length;
+        const compI = glosasRows.filter(r => r.comp === 'incompleta').length;
+        const maxM = Math.max(cnt('suicid'), cnt('hosp'), cnt('vif'), cnt('refrac'), cnt('consumo'), 1);
+        document.getElementById('gCharts').innerHTML = `
+          <div class="card">
+            <div class="card-title">Marcadores clínicos</div>
+            <div class="bar-row"><span class="bar-label">Suicidalidad</span>${bar(cnt('suicid'), maxM, 'var(--ink3)')}<span class="bar-n">${cnt('suicid')} (${pct(cnt('suicid'), tot)}%)</span></div>
+            <div class="bar-row"><span class="bar-label">Hospitaliz. previa</span>${bar(cnt('hosp'), maxM, 'var(--ink3)')}<span class="bar-n">${cnt('hosp')} (${pct(cnt('hosp'), tot)}%)</span></div>
+            <div class="bar-row"><span class="bar-label">VIF / Trauma</span>${bar(cnt('vif'), maxM, 'var(--ink3)')}<span class="bar-n">${cnt('vif')} (${pct(cnt('vif'), tot)}%)</span></div>
+            <div class="bar-row"><span class="bar-label">Refractariedad</span>${bar(cnt('refrac'), maxM, 'var(--ink3)')}<span class="bar-n">${cnt('refrac')} (${pct(cnt('refrac'), tot)}%)</span></div>
+            <div class="bar-row"><span class="bar-label">Consumo sustancias</span>${bar(cnt('consumo'), maxM, 'var(--ink3)')}<span class="bar-n">${cnt('consumo')} (${pct(cnt('consumo'), tot)}%)</span></div>
+            <div class="cooc">
+              <span>Suicid+Hosp: <strong>${glosasRows.filter(r => r.suicid && r.hosp).length}</strong></span>
+              <span>Suicid+VIF: <strong>${glosasRows.filter(r => r.suicid && r.vif).length}</strong></span>
+              <span>Refrac+Consumo: <strong>${glosasRows.filter(r => r.refrac && r.consumo).length}</strong></span>
+              <span>Alta complejidad (3+): <strong>${glosasRows.filter(r => r.nMarcadores >= 3).length}</strong></span>
+            </div>
+          </div>
+          <div class="card">
+            <div class="card-title">Coherencia diagnóstico / glosa</div>
+            <div class="bar-row"><span class="bar-label">Coherente</span>${bar(cohOk, tot, 'var(--ink3)')}<span class="bar-n">${cohOk} (${pct(cohOk, tot)}%)</span></div>
+            <div class="bar-row"><span class="bar-label">A revisar</span>${bar(tot - cohOk, tot, 'var(--ink3)')}<span class="bar-n">${tot - cohOk} (${pct(tot - cohOk, tot)}%)</span></div>
+            <div class="card-title" style="margin-top:12px">Completitud de anamnesis</div>
+            <div class="bar-row"><span class="bar-label">Completa (≥5 campos)</span>${bar(compC, tot, 'var(--ink3)')}<span class="bar-n">${compC} (${pct(compC, tot)}%)</span></div>
+            <div class="bar-row"><span class="bar-label">Parcial (3-4 campos)</span>${bar(compP, tot, 'var(--ink3)')}<span class="bar-n">${compP} (${pct(compP, tot)}%)</span></div>
+            <div class="bar-row"><span class="bar-label">Incompleta (&lt;3 campos)</span>${bar(compI, tot, 'var(--ink3)')}<span class="bar-n">${compI} (${pct(compI, tot)}%)</span></div>
+            <div class="cooc">Campos evaluados: AM, fármacos, contexto social, examen mental, suicidalidad explícita, alergias/RAM</div>
+          </div>`;
+    }
+
+    function gFiltrar() {
+        const q = document.getElementById('gSearch').value.toLowerCase();
+        const fm = document.getElementById('gFiltroMarcador').value;
+        const fc = document.getElementById('gFiltroComp').value;
+        return glosasRows.filter(r => {
+            if (q && !r.n.includes(q) && !r.pac.toLowerCase().includes(q) && !r.cie.toLowerCase().includes(q))
+                return false;
+            if (fm === 'suicid' && !r.suicid)
+                return false;
+            if (fm === 'hosp' && !r.hosp)
+                return false;
+            if (fm === 'vif' && !r.vif)
+                return false;
+            if (fm === 'refrac' && !r.refrac)
+                return false;
+            if (fm === 'consumo' && !r.consumo)
+                return false;
+            if (fm === 'incoherente' && r.coh !== 'revisar')
+                return false;
+            if (fm === 'incompleta' && r.comp !== 'incompleta')
+                return false;
+            if (fm === 'alta' && r.nMarcadores < 3)
+                return false;
+            if (fm === 'incons' && !(r.inconsistencia && r.inconsistencia.presente))
+                return false;
+            if (fm === 'suicid_hist' && !r.suicid_historico)
+                return false;
+            if (fm === 'suicid_fam' && !r.suicid_fam)
+                return false;
+            if (fm === 'vif_fam' && !r.vif_fam)
+                return false;
+            if (fm === 'consumo_fam' && !r.consumo_fam)
+                return false;
+            if (fc && r.comp !== fc)
+                return false;
+            return true;
+        });
+    }
+
+    function gSort(key) {
+        if (gSortKey === key)
+            gSortAsc = !gSortAsc;
+        else {
+            gSortKey = key;
+            gSortAsc = true;
+        }
+        renderGlosasTabla();
+    }
+
+    function renderGlosasTabla() {
+        let filtered = gFiltrar();
+        filtered.sort((a, b) => {
+            let va = a[gSortKey] || '',
+                vb = b[gSortKey] || '';
+            if (typeof va === 'boolean') {
+                va = va ? 0 : 1;
+                vb = vb ? 0 : 1;
+            }
+            const c = String(va).localeCompare(String(vb), 'es', {
+                numeric: true
+            });
+            return gSortAsc ? c : -c;
+        });
+        document.getElementById('gCount').textContent = filtered.length + ' / ' + glosasRows.length;
+        const pM = (v, l, cls) => v ? `<span class="pill ${cls}">${l}</span>` : '';
+        const cohP = c => c === 'ok' ? '<span class="pill p-green">ok</span>' : '<span class="pill p-amber">revisar</span>';
+        const compP = c => ({
+            completa: '<span class="pill p-green">completa</span>',
+            parcial: '<span class="pill p-amber">parcial</span>',
+            incompleta: '<span class="pill p-red">incompleta</span>'
+        })[c] || '';
+        document.getElementById('gTbody').innerHTML = filtered.map(r => `<tr>
+            <td class="mono" style="white-space:nowrap">${r.n}</td>
+            <td style="white-space:nowrap">${r.pac}</td>
+            <td class="mono" style="white-space:nowrap">${r.cie_code}</td>
+            <td><div class="flags">${pillsMarcadores(r)}</div></td>
+            <td>${cohP(r.coh)}</td>
+            <td>${compP(r.comp)}</td>
+            <td><button class="detail-btn" onclick="abrirModal('${r.n}')">ver</button></td>
+          </tr>`).join('');
+    }
+
+    function abrirModal(n) {
+        const r = glosasRows.find(x => x.n === n);
+        if (!r)
+            return;
+        const item = r._item;
+        const pac = item.paciente || {};
+        document.getElementById('modalTitle').textContent = 'SIC ' + r.n + ' — ' + r.pac;
+        const pM = (v, l, cls) => v ? `<span class="pill ${cls}">${l}</span> ` : '';
+        const cohP = c => c === 'ok' ? '<span class="pill p-green">coherente</span>' : '<span class="pill p-amber">revisar coherencia</span>';
+        const compP = c => ({
+            completa: '<span class="pill p-green">anamnesis completa</span>',
+            parcial: '<span class="pill p-amber">anamnesis parcial</span>',
+            incompleta: '<span class="pill p-red">anamnesis incompleta</span>'
+        })[c] || '';
+        const glosa = [(item.glosa || {}).fundamentosClinicos ? '=== FUNDAMENTOS CLÍNICOS ===\n' + (item.glosa || {}).fundamentosClinicos : '',
+        (item.glosa || {}).examenesRealizados ? '\n=== EXÁMENES ===\n' + (item.glosa || {}).examenesRealizados : '',
+        (item.glosa || {}).observaciones ? '\n=== OBSERVACIONES ===\n' + (item.glosa || {}).observaciones : ''
+        ].filter(Boolean).join('\n\n') || '(sin glosa)';
+        const obsHtml = (item.observacionesContralor || []).length ?
+        (item.observacionesContralor || []).map(o => `<div style="margin-bottom:var(--sp1)"><span class="mono" style="color:var(--ink3)">[${o.fecha}] ${o.funcionario}</span><br>${o.texto}</div>`).join('') :
+        '<span style="color:var(--mut)">Sin observaciones</span>';
+        document.getElementById('modalBody').innerHTML = `
+            <div class="modal-grid" style="margin-bottom:var(--sp3)">
+              <div><div class="modal-label">CIE-10 principal</div><div class="mono">${r.cie}</div></div>
+              <div><div class="modal-label">Especialidad</div><div>${item.especialidad || ''}</div></div>
+              <div><div class="modal-label">Origen</div><div>${item.establecimientoOrigen || ''}</div></div>
+              <div><div class="modal-label">Médico</div><div>${nomDe(item.medicoDerivador)}</div></div>
+            </div>
+            <div style="display:flex;flex-wrap:wrap;gap:var(--sp1);margin-bottom:var(--sp3)">
+              ${pM(r.suicid, 'suicidalidad', 'p-red')}${pM(r.hosp, 'hospitaliz. previa', 'p-blue')}${pM(r.vif, 'vif/trauma', 'p-amber')}${pM(r.refrac, 'refractariedad', 'p-purple')}${pM(r.consumo, 'consumo', 'p-teal')}
+              ${cohP(r.coh)} ${compP(r.comp)}
+            </div>
+            ${modalDetalleHTML(r)}
+            <div class="modal-label">Glosa clínica completa</div>
+            <div class="modal-glosa">${glosa.replace(/</g, '&lt;')}</div>
+            <div class="modal-label">Observaciones contralor</div>
+            <div style="margin-top:var(--sp1)">${obsHtml}</div>`;
+        document.getElementById('modal').classList.add('open');
+    }
+
+    function exportGlosasCSV() {
+        const filtered = gFiltrar();
+        if (!filtered.length) {
+            alert('Sin datos.');
+            return;
+        }
+        const headers = ['N° SIC', 'Paciente', 'CIE-10', 'Suicidalidad', 'Hosp. previa', 'VIF/Trauma', 'Refractariedad', 'Consumo', 'Marcadores N°', 'Dg/Glosa', 'Completitud'];
+        const esc = v => {
+            const s = String(v ?? '');
+            return (s.includes(';') || s.includes('"')) ? '"' + s.replace(/"/g, '""') + '"' : s;
+        };
+        const body = filtered.map(r => [r.n, r.pac, r.cie_code, r.suicid ? 'Sí' : 'No', r.hosp ? 'Sí' : 'No', r.vif ? 'Sí' : 'No', r.refrac ? 'Sí' : 'No', r.consumo ? 'Sí' : 'No', r.nMarcadores, r.coh, r.comp].map(esc).join(';'));
+        const csv = [headers.join(';'), ...body].join('\r\n');
+        const blob = new Blob(['\uFEFF' + csv], {
+            type: 'text/csv;charset=utf-8'
+        });
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = 'analisis_glosas_' + new Date().toISOString().slice(0, 10) + '.csv';
+        a.click();
+    }
+
+    function copiarGlosasMD() {
+        const filtered = gFiltrar();
+        if (!filtered.length) {
+            alert('Sin datos.');
+            return;
+        }
+        const mStr = r => [r.suicid && 'suicid.', r.hosp && 'hosp.', r.vif && 'vif', r.refrac && 'refrac.', r.consumo && 'consumo'].filter(Boolean).join(', ') || '—';
+        const md = `# Análisis de glosas SIC — COSAM Rahue\n${new Date().toLocaleDateString('es-CL')} · ${filtered.length} SIC\n\n| N° SIC | Paciente | CIE-10 | Marcadores | Dg/Glosa | Anamnesis |\n|--------|----------|--------|------------|----------|-----------|\n` +
+        filtered.map(r => `| ${r.n} | ${r.pac} | ${r.cie_code} | ${mStr(r)} | ${r.coh} | ${r.comp} |`).join('\n');
+        navigator.clipboard.writeText(md).then(() => alert('Markdown copiado (' + filtered.length + ' SIC)'));
+    }
+
+    // ─── Tema · sincronizado con el resto de herramientas ADC (rayen_theme) ───
+    (function() {
+        const getTheme = () => document.documentElement.getAttribute('data-theme') || 'dark';
+        const setTheme = t => {
+            document.documentElement.setAttribute('data-theme', t);
+            localStorage.setItem('rayen_theme', t);
+            document.getElementById('themeLabel').textContent = t === 'dark' ? 'oscuro' : 'claro';
+        };
+        setTheme(getTheme());
+        const tg = document.getElementById('themeToggle');
+        tg.addEventListener('click', () => setTheme(getTheme() === 'dark' ? 'light' : 'dark'));
+        tg.addEventListener('keydown', e => {
+            if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); tg.click(); }
+        });
+    })();
+
+    buildColGrid();
+    activarTooltips();
+    </script>
+</body>
+</html>
